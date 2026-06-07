@@ -98,6 +98,14 @@ ANDROID_KEY_PASSWORD
 
 workflow 中生成的 `sign.properties` 要使用 `storeFile=../release.jks`, 因为 `app/build.gradle.kts` 在 `app` 模块上下文解析 `storeFile`。
 
+CI workflow 中应使用 Node 24 兼容的 GitHub Actions 版本, 当前已验证组合为:
+
+- `actions/checkout@v6`
+- `actions/setup-java@v5`
+- `actions/upload-artifact@v7`
+
+不要回退到 `@v4`, 否则会再次触发 GitHub Actions Node.js 20 deprecation warning, 并可能影响后续 runner 默认版本切换后的发布构建。
+
 ## 构建
 
 本地构建前确保可用 JDK 和 Android SDK。macOS 若系统 `java` 不可用, 本次发布验证可用的 JDK 为 Homebrew OpenJDK 17.0.19:
