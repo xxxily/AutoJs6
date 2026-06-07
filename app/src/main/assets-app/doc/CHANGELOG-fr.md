@@ -4,6 +4,13 @@
 
 ******
 
+# v6.7.2
+
+###### 2026/06/07
+
+* `Fonctionnalité` Ajout de la fonctionnalité d'assistant de script IA, prenant en charge l'écriture, la modification et l'explication de scripts assistées par l'IA dans l'éditeur de code, etc.
+* `Amélioration` Mettre à jour les workflows GitHub Actions pour utiliser des versions d'actions compatibles avec Node 24 afin d'éliminer les avertissements d'obsolescence
+
 # v6.7.1
 
 ###### 2026/06/07

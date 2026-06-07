@@ -164,6 +164,13 @@ Auto.js 최종 오픈 소스 버전 `4.1.1 Alpha2` 와 비교하여 AutoJs6는 �
 
 ******
 
+# v6.7.2
+
+###### 2026/06/07
+
+* `추가` AI 스크립트 도우미 기능 추가, 코드 편집기 등에서 AI를 통한 스크립트 작성, 수정 및 설명 지원
+* `개선` GitHub Actions 워크플로를 업데이트하여 Node 24 호환 Action 버전을 사용하여 지원 중단 경고 제거
+
 # v6.7.1
 
 ###### 2026/06/07
@@ -377,20 +384,6 @@ Auto.js 최종 오픈 소스 버전 `4.1.1 Alpha2` 와 비교하여 AutoJs6는 �
 * `개선` Gradle 9 적응을 위해 "android.enableJetifier=true" Gradle 설정 옵션 제거
 * `개선` 빌드 환경 차이를 줄이기 위해 sourceCompatibility/targetCompatibility 대신 [Toolchain](https://docs.gradle.org/current/userguide/toolchains.html) 사용
 * `개선` 일부 의존성 또는 로컬 라이브러리 버전 조정 _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v670)_
-
-# v6.6.4
-
-###### 2025/05/31
-
-* `힌트` API 변경: ui.(status/navigation)BarAppearanceLight[By] -> ui.(status/navigation)BarIconLight[By]
-* `추가` util.dpToPx/spToPx/pxToDp/pxToSp 메서드(픽셀 단위 변환용)
-* `수정` 화면을 가로 모드로 회전하면 자막이 완전히 표시되지 않을 수 있는 문제
-* `수정` 화면을 가로 모드로 회전하면 일부 페이지 콘텐츠가 사이드 내비게이션 바에 가려지는 문제
-* `수정` Android 15 일부 페이지에서 상태 표시줄 배경 색칠 영역이 불완전한 문제 _[`issue #398`](http://issues.autojs6.com/398)_
-* `수정` 코드 편집기가 신뢰도 낮은 인코딩으로 파일을 기록해 디코딩 오류가 발생할 수 있는 문제(수정 시도)
-* `개선` 앱 및 개발자 페이지 레이아웃 호환성 개선 및 불필요한 레이아웃 분류 제거
-* `개선` README.md 빌드 섹션에 여러 방법 추가로 대상 설정 페이지 찾기 용이화 _[`issue #404`](http://issues.autojs6.com/404)_
-* `개선` 일부 의존성 또는 로컬 라이브러리 버전 조정 _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v664)_
 
 ##### 더 많은 릴리스 기록을 보려면 다음을 참조하세요
 

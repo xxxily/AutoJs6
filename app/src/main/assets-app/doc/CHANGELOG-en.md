@@ -4,6 +4,13 @@
 
 ******
 
+# v6.7.2
+
+###### 2026/06/07
+
+* `Feature` Add AI script assistant feature, supporting AI-assisted writing, modification, and explanation of scripts in the code editor, etc.
+* `Improvement` Update GitHub Actions workflows to use Node 24 compatible action versions to eliminate deprecation warnings
+
 # v6.7.1
 
 ###### 2026/06/07

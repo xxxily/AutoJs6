@@ -164,6 +164,13 @@ En comparación con la versión final de Auto.js `4.1.1 Alpha2`, AutoJs6 ha real
 
 ******
 
+# v6.7.2
+
+###### 2026/06/07
+
+* `Nuevo` Agrega la función de asistente de script de IA, que admite la escritura, modificación y explicación de scripts asistida por IA en el editor de código, etc.
+* `Mejora` Actualizar los flujos de trabajo de GitHub Actions para usar versiones de acciones compatibles con Node 24 para eliminar las advertencias de obsolescencia
+
 # v6.7.1
 
 ###### 2026/06/07
@@ -377,20 +384,6 @@ En comparación con la versión final de Auto.js `4.1.1 Alpha2`, AutoJs6 ha real
 * `Mejora` Se elimina la opcion de Gradle "android.enableJetifier=true" para adaptarse a Gradle 9
 * `Mejora` Uso de [Toolchain](https://docs.gradle.org/current/userguide/toolchains.html) en lugar de sourceCompatibility/targetCompatibility para reducir diferencias del entorno de compilacion
 * `Mejora` Ajustes en algunas dependencias o versiones de bibliotecas locales _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v670)_
-
-# v6.6.4
-
-###### 2025/05/31
-
-* `Sugerencia` Cambio de API: ui.(status/navigation)BarAppearanceLight[By] -> ui.(status/navigation)BarIconLight[By]
-* `Nuevo` Métodos util.dpToPx/spToPx/pxToDp/pxToSp para conversión de unidades de píxeles
-* `Corrección` Subtítulos que pueden mostrarse incompletos al rotar la pantalla a orientación horizontal
-* `Corrección` Parte del contenido de algunas páginas oculto por la barra de navegación lateral al rotar la pantalla a horizontal
-* `Corrección` Área de coloreado de fondo de la barra de estado incompleta en algunas páginas bajo Android 15 _[`issue #398`](http://issues.autojs6.com/398)_
-* `Corrección` El editor de código podría escribir archivos con una codificación de confianza insuficiente causando errores de decodificación (arreglo tentativa)
-* `Mejora` Mejorada la adaptabilidad de diseño en las páginas de Aplicación y Desarrollador y eliminadas categorías de diseño innecesarias
-* `Mejora` En README.md, sección de compilación, añadidas varias formas para facilitar la localización de la página de configuración del objetivo _[`issue #404`](http://issues.autojs6.com/404)_
-* `Mejora` Ajustes en algunas dependencias o versiones de bibliotecas locales _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v664)_
 
 ##### Para obtener más información sobre el historial de versiones, consulte
 

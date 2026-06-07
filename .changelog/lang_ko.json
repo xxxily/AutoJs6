@@ -1,5 +1,14 @@
 {
   "$data": {
+    "v6.7.2": {
+      "released_date": "2026/06/07",
+      "feature": [
+        "AI 스크립트 도우미 기능 추가, 코드 편집기 등에서 AI를 통한 스크립트 작성, 수정 및 설명 지원"
+      ],
+      "improvement": [
+        "GitHub Actions 워크플로를 업데이트하여 Node 24 호환 Action 버전을 사용하여 지원 중단 경고 제거"
+      ]
+    },
     "v6.7.1": {
       "released_date": "2026/06/07",
       "feature": [

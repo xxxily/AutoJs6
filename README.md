@@ -164,6 +164,13 @@ AutoJs6 在 Auto.js 最终项目的基础上, 于 `2021/12/01` 进行二次开�
 
 ******
 
+# v6.7.2
+
+###### 2026/06/07
+
+* `新增` 新增 AI 脚本助手功能, 支持在代码编辑器等处通过 AI 辅助编写、修改与解释脚本
+* `优化` 更新 GitHub Actions 工作流以使用 Node 24 兼容的 Action 版本以消除弃用警告
+
 # v6.7.1
 
 ###### 2026/06/07
@@ -377,20 +384,6 @@ AutoJs6 在 Auto.js 最终项目的基础上, 于 `2021/12/01` 进行二次开�
 * `优化` 移除 "android.enableJetifier=true" Gradle 配置选项以适配 Gradle 9
 * `优化` 使用 [Toolchain](https://docs.gradle.org/current/userguide/toolchains.html) 替代 sourceCompatibility/targetCompatibility 以降低构建环境差异
 * `优化` 部分依赖或本地库版本调整 _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v670)_
-
-# v6.6.4
-
-###### 2025/05/31
-
-* `提示` API 变更: ui.(status/navigation)BarAppearanceLight[By] -> ui.(status/navigation)BarIconLight[By]
-* `新增` util.dpToPx/spToPx/pxToDp/pxToSp 方法, 用于像素单位转换
-* `修复` 屏幕旋转至横向时子标题可能显示不完整的问题
-* `修复` 屏幕旋转至横向时部分页面内容被侧边导航栏遮挡的问题
-* `修复` Android 15 部分页面状态栏背景着色区域不完整的问题 _[`issue #398`](http://issues.autojs6.com/398)_
-* `修复` 代码编辑器可能使用置信度不足的编码写入文件导致内容解码异常的问题 (试修)
-* `优化` 关于应用与开发者页面增加布局适配通用性并去除不必要的布局分类
-* `优化` README.md 项目编译构建小节添加多种方式便于定位目标设置页面 _[`issue #404`](http://issues.autojs6.com/404)_
-* `优化` 部分依赖或本地库版本调整 _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v664)_
 
 ##### 更多发行历史可参阅
 

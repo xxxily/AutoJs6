@@ -1,5 +1,14 @@
 {
   "$data": {
+    "v6.7.2": {
+      "released_date": "2026/06/07",
+      "feature": [
+        "Add AI script assistant feature, supporting AI-assisted writing, modification, and explanation of scripts in the code editor, etc."
+      ],
+      "improvement": [
+        "Update GitHub Actions workflows to use Node 24 compatible action versions to eliminate deprecation warnings"
+      ]
+    },
     "v6.7.1": {
       "released_date": "2026/06/07",
       "feature": [

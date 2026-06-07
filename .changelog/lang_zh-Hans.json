@@ -1,5 +1,14 @@
 {
   "$data": {
+    "v6.7.2": {
+      "released_date": "2026/06/07",
+      "feature": [
+        "新增 AI 脚本助手功能, 支持在代码编辑器等处通过 AI 辅助编写、修改与解释脚本"
+      ],
+      "improvement": [
+        "更新 GitHub Actions 工作流以使用 Node 24 兼容的 Action 版本以消除弃用警告"
+      ]
+    },
     "v6.7.1": {
       "released_date": "2026/06/07",
       "feature": [

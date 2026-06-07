@@ -1,5 +1,14 @@
 {
   "$data": {
+    "v6.7.2": {
+      "released_date": "2026/06/07",
+      "feature": [
+        "Ajout de la fonctionnalité d'assistant de script IA, prenant en charge l'écriture, la modification et l'explication de scripts assistées par l'IA dans l'éditeur de code, etc."
+      ],
+      "improvement": [
+        "Mettre à jour les workflows GitHub Actions pour utiliser des versions d'actions compatibles avec Node 24 afin d'éliminer les avertissements d'obsolescence"
+      ]
+    },
     "v6.7.1": {
       "released_date": "2026/06/07",
       "feature": [

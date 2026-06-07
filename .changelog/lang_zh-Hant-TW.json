@@ -1,5 +1,14 @@
 {
   "$data": {
+    "v6.7.2": {
+      "released_date": "2026/06/07",
+      "feature": [
+        "新增 AI 腳本助手功能, 支持在代碼編輯器等處通過 AI 輔助編寫、修改與解釋腳本"
+      ],
+      "improvement": [
+        "更新 GitHub Actions 工作流以使用 Node 24 兼容的 Action 版本以消除棄用警告"
+      ]
+    },
     "v6.7.1": {
       "released_date": "2026/06/07",
       "feature": [
@@ -377,7 +386,7 @@
         "使用 XML 語法將 JavaScript 表示式作為屬性值時, 其作用域上下文繫結錯誤的問題 _[`issue #319`](http://issues.autojs6.com/319)_",
         "部分方法調用出現異常時無法被 try..catch 塊捕獲的問題 _[`issue #345`](http://issues.autojs6.com/345)_",
         "佈局分析頁面生成程式碼時可能導致應用崩潰的問題 _[`issue #288`](http://issues.autojs6.com/288)_",
-        "打包應用無法正常使用 shizuku 模組的問題 _[`issue #227`](http://issues.autojs6.com/227)_ _[`issue #231`](http://issues.autojs6.com/231)_ _[`issue #284`](http://issues.autojs6.com/284)_ _[`issue #287`](http://issues.autojs6.com/287)_ _[`issue #304`](http://issues.autojs6.com/304)_" ,
+        "打包應用無法正常使用 shizuku 模組的問題 _[`issue #227`](http://issues.autojs6.com/227)_ _[`issue #231`](http://issues.autojs6.com/231)_ _[`issue #284`](http://issues.autojs6.com/284)_ _[`issue #287`](http://issues.autojs6.com/287)_ _[`issue #304`](http://issues.autojs6.com/304)_",
         "程式碼編輯器跳轉到行尾時可能跳轉到下一行起始位置的問題",
         "設定頁面連續快速點選對話方塊型別專案時可能導致應用崩潰的問題"
       ],

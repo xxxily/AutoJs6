@@ -164,6 +164,13 @@ Auto.js の最終オープンソースバージョン `4.1.1 Alpha2` と比較�
 
 ******
 
+# v6.7.2
+
+###### 2026/06/07
+
+* `新機能` AI スクリプトアシスタント機能を追加し、コードエディタなどでの AI によるスクリプトの作成、変更、解説をサポート
+* `改善` Node 24 と互換性のある Action バージョンを使用するように GitHub Actions ワークフローを更新し、非推奨の警告を解消
+
 # v6.7.1
 
 ###### 2026/06/07
@@ -377,20 +384,6 @@ Auto.js の最終オープンソースバージョン `4.1.1 Alpha2` と比較�
 * `改善` Gradle 9 への適応のため "android.enableJetifier=true" Gradle 設定オプションを削除
 * `改善` ビルド環境差異低減のため sourceCompatibility/targetCompatibility の代わりに [Toolchain](https://docs.gradle.org/current/userguide/toolchains.html) を使用
 * `改善` 一部の依存関係またはローカルライブラリのバージョン調整 _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v670)_
-
-# v6.6.4
-
-###### 2025/05/31
-
-* `ヒント` API変更: ui.(status/navigation)BarAppearanceLight[By] -> ui.(status/navigation)BarIconLight[By]
-* `新機能` util.dpToPx/spToPx/pxToDp/pxToSp メソッド (ピクセル単位変換用)
-* `修正` 画面を横向きに回転するとサブタイトルが不完全に表示される問題
-* `修正` 画面を横向きに回転すると一部ページのコンテンツがサイドナビゲーションバーに隠れる問題
-* `修正` Android 15 で一部ページのステータスバー背景の着色領域が不完全になる問題 _[`issue #398`](http://issues.autojs6.com/398)_
-* `修正` コードエディタが信頼性の低いエンコーディングでファイルを書き込み, デコードエラーを引き起こす可能性がある問題 (修正試行)
-* `改善` アプリおよび開発者ページのレイアウト適応性を向上し, 不要なレイアウト区分を削除
-* `改善` README.md のビルド節に複数の方法を追加してターゲット設定ページの特定を容易化 _[`issue #404`](http://issues.autojs6.com/404)_
-* `改善` 一部の依存関係またはローカルライブラリのバージョン調整 _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v664)_
 
 ##### より詳細なリリース履歴については, こちらを参照してください
 

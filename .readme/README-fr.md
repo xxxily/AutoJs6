@@ -164,6 +164,13 @@ Par rapport à la version finale open source de Auto.js `4.1.1 Alpha2`, AutoJs6 
 
 ******
 
+# v6.7.2
+
+###### 2026/06/07
+
+* `Fonctionnalité` Ajout de la fonctionnalité d'assistant de script IA, prenant en charge l'écriture, la modification et l'explication de scripts assistées par l'IA dans l'éditeur de code, etc.
+* `Amélioration` Mettre à jour les workflows GitHub Actions pour utiliser des versions d'actions compatibles avec Node 24 afin d'éliminer les avertissements d'obsolescence
+
 # v6.7.1
 
 ###### 2026/06/07
@@ -377,20 +384,6 @@ Par rapport à la version finale open source de Auto.js `4.1.1 Alpha2`, AutoJs6 
 * `Amélioration` Suppression de l'option Gradle "android.enableJetifier=true" afin de s'adapter a Gradle 9
 * `Amélioration` Utilisation de [Toolchain](https://docs.gradle.org/current/userguide/toolchains.html) a la place de sourceCompatibility/targetCompatibility pour reduire les differences d'environnement de build
 * `Amélioration` Certaines dépendances ou versions de bibliothèques locales ont été ajustées _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v670)_
-
-# v6.6.4
-
-###### 2025/05/31
-
-* `Astuce` Changement d'API : ui.(status/navigation)BarAppearanceLight[By] -> ui.(status/navigation)BarIconLight[By]
-* `Fonctionnalité` Méthodes util.dpToPx/spToPx/pxToDp/pxToSp pour la conversion d'unités en pixels
-* `Correction` Les sous-titres peuvent s'afficher de manière incomplète lors du passage en mode paysage
-* `Correction` Le contenu de certaines pages peut être masqué par la barre de navigation latérale en mode paysage
-* `Correction` Zone de coloration de fond de la barre d'état incomplète sur certaines pages sous Android 15 _[`issue #398`](http://issues.autojs6.com/398)_
-* `Correction` L'éditeur de code pouvait écrire des fichiers avec un encodage peu fiable, entraînant des erreurs de décodage (tentative de correction)
-* `Amélioration` Adaptabilité de la mise en page améliorée pour les pages Application et Développeur et suppression des catégories de mise en page inutiles
-* `Amélioration` Dans README.md, section Build, ajout de plusieurs méthodes pour faciliter la localisation de la page de configuration de la cible _[`issue #404`](http://issues.autojs6.com/404)_
-* `Amélioration` Certaines dépendances ou versions de bibliothèques locales ont été ajustées _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v664)_
 
 ##### Pour plus d'historique des versions, consultez
 

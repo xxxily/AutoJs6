@@ -164,6 +164,13 @@ AutoJs6 在 Auto.js 最終項目的基礎上, 於 `2021/12/01` 進行二次開�
 
 ******
 
+# v6.7.2
+
+###### 2026/06/07
+
+* `新增` 新增 AI 腳本助手功能, 支持在代碼編輯器等處通過 AI 輔助編寫、修改與解釋腳本
+* `優化` 更新 GitHub Actions 工作流以使用 Node 24 兼容的 Action 版本以消除棄用警告
+
 # v6.7.1
 
 ###### 2026/06/07
@@ -377,20 +384,6 @@ AutoJs6 在 Auto.js 最終項目的基礎上, 於 `2021/12/01` 進行二次開�
 * `優化` 移除 "android.enableJetifier=true" Gradle 配置選項以適配 Gradle 9
 * `優化` 使用 [Toolchain](https://docs.gradle.org/current/userguide/toolchains.html) 替代 sourceCompatibility/targetCompatibility 以降低構建環境差異
 * `優化` 部分依賴或本地庫版本調整 _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v670)_
-
-# v6.6.4
-
-###### 2025/05/31
-
-* `提示` API 變更: ui.(status/navigation)BarAppearanceLight[By] -> ui.(status/navigation)BarIconLight[By]
-* `新增` util.dpToPx/spToPx/pxToDp/pxToSp 方法, 用於像素單位轉換
-* `修復` 屏幕旋轉至橫向時子標題可能顯示不完整的問題
-* `修復` 屏幕旋轉至橫向時部分頁面內容被側邊導航欄遮擋的問題
-* `修復` Android 15 部分頁面狀態欄背景着色區域不完整的問題 _[`issue #398`](http://issues.autojs6.com/398)_
-* `修復` 代碼編輯器可能使用置信度不足的編碼寫入文件導致內容解碼異常的問題 (試修)
-* `優化` 關於應用與開發者頁面增加布局適配通用性並去除不必要的佈局分類
-* `優化` README.md 項目編譯構建小節添加多種方式便於定位目標設置頁面 _[`issue #404`](http://issues.autojs6.com/404)_
-* `優化` 部分依賴或本地庫版本調整 _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v664)_
 
 ##### 更多發行歷史可參閲
 
