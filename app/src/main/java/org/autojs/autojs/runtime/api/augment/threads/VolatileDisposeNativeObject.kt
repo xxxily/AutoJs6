@@ -23,6 +23,9 @@ class VolatileDisposeNativeObject : NativeObject() {
     @Volatile
     private var value: Any? = null
 
+    @Volatile
+    private var hasValue = false
+
     private val lock = ReentrantLock()
     private val ready = lock.newCondition()
 
@@ -47,21 +50,25 @@ class VolatileDisposeNativeObject : NativeObject() {
     }
 
     private fun awaitValue(timeoutMillis: Long, onInterrupted: (() -> Unit)? = null): Any? = withLock {
-        when {
-            timeoutMillis <= 0L -> {
-                try {
-                    ready.await()
-                } catch (e: InterruptedException) {
-                    onInterrupted?.invoke() ?: throw RuntimeException(e)
+        if (!hasValue) {
+            when {
+                timeoutMillis <= 0L -> {
+                    while (!hasValue) {
+                        try {
+                            ready.await()
+                        } catch (e: InterruptedException) {
+                            onInterrupted?.invoke() ?: throw RuntimeException(e)
+                        }
+                    }
                 }
-            }
-            else -> {
-                var nanos = TimeUnit.MILLISECONDS.toNanos(timeoutMillis)
-                while (nanos > 0L) {
-                    try {
-                        ready.awaitNanos(nanos).also { nanos = it }
-                    } catch (e: InterruptedException) {
-                        onInterrupted?.invoke() ?: throw RuntimeException(e)
+                else -> {
+                    var nanos = TimeUnit.MILLISECONDS.toNanos(timeoutMillis)
+                    while (!hasValue && nanos > 0L) {
+                        try {
+                            ready.awaitNanos(nanos).also { nanos = it }
+                        } catch (e: InterruptedException) {
+                            onInterrupted?.invoke() ?: throw RuntimeException(e)
+                        }
                     }
                 }
             }
@@ -107,6 +114,7 @@ class VolatileDisposeNativeObject : NativeObject() {
             val self = thisObj as VolatileDisposeNativeObject
             self.withLock {
                 self.value = value
+                self.hasValue = true
                 self.ready.signalAll()
             }
             UNDEFINED
