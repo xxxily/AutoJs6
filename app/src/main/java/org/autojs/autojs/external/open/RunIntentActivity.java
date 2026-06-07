@@ -1,9 +1,11 @@
 package org.autojs.autojs.external.open;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 
 import androidx.annotation.Nullable;
 
@@ -38,10 +40,41 @@ public class RunIntentActivity extends Activity {
         Uri uri = intent.getData();
         if (uri != null && "content".equals(uri.getScheme())) {
             InputStream stream = getContentResolver().openInputStream(uri);
-            Scripts.run(this, new StringScriptSource(PFiles.read(stream)));
+            StringScriptSource source = new StringScriptSource(getSourceName(uri), PFiles.read(stream));
+            source.setOverriddenFullPath(uri.toString());
+            Scripts.run(this, source);
         } else {
             ScriptIntents.handleIntent(this, intent);
         }
+    }
+
+    private String getSourceName(Uri uri) {
+        String displayName = getDisplayName(uri);
+        if (isBlank(displayName)) {
+            displayName = uri.getLastPathSegment();
+        }
+        if (isBlank(displayName)) {
+            return "Tmp";
+        }
+        return PFiles.getNameWithoutExtension(displayName);
+    }
+
+    private String getDisplayName(Uri uri) {
+        try (Cursor cursor = getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (columnIndex >= 0) {
+                    return cursor.getString(columnIndex);
+                }
+            }
+        } catch (Exception ignored) {
+            /* Fall back to Uri#getLastPathSegment. */
+        }
+        return null;
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 
 }

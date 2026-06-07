@@ -24,7 +24,7 @@ abstract class ScriptSource(private val sourceName: String) : Serializable {
         get() = "$name.$extension"
 
     val fullPath: String
-        get() = toString()
+        get() = overriddenFullPath ?: toString()
 
     val elegantPath: String
         get() {
