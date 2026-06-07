@@ -7,6 +7,7 @@ import org.apache.log4j.LogManager
 import org.autojs.autojs.annotation.RhinoRuntimeFunctionInterface
 import org.autojs.autojs.core.console.ConsoleImpl
 import org.autojs.autojs.core.console.ConsoleImpl.Companion.DEFAULT_EXIT_ON_CLOSE_TIMEOUT
+import org.autojs.autojs.core.console.GlobalConsole
 import org.autojs.autojs.rhino.ArgumentGuards
 import org.autojs.autojs.rhino.ArgumentGuards.Companion.component1
 import org.autojs.autojs.rhino.ArgumentGuards.Companion.component2
@@ -528,6 +529,9 @@ class Console(private val scriptRuntime: ScriptRuntime) : AugmentableProxy(scrip
         @RhinoRuntimeFunctionInterface
         fun setGlobalLogConfig(scriptRuntime: ScriptRuntime, args: Array<out Any?>): Undefined = ensureArgumentsOnlyOne(args) { config ->
             require(config is NativeObject) { "Argument for console.${::setGlobalLogConfig.name} must be a JavaScript Object" }
+            val rootLevel = Level::class.java.getDeclaredField(
+                config.inquire("rootLevel", ::coerceStringUppercase, "ALL")
+            ).apply { isAccessible = true }.get(null) as Level
             LogConfigurator().apply {
                 fileName = scriptRuntime.files.nonNullPath(config.inquire("file", ::coerceString, "android-log4j.log"))
                 filePattern = config.inquire("filePattern", ::coerceString, "%m%n")
@@ -536,19 +540,19 @@ class Console(private val scriptRuntime: ScriptRuntime) : AugmentableProxy(scrip
                 isUseFileAppender = true
                 isImmediateFlush = config.inquire("immediateFlush", ::coerceBoolean, true)
                 isResetConfiguration = config.inquire("resetConfiguration", ::coerceBoolean, true)
-                Level::class.java.getDeclaredField(
-                    config.inquire("rootLevel", ::coerceStringUppercase, "ALL")
-                ).apply { isAccessible = true }.get(null)?.let {
-                    rootLevel = it as Level
-                }
+                this.rootLevel = rootLevel
             }.configure()
+            (scriptRuntime.console as? GlobalConsole)?.setConsoleRootLevel(rootLevel)
             UNDEFINED
         }
 
         @JvmStatic
         @RhinoRuntimeFunctionInterface
         fun resetGlobalLogConfig(scriptRuntime: ScriptRuntime, args: Array<out Any?>): Undefined = ensureArgumentsIsEmpty(args) {
-            undefined { LogManager.getLoggerRepository().resetConfiguration() }
+            undefined {
+                LogManager.getLoggerRepository().resetConfiguration()
+                (scriptRuntime.console as? GlobalConsole)?.resetConsoleRootLevel()
+            }
         }
 
         @JvmStatic

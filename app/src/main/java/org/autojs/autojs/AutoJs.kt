@@ -128,7 +128,7 @@ open class AutoJs(appContext: Application) : AbstractAutoJs(appContext) {
 
     override fun createGlobalConsole(): GlobalConsole {
         return object : GlobalConsole(uiHandler) {
-            override fun println(level: Int, charSequence: CharSequence): String {
+            override fun println(level: Int, charSequence: CharSequence): String? {
                 return super.println(level, charSequence).also {
                     // FIXME by SuperMonster003 as of Feb 2, 2022.
                     //  ! When running in "ui" thread (ui.run() or ui.post()),
@@ -137,7 +137,7 @@ open class AutoJs(appContext: Application) : AbstractAutoJs(appContext) {
                     //  ! 当在 "ui" 线程执行时 (如 ui.run() 或 ui.post()),
                     //  ! 可能会发生 android.os.NetworkOnMainThreadException 异常.
                     //  ! 而且, 我不确定使用线程执行器是否是个好主意.
-                    mPrintExecutor.submit { devPluginService.print(it) }
+                    it?.let { log -> mPrintExecutor.submit { devPluginService.print(log) } }
                 }
             }
         }

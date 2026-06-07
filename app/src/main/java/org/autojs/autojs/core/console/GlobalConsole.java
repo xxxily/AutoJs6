@@ -9,6 +9,7 @@ import static android.util.Log.WARN;
 import static android.util.Log.d;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -26,20 +27,38 @@ public class GlobalConsole extends ConsoleImpl {
     private static final String TAG = GlobalConsole.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(GlobalConsole.class);
     private final SimpleDateFormat mDateFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
+    private volatile Level mConsoleRootLevel = Level.ALL;
 
     public GlobalConsole(UiHandler uiHandler) {
         super(uiHandler);
     }
 
     @Override
-    @NonNull
+    @Nullable
     public String println(int level, @NonNull CharSequence charSequence) {
         String log = String.format(Locale.getDefault(), "%s/%s: %s",
                 mDateFormat.format(new Date()), getLevelChar(level), charSequence);
-        LOGGER.log(toLog4jLevel(level), log);
+        Priority priority = toLog4jLevel(level);
+        LOGGER.log(priority, log);
+        if (!isConsoleLoggable(priority)) {
+            return null;
+        }
         d(TAG, log);
         super.println(level, log);
         return log;
+    }
+
+    public void setConsoleRootLevel(@NonNull Level rootLevel) {
+        mConsoleRootLevel = rootLevel;
+    }
+
+    public void resetConsoleRootLevel() {
+        mConsoleRootLevel = Level.ALL;
+    }
+
+    private boolean isConsoleLoggable(Priority priority) {
+        Level rootLevel = mConsoleRootLevel;
+        return rootLevel != Level.OFF && priority.isGreaterOrEqual(rootLevel);
     }
 
     protected Priority toLog4jLevel(int level) {
