@@ -54,7 +54,7 @@ public class FileObservable {
         if (fromFile.isDirectory()) {
             copyDir(fromFile, toFile, deleteOld, progress);
         } else {
-            PFiles.ensureDir(toFile.getPath());
+            PFiles.ensureParentDir(toFile.getPath());
             PFiles.copy(fromFile.getPath(), toFile.getPath());
         }
         if (deleteOld) {

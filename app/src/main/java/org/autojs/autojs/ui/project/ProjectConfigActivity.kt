@@ -291,7 +291,7 @@ class ProjectConfigActivity : BaseActivity() {
                     iconPath = "res/logo.png"
                 }
                 val iconFile = File(mDirectory, iconPath)
-                PFiles.ensureDir(iconFile.path)
+                PFiles.ensureParentDir(iconFile.path)
                 val fos = FileOutputStream(iconFile)
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
                 fos.close()

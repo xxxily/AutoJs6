@@ -404,7 +404,7 @@ public class DownloadManager {
         }
 
         public void start(ResponseBody body) {
-            PFiles.ensureDir(mPath);
+            PFiles.ensureParentDir(mPath);
             mHandler.post(this::activeProgressDialogButton);
             startImpl(body);
         }

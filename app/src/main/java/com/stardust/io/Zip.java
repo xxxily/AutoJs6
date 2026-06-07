@@ -26,7 +26,7 @@ public class Zip {
                 if (entry.isDirectory()) {
                     file.mkdirs();
                 } else {
-                    PFiles.ensureDir(file.getPath());
+                    PFiles.ensureParentDir(file.getPath());
                     fos = new FileOutputStream(file);
                     PFiles.write(zis, fos, false);
                     fos.close();

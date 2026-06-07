@@ -178,7 +178,7 @@ public class DevPluginResponseHandler implements Handler {
         //  # }
 
         File file = new File(WorkingDirectoryUtils.getPath(), name);
-        PFiles.ensureDir(file.getPath());
+        PFiles.ensureParentDir(file.getPath());
         PFiles.write(file, content);
         ViewUtils.showToast(mContext, R.string.text_remote_file_saved_to_local_storage_successfully, true);
     }

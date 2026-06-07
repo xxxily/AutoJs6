@@ -73,7 +73,7 @@ public class PFiles {
     }
 
     public static boolean createIfNotExists(String path) {
-        ensureDir(path);
+        ensureParentDir(path);
         File file = new File(path);
         if (!file.exists()) {
             try {
@@ -94,18 +94,13 @@ public class PFiles {
     }
 
     public static boolean ensureDir(String path) {
-        int i = path.lastIndexOf("\\");
-        if (i < 0)
-            i = path.lastIndexOf("/");
-        if (i >= 0) {
-            String folder = path.substring(0, i);
-            File file = new File(folder);
-            if (file.exists())
-                return true;
-            return file.mkdirs();
-        } else {
-            return false;
-        }
+        File file = new File(path);
+        return file.isDirectory() || file.mkdirs();
+    }
+
+    public static boolean ensureParentDir(String path) {
+        File parent = new File(path).getParentFile();
+        return parent == null || parent.isDirectory() || parent.mkdirs();
     }
 
     public static String read(String path, String encoding) {
@@ -161,7 +156,7 @@ public class PFiles {
     }
 
     public static boolean copyStream(InputStream is, String path) {
-        if (!ensureDir(path))
+        if (!ensureParentDir(path))
             return false;
         File file = new File(path);
         try {

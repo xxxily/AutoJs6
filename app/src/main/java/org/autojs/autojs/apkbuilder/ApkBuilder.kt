@@ -89,7 +89,7 @@ open class ApkBuilder(apkInputStream: InputStream?, private val outApkFile: File
         get() = File(buildPath, "resources.arsc")
 
     init {
-        PFiles.ensureDir(outApkFile.path)
+        PFiles.ensureParentDir(outApkFile.path)
     }
 
     fun setProgressCallback(callback: ProgressCallback?) = also {

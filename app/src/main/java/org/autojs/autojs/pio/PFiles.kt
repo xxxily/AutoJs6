@@ -68,7 +68,7 @@ object PFiles {
 
     @JvmStatic
     fun createIfNotExists(path: String): Boolean {
-        ensureDir(path)
+        ensureParentDir(path)
         val file = File(path)
         if (!file.exists()) {
             try {
@@ -88,12 +88,14 @@ object PFiles {
 
     @JvmStatic
     fun ensureDir(path: String): Boolean {
-        val i = path.lastIndexOf(separator)
-        return if (i >= 0) {
-            val folder = path.take(i)
-            val file = File(folder)
-            file.exists() || file.mkdirs()
-        } else false
+        val file = File(path)
+        return file.isDirectory || file.mkdirs()
+    }
+
+    @JvmStatic
+    fun ensureParentDir(path: String): Boolean {
+        val parent = File(path).parentFile ?: return true
+        return parent.isDirectory || parent.mkdirs()
     }
 
     @JvmStatic
@@ -141,7 +143,7 @@ object PFiles {
 
     @JvmStatic
     fun copyStream(stream: InputStream, path: String): Boolean {
-        if (!ensureDir(path)) return false
+        if (!ensureParentDir(path)) return false
         val file = File(path)
         return try {
             if (!file.exists() && !file.createNewFile()) return false

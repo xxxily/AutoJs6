@@ -1,6 +1,6 @@
 package org.autojs.autojs.io
 
-import org.autojs.autojs.pio.PFiles.ensureDir
+import org.autojs.autojs.pio.PFiles.ensureParentDir
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -19,7 +19,7 @@ object Zip {
                 if (entry.isDirectory) {
                     file.mkdirs()
                 } else {
-                    ensureDir(file.path)
+                    ensureParentDir(file.path)
                     file.outputStream().use { os -> zis.copyTo(os) }
                 }
             }
