@@ -16,7 +16,7 @@ object InrtShortcuts {
     private const val ID_SETTINGS = "id_inrt_launcher_shortcut_settings"
 
     @JvmStatic
-    fun syncToExplicitIntents() {
+    fun syncToExplicitIntents(logsVisible: Boolean = !Pref.shouldHideLogs()) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
             return
         }
@@ -24,8 +24,10 @@ object InrtShortcuts {
         val shortcutManager = context.getSystemService(ShortcutManager::class.java) ?: return
         val packageName = context.packageName
 
-        val shortcuts = listOf(
-            ShortcutInfo.Builder(context, ID_LOG)
+        val shortcuts = mutableListOf<ShortcutInfo>()
+
+        if (logsVisible) {
+            shortcuts += ShortcutInfo.Builder(context, ID_LOG)
                 .setShortLabel(context.getString(R.string.text_app_shortcut_log_short_label))
                 .setLongLabel(context.getString(R.string.text_app_shortcut_log_short_label))
                 .setIntent(
@@ -35,8 +37,10 @@ object InrtShortcuts {
                         .setPackage(packageName)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 )
-                .build(),
-            ShortcutInfo.Builder(context, ID_SETTINGS)
+                .build()
+        }
+
+        shortcuts += ShortcutInfo.Builder(context, ID_SETTINGS)
                 .setShortLabel(context.getString(R.string.text_app_shortcut_settings_short_label))
                 .setLongLabel(context.getString(R.string.text_app_shortcut_settings_short_label))
                 .setIntent(
@@ -46,10 +50,12 @@ object InrtShortcuts {
                         .setPackage(packageName)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 )
-                .build(),
-        )
+                .build()
 
         runCatching {
+            if (!logsVisible) {
+                shortcutManager.removeDynamicShortcuts(listOf(ID_LOG))
+            }
             if (!shortcutManager.setDynamicShortcuts(shortcuts)) {
                 shortcutManager.removeDynamicShortcuts(listOf(ID_LOG, ID_SETTINGS))
                 shortcutManager.addDynamicShortcuts(shortcuts)
