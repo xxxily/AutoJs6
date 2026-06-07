@@ -9,7 +9,6 @@ import org.autojs.autojs.rhino.extension.AnyExtensions.jsBrief
 import org.autojs.autojs.rhino.extension.ScriptableExtensions.prop
 import org.autojs.autojs.rhino.extension.ScriptableObjectExtensions.inquire
 import org.autojs.autojs.runtime.ScriptRuntime
-import org.autojs.autojs.runtime.api.augment.http.Http.Companion.DEFAULT_TIMEOUT
 import org.autojs.autojs.runtime.api.augment.http.Http.Companion.KEY_CLIENT
 import org.autojs.autojs.runtime.api.augment.http.Http.Companion.KEY_TIMEOUT
 import org.autojs.autojs.runtime.exception.WrappedIllegalArgumentException
@@ -50,7 +49,7 @@ class RequestBuilder(
             val clientProp = opt.prop(KEY_CLIENT).takeUnless { it.isJsNullish() }
             require(clientProp is NativeObject?) { "Argument \"client\" ${clientProp.jsBrief()} for http.request must be a JavaScript Object" }
 
-            val timeout = coerceLongNumber(opt.prop(KEY_TIMEOUT), DEFAULT_TIMEOUT)
+            val timeout = coerceLongNumber(opt.prop(KEY_TIMEOUT), getTimeout())
             val isInsecure = opt.inquire(listOf("isInsecure", "insecure"), ::coerceBoolean, false)
 
             val builder = this.client().newBuilder()

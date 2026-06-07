@@ -3,6 +3,7 @@ package org.autojs.autojs.core.http
 import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Stardust on Apr 11, 2018.
@@ -24,6 +25,25 @@ class MutableOkHttp : OkHttpClient() {
     }
 
     fun client() = mOkHttpClient
+
+    fun getMaxRetries() = maxRetries
+
+    fun setMaxRetries(maxRetries: Int) {
+        this.maxRetries = maxRetries
+    }
+
+    fun getTimeout() = mTimeout
+
+    @Synchronized
+    fun setTimeout(timeout: Long) {
+        mTimeout = timeout
+        muteClient(
+            mOkHttpClient.newBuilder()
+                .readTimeout(mTimeout, TimeUnit.MILLISECONDS)
+                .writeTimeout(mTimeout, TimeUnit.MILLISECONDS)
+                .connectTimeout(mTimeout, TimeUnit.MILLISECONDS)
+        )
+    }
 
     @Synchronized
     fun muteClient(builder: Builder) {
