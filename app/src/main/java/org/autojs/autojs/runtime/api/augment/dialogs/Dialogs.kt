@@ -18,6 +18,7 @@ import org.autojs.autojs.rhino.ArgumentGuards.Companion.component1
 import org.autojs.autojs.rhino.ArgumentGuards.Companion.component2
 import org.autojs.autojs.rhino.ArgumentGuards.Companion.component3
 import org.autojs.autojs.rhino.ArgumentGuards.Companion.component4
+import org.autojs.autojs.rhino.extension.ArrayExtensions.toNativeArray
 import org.autojs.autojs.rhino.extension.AnyExtensions.isJsNullish
 import org.autojs.autojs.rhino.extension.AnyExtensions.isJsString
 import org.autojs.autojs.rhino.extension.AnyExtensions.isJsXml
@@ -51,6 +52,7 @@ import org.mozilla.javascript.Context
 import org.mozilla.javascript.NativeArray
 import org.mozilla.javascript.NativeObject
 import org.mozilla.javascript.Scriptable
+import java.lang.reflect.Array as JavaArray
 
 class Dialogs(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
 
@@ -484,8 +486,13 @@ class Dialogs(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
         private fun toJsArrayIfNeeded(results: Any?) = when {
             results == null -> null
             results is Iterable<*> -> results.toNativeArray()
-            results.javaClass.isArray -> RhinoUtils.javaArrayToString(results)
+            results.javaClass.isArray -> results.toNativeArray()
             else -> results
+        }
+
+        private fun Any.toNativeArray(): NativeArray {
+            val length = JavaArray.getLength(this)
+            return Array<Any?>(length) { index -> JavaArray.get(this, index) }.toNativeArray()
         }
 
         private fun checkPreset(properties: NativeObject, key: String, def: Any) {
