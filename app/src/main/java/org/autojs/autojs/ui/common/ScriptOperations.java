@@ -64,6 +64,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -134,6 +135,10 @@ public class ScriptOperations {
         return path.endsWith(File.separator) ? path : path + File.separator;
     }
 
+    public String getCurrentDirectoryPathForAi() {
+        return getCurrentDirectoryPath();
+    }
+
     private ScriptFile getCurrentDirectory() {
         return mCurrentDirectory;
     }
@@ -155,6 +160,82 @@ public class ScriptOperations {
         } else {
             showMessage(R.string.error_failed_to_create);
         }
+    }
+
+    public void createAiGeneratedScript(String fileName, String script) {
+        String safeName = sanitizeAiPathSegment(fileName == null || fileName.isBlank() ? "ai_script.js" : new File(fileName).getName());
+        if (!safeName.toLowerCase().endsWith(JAVASCRIPT.extensionWithDot)) {
+            safeName += JAVASCRIPT.extensionWithDot;
+        }
+        createScriptFile(getCurrentDirectoryPath() + safeName, script, true);
+    }
+
+    public void createAiGeneratedProject(String projectName, Map<String, String> files, String mainScriptFile) {
+        String safeName = projectName == null || projectName.isBlank() ? "AiProject" : projectName.replaceAll("[\\\\/:*?\"<>|]", "_");
+        File projectDir = new File(getCurrentDirectoryPath(), safeName);
+        if (projectDir.exists()) {
+            showMessage(R.string.text_file_exists);
+            return;
+        }
+        if (!projectDir.mkdirs()) {
+            showMessage(R.string.error_failed_to_create);
+            return;
+        }
+        try {
+            for (Map.Entry<String, String> entry : files.entrySet()) {
+                String relativePath = entry.getKey();
+                if (relativePath == null || relativePath.isBlank()) {
+                    continue;
+                }
+                relativePath = sanitizeAiProjectRelativePath(relativePath, safeName);
+                if (relativePath.isBlank()) continue;
+                File target = new File(projectDir, relativePath);
+                File parent = target.getParentFile();
+                if (parent != null && !parent.exists() && !parent.mkdirs()) {
+                    throw new IOException("Failed to create directory: " + parent);
+                }
+                PFiles.write(target.getPath(), entry.getValue() == null ? "" : entry.getValue());
+            }
+            ScriptFile scriptFile = new ScriptFile(projectDir.getPath());
+            notifyFileCreatedAtItsParent(ProjectConfig.isProject(scriptFile), true, scriptFile);
+            String main = mainScriptFile == null || mainScriptFile.isBlank()
+                    ? ProjectConfig.DEFAULT_MAIN_SCRIPT_FILE_NAME
+                    : mainScriptFile;
+            File mainFile = new File(projectDir, main);
+            if (mainFile.exists()) {
+                Scripts.edit(mContext, mainFile.getPath());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            PFiles.deleteRecursively(projectDir);
+            showMessage(R.string.text_failed_to_write_file);
+        }
+    }
+
+    private String sanitizeAiProjectRelativePath(String relativePath, String projectName) {
+        String normalized = relativePath.replace('\\', '/');
+        while (normalized.startsWith("/")) {
+            normalized = normalized.substring(1);
+        }
+        if (normalized.startsWith(projectName + "/")) {
+            normalized = normalized.substring(projectName.length() + 1);
+        }
+        StringBuilder result = new StringBuilder();
+        for (String segment : normalized.split("/")) {
+            if (segment == null || segment.isBlank() || segment.equals(".") || segment.equals("..")) {
+                continue;
+            }
+            if (result.length() > 0) {
+                result.append(File.separator);
+            }
+            result.append(sanitizeAiPathSegment(segment));
+        }
+        return result.toString();
+    }
+
+    private String sanitizeAiPathSegment(String segment) {
+        String sanitized = segment.replaceAll("[\\\\/:*?\"<>|]", "_").trim();
+        return sanitized.isBlank() ? "ai_file" : sanitized;
     }
 
     public void newFile() {

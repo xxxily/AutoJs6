@@ -6,6 +6,7 @@ import android.widget.EdgeEffect
 import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.autojs.autojs.theme.ThemeColorManager
+import org.autojs.autojs.ui.ai.AiSettingsActivity
 import org.autojs.autojs.util.ViewUtils.excludePaddingClippableViewFromBottomNavigationBar
 import org.autojs.autojs6.R
 
@@ -13,6 +14,11 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.fragment_preferences, rootKey)
+        findPreference<androidx.preference.Preference>(getString(R.string.key_ai_script_assistant))
+            ?.setOnPreferenceClickListener {
+                AiSettingsActivity.launch(requireContext())
+                true
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -17,8 +17,10 @@ import org.autojs.autojs.app.GlobalAppContext
 import org.autojs.autojs.external.fileprovider.AppFileProvider
 import org.autojs.autojs.model.explorer.ExplorerItem
 import org.autojs.autojs.model.script.Scripts
+import org.autojs.autojs.ai.prompt.AiTaskType
 import org.autojs.autojs.tool.SimpleObserver
 import org.autojs.autojs.ui.common.ScriptOperations
+import org.autojs.autojs.ui.ai.AiAssistantDialogs
 import org.autojs.autojs.ui.explorer.ExplorerView
 import org.autojs.autojs.ui.fragment.BindingDelegates.viewBinding
 import org.autojs.autojs.ui.main.FloatingActionMenu
@@ -220,6 +222,16 @@ class ExplorerFragment : ViewPagerFragment(0), OnFloatingActionButtonClickListen
         mExplorerView?.let { view ->
             val ctx = context ?: return@let
             when (pos) {
+                5 -> AiAssistantDialogs.showExplorerTask(
+                    ctx,
+                    ScriptOperations(ctx, view, view.currentPage),
+                    AiTaskType.CREATE_PROJECT,
+                )
+                4 -> AiAssistantDialogs.showExplorerTask(
+                    ctx,
+                    ScriptOperations(ctx, view, view.currentPage),
+                    AiTaskType.CREATE_SCRIPT,
+                )
                 3 -> Intent(ctx, ProjectConfigActivity::class.java)
                     .putExtra(ProjectConfigActivity.EXTRA_PARENT_DIRECTORY, view.currentPage.path)
                     .putExtra(ProjectConfigActivity.EXTRA_NEW_PROJECT, true)

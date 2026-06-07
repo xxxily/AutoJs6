@@ -117,6 +117,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 import java.util.regex.Pattern
+import org.autojs.autojs.ai.config.AiConfigRepository
+import org.autojs.autojs.ai.config.AiLastRunError
 
 /**
  * Created by Stardust on Sep 28, 2017.
@@ -226,6 +228,57 @@ class EditorView : LinearLayout, OnHintClickListener, ClickCallback, ToolbarFrag
     val isTextChanged: Boolean
         get() = editor.isTextChanged
 
+    fun getTextForAi(): String = editor.text
+
+    fun getSelectedTextForAi(): String {
+        val editText = editor.codeEditText
+        val start = minOf(editText.selectionStart, editText.selectionEnd).coerceAtLeast(0)
+        val end = maxOf(editText.selectionStart, editText.selectionEnd).coerceAtLeast(start)
+        return if (start == end) "" else editText.text?.substring(start, end).orEmpty()
+    }
+
+    fun getSelectionStartForAi(): Int {
+        val editText = editor.codeEditText
+        return minOf(editText.selectionStart, editText.selectionEnd).coerceAtLeast(0)
+    }
+
+    fun getSelectionEndForAi(): Int {
+        val editText = editor.codeEditText
+        return maxOf(editText.selectionStart, editText.selectionEnd).coerceAtLeast(0)
+    }
+
+    fun getFilePathForAi(): String = uri?.path.orEmpty()
+
+    fun getWorkingDirectoryForAi(): String = uri?.path?.let { File(it).parent }.orEmpty()
+
+    fun getLastRunErrorForAi(): AiLastRunError? = AiConfigRepository(context).getLastRunError()
+
+    fun replaceSelectionFromAi(content: String) {
+        val editText = editor.codeEditText
+        val start = minOf(editText.selectionStart, editText.selectionEnd).coerceAtLeast(0)
+        val end = maxOf(editText.selectionStart, editText.selectionEnd).coerceAtLeast(start)
+        editText.text?.replace(start, end, content)
+        editText.setSelection((start + content.length).coerceAtMost(editText.text?.length ?: 0))
+        markAiAppliedAsDirty()
+    }
+
+    fun replaceAllFromAi(content: String) {
+        val editable = editor.codeEditText.text
+        editable?.replace(0, editable.length, content)
+        markAiAppliedAsDirty()
+    }
+
+    fun insertFromAi(content: String) {
+        editor.insert(content)
+        markAiAppliedAsDirty()
+    }
+
+    private fun markAiAppliedAsDirty() {
+        saveStickyDirty = true
+        mHadDirectEditSinceSave = true
+        syncPrimaryMenuState()
+    }
+
     private val scriptExecution: ScriptExecution?
         get() = AutoJs.instance.scriptEngineService.getScriptExecution(scriptExecutionId)
 
@@ -283,6 +336,7 @@ class EditorView : LinearLayout, OnHintClickListener, ClickCallback, ToolbarFrag
                 val msg = intent.getStringExtra(EXTRA_EXCEPTION_MESSAGE)
                 val line = intent.getIntExtra(EXTRA_EXCEPTION_LINE_NUMBER, -1)
                 val col = intent.getIntExtra(EXTRA_EXCEPTION_COLUMN_NUMBER, 0)
+                AiConfigRepository(context).saveLastRunError(msg, line, col)
                 if (line >= 1) {
                     editor.jumpTo(line - 1, col)
                 }

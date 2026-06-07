@@ -120,6 +120,48 @@
         android:title="@string/text_show_log"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_ai_script_assistant"
+        android:title="@string/text_ai_script_assistant"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/action_ai_generate_script"
+                android:title="@string/text_ai_generate_script"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/action_ai_modify_selection"
+                android:title="@string/text_ai_modify_selection"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/action_ai_modify_file"
+                android:title="@string/text_ai_modify_file"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/action_ai_fix_error"
+                android:title="@string/text_ai_fix_error"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/action_ai_generate_comments"
+                android:title="@string/text_ai_generate_comments"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/action_ai_refactor_by_request"
+                android:title="@string/text_ai_refactor_by_request"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/action_ai_explain_code"
+                android:title="@string/text_ai_explain_code"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
     <item android:title="@string/text_more">
         <menu>
             <item

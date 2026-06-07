@@ -17,6 +17,8 @@ import org.autojs.autojs.core.pref.Pref;
 import org.autojs.autojs.model.indices.AndroidClass;
 import org.autojs.autojs.model.indices.ClassSearchingItem;
 import org.autojs.autojs.script.JavaScriptFileSource;
+import org.autojs.autojs.ai.prompt.AiTaskType;
+import org.autojs.autojs.ui.ai.AiAssistantDialogs;
 import org.autojs.autojs.ui.common.NotAskAgainDialog;
 import org.autojs.autojs.ui.edit.editor.CodeEditor;
 import org.autojs.autojs.ui.edit.keyboard.SymbolsSettingsActivity;
@@ -78,6 +80,12 @@ public class EditorMenu {
         setMenuItemInvisible(menu, R.id.action_jump);
         setMenuItemInvisible(menu, R.id.action_debug);
         setMenuItemInvisible(menu, R.id.action_build_apk);
+        setMenuItemInvisible(menu, R.id.action_ai_generate_script);
+        setMenuItemInvisible(menu, R.id.action_ai_modify_selection);
+        setMenuItemInvisible(menu, R.id.action_ai_modify_file);
+        setMenuItemInvisible(menu, R.id.action_ai_fix_error);
+        setMenuItemInvisible(menu, R.id.action_ai_generate_comments);
+        setMenuItemInvisible(menu, R.id.action_ai_refactor_by_request);
         setMenuItemInvisible(menu, R.id.action_console);
         setMenuItemInvisible(menu, R.id.action_import_java_class);
         setMenuItemInvisible(menu, R.id.action_file_details);
@@ -105,9 +113,47 @@ public class EditorMenu {
             return tryDoing(mEditorView::forceStop);
         }
         return onEditOptionsSelected(item)
+               || onAiOptionsSelected(item)
                || onJumpOptionsSelected(item)
                || onMoreOptionsSelected(item)
                || onDebugOptionsSelected(item);
+    }
+
+    private boolean onAiOptionsSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_ai_generate_script) {
+            AiAssistantDialogs.showEditorTask(mEditorView, AiTaskType.CREATE_SCRIPT, mReadOnly);
+            return true;
+        }
+        if (itemId == R.id.action_ai_modify_selection) {
+            AiTaskType taskType = mEditorView.getSelectedTextForAi().isEmpty()
+                    ? AiTaskType.MODIFY_FILE
+                    : AiTaskType.MODIFY_SELECTION;
+            AiAssistantDialogs.showEditorTask(mEditorView, taskType, mReadOnly);
+            return true;
+        }
+        if (itemId == R.id.action_ai_modify_file) {
+            AiAssistantDialogs.showEditorTask(mEditorView, AiTaskType.MODIFY_FILE, mReadOnly);
+            return true;
+        }
+        if (itemId == R.id.action_ai_fix_error) {
+            AiAssistantDialogs.showEditorTask(mEditorView, AiTaskType.FIX_ERROR, mReadOnly);
+            return true;
+        }
+        if (itemId == R.id.action_ai_generate_comments) {
+            AiAssistantDialogs.showEditorTaskWithPrefill(mEditorView, AiTaskType.MODIFY_FILE, mReadOnly,
+                    mContext.getString(R.string.prompt_ai_generate_comments));
+            return true;
+        }
+        if (itemId == R.id.action_ai_refactor_by_request) {
+            AiAssistantDialogs.showEditorTask(mEditorView, AiTaskType.MODIFY_FILE, mReadOnly);
+            return true;
+        }
+        if (itemId == R.id.action_ai_explain_code) {
+            AiAssistantDialogs.showEditorTask(mEditorView, AiTaskType.EXPLAIN, mReadOnly);
+            return true;
+        }
+        return false;
     }
 
     private boolean onDebugOptionsSelected(MenuItem item) {

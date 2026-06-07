@@ -34,13 +34,17 @@ public class FloatingActionMenu extends FrameLayout implements View.OnClickListe
             R.drawable.ic_floating_action_menu_dir,
             R.drawable.ic_floating_action_menu_file,
             R.drawable.ic_file_download_white_cropped,
+            R.drawable.ic_project_white,
+            R.drawable.ic_automatic_brightness_thicker,
             R.drawable.ic_project_white};
 
     private static final int[] LABELS = {
             R.string.text_folder,
             R.string.text_file,
             R.string.text_import,
-            R.string.text_project};
+            R.string.text_project,
+            R.string.text_ai_new_script,
+            R.string.text_ai_new_project};
 
     private static final int ANIMATION_INTERVAL = 30;
     private static final int ANIMATION_DURATION = 250;

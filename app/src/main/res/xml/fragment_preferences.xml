@@ -60,6 +60,12 @@
             app:longClickPrompt="@string/description_documentation_source_preference"
             app:longClickPromptMore="@string/description_documentation_source_preference_more" />
 
+        <androidx.preference.Preference
+            app:layout="@layout/preference_custom"
+            app:key="@string/key_ai_script_assistant"
+            app:title="@string/text_ai_script_assistant"
+            app:summary="@string/summary_ai_script_assistant" />
+
         <org.autojs.autojs.ui.settings.RestartStrategyPreference
             app:layout="@layout/preference_custom"
             app:key="@string/key_restart_strategy"
