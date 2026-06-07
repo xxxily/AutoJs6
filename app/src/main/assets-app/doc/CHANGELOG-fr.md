@@ -4,6 +4,28 @@
 
 ******
 
+# v6.7.1
+
+###### 2026/06/07
+
+* `Fonctionnalité` L'editeur de code ajoute un panneau de journaux inferieur, avec affichage de la sortie d'execution et effacement des journaux dans l'editeur
+* `Correction` Les coordonnees de l'observateur d'evenements tactiles sont mappees dans l'espace des coordonnees de l'ecran _[`issue #59`](http://issues.autojs6.com/59)_
+* `Correction` Initialisation de WorkManager avant la planification des taches afin d'eviter les echecs de planification _[`issue #501`](http://issues.autojs6.com/501)_
+* `Correction` Conservation de l'URI source d'origine lors de l'ouverture des scripts afin d'ameliorer l'enregistrement et la reconnaissance des chemins _[`issue #545`](http://issues.autojs6.com/545)_
+* `Correction` Les raccourcis des applications empaquetees respectent desormais le parametre de visibilite des journaux _[`issue #550`](http://issues.autojs6.com/550)_
+* `Correction` Le niveau racine du journal de la console globale est correctement applique a la sortie _[`issue #540`](http://issues.autojs6.com/540)_
+* `Correction` dialogs.multiChoice renvoie desormais des resultats de type tableau _[`issue #518`](http://issues.autojs6.com/518)_ _[`issue #322`](http://issues.autojs6.com/322)_
+* `Correction` files.ensureDir cree correctement les repertoires _[`issue #539`](http://issues.autojs6.com/539)_
+* `Correction` Les API du module app reconnaissent correctement les noms de packages installes _[`issue #495`](http://issues.autojs6.com/495)_
+* `Correction` Restauration des setters mutables de compatibilite OkHttp _[`issue #536`](http://issues.autojs6.com/536)_
+* `Correction` Evite la journalisation complete des charges utiles d'octets distantes _[`issue #523`](http://issues.autojs6.com/523)_
+* `Correction` Les attentes de timeout disposable retournent correctement lorsqu'elles sont signalees _[`issue #503`](http://issues.autojs6.com/503)_
+* `Correction` Les coordonnees des gestes utilisent desormais l'echelle d'ecran sur l'axe Y _[`issue #541`](http://issues.autojs6.com/541)_
+* `Correction` Probleme de compilation lie au panneau de journaux inferieur _[`issue #543`](http://issues.autojs6.com/543)_
+* `Correction` ConcatReader.close continue desormais a fermer les lecteurs restants lorsqu'une fermeture echoue
+* `Amélioration` Mise a jour des donnees de compatibilite des versions AGP dans Gradle Settings
+* `Amélioration` Mise a jour du commentaire et de la date de version Temurin
+
 # v6.7.0
 
 ###### 2026/03/14

@@ -4,6 +4,28 @@
 
 ******
 
+# v6.7.1
+
+###### 2026/06/07
+
+* `추가` 코드 편집기에 하단 로그 패널 추가, 편집기 안에서 실행 출력 보기 및 로그 지우기 지원
+* `수정` 터치 이벤트 관찰자 좌표를 화면 좌표 공간으로 매핑 _[`issue #59`](http://issues.autojs6.com/59)_
+* `수정` 작업 스케줄링 전에 WorkManager 를 초기화하여 스케줄링 오류 방지 _[`issue #501`](http://issues.autojs6.com/501)_
+* `수정` 스크립트를 열 때 원본 소스 URI 를 보존하여 이후 저장 및 경로 인식 개선 _[`issue #545`](http://issues.autojs6.com/545)_
+* `수정` 패키징된 앱 바로가기가 로그 표시 설정을 따르도록 수정 _[`issue #550`](http://issues.autojs6.com/550)_
+* `수정` 전역 콘솔 루트 로그 레벨이 출력에 올바르게 적용되도록 수정 _[`issue #540`](http://issues.autojs6.com/540)_
+* `수정` dialogs.multiChoice 가 배열 타입 결과를 반환하도록 수정 _[`issue #518`](http://issues.autojs6.com/518)_ _[`issue #322`](http://issues.autojs6.com/322)_
+* `수정` files.ensureDir 가 디렉터리를 올바르게 생성하도록 수정 _[`issue #539`](http://issues.autojs6.com/539)_
+* `수정` app 모듈 API 가 설치된 패키지 이름을 올바르게 인식하도록 수정 _[`issue #495`](http://issues.autojs6.com/495)_
+* `수정` OkHttp 호환성 가변 setter 복원 _[`issue #536`](http://issues.autojs6.com/536)_
+* `수정` 원격 바이트 페이로드 전체 기록을 방지 _[`issue #523`](http://issues.autojs6.com/523)_
+* `수정` disposable timeout 대기가 신호를 받았을 때 올바르게 반환되도록 수정 _[`issue #503`](http://issues.autojs6.com/503)_
+* `수정` 제스처 좌표 매핑에 Y축 화면 스케일 사용 _[`issue #541`](http://issues.autojs6.com/541)_
+* `수정` 로그 하단 패널 관련 빌드 오류 _[`issue #543`](http://issues.autojs6.com/543)_
+* `수정` ConcatReader.close 가 일부 close 실패 후에도 나머지 reader 를 계속 닫도록 수정
+* `개선` Gradle Settings 의 AGP 버전 호환 매핑 데이터 업데이트
+* `개선` Temurin 버전 주석 및 날짜 정보 업데이트
+
 # v6.7.0
 
 ###### 2026/03/14

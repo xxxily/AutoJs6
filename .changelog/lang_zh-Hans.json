@@ -1,5 +1,31 @@
 {
   "$data": {
+    "v6.7.1": {
+      "released_date": "2026/06/07",
+      "feature": [
+        "代码编辑器增加底部日志面板功能, 支持在编辑器内查看运行输出并清空日志"
+      ],
+      "fix": [
+        "触摸事件观察器坐标映射到屏幕坐标空间 _[`issue #59`](http://issues.autojs6.com/59)_",
+        "定时任务调度前初始化 WorkManager 以避免任务调度异常 _[`issue #501`](http://issues.autojs6.com/501)_",
+        "打开脚本时保留原始来源 URI 以改善后续保存与路径识别 _[`issue #545`](http://issues.autojs6.com/545)_",
+        "打包应用快捷方式遵循日志显示配置 _[`issue #550`](http://issues.autojs6.com/550)_",
+        "全局控制台根日志级别可正确应用到输出 _[`issue #540`](http://issues.autojs6.com/540)_",
+        "dialogs.multiChoice 返回数组类型结果 _[`issue #518`](http://issues.autojs6.com/518)_ _[`issue #322`](http://issues.autojs6.com/322)_",
+        "files.ensureDir 可正确创建目录 _[`issue #539`](http://issues.autojs6.com/539)_",
+        "app 模块 API 可正确识别已安装应用包名 _[`issue #495`](http://issues.autojs6.com/495)_",
+        "恢复 OkHttp 兼容性可变设置项 _[`issue #536`](http://issues.autojs6.com/536)_",
+        "避免完整记录远程字节载荷导致日志膨胀 _[`issue #523`](http://issues.autojs6.com/523)_",
+        "disposable 超时等待被触发时可正确返回 _[`issue #503`](http://issues.autojs6.com/503)_",
+        "手势坐标使用 Y 轴屏幕比例进行映射 _[`issue #541`](http://issues.autojs6.com/541)_",
+        "日志底部面板相关构建错误 _[`issue #543`](http://issues.autojs6.com/543)_",
+        "ConcatReader.close 在关闭失败时仍会继续关闭其余 reader"
+      ],
+      "improvement": [
+        "更新 Gradle Settings 中的 AGP 版本兼容映射数据",
+        "更新 Temurin 版本注释与日期信息"
+      ]
+    },
     "v6.7.0": {
       "released_date": "2026/03/14",
       "feature": [

@@ -801,25 +801,22 @@ tasks {
     }
 
     register<Copy>("appendDigestToReleasedFiles") {
-        listOf(flavorNameApp, flavorNameInrt).forEach { flavorName ->
-            val src = "$flavorName/$buildTypeRelease"
-            val dst = "${src}s"
-            val ext = utils.FILE_EXTENSION_APK
+        val ext = utils.FILE_EXTENSION_APK
+        val src = layout.buildDirectory.dir("outputs/apk/$flavorNameApp/$buildTypeRelease")
+        val dst = layout.projectDirectory.dir("releases")
 
-            if (!file(src).isDirectory) {
-                return@forEach
-            }
-
-            from(src); into(dst); include("*.$ext")
-
+        from(src) {
+            include("*.$ext")
             rename { name ->
-                utils.digestCRC32(file("${src}/$name")).let { digest ->
-                    name.replace(Regex("^(.+?)(\\.$ext)$"), "$1-$digest$2")
-                }
+                val sourceFile = src.get().file(name).asFile
+                val digest = utils.digestCRC32(sourceFile)
+                name.replace(Regex("^(.+?)(\\.$ext)$"), "$1-$digest$2")
             }
-
-            doLast { println("Destination: ${file(dst)}") }
         }
+
+        into(dst)
+
+        doLast { println("Destination: ${dst.asFile}") }
     }
 }
 

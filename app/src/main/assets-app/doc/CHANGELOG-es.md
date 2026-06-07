@@ -4,6 +4,28 @@
 
 ******
 
+# v6.7.1
+
+###### 2026/06/07
+
+* `Nuevo` El editor de codigo agrega un panel inferior de registros, con soporte para ver la salida de ejecucion y limpiar registros dentro del editor
+* `Corrección` Las coordenadas del observador de eventos tactiles se asignan al espacio de coordenadas de pantalla _[`issue #59`](http://issues.autojs6.com/59)_
+* `Corrección` Inicializacion de WorkManager antes de programar tareas para evitar errores de planificacion _[`issue #501`](http://issues.autojs6.com/501)_
+* `Corrección` Se conserva el URI de origen original al abrir scripts para mejorar el guardado posterior y el reconocimiento de rutas _[`issue #545`](http://issues.autojs6.com/545)_
+* `Corrección` Los accesos directos de apps empaquetadas respetan la configuracion de visibilidad de registros _[`issue #550`](http://issues.autojs6.com/550)_
+* `Corrección` El nivel raiz de registro de la consola global se aplica correctamente a la salida _[`issue #540`](http://issues.autojs6.com/540)_
+* `Corrección` dialogs.multiChoice ahora devuelve resultados de tipo array _[`issue #518`](http://issues.autojs6.com/518)_ _[`issue #322`](http://issues.autojs6.com/322)_
+* `Corrección` files.ensureDir crea directorios correctamente _[`issue #539`](http://issues.autojs6.com/539)_
+* `Corrección` Las API del modulo app reconocen correctamente los nombres de paquetes instalados _[`issue #495`](http://issues.autojs6.com/495)_
+* `Corrección` Restauracion de setters mutables de compatibilidad OkHttp _[`issue #536`](http://issues.autojs6.com/536)_
+* `Corrección` Se evita registrar cargas remotas completas de bytes _[`issue #523`](http://issues.autojs6.com/523)_
+* `Corrección` Las esperas de timeout disposable devuelven correctamente cuando se senalizan _[`issue #503`](http://issues.autojs6.com/503)_
+* `Corrección` Las coordenadas de gestos ahora usan la escala de pantalla del eje Y _[`issue #541`](http://issues.autojs6.com/541)_
+* `Corrección` Problema de compilacion relacionado con el panel inferior de registros _[`issue #543`](http://issues.autojs6.com/543)_
+* `Corrección` ConcatReader.close continua cerrando los demas readers cuando falla una operacion de cierre
+* `Mejora` Actualizados los datos de compatibilidad de versiones AGP en Gradle Settings
+* `Mejora` Actualizados el comentario y la fecha de version de Temurin
+
 # v6.7.0
 
 ###### 2026/03/14

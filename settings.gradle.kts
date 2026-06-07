@@ -114,8 +114,8 @@ pluginManagement {
         val platform: String? = System.getProperty("idea.paths.selector")
             ?: System.getProperty("idea.platform.prefix")
             ?: System.getProperty("java.vendor.version")
-        val vendorName: String? = System.getProperty("idea.vendor.name")
-            ?: System.getProperty("java.vendor")
+        val ideVendorName: String? = System.getProperty("idea.vendor.name")
+        val javaVendorName: String? = System.getProperty("java.vendor")
             ?: System.getProperty("java.vm.vendor")
     }
 
@@ -305,6 +305,7 @@ pluginManagement {
             ) {
                 override val weight = Int.MAX_VALUE
                 override val gradleSettingsName = "Gradle JDK"
+                override val isIdePlatform = true
                 override val fullName by lazy {
                     val suffix = androidStudioCodenameVersionProps.let { prop ->
                         val letters = prop[version]
@@ -339,6 +340,7 @@ pluginManagement {
             ) {
                 override val weight = 10
                 override val gradleSettingsName = "Gradle JVM"
+                override val isIdePlatform = true
                 override val fullName = "IntelliJ IDEA"
                 override val minSupportedVersion = versionProps["MIN_SUPPORTED_INTELLIJ_IDEA_IDE_VERSION"] as String
             }
@@ -427,6 +429,7 @@ pluginManagement {
             open val weight: Int = -Int.MAX_VALUE
             open var version: String = consts.DEFAULT_VERSION
             open val minSupportedVersion: String = consts.DEFAULT_VERSION
+            open val isIdePlatform: Boolean = false
 
             @Suppress("unused")
             open val shouldPrintProgress: Boolean = true
@@ -435,7 +438,10 @@ pluginManagement {
                 get() = uppercaseFirstChar(name)
 
             open fun matchEnvironment() = systemProperties.platform?.startsWith(name) == true
-                    || systemProperties.vendorName?.contains(vendor, true) == true
+                    || when (isIdePlatform) {
+                true -> systemProperties.ideVendorName
+                false -> systemProperties.javaVendorName
+            }?.contains(vendor, true) == true
 
             fun ensureMinimalGradleJdkVersion() {
                 val javaVersionMinSupported = versionProps["JAVA_VERSION_MIN_SUPPORTED"].let { it as String }.toInt()

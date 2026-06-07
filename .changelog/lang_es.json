@@ -1,5 +1,31 @@
 {
   "$data": {
+    "v6.7.1": {
+      "released_date": "2026/06/07",
+      "feature": [
+        "El editor de codigo agrega un panel inferior de registros, con soporte para ver la salida de ejecucion y limpiar registros dentro del editor"
+      ],
+      "fix": [
+        "Las coordenadas del observador de eventos tactiles se asignan al espacio de coordenadas de pantalla _[`issue #59`](http://issues.autojs6.com/59)_",
+        "Inicializacion de WorkManager antes de programar tareas para evitar errores de planificacion _[`issue #501`](http://issues.autojs6.com/501)_",
+        "Se conserva el URI de origen original al abrir scripts para mejorar el guardado posterior y el reconocimiento de rutas _[`issue #545`](http://issues.autojs6.com/545)_",
+        "Los accesos directos de apps empaquetadas respetan la configuracion de visibilidad de registros _[`issue #550`](http://issues.autojs6.com/550)_",
+        "El nivel raiz de registro de la consola global se aplica correctamente a la salida _[`issue #540`](http://issues.autojs6.com/540)_",
+        "dialogs.multiChoice ahora devuelve resultados de tipo array _[`issue #518`](http://issues.autojs6.com/518)_ _[`issue #322`](http://issues.autojs6.com/322)_",
+        "files.ensureDir crea directorios correctamente _[`issue #539`](http://issues.autojs6.com/539)_",
+        "Las API del modulo app reconocen correctamente los nombres de paquetes instalados _[`issue #495`](http://issues.autojs6.com/495)_",
+        "Restauracion de setters mutables de compatibilidad OkHttp _[`issue #536`](http://issues.autojs6.com/536)_",
+        "Se evita registrar cargas remotas completas de bytes _[`issue #523`](http://issues.autojs6.com/523)_",
+        "Las esperas de timeout disposable devuelven correctamente cuando se senalizan _[`issue #503`](http://issues.autojs6.com/503)_",
+        "Las coordenadas de gestos ahora usan la escala de pantalla del eje Y _[`issue #541`](http://issues.autojs6.com/541)_",
+        "Problema de compilacion relacionado con el panel inferior de registros _[`issue #543`](http://issues.autojs6.com/543)_",
+        "ConcatReader.close continua cerrando los demas readers cuando falla una operacion de cierre"
+      ],
+      "improvement": [
+        "Actualizados los datos de compatibilidad de versiones AGP en Gradle Settings",
+        "Actualizados el comentario y la fecha de version de Temurin"
+      ]
+    },
     "v6.7.0": {
       "released_date": "2026/03/14",
       "feature": [

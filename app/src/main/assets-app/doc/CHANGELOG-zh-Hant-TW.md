@@ -4,6 +4,28 @@
 
 ******
 
+# v6.7.1
+
+###### 2026/06/07
+
+* `新增` 程式碼編輯器新增底部日誌面板功能, 支援在編輯器內查看執行輸出並清空日誌
+* `修復` 觸控事件觀察器座標映射到螢幕座標空間 _[`issue #59`](http://issues.autojs6.com/59)_
+* `修復` 排程任務調度前初始化 WorkManager 以避免任務調度異常 _[`issue #501`](http://issues.autojs6.com/501)_
+* `修復` 開啟腳本時保留原始來源 URI 以改善後續儲存與路徑識別 _[`issue #545`](http://issues.autojs6.com/545)_
+* `修復` 打包應用快捷方式遵循日誌顯示設定 _[`issue #550`](http://issues.autojs6.com/550)_
+* `修復` 全域控制台根日誌級別可正確套用到輸出 _[`issue #540`](http://issues.autojs6.com/540)_
+* `修復` dialogs.multiChoice 返回陣列類型結果 _[`issue #518`](http://issues.autojs6.com/518)_ _[`issue #322`](http://issues.autojs6.com/322)_
+* `修復` files.ensureDir 可正確建立目錄 _[`issue #539`](http://issues.autojs6.com/539)_
+* `修復` app 模組 API 可正確識別已安裝應用套件名 _[`issue #495`](http://issues.autojs6.com/495)_
+* `修復` 恢復 OkHttp 相容性可變設定項 _[`issue #536`](http://issues.autojs6.com/536)_
+* `修復` 避免完整記錄遠端位元組載荷導致日誌膨脹 _[`issue #523`](http://issues.autojs6.com/523)_
+* `修復` disposable 逾時等待被觸發時可正確返回 _[`issue #503`](http://issues.autojs6.com/503)_
+* `修復` 手勢座標使用 Y 軸螢幕比例進行映射 _[`issue #541`](http://issues.autojs6.com/541)_
+* `修復` 日誌底部面板相關構建錯誤 _[`issue #543`](http://issues.autojs6.com/543)_
+* `修復` ConcatReader.close 在關閉失敗時仍會繼續關閉其餘 reader
+* `最佳化` 更新 Gradle Settings 中的 AGP 版本相容映射資料
+* `最佳化` 更新 Temurin 版本註解與日期資訊
+
 # v6.7.0
 
 ###### 2026/03/14

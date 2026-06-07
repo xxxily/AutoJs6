@@ -4,6 +4,28 @@
 
 ******
 
+# v6.7.1
+
+###### 2026/06/07
+
+* `新機能` コードエディタに下部ログパネルを追加, エディタ内で実行出力の表示とログのクリアに対応
+* `修正` タッチイベントオブザーバーの座標をスクリーン座標空間へマッピング _[`issue #59`](http://issues.autojs6.com/59)_
+* `修正` タスクスケジュール前に WorkManager を初期化し, スケジュール異常を回避 _[`issue #501`](http://issues.autojs6.com/501)_
+* `修正` スクリプトを開く際に元のソース URI を保持し, 以降の保存とパス認識を改善 _[`issue #545`](http://issues.autojs6.com/545)_
+* `修正` パッケージアプリのショートカットがログ表示設定に従うよう修正 _[`issue #550`](http://issues.autojs6.com/550)_
+* `修正` グローバルコンソールのルートログレベルが出力に正しく適用されるよう修正 _[`issue #540`](http://issues.autojs6.com/540)_
+* `修正` dialogs.multiChoice が配列型の結果を返すよう修正 _[`issue #518`](http://issues.autojs6.com/518)_ _[`issue #322`](http://issues.autojs6.com/322)_
+* `修正` files.ensureDir がディレクトリを正しく作成するよう修正 _[`issue #539`](http://issues.autojs6.com/539)_
+* `修正` app モジュール API がインストール済みパッケージ名を正しく認識するよう修正 _[`issue #495`](http://issues.autojs6.com/495)_
+* `修正` OkHttp 互換性の可変 setter を復元 _[`issue #536`](http://issues.autojs6.com/536)_
+* `修正` リモートバイトペイロード全体のログ出力を回避 _[`issue #523`](http://issues.autojs6.com/523)_
+* `修正` disposable のタイムアウト待機が通知された際に正しく戻るよう修正 _[`issue #503`](http://issues.autojs6.com/503)_
+* `修正` ジェスチャー座標のマッピングに Y 軸スクリーンスケールを使用 _[`issue #541`](http://issues.autojs6.com/541)_
+* `修正` ログ下部パネル関連のビルドエラー _[`issue #543`](http://issues.autojs6.com/543)_
+* `修正` ConcatReader.close が一部の close 失敗後も残りの reader を閉じ続けるよう修正
+* `改善` Gradle Settings の AGP バージョン互換マッピングデータを更新
+* `改善` Temurin バージョンコメントと日付情報を更新
+
 # v6.7.0
 
 ###### 2026/03/14

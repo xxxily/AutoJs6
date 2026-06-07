@@ -4,6 +4,28 @@
 
 ******
 
+# v6.7.1
+
+###### 2026/06/07
+
+* `Feature` Code editor now includes a bottom log panel, supporting viewing run output and clearing logs inside the editor
+* `Fix` Touch event observer coordinates are now mapped to screen coordinate space _[`issue #59`](http://issues.autojs6.com/59)_
+* `Fix` Initialize WorkManager before scheduled task dispatch to avoid scheduling failures _[`issue #501`](http://issues.autojs6.com/501)_
+* `Fix` Preserve the original source URI when opening scripts to improve later save and path recognition behavior _[`issue #545`](http://issues.autojs6.com/545)_
+* `Fix` Packaged app shortcuts now honor the log visibility setting _[`issue #550`](http://issues.autojs6.com/550)_
+* `Fix` Global console root log level is correctly applied to output _[`issue #540`](http://issues.autojs6.com/540)_
+* `Fix` dialogs.multiChoice now returns array results _[`issue #518`](http://issues.autojs6.com/518)_ _[`issue #322`](http://issues.autojs6.com/322)_
+* `Fix` files.ensureDir now creates directories correctly _[`issue #539`](http://issues.autojs6.com/539)_
+* `Fix` App module APIs now recognize installed package names correctly _[`issue #495`](http://issues.autojs6.com/495)_
+* `Fix` Restore mutable OkHttp compatibility setters _[`issue #536`](http://issues.autojs6.com/536)_
+* `Fix` Avoid logging full remote byte payloads _[`issue #523`](http://issues.autojs6.com/523)_
+* `Fix` disposable timeout waits now return correctly when signaled _[`issue #503`](http://issues.autojs6.com/503)_
+* `Fix` Gesture coordinates now use Y-axis screen scaling for mapping _[`issue #541`](http://issues.autojs6.com/541)_
+* `Fix` Build issue related to the log bottom sheet _[`issue #543`](http://issues.autojs6.com/543)_
+* `Fix` ConcatReader.close now continues closing remaining readers when one close operation fails
+* `Improvement` Updated AGP version compatibility mapping data in Gradle Settings
+* `Improvement` Updated Temurin version comment and date information
+
 # v6.7.0
 
 ###### 2026/03/14
