@@ -128,7 +128,7 @@ public class Events extends EventEmitter implements OnKeyListener, TouchObserver
             return;
         ensureHandler();
         mLoopers.waitWhenIdle(true);
-        mTouchObserver = new TouchObserver(InputEventObserver.getGlobal(mContext));
+        mTouchObserver = new TouchObserver(InputEventObserver.getGlobal(mContext), mContext);
         mTouchObserver.setOnTouchEventListener(this);
         mTouchObserver.observe();
     }
@@ -205,8 +205,18 @@ public class Events extends EventEmitter implements OnKeyListener, TouchObserver
         return this;
     }
 
+    public Events onRawTouch(Object listener) {
+        on("raw_touch", listener);
+        return this;
+    }
+
     public Events removeAllTouchListeners() {
         removeAllListeners("touch");
+        return this;
+    }
+
+    public Events removeAllRawTouchListeners() {
+        removeAllListeners("raw_touch");
         return this;
     }
 
@@ -324,11 +334,19 @@ public class Events extends EventEmitter implements OnKeyListener, TouchObserver
 
     @Override
     public void onTouch(final int x, final int y) {
+        onTouch(x, y, x, y);
+    }
+
+    @Override
+    public void onTouch(final int x, final int y, final int rawX, final int rawY) {
         if (System.currentTimeMillis() - mLastTouchEventMillis < mTouchEventTimeout) {
             return;
         }
         mLastTouchEventMillis = System.currentTimeMillis();
-        mHandler.post(() -> emit("touch", new Point(x, y)));
+        mHandler.post(() -> {
+            emit("touch", new Point(x, y));
+            emit("raw_touch", new Point(rawX, rawY));
+        });
     }
 
     public void onNotification(final Notification notification) {

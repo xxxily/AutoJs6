@@ -106,11 +106,15 @@ class TouchCoordinateMapper(private val context: Context) {
         private val AXIS_X_PATTERNS = arrayOf(
             Regex("""(?im)^\s*ABS_MT_POSITION_X\s*:\s*.*?\bmin\s+(-?\d+),\s*max\s+(-?\d+)"""),
             Regex("""(?im)^\s*0035\s*:\s*.*?\bmin\s+(-?\d+),\s*max\s+(-?\d+)"""),
+            Regex("""(?im)^\s*ABS_X\s*:\s*.*?\bmin\s+(-?\d+),\s*max\s+(-?\d+)"""),
+            Regex("""(?im)^\s*0000\s*:\s*.*?\bmin\s+(-?\d+),\s*max\s+(-?\d+)"""),
         )
 
         private val AXIS_Y_PATTERNS = arrayOf(
             Regex("""(?im)^\s*ABS_MT_POSITION_Y\s*:\s*.*?\bmin\s+(-?\d+),\s*max\s+(-?\d+)"""),
             Regex("""(?im)^\s*0036\s*:\s*.*?\bmin\s+(-?\d+),\s*max\s+(-?\d+)"""),
+            Regex("""(?im)^\s*ABS_Y\s*:\s*.*?\bmin\s+(-?\d+),\s*max\s+(-?\d+)"""),
+            Regex("""(?im)^\s*0001\s*:\s*.*?\bmin\s+(-?\d+),\s*max\s+(-?\d+)"""),
         )
     }
 }
