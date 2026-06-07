@@ -170,12 +170,12 @@ abstract public class JsonSocket extends Socket {
     }
 
     public void onMessage(ByteString bytes) {
-        Log.d(TAG, "onMessage: ByteArray = " + Arrays.toString(bytes.toByteArray()));
-        Log.d(TAG, "bytes md5 hex: " + bytes.md5().hex());
+        String md5 = bytes.md5().hex();
+        Log.d(TAG, "onMessage: bytes length = " + bytes.size() + ", md5 = " + md5);
 
         /* private void onSocketData(Bytes bytes) */
         if (mBytesPublishSubject != null) {
-            mBytesPublishSubject.onNext(new Bytes(bytes.md5().hex(), bytes));
+            mBytesPublishSubject.onNext(new Bytes(md5, bytes));
         }
     }
 
