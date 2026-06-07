@@ -654,13 +654,18 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
         @JvmStatic
         @RhinoRuntimeFunctionInterface
         fun getPackageName(scriptRuntime: ScriptRuntime, args: Array<out Any?>): String? = ensureArgumentsOnlyOne(args) { o ->
-            when {
-                o.isJsNullish() -> null
-                o is PresetApp -> o.packageName
-                else -> getAppByAliasRhino(o)
-                    ?.packageName
-                    ?: scriptRuntime.app.getPackageName(Context.toString(o))
-            }
+            resolvePackageName(scriptRuntime, o)
+        }
+
+        private fun resolvePackageName(scriptRuntime: ScriptRuntime, o: Any?): String? = when {
+            o.isJsNullish() -> null
+            o is PresetApp -> o.packageName
+            else -> getAppByAliasRhino(o)
+                ?.packageName
+                ?: Context.toString(o).let { nameOrPackage ->
+                    nameOrPackage.takeIf { scriptRuntime.app.isInstalled(it) }
+                        ?: scriptRuntime.app.getPackageName(nameOrPackage)
+                }
         }
 
         @JvmStatic
