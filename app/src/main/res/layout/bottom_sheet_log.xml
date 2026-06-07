@@ -77,8 +77,8 @@
             android:id="@+id/console"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:color_debug="@color/console_debug"
-            app:color_verbose="@color/console_verbose"/>
+            app:color_debug="@color/legacy_console_debug"
+            app:color_verbose="@color/legacy_console_verbose"/>
 
     </FrameLayout>
 
