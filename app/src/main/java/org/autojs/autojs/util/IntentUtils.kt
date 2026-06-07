@@ -18,7 +18,6 @@ import androidx.core.net.toUri
 import androidx.work.Constraints
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.afollestad.materialdialogs.MaterialDialog
@@ -414,7 +413,7 @@ object IntentUtils {
                 .setInitialDelay(delay, TimeUnit.MILLISECONDS)
                 .setConstraints(Constraints.NONE)
                 .build()
-            WorkManager.getInstance(context).enqueueUniqueWork(
+            WorkManagerUtils.getInstance(context).enqueueUniqueWork(
                 uniqueWorkName = "work-task-restart-autojs6",
                 existingWorkPolicy = ExistingWorkPolicy.REPLACE,
                 request = request,

@@ -5,7 +5,7 @@ import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import org.autojs.autojs.util.WorkManagerUtils
 import java.util.concurrent.TimeUnit
 
 object PluginIndexSyncScheduler {
@@ -23,7 +23,7 @@ object PluginIndexSyncScheduler {
         ).setConstraints(constraints)
             .build()
 
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+        WorkManagerUtils.getInstance(context).enqueueUniquePeriodicWork(
             UNIQUE_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
             request,
@@ -31,7 +31,7 @@ object PluginIndexSyncScheduler {
     }
 
     fun cancelPeriodicSync(context: Context) {
-        WorkManager.getInstance(context)
+        WorkManagerUtils.getInstance(context)
             .cancelUniqueWork(UNIQUE_WORK_NAME)
     }
 

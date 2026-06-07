@@ -7,9 +7,9 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import org.autojs.autojs.external.ScriptIntents
+import org.autojs.autojs.util.WorkManagerUtils
 import java.util.concurrent.TimeUnit
 
 object WorkTimedTaskScheduler : TimedTaskBackend {
@@ -17,7 +17,7 @@ object WorkTimedTaskScheduler : TimedTaskBackend {
     private const val UNIQUE_CHECK_NAME = "work-timed-task-periodic-check"
 
     override fun cancel(context: Context, task: TimedTask) {
-        WorkManager.getInstance(context).cancelAllWorkByTag(task.id.toString())
+        WorkManagerUtils.getInstance(context).cancelAllWorkByTag(task.id.toString())
     }
 
     override fun schedule(context: Context, task: TimedTask, triggerAtMillis: Long) {
@@ -27,7 +27,7 @@ object WorkTimedTaskScheduler : TimedTaskBackend {
             .addTag(task.id.toString())
             .setConstraints(Constraints.NONE)
             .build()
-        WorkManager.getInstance(context).enqueueUniqueWork(
+        WorkManagerUtils.getInstance(context).enqueueUniqueWork(
             "work-timed-task-id-${task.id}",
             ExistingWorkPolicy.REPLACE,
             request,
@@ -37,7 +37,7 @@ object WorkTimedTaskScheduler : TimedTaskBackend {
     override fun schedulePeriodicCheck(context: Context, intervalMillis: Long) {
         val request = PeriodicWorkRequestBuilder<CheckTasksWorker>(intervalMillis, TimeUnit.MILLISECONDS)
             .build()
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+        WorkManagerUtils.getInstance(context).enqueueUniquePeriodicWork(
             UNIQUE_CHECK_NAME,
             ExistingPeriodicWorkPolicy.UPDATE,
             request,

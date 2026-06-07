@@ -36,6 +36,7 @@ import org.autojs.autojs.tool.CrashHandler
 import org.autojs.autojs.ui.error.CrashReportActivity
 import org.autojs.autojs.ui.floating.FloatyWindowManger
 import org.autojs.autojs.util.ViewUtils
+import org.autojs.autojs.util.WorkManagerUtils
 import org.autojs.autojs6.R
 import org.greenrobot.eventbus.EventBus
 import java.lang.ref.WeakReference
@@ -63,6 +64,9 @@ class App : MultiDexApplication() {
                 ThemeColorManager.init()
                 setUpDefaultNightMode()
             }
+            ":background".matchesProcessNameSuffix() -> {
+                setUpDebugEnvironment()
+            }
             else /* Main process. */ -> {
                 if (AbstractAutoJs.isInrt) {
                     InrtPref.syncLaunchConfigWithBuild()
@@ -71,6 +75,7 @@ class App : MultiDexApplication() {
                 setUpDebugEnvironment()
                 setUpLeakCanary()
 
+                WorkManagerUtils.ensureInitialized(this)
                 AutoJs.initInstance(this)
                 GlobalKeyObserver.initIfNeeded(applicationContext)
                 setupDrawableImageLoader()

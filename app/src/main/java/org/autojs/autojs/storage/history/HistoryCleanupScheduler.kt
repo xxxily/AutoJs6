@@ -7,7 +7,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import org.autojs.autojs.util.WorkManagerUtils
 import java.util.concurrent.TimeUnit
 
 /**
@@ -33,7 +33,7 @@ object HistoryCleanupScheduler {
                 .setInitialDelay(10L, TimeUnit.SECONDS)
                 .build()
 
-            WorkManager.getInstance(appContext)
+            WorkManagerUtils.getInstance(appContext)
                 .enqueueUniqueWork(
                     "startup-trash-partial-cleanup",
                     ExistingWorkPolicy.KEEP,
@@ -59,7 +59,7 @@ object HistoryCleanupScheduler {
             .setConstraints(constraints)
             .build()
 
-        WorkManager.getInstance(appContext).enqueueUniquePeriodicWork(
+        WorkManagerUtils.getInstance(appContext).enqueueUniquePeriodicWork(
             UNIQUE_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
             request,
