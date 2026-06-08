@@ -770,8 +770,10 @@ object AiAssistantDialogs {
           "main": "$mainScript",
           "assets": [],
           "launchConfig": {
-            "displaySplash": true,
-            "displayLauncher": true
+            "logsVisible": true,
+            "splashVisible": true,
+            "launcherVisible": true,
+            "runOnBoot": false
           }
         }
     """.trimIndent()

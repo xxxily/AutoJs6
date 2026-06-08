@@ -13,6 +13,7 @@ data class AiGenerationResult(
     val usedApis: List<AiUsedApi> = emptyList(),
     val requirements: List<String> = emptyList(),
     val risks: List<String> = emptyList(),
+    val warnings: List<String> = emptyList(),
     val verificationSteps: List<String> = emptyList(),
     val notes: String = "",
 )
@@ -106,7 +107,7 @@ data class AiValidatedResult(
         get() = issues.isNotEmpty() || codeValidation.unknownApis.isNotEmpty() || codeValidation.risks.isNotEmpty()
 
     val requiresSecondConfirmation: Boolean
-        get() = issues.isNotEmpty() || codeValidation.hasBlockingWarnings
+        get() = issues.isNotEmpty() || codeValidation.unknownApis.isNotEmpty() || codeValidation.risks.isNotEmpty()
 }
 
 class AiResultException(message: String, cause: Throwable? = null) : Exception(message, cause)

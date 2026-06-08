@@ -1762,6 +1762,9 @@
     <string name="error_ai_no_provider">No available AI provider</string>
     <string name="error_ai_missing_api_key">The selected provider has no API key</string>
     <string name="error_ai_provider_required_fields">Base URL and model are required</string>
+    <string name="error_ai_invalid_base_url">Base URL must start with http:// or https://</string>
+    <string name="error_ai_invalid_timeout">Timeout must be between 5000 and 300000 milliseconds</string>
+    <string name="error_ai_invalid_structured_output_mode">Structured output mode must be JSON_SCHEMA, JSON_OBJECT, or PROMPT_JSON</string>
     <string name="text_ai_context_summary">AI context summary</string>
     <string name="text_ai_context_summary_provider_placeholder">The following context will be sent to the selected provider.</string>
     <string name="text_ai_send">Send</string>

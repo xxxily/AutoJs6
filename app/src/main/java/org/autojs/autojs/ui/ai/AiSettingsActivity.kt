@@ -193,11 +193,11 @@ class AiSettingsActivity : BaseActivity() {
             .positiveColorRes(R.color.dialog_button_attraction)
             .autoDismiss(false)
             .onPositive { dialog, _ ->
-                val edited = form.toConfig(provider.id, provider.apiKeyRef, provider.createdAt)
-                if (edited.baseUrl.isBlank() || edited.model.isBlank()) {
-                    showToast(R.string.error_ai_provider_required_fields)
+                form.validationError()?.let { errorRes ->
+                    showToast(errorRes)
                     return@onPositive
                 }
+                val edited = form.toConfig(provider.id, provider.apiKeyRef, provider.createdAt)
                 repository.upsertProvider(edited, form.apiKey())
                 saveSettings()
                 refreshProviderSummary()
@@ -308,6 +308,23 @@ class AiSettingsActivity : BaseActivity() {
         private val compatibility = root.checkInput(context, R.string.text_ai_compatibility_max_tokens, provider.useCompatibilityFallback)
 
         fun apiKey(): String = key.text?.toString()?.trim().orEmpty()
+
+        fun validationError(): Int? {
+            if (baseUrl.value().isBlank() || model.value().isBlank()) {
+                return R.string.error_ai_provider_required_fields
+            }
+            if (runCatching { OpenAiCompatibleClient.buildChatCompletionsUrl(baseUrl.value()) }.isFailure) {
+                return R.string.error_ai_invalid_base_url
+            }
+            val timeoutMillis = timeout.value().toLongOrNull()
+            if (timeoutMillis == null || timeoutMillis !in 5_000L..300_000L) {
+                return R.string.error_ai_invalid_timeout
+            }
+            if (StructuredOutputMode.values().none { it.name.equals(mode.value(), true) }) {
+                return R.string.error_ai_invalid_structured_output_mode
+            }
+            return null
+        }
 
         fun toConfig(id: String, apiKeyRef: String, createdAt: Long): AiProviderConfig {
             val customHeaders = headers.text?.toString().orEmpty()

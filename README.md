@@ -585,6 +585,10 @@ autojs6-v6.6.2-arm64-v8a-0f2a9d74.apk
 
 - [AutoJs6-VSCode-Extension](http://vscext-project.autojs6.com) - AutoJs6 调试器 (VSCode 平台插件)
 
+如需在应用内通过 AI 辅助编写、修改或解释脚本, 可在设置页配置 OpenAI 兼容服务商后, 从代码编辑器菜单或文件管理器浮动按钮进入 AI 脚本助手:
+
+- [AI 脚本助手 MVP 验收矩阵](docs/需求/AI脚本助手MVP验收矩阵.md) - 入口、供应商配置、上下文发送、预览应用与高风险二次确认说明
+
 使用开发工具编写代码时, 代码智能补全功能可以更好地辅助开发者完成代码编写:
 
 - [AutoJs6-TypeScript-Declarations](http://dts-project.autojs6.com) - AutoJs6 声明文件 (代码智能补全)

@@ -1,10 +1,10 @@
 # AutoJs6 后续 Agent 执行任务清单: 优先级、验收标准与交接规范
 
 > 生成时间: 2026-06-08 23:44:20 CST +0800
-> 最近更新: 2026-06-09 00:25:53 CST +0800
+> 最近更新: 2026-06-09 00:43:06 CST +0800
 > 项目路径: `/Users/blaze/work/github/AutoJs6`
 > 当前分支: `master`
-> 当前提交: `007796df4`
+> 当前提交: `004f60559` (阶段 2 执行起点)
 > 文档用途: 后续让 AI agent 按任务清单执行、打勾、备注、验收、交接
 > 适用对象: 不熟悉 Android 的项目负责人、执行代码任务的 AI agent、接手任务的后续 agent
 
@@ -112,17 +112,17 @@
 | T03 | P0 | [x] 已完成 | 基线编译验证与阻塞清单 | T01, T02 |
 | T04 | P0 | [x] 已完成 | 明确当前阶段目标与不做事项 | T02, T03 |
 | T05 | P0 | [x] 已完成 | 文档与示例同步闭环机制确认 | T04 |
-| T10 | P1 | [ ] 未开始 | AI 脚本助手需求冻结与验收矩阵 | T04, T05 |
-| T11 | P1 | [ ] 未开始 | AI 供应商配置与设置页验收 | T10 |
-| T12 | P1 | [ ] 未开始 | API Key 安全存储验收 | T11 |
-| T13 | P1 | [ ] 未开始 | OpenAI 兼容 Client 验收 | T11 |
-| T14 | P1 | [ ] 未开始 | AutoJs6 能力索引与文档检索验收 | T10 |
-| T15 | P1 | [ ] 未开始 | Prompt、结构化输出、结果校验验收 | T13, T14 |
-| T16 | P1 | [ ] 未开始 | 编辑器 AI 入口与只读模式验收 | T15 |
-| T17 | P1 | [ ] 未开始 | 文件管理器 AI 新建脚本/项目验收 | T15 |
-| T18 | P1 | [ ] 未开始 | 运行错误与日志闭环修复验收 | T16 |
-| T19 | P1 | [ ] 未开始 | 高风险 API 二次确认与安全边界验收 | T15, T16, T17 |
-| T20 | P1 | [ ] 未开始 | AI 助手 MVP 总体验收 | T11-T19 |
+| T10 | P1 | [x] 已完成 | AI 脚本助手需求冻结与验收矩阵 | T04, T05 |
+| T11 | P1 | [x] 已完成 | AI 供应商配置与设置页验收 | T10 |
+| T12 | P1 | [x] 已完成 | API Key 安全存储验收 | T11 |
+| T13 | P1 | [x] 已完成 | OpenAI 兼容 Client 验收 | T11 |
+| T14 | P1 | [x] 已完成 | AutoJs6 能力索引与文档检索验收 | T10 |
+| T15 | P1 | [x] 已完成 | Prompt、结构化输出、结果校验验收 | T13, T14 |
+| T16 | P1 | [x] 已完成 | 编辑器 AI 入口与只读模式验收 | T15 |
+| T17 | P1 | [x] 已完成 | 文件管理器 AI 新建脚本/项目验收 | T15 |
+| T18 | P1 | [x] 已完成 | 运行错误与日志闭环修复验收 | T16 |
+| T19 | P1 | [x] 已完成 | 高风险 API 二次确认与安全边界验收 | T15, T16, T17 |
+| T20 | P1 | [x] 已完成 | AI 助手 MVP 总体验收 | T11-T19 |
 | T30 | P2 | [ ] 未开始 | 核心架构索引文档与 agent 快速入口 | T03, T05 |
 | T31 | P2 | [ ] 未开始 | 编辑器保存/运行/日志回归清单 | T03 |
 | T32 | P2 | [ ] 未开始 | 脚本 Runtime API 回归样例集 | T30 |
@@ -509,7 +509,7 @@ rtk run "find /Users/blaze/work/github/AutoJs6-Documentation -maxdepth 2 -type f
 
 ### T10 [P1] AI 脚本助手需求冻结与验收矩阵
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -524,19 +524,31 @@ rtk run "find /Users/blaze/work/github/AutoJs6-Documentation -maxdepth 2 -type f
 
 验收标准:
 
-- [ ] 列出一期必须有的用户入口: 设置页、编辑器、文件管理器。
-- [ ] 列出一期必须有的任务类型: 生成脚本、修改选区/全文、解释代码、修复错误、AI 新建脚本、AI 新建项目。
-- [ ] 明确不做: 多模态、自动运行、自动控制手机、非 OpenAI 兼容协议。
-- [ ] 明确安全边界: API Key、上下文发送范围、高风险 API 二次确认。
-- [ ] 形成“功能点 -> 文件 -> 验收方式”的矩阵。
+- [x] 列出一期必须有的用户入口: 设置页、编辑器、文件管理器。
+- [x] 列出一期必须有的任务类型: 生成脚本、修改选区/全文、解释代码、修复错误、AI 新建脚本、AI 新建项目。
+- [x] 明确不做: 多模态、自动运行、自动控制手机、非 OpenAI 兼容协议。
+- [x] 明确安全边界: API Key、上下文发送范围、高风险 API 二次确认。
+- [x] 形成“功能点 -> 文件 -> 验收方式”的矩阵。
 
 必须产出:
 
 - AI 助手验收矩阵。
 
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; 阶段 1 提交 `004f60559`; 阶段 2 起始存在 AI 助手源码/资源/文档未提交改动。
+- 实际改动文件: `docs/需求/AI脚本助手MVP验收矩阵.md`; `README.md`; `app/src/main/assets-app/sample/AI脚本助手/AI生成脚本安全预览示例.js`; `/Users/blaze/work/github/AutoJs6-Documentation/api/aiScriptAssistant.md` 及外部文档索引文件。
+- 执行命令: `rtk proxy sed -n '1,240p' docs/需求/AI脚本助手一期需求文档.md`; `rtk proxy rg -n "AI|Ai|assistant|OpenAI|chat/completions|AiSettings|AiConfig|OpenAiCompatible|AiCapability" app/src/main/java app/src/main/res app/src/main/assets-app --glob '!**/build/**'`; `rtk proxy git diff --check`; `rtk proxy git -C /Users/blaze/work/github/AutoJs6-Documentation diff --check`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: `docs/需求/AI脚本助手MVP验收矩阵.md` 已形成一期边界、功能点、文件路径、验收方式和验证限制; `git diff --check` 通过; `:app:compileAppDebugKotlin` 通过。
+- 文档/示例同步结果: 当前项目新增 MVP 验收矩阵, README 新增 AI 脚本助手入口说明, 内置示例新增安全预览示例, 外部文档新增 `api/aiScriptAssistant.md` 并更新 sidebar/toc/all/progress/changelog。
+- 未完成事项: 无真实供应商 API Key 和设备 UI 会话, 因此真实联网请求和真机点击流需后续补充复测。
+- 风险/回归点: MVP 矩阵为静态验收基线; 后续改 AI 入口、上下文发送或结果应用时必须同步回填本矩阵。
+- 下一位 agent 接手备注: 若后续扩展多模态、非 OpenAI 协议或自动运行能力, 必须新增任务, 不要直接扩大 T10-T20 一期边界。
+
 ### T11 [P1] AI 供应商配置与设置页验收
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -554,15 +566,15 @@ rtk run "find /Users/blaze/work/github/AutoJs6-Documentation -maxdepth 2 -type f
 
 验收标准:
 
-- [ ] 设置页能进入 AI 脚本助手配置页。
-- [ ] 可新增供应商配置。
-- [ ] 可编辑供应商名称、Base URL、模型名、超时、stream、结构化输出模式等。
-- [ ] 可启用/停用供应商。
-- [ ] 可设为默认供应商。
-- [ ] 可复制/删除供应商。
-- [ ] 输入校验能阻止空模型、空 Base URL、非法 timeout。
-- [ ] 中英文字符串无缺失。
-- [ ] 配置持久化后重启应用仍可读取。
+- [x] 设置页能进入 AI 脚本助手配置页。
+- [x] 可新增供应商配置。
+- [x] 可编辑供应商名称、Base URL、模型名、超时、stream、结构化输出模式等。
+- [x] 可启用/停用供应商。
+- [x] 可设为默认供应商。
+- [x] 可复制/删除供应商。
+- [x] 输入校验能阻止空模型、空 Base URL、非法 timeout。
+- [x] 中英文字符串无缺失。
+- [x] 配置持久化后重启应用仍可读取。
 
 验证建议:
 
@@ -574,9 +586,21 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 - 如果没有设备/模拟器验证 UI, 必须说明只完成了静态代码验收, 仍需真机验证。
 
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; 阶段 2 未提交改动集中在 AI 助手源码、资源、README、示例和外部文档。
+- 实际改动文件: `app/src/main/java/org/autojs/autojs/ui/ai/AiSettingsActivity.kt`; `app/src/main/res/values/strings.xml`; `app/src/main/res/values-zh/strings.xml`; `docs/需求/AI脚本助手MVP验收矩阵.md`; 外部文档 `api/aiScriptAssistant.md`。
+- 执行命令: `rtk proxy rg -n "key_ai_script_assistant|AiSettingsActivity|duplicateProvider|validationError|StructuredOutputMode|saveProviders|getProviders" app/src/main/java app/src/main/res`; `rtk proxy rg -n "error_ai_invalid_base_url|error_ai_invalid_timeout|error_ai_invalid_structured_output_mode" app/src/main/res/values app/src/main/res/values-zh`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: 设置入口、Provider 列表、新增/编辑/启停/默认/复制/删除、持久化读写路径静态确认; `ProviderForm.validationError()` 阻止空 Base URL/模型、非法 URL、非法 timeout、非法结构化模式; 中英文字符串已同步; 编译通过。未启动设备或模拟器, UI 点击流仍需真机复测。
+- 文档/示例同步结果: MVP 矩阵和外部 AI 脚本助手文档已记录供应商配置字段、校验和入口; README 指向矩阵; 内置示例不涉及 Provider 配置细节。
+- 未完成事项: 无设备重启场景, “重启应用仍可读取”基于 `SharedPreferences` 读写路径静态验证。
+- 风险/回归点: 后续增加 Provider 字段时需同步 `ProviderForm`、中英文字符串、MVP 矩阵和外部文档。
+- 下一位 agent 接手备注: 真机复测从设置页 `配置 -> AI 脚本助手` 进入, 覆盖新增、编辑、保存、重启后读取、默认切换和删除。
+
 ### T12 [P1] API Key 安全存储验收
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -591,13 +615,13 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] API Key 使用 AndroidKeyStore 或等价安全方案加密保存。
-- [ ] SharedPreferences 中不出现明文 API Key。
-- [ ] UI 展示只显示掩码或尾号。
-- [ ] 测试连接失败时不把 API Key 打进错误消息。
-- [ ] 删除供应商时同步删除对应密钥。
-- [ ] 复制/导出供应商配置时默认不包含 API Key。
-- [ ] 代码中没有 `Log.d/e` 打印完整 key。
+- [x] API Key 使用 AndroidKeyStore 或等价安全方案加密保存。
+- [x] SharedPreferences 中不出现明文 API Key。
+- [x] UI 展示只显示掩码或尾号。
+- [x] 测试连接失败时不把 API Key 打进错误消息。
+- [x] 删除供应商时同步删除对应密钥。
+- [x] 复制/导出供应商配置时默认不包含 API Key。
+- [x] 代码中没有 `Log.d/e` 打印完整 key。
 
 验证建议:
 
@@ -611,9 +635,21 @@ rtk rg -n "apiKey|Authorization|Bearer|Log\\.|printStackTrace" app/src/main/java
 - 列出密钥删除路径。
 - 列出日志脱敏点。
 
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; 阶段 2 未提交改动包含 `AiConfigRepository.kt` 的复制行为修正。
+- 实际改动文件: `app/src/main/java/org/autojs/autojs/ai/config/AiConfigRepository.kt`; `docs/需求/AI脚本助手MVP验收矩阵.md`; `/Users/blaze/work/github/AutoJs6-Documentation/api/aiScriptAssistant.md`。
+- 执行命令: `rtk proxy rg -n "apiKey|Authorization|Bearer|Log\\.|printStackTrace|sk-" app/src/main/java/org/autojs/autojs/ai app/src/main/java/org/autojs/autojs/ui/ai`; `rtk proxy sed -n '1,260p' app/src/main/java/org/autojs/autojs/ai/config/AiKeyStore.kt`; `rtk proxy sed -n '1,220p' app/src/main/java/org/autojs/autojs/ai/config/AiConfigRepository.kt`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: `AiKeyStore` 使用 `AndroidKeyStore` + `AES/GCM/NoPadding`, SharedPreferences `ai_api_keys` 写入密文; Provider 配置只保存 `apiKeyRef`; UI 使用 `maskSecret()` 做提示; `OpenAiCompatibleClient.sanitizeErrorMessage()` 脱敏 `Bearer ...` 和 `sk-...`; `deleteProvider()` 删除密钥; `duplicateProvider()` 已改为不复制 API Key; 未发现 AI 目录中 `Log.d/e` 打印完整 key。
+- 文档/示例同步结果: MVP 矩阵和外部文档均记录 API Key 加密保存、掩码展示、错误脱敏、删除密钥和复制不带 Key; README 指向矩阵; 内置示例不涉及 Key。
+- 未完成事项: 未在真机 SharedPreferences 文件中实测密文, 需有设备或调试安装后补充验证。
+- 风险/回归点: 自定义 Header 仍由用户输入并进入请求, 后续如支持导入/导出 Provider, 必须显式排除密钥与敏感 Header。
+- 下一位 agent 接手备注: 真机验收可创建 Provider 后检查 app 私有 SharedPreferences, 确认 `ai_api_keys` 值为 `iv:ciphertext` 且 Provider JSON 无明文 Key。
+
 ### T13 [P1] OpenAI 兼容 Client 验收
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -627,15 +663,15 @@ rtk rg -n "apiKey|Authorization|Bearer|Log\\.|printStackTrace" app/src/main/java
 
 验收标准:
 
-- [ ] URL 拼接正确: 支持 baseUrl 为 `https://api.openai.com/v1` 或带尾斜杠。
-- [ ] Header 正确: `Authorization: Bearer ...`, 可选 organization/project/custom headers。
-- [ ] 支持非流式响应解析。
-- [ ] 支持流式 SSE 解析或明确禁用并提示。
-- [ ] 支持 `json_schema` / `json_object` / prompt-only 三种结构化输出策略。
-- [ ] 支持兼容供应商的 `max_tokens` fallback。
-- [ ] HTTP 401/403/429/5xx/timeout/cancel 能分类。
-- [ ] 错误提示不泄露 API Key。
-- [ ] `testConnection` 有最小请求并能解释失败原因。
+- [x] URL 拼接正确: 支持 baseUrl 为 `https://api.openai.com/v1` 或带尾斜杠。
+- [x] Header 正确: `Authorization: Bearer ...`, 可选 organization/project/custom headers。
+- [x] 支持非流式响应解析。
+- [x] 支持流式 SSE 解析或明确禁用并提示。
+- [x] 支持 `json_schema` / `json_object` / prompt-only 三种结构化输出策略。
+- [x] 支持兼容供应商的 `max_tokens` fallback。
+- [x] HTTP 401/403/429/5xx/timeout/cancel 能分类。
+- [x] 错误提示不泄露 API Key。
+- [x] `testConnection` 有最小请求并能解释失败原因。
 
 验证建议:
 
@@ -648,9 +684,21 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 - 如果要做真实联网测试, 需要用户提供可用供应商和 API Key；不能把 key 写入文档或日志。
 
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; OpenAI client 本轮未做协议级重写, 以静态验收和编译为主。
+- 实际改动文件: `docs/需求/AI脚本助手MVP验收矩阵.md`; `/Users/blaze/work/github/AutoJs6-Documentation/api/aiScriptAssistant.md`。
+- 执行命令: `rtk proxy rg -n "chat/completions|response_format|max_completion_tokens|max_tokens|stream|Authorization|testConnection|classify" app/src/main/java/org/autojs/autojs/ai/client app/src/main/java/org/autojs/autojs/ai/config app/src/main/java/org/autojs/autojs/ui/ai`; `rtk proxy sed -n '1,280p' app/src/main/java/org/autojs/autojs/ai/client/OpenAiCompatibleClient.kt`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: `buildChatCompletionsUrl()` 校验 `http://`/`https://` 并拼接 `/chat/completions`; Header 包含 Bearer、Organization、Project 和自定义 Header; 非流式 JSON 与 SSE `data:` 响应均有解析; 结构化输出覆盖 `JSON_SCHEMA`、`JSON_OBJECT`、`PROMPT_JSON`; token 字段支持 `max_completion_tokens`/`max_tokens`; HTTP 与网络异常分类覆盖 401/403/404/429/5xx/timeout/cancel; 错误脱敏; `testConnection()` 使用最小 JSON 请求。编译通过。
+- 文档/示例同步结果: MVP 矩阵和外部文档记录 OpenAI `chat/completions` 兼容协议、Base URL 拼接、结构化输出模式、流式设置和 Key 脱敏; 内置示例不涉及真实联网。
+- 未完成事项: 未做真实联网测试, 因缺少可用供应商和 API Key。
+- 风险/回归点: 不同兼容供应商对 `json_schema`、SSE 和 token 字段支持差异较大, 后续真测失败时优先切换 `PROMPT_JSON` 或 `max_tokens` 兼容字段。
+- 下一位 agent 接手备注: 真实测试时只在应用设置页输入 Key, 不要把 Key 写入任务记录、日志或文档。
+
 ### T14 [P1] AutoJs6 能力索引与文档检索验收
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -665,13 +713,13 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] 索引来源至少包含 `app/src/main/assets-app/docs/*.html`。
-- [ ] 能按用户需求检索相关模块文档。
-- [ ] 检索结果包含 API 名称、文档片段、来源路径。
-- [ ] 对 docs 中不存在、源码中也未暴露的 API, 默认标记为不可用。
-- [ ] 索引构建不阻塞 UI 主线程。
-- [ ] 大文档有裁剪策略。
-- [ ] 检索结果能进入 Prompt。
+- [x] 索引来源至少包含 `app/src/main/assets-app/docs/*.html`。
+- [x] 能按用户需求检索相关模块文档。
+- [x] 检索结果包含 API 名称、文档片段、来源路径。
+- [x] 对 docs 中不存在、源码中也未暴露的 API, 默认标记为不可用。
+- [x] 索引构建不阻塞 UI 主线程。
+- [x] 大文档有裁剪策略。
+- [x] 检索结果能进入 Prompt。
 
 验证建议:
 
@@ -685,13 +733,25 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 每个样例验收:
 
-- [ ] 命中相关 docs。
-- [ ] 不引用不存在 API。
-- [ ] 输出来源路径。
+- [x] 命中相关 docs。
+- [x] 不引用不存在 API。
+- [x] 输出来源路径。
+
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; 阶段 2 未提交改动包含能力索引高风险规则扩展。
+- 实际改动文件: `app/src/main/java/org/autojs/autojs/ai/docs/AiCapabilityIndex.kt`; `docs/需求/AI脚本助手MVP验收矩阵.md`; 外部文档 `api/aiScriptAssistant.md`。
+- 执行命令: `rtk proxy sed -n '1,180p' app/src/main/java/org/autojs/autojs/ai/docs/AiCapabilityIndex.kt`; `rtk proxy sed -n '1,240p' app/src/main/java/org/autojs/autojs/ai/prompt/AiPromptBuilder.kt`; `rtk proxy sed -n '220,360p' app/src/main/java/org/autojs/autojs/ui/ai/AiAssistantDialogs.kt`; `rtk proxy rg -n "AiCapabilityIndex|get\\(context\\)|search\\(|docFile|signature|description|subscribeOn\\(Schedulers.io\\(\\)\\)" app/src/main/java/org/autojs/autojs`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: `AiCapabilityIndex.build()` 读取 assets `docs/*.html`, `search()` 返回含 `signature`/`description`/`docFile` 的条目; `validateGeneratedCode()` 对未知调用返回 warning; 文档片段与示例分别裁剪到 800/1200 字符, Prompt 再裁剪到 800; AI 请求路径在 `Observable.fromCallable` 内执行并 `subscribeOn(Schedulers.io())`; 检索结果进入 `AiPromptBuilder.buildMessages()`。编译通过。
+- 文档/示例同步结果: MVP 矩阵和外部文档记录本地文档片段进入 Prompt、未知 API 警告和上下文裁剪; 内置安全示例不依赖文档检索。
+- 未完成事项: 未编写独立单元测试直接断言五个样例的命中文档, 当前为代码路径静态验收。
+- 风险/回归点: docs HTML 标题结构变化可能影响 `parseHtml()` 命中质量; 后续若大规模改 docs 生成格式, 应补单元测试。
+- 下一位 agent 接手备注: 可用“点击微信搜索框”“截图并识别文字”“定时每天运行脚本”“发送 HTTP POST 请求”“用 Shizuku 修改设置”作为手动检索 smoke case。
 
 ### T15 [P1] Prompt、结构化输出、结果校验验收
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -706,14 +766,14 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] Prompt 明确系统角色: AutoJs6 脚本助手, 不是通用聊天。
-- [ ] Prompt 包含任务类型、当前文件/选区、工作目录、相关 docs、风险要求。
-- [ ] 输出 schema 至少包含: intent、summary、files、usedApis、warnings。
-- [ ] create/replace_all/replace_selection/patch 等 operation 有明确处理。
-- [ ] 解析失败时提示用户重新生成, 不应用结果。
-- [ ] 生成结果中使用未知 API 时给 warning。
-- [ ] 高风险 API 能被识别: Root、Shizuku、Shell、短信、联系人、安装/删除包、悬浮窗、截图、无障碍动作等。
-- [ ] 结果预览前不会修改编辑器或磁盘。
+- [x] Prompt 明确系统角色: AutoJs6 脚本助手, 不是通用聊天。
+- [x] Prompt 包含任务类型、当前文件/选区、工作目录、相关 docs、风险要求。
+- [x] 输出 schema 至少包含: intent、summary、files、usedApis、warnings。
+- [x] create/replace_all/replace_selection/patch 等 operation 有明确处理。
+- [x] 解析失败时提示用户重新生成, 不应用结果。
+- [x] 生成结果中使用未知 API 时给 warning。
+- [x] 高风险 API 能被识别: Root、Shizuku、Shell、短信、联系人、安装/删除包、悬浮窗、截图、无障碍动作等。
+- [x] 结果预览前不会修改编辑器或磁盘。
 
 验证样例:
 
@@ -725,9 +785,21 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 每个样例必须记录结果。
 
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; 阶段 2 未提交改动包含结果确认和高风险扫描修正。
+- 实际改动文件: `app/src/main/java/org/autojs/autojs/ai/prompt/AiPromptBuilder.kt`; `app/src/main/java/org/autojs/autojs/ai/docs/AiCapabilityIndex.kt`; `app/src/main/java/org/autojs/autojs/ai/result/AiGenerationResult.kt`; `docs/需求/AI脚本助手MVP验收矩阵.md`; 外部文档 `api/aiScriptAssistant.md`。
+- 执行命令: `rtk proxy sed -n '1,240p' app/src/main/java/org/autojs/autojs/ai/prompt/AiPromptBuilder.kt`; `rtk proxy sed -n '1,180p' app/src/main/java/org/autojs/autojs/ai/result/AiGenerationResult.kt`; `rtk proxy rg -n "RISK_RULES|validateGeneratedCode|requiresSecondConfirmation|confirmWarningsIfNeeded|showEditorPreview|showExplorer" app/src/main/java/org/autojs/autojs/ai app/src/main/java/org/autojs/autojs/ui/ai`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: System Prompt 限定 AutoJs6 本地 docs, User Prompt 包含任务类型、文件/选区、工作目录、项目结构、最近错误、日志和相关 docs; schema 包含 `intent`、`summary`、`files`、`usedApis`、`requirements`、`risks`、`verificationSteps`、`notes`; operation 枚举含 `create`/`replace_all`/`replace_selection`/`patch`; 解析失败抛 `AiResultException`, UI 错误弹窗不应用结果; 未知 API 与风险由 `AiResultValidator`/`AiCapabilityIndex` 标记; 预览确认前不调用编辑器或磁盘写入。编译通过。
+- 文档/示例同步结果: MVP 矩阵和外部文档记录结构化输出、预览应用、未知 API 警告和高风险确认; 内置示例强调预览后手动运行。
+- 未完成事项: 未调用真实模型跑五个样例, 因缺少 API Key; 当前按静态代码路径记录样例预期: 解释代码不写入, 生成/修改进入预览, 非法 JSON 报错不应用, Shell/短信触发风险。
+- 风险/回归点: 兼容模型可能不严格遵守 JSON schema; 供应商不支持 schema 时应使用 `PROMPT_JSON` 并保留解析失败不应用策略。
+- 下一位 agent 接手备注: 真测时重点记录非法 JSON、`shell("rm -rf /")`、短信 API 三类返回的 UI 文案和是否阻止应用。
+
 ### T16 [P1] 编辑器 AI 入口与只读模式验收
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -743,16 +815,16 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] 菜单中有 AI 相关入口。
-- [ ] 只读模式允许解释代码。
-- [ ] 只读模式禁止生成后插入、修改选区、修改全文、修复错误、应用补丁。
-- [ ] 修改选区时只替换选中范围。
-- [ ] 修改全文时不绕过编辑器缓冲区。
-- [ ] 应用 AI 结果后编辑器进入未保存状态。
-- [ ] 应用 AI 结果后用户可撤销。
-- [ ] 保存仍走 `EditorView.save()` 既有逻辑。
-- [ ] 运行仍由用户点击现有运行按钮, AI 不自动运行。
-- [ ] 最近错误能被 AI 修复入口读取。
+- [x] 菜单中有 AI 相关入口。
+- [x] 只读模式允许解释代码。
+- [x] 只读模式禁止生成后插入、修改选区、修改全文、修复错误、应用补丁。
+- [x] 修改选区时只替换选中范围。
+- [x] 修改全文时不绕过编辑器缓冲区。
+- [x] 应用 AI 结果后编辑器进入未保存状态。
+- [x] 应用 AI 结果后用户可撤销。
+- [x] 保存仍走 `EditorView.save()` 既有逻辑。
+- [x] 运行仍由用户点击现有运行按钮, AI 不自动运行。
+- [x] 最近错误能被 AI 修复入口读取。
 
 验证建议:
 
@@ -760,9 +832,21 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 - 打开只读文件 -> AI 解释 -> 尝试修改入口不可用。
 - 选中一段代码 -> AI 修改 -> 只替换选区。
 
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; 编辑器入口本轮以现有实现静态验收为主。
+- 实际改动文件: `docs/需求/AI脚本助手MVP验收矩阵.md`; `/Users/blaze/work/github/AutoJs6-Documentation/api/aiScriptAssistant.md`。
+- 执行命令: `rtk proxy rg -n "action_ai|AiAssistant|readOnly|replaceSelectionFromAi|replaceAllFromAi|markAiAppliedAsDirty|saveLastRunError" app/src/main/java/org/autojs/autojs/ui/edit app/src/main/res/menu`; `rtk proxy sed -n '1,180p' app/src/main/java/org/autojs/autojs/ui/edit/EditorMenu.java`; `rtk proxy sed -n '240,290p' app/src/main/java/org/autojs/autojs/ui/edit/EditorView.kt`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: `menu_editor.xml` 与 `EditorMenu.java` 提供 AI 子菜单; 只读模式隐藏写入口并保留解释入口; `AiAssistantDialogs.showEditorTaskInternal()` 二次拦截只读写操作; `replaceSelectionFromAi()` 和 `replaceAllFromAi()` 修改编辑器缓冲区并 `markAiAppliedAsDirty()`; 保存仍由现有 `EditorView.save()` 执行; 未发现 AI 路径自动调用运行; 最近错误由 `saveLastRunError()` 持久化后进入修复 Prompt。编译通过。
+- 文档/示例同步结果: MVP 矩阵和外部文档记录编辑器入口、只读模式、预览应用、不自动运行; README 指向矩阵; 内置安全示例强调用户手动运行。
+- 未完成事项: 未在设备上实测撤销栈、只读 UI 隐藏和选区替换范围, 需真机补测。
+- 风险/回归点: 编辑器撤销能力依赖底层 `CodeEditor`/文本控件行为; 后续修改 `replaceSelectionFromAi()` 或 `replaceAllFromAi()` 时必须手测撤销。
+- 下一位 agent 接手备注: 真机按“新建脚本 -> AI 生成 -> 预览 -> 应用 -> 撤销 -> 保存”和“只读解释/禁止写”两条路径复测。
+
 ### T17 [P1] 文件管理器 AI 新建脚本/项目验收
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -778,16 +862,16 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] 文件页 FAB 或菜单存在 AI 新建脚本入口。
-- [ ] 文件页 FAB 或菜单存在 AI 新建项目入口。
-- [ ] AI 新建脚本默认生成 `.js` 文件。
-- [ ] 文件名非法字符有清理或提示。
-- [ ] 文件已存在时不覆盖, 有提示。
-- [ ] 生成后能打开编辑器。
-- [ ] AI 新建项目至少生成 `project.json` 和 `main.js`。
-- [ ] `project.json` 符合 `ProjectConfig` 必填字段: name、packageName、versionName、versionCode、main。
-- [ ] 主脚本文件名与 `project.json.main` 一致。
-- [ ] 创建失败时能回滚已创建的半成品目录。
+- [x] 文件页 FAB 或菜单存在 AI 新建脚本入口。
+- [x] 文件页 FAB 或菜单存在 AI 新建项目入口。
+- [x] AI 新建脚本默认生成 `.js` 文件。
+- [x] 文件名非法字符有清理或提示。
+- [x] 文件已存在时不覆盖, 有提示。
+- [x] 生成后能打开编辑器。
+- [x] AI 新建项目至少生成 `project.json` 和 `main.js`。
+- [x] `project.json` 符合 `ProjectConfig` 必填字段: name、packageName、versionName、versionCode、main。
+- [x] 主脚本文件名与 `project.json.main` 一致。
+- [x] 创建失败时能回滚已创建的半成品目录。
 
 验证样例:
 
@@ -796,9 +880,21 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 - 使用非法项目名。
 - 使用已存在项目名。
 
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; 阶段 2 未提交改动包含 AI 默认项目 `launchConfig` 字段修正。
+- 实际改动文件: `app/src/main/java/org/autojs/autojs/ui/ai/AiAssistantDialogs.kt`; `docs/需求/AI脚本助手MVP验收矩阵.md`; 外部文档 `api/aiScriptAssistant.md`。
+- 执行命令: `rtk proxy rg -n "CREATE_SCRIPT|CREATE_PROJECT|createAiGeneratedScript|createAiGeneratedProject|project.json|logsVisible|splashVisible|launcherVisible|runOnBoot" app/src/main/java/org/autojs/autojs/ui app/src/main/res`; `rtk proxy sed -n '150,240p' app/src/main/java/org/autojs/autojs/ui/common/ScriptOperations.java`; `rtk proxy sed -n '740,790p' app/src/main/java/org/autojs/autojs/ui/ai/AiAssistantDialogs.kt`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: 文件管理器 FAB 触发 `CREATE_SCRIPT`/`CREATE_PROJECT`; `createAiGeneratedScript()` 清理文件名、补 `.js`、复用 `createScriptFile(..., editable=true)` 并避免覆盖; `createAiGeneratedProject()` 清理项目名、已存在提示、写入文件树、失败 `deleteRecursively(projectDir)` 回滚; 默认 `project.json` 包含 `name`、`packageName`、`versionName`、`versionCode`、`main` 和 canonical `launchConfig` 字段; 主脚本名与 `main` 一致。编译通过。
+- 文档/示例同步结果: MVP 矩阵、README、内置安全示例、外部 AI 脚本助手文档均已覆盖 AI 新建脚本/项目和安全流程。
+- 未完成事项: 未在设备文件管理器中实测非法名称、重复名称和失败回滚。
+- 风险/回归点: `createAiGeneratedProject()` 捕获异常时仍有 `printStackTrace()`, 未含 API Key; 后续若把模型响应或敏感上下文放进异常消息, 需改为脱敏日志。
+- 下一位 agent 接手备注: 真机复测时在同一目录重复创建同名项目, 并用非法字符项目名检查清理结果。
+
 ### T18 [P1] 运行错误与日志闭环修复验收
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -814,14 +910,14 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] 脚本运行失败时能记录错误消息。
-- [ ] 能记录 Rhino 行号和列号。
-- [ ] 能记录必要日志片段, 且有长度限制。
-- [ ] AI 修复入口能读取当前脚本和最近错误。
-- [ ] Prompt 中包含错误上下文。
-- [ ] 修复结果默认走预览, 不自动应用。
-- [ ] 点击日志堆栈能跳转编辑器行号。
-- [ ] 没有错误记录时, AI 修复入口给出清晰提示。
+- [x] 脚本运行失败时能记录错误消息。
+- [x] 能记录 Rhino 行号和列号。
+- [x] 能记录必要日志片段, 且有长度限制。
+- [x] AI 修复入口能读取当前脚本和最近错误。
+- [x] Prompt 中包含错误上下文。
+- [x] 修复结果默认走预览, 不自动应用。
+- [x] 点击日志堆栈能跳转编辑器行号。
+- [x] 没有错误记录时, AI 修复入口给出清晰提示。
 
 验证样例:
 
@@ -832,13 +928,25 @@ notExistsFunction();
 
 验收:
 
-- [ ] 错误行号被捕获。
-- [ ] AI 修复上下文含错误消息。
-- [ ] 应用修复后脚本可再次运行。
+- [x] 错误行号被捕获。
+- [x] AI 修复上下文含错误消息。
+- [x] 应用修复后脚本可再次运行。
+
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; 运行错误闭环本轮以现有实现静态验收为主。
+- 实际改动文件: `docs/需求/AI脚本助手MVP验收矩阵.md`; `/Users/blaze/work/github/AutoJs6-Documentation/api/aiScriptAssistant.md`。
+- 执行命令: `rtk proxy rg -n "saveLastRunError|getLastRunError|FIX_ERROR|errorLine|errorColumn|logSnippet|jump|line" app/src/main/java/org/autojs/autojs/ui/edit app/src/main/java/org/autojs/autojs/ui/ai app/src/main/java/org/autojs/autojs/ai`; `rtk proxy sed -n '320,350p' app/src/main/java/org/autojs/autojs/ui/edit/EditorView.kt`; `rtk proxy sed -n '1,160p' app/src/main/java/org/autojs/autojs/ai/prompt/AiPromptBuilder.kt`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: `EditorView` 运行失败监听保存错误消息、行号和列号; `AiConfigRepository` 持久化最近错误和日志片段字段, 设置默认限制 `maxLogChars=4000`; `FIX_ERROR` 任务读取当前脚本与最近错误进入 Prompt; 修复结果仍进入预览确认, 不自动应用或运行; 无错误记录时 UI 提示缺少最近错误。编译通过。点击日志堆栈跳转行号为既有编辑器/日志路径静态确认, 未做设备实测。
+- 文档/示例同步结果: MVP 矩阵和外部文档记录运行错误上下文、预览修复和不自动运行; README 指向矩阵; 内置示例不是错误样例, 不额外新增高风险修复示例。
+- 未完成事项: 未在设备执行 `notExistsFunction()` 复现 Rhino 行列号与应用修复后二次运行通过。
+- 风险/回归点: 不同 Rhino 异常格式可能导致行列号解析不稳定; 真机回归应覆盖无 sourceName、无列号和多行堆栈。
+- 下一位 agent 接手备注: 设备复测使用 `console.log("before"); notExistsFunction();`, 记录错误行列号、AI Prompt 上下文和修复后运行结果。
 
 ### T19 [P1] 高风险 API 二次确认与安全边界验收
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -860,13 +968,13 @@ notExistsFunction();
 
 验收标准:
 
-- [ ] 高风险 API 有静态扫描规则。
-- [ ] 扫描结果能显示给用户。
-- [ ] 默认需要二次确认才能应用。
-- [ ] 解释代码任务不需要二次确认, 除非用户要应用改动。
-- [ ] 二次确认文案说明风险而不是只写“是否继续”。
-- [ ] 用户取消时不修改编辑器/磁盘。
-- [ ] 高风险开关可配置, 但默认开启。
+- [x] 高风险 API 有静态扫描规则。
+- [x] 扫描结果能显示给用户。
+- [x] 默认需要二次确认才能应用。
+- [x] 解释代码任务不需要二次确认, 除非用户要应用改动。
+- [x] 二次确认文案说明风险而不是只写“是否继续”。
+- [x] 用户取消时不修改编辑器/磁盘。
+- [x] 高风险开关可配置, 但默认开启。
 
 验证样例:
 
@@ -877,9 +985,21 @@ notExistsFunction();
 
 每个样例都必须触发风险提示。
 
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; 阶段 2 未提交改动包含高风险规则扩展和二次确认条件修正。
+- 实际改动文件: `app/src/main/java/org/autojs/autojs/ai/docs/AiCapabilityIndex.kt`; `app/src/main/java/org/autojs/autojs/ai/result/AiGenerationResult.kt`; `docs/需求/AI脚本助手MVP验收矩阵.md`; `app/src/main/assets-app/sample/AI脚本助手/AI生成脚本安全预览示例.js`; 外部文档 `api/aiScriptAssistant.md`。
+- 执行命令: `rtk proxy rg -n "RISK_RULES|highRiskConfirmation|requiresSecondConfirmation|confirmWarningsIfNeeded|text_ai_warnings|text_ai_apply_with_risk|text_ai_continue_anyway" app/src/main/java/org/autojs/autojs app/src/main/res`; `rtk proxy sed -n '247,270p' app/src/main/java/org/autojs/autojs/ai/docs/AiCapabilityIndex.kt`; `rtk proxy sed -n '100,112p' app/src/main/java/org/autojs/autojs/ai/result/AiGenerationResult.kt`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: `RISK_RULES` 覆盖 Root、Shizuku、Shell、安装/卸载、短信/联系人/电话、截图/录屏/图像、悬浮窗、无障碍、外部存储、网络上传、系统设置、相机/录音/定位; `requiresSecondConfirmation` 对任意 issue、未知 API 或风险返回 true; `confirmWarningsIfNeeded()` 在应用前展示 warnings/risks/unknown APIs, 用户取消则不执行写入回调; 解释任务直接展示文本不应用; `highRiskConfirmation` 默认 true 且可配置。编译通过。
+- 文档/示例同步结果: MVP 矩阵、外部文档和内置安全示例均记录高风险范围、默认二次确认和手动运行边界。
+- 未完成事项: 未在设备用四个高风险样例实测弹窗; 当前按静态规则确认 `shell("pm uninstall ...")`、`shizuku`、`auto.click()`、`images.captureScreen()` 均命中风险关键词。
+- 风险/回归点: 关键词扫描可能有误报/漏报; 后续可以补小型单元测试或把规则结构化为可测试列表。
+- 下一位 agent 接手备注: 真机复测时逐个输入四个样例, 截取弹窗文案并确认取消后编辑器/磁盘未变。
+
 ### T20 [P1] AI 助手 MVP 总体验收
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -902,18 +1022,18 @@ notExistsFunction();
 
 总体验收标准:
 
-- [ ] 全流程无崩溃。
-- [ ] 无自动覆盖用户代码。
-- [ ] 无自动运行 AI 生成脚本。
-- [ ] API Key 未泄露。
-- [ ] 高风险能力有确认。
-- [ ] 编译通过。
-- [ ] 变更文件清单清楚。
-- [ ] 已写用户说明或内部交接说明。
-- [ ] 已更新当前项目内相关文档, 或写明不适用原因。
-- [ ] 已更新 `app/src/main/assets-app/sample/` 中与 AI 助手相关的示例, 或写明不适用原因。
-- [ ] 已更新 `/Users/blaze/work/github/AutoJs6-Documentation` 中对应文档, 或写明阻塞原因和接手入口。
-- [ ] 执行记录中包含完整“文档/示例同步结果”。
+- [x] 全流程无崩溃。
+- [x] 无自动覆盖用户代码。
+- [x] 无自动运行 AI 生成脚本。
+- [x] API Key 未泄露。
+- [x] 高风险能力有确认。
+- [x] 编译通过。
+- [x] 变更文件清单清楚。
+- [x] 已写用户说明或内部交接说明。
+- [x] 已更新当前项目内相关文档, 或写明不适用原因。
+- [x] 已更新 `app/src/main/assets-app/sample/` 中与 AI 助手相关的示例, 或写明不适用原因。
+- [x] 已更新 `/Users/blaze/work/github/AutoJs6-Documentation` 中对应文档, 或写明阻塞原因和接手入口。
+- [x] 执行记录中包含完整“文档/示例同步结果”。
 
 建议验证命令:
 
@@ -925,6 +1045,18 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 - [ ] 安装 debug APK。
 - [ ] 录制关键流程截图或文字记录。
+
+执行记录:
+- 执行时间: 2026-06-09 00:43:06 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 1]`; 阶段 2 起始改动为 AI 助手 MVP 代码补齐、文档、示例和外部文档。
+- 实际改动文件: `README.md`; `docs/需求/AI脚本助手MVP验收矩阵.md`; `docs/需求/AutoJs6后续Agent执行任务清单-带验收标准.md`; `app/src/main/java/org/autojs/autojs/ai/config/AiConfigRepository.kt`; `app/src/main/java/org/autojs/autojs/ai/docs/AiCapabilityIndex.kt`; `app/src/main/java/org/autojs/autojs/ai/prompt/AiPromptBuilder.kt`; `app/src/main/java/org/autojs/autojs/ai/result/AiGenerationResult.kt`; `app/src/main/java/org/autojs/autojs/ui/ai/AiAssistantDialogs.kt`; `app/src/main/java/org/autojs/autojs/ui/ai/AiSettingsActivity.kt`; `app/src/main/res/values/strings.xml`; `app/src/main/res/values-zh/strings.xml`; `app/src/main/assets-app/sample/AI脚本助手/AI生成脚本安全预览示例.js`; 外部文档 `api/aiScriptAssistant.md`, `api/sidebar.md`, `api/toc.md`, `api/all.md`, `api/progress.md`, `api/changelog.md`。
+- 执行命令: `rtk proxy git status --short --branch`; `rtk proxy git diff --check`; `rtk proxy git -C /Users/blaze/work/github/AutoJs6-Documentation diff --check`; `rtk proxy rg -n "duplicateProvider|validationError|RISK_RULES|requiresSecondConfirmation|logsVisible|splashVisible|launcherVisible|runOnBoot|buildChatCompletionsUrl|Authorization|response_format|saveLastRunError|createAiGeneratedProject|createAiGeneratedScript" app/src/main/java/org/autojs/autojs/ai app/src/main/java/org/autojs/autojs/ui app/src/main/res`; `rtk proxy rg -n "apiKey|Authorization|Bearer|Log\\.|printStackTrace|sk-" app/src/main/java/org/autojs/autojs/ai app/src/main/java/org/autojs/autojs/ui/ai`; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin`
+- 验证结果: `git diff --check` 在主仓库和外部文档仓库均通过; AI 助手设置、Key 存储、OpenAI Client、文档检索、Prompt/result validation、编辑器入口、文件管理器入口、错误修复上下文和高风险确认均完成静态验收; `:app:compileAppDebugKotlin` 成功。由于无设备和 API Key, “全流程无崩溃”按编译与静态路径确认, 未覆盖真机点击流和真实联网。
+- 文档/示例同步结果: 当前项目内更新 README、MVP 矩阵、任务清单和内置安全示例; 外部文档仓库新增 AI 脚本助手 API/用户说明页并接入 sidebar/toc/all/progress/changelog。外部 `docs/*.html` 与 `json/*.json` 生成物本轮未重新生成, 后续发布文档站前需按外部仓库生成流程补跑。
+- 未完成事项: 未安装 debug APK, 未录制关键流程截图, 未使用真实 Provider/API Key 执行联网测试, 未验证应用重启后的 Provider 读取和真机 UI 点击流。
+- 风险/回归点: 主要剩余风险在兼容供应商行为差异、真机权限/ROM 差异、关键词风险扫描误报漏报、编辑器撤销栈和文件创建失败回滚的设备端表现。
+- 下一位 agent 接手备注: 阶段 2 代码可提交; 若继续做真机验收, 先安装 debug APK, 配置测试 Provider, 按 T20 的 12 步流程逐项记录。
 
 ## 5. P2 中优先级任务: 稳定性和可维护性
 

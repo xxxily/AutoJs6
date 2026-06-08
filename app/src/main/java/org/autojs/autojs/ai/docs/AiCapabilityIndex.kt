@@ -247,15 +247,18 @@ class AiCapabilityIndex private constructor(
         )
 
         private val RISK_RULES = listOf(
-            RiskRule("无障碍操作", "脚本会点击、滑动或操作屏幕控件", "medium", listOf("click(", "swipe(", "gesture(", "press(", ".click(", "settext(", "input(")),
-            RiskRule("截图/图像识别", "脚本可能请求截图或处理屏幕图像", "medium", listOf("capturescreen", "requestscreen", "images.", "findimage", "findcolor")),
-            RiskRule("悬浮窗", "脚本可能显示悬浮窗", "medium", listOf("floaty", "悬浮窗")),
-            RiskRule("Root", "脚本可能使用 Root 权限", "high", listOf("rootautomator", "root.", "tap(", "swipe(", "root")),
+            RiskRule("无障碍操作", "脚本会点击、滑动、输入或操作屏幕控件", "high", listOf("auto.", "automator", "click(", "swipe(", "gesture(", "press(", ".click(", "settext(", "input(")),
+            RiskRule("截图/录屏/图像识别", "脚本可能请求截图、录屏或处理屏幕图像", "high", listOf("capturescreen", "requestscreen", "requestscreencapture", "screenrecord", "mediaprojection", "images.", "findimage", "findcolor", "截图", "录屏")),
+            RiskRule("悬浮窗", "脚本可能显示悬浮窗或覆盖其他应用", "high", listOf("floaty", "悬浮窗", "system_alert_window")),
+            RiskRule("Root", "脚本可能使用 Root 权限", "high", listOf("rootautomator", "root.", "su -c", "root")),
             RiskRule("Shizuku", "脚本可能使用 Shizuku 特权", "high", listOf("shizuku")),
-            RiskRule("Shell", "脚本可能执行 Shell 命令", "high", listOf("shell(", "shell.", "exec(")),
-            RiskRule("文件删除/覆盖", "脚本可能删除、覆盖或批量移动文件", "high", listOf("files.remove", "files.remove", "deletefile", "remove(", "rmdir", "unlink")),
-            RiskRule("短信/联系人/电话", "脚本可能访问短信、联系人或电话能力", "high", listOf("sms", "contact", "callphone", "短信", "联系人", "电话")),
-            RiskRule("应用安装/卸载", "脚本可能安装或卸载应用", "high", listOf("installpackage", "uninstall", "pm install", "pm uninstall")),
+            RiskRule("Shell", "脚本可能执行 Shell 命令", "high", listOf("shell(", "shell.", "exec(", "runtime.exec")),
+            RiskRule("文件删除/覆盖/外部存储", "脚本可能删除、覆盖或批量读写外部存储文件", "high", listOf("files.remove", "files.write", "files.append", "deletefile", "remove(", "rmdir", "unlink", "/sdcard", "externalstorage", "外部存储")),
+            RiskRule("网络上传本地文件", "脚本可能通过网络请求上传本地文件或日志", "high", listOf("postmultipart", "upload", "multipart", "http.post", "http.request", "files.read", "readbytes", "上传")),
+            RiskRule("短信/联系人/电话", "脚本可能访问短信、联系人或电话能力", "high", listOf("sms", "contact", "contacts", "callphone", "sendmessage", "短信", "联系人", "电话")),
+            RiskRule("相机/录音/定位", "脚本可能访问相机、麦克风或定位信息", "high", listOf("camera", "recordaudio", "microphone", "location", "gps", "相机", "录音", "定位")),
+            RiskRule("应用安装/卸载", "脚本可能安装或卸载应用", "high", listOf("installpackage", "uninstall", "app.install", "app.uninstall", "pm install", "pm uninstall")),
+            RiskRule("修改系统设置", "脚本可能修改系统设置或安全设置", "high", listOf("writesettings", "write_settings", "writesecuresettings", "write_secure_settings", "settings put", "系统设置", "安全设置")),
         )
     }
 }

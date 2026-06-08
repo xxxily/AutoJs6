@@ -94,9 +94,7 @@ class AiConfigRepository(context: Context) {
             createdAt = System.currentTimeMillis(),
             updatedAt = System.currentTimeMillis(),
         )
-        getApiKey(source)?.let { apiKey ->
-            upsertProvider(duplicated, apiKey)
-        } ?: upsertProvider(duplicated)
+        upsertProvider(duplicated)
     }
 
     fun deleteProvider(id: String) {

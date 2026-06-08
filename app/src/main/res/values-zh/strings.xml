@@ -1484,6 +1484,9 @@
     <string name="error_ai_no_provider">没有可用的 AI 服务商</string>
     <string name="error_ai_missing_api_key">当前服务商未配置 API Key</string>
     <string name="error_ai_provider_required_fields">Base URL 和模型不能为空</string>
+    <string name="error_ai_invalid_base_url">Base URL 必须以 http:// 或 https:// 开头</string>
+    <string name="error_ai_invalid_timeout">超时时间必须在 5000 到 300000 毫秒之间</string>
+    <string name="error_ai_invalid_structured_output_mode">结构化输出模式必须为 JSON_SCHEMA、JSON_OBJECT 或 PROMPT_JSON</string>
     <string name="text_ai_context_summary">AI 上下文摘要</string>
     <string name="text_ai_context_summary_provider_placeholder">以下上下文将发送给选中的服务商.</string>
     <string name="text_ai_send">发送</string>

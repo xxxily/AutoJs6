@@ -18,7 +18,7 @@ object AiPromptBuilder {
         addProperty("type", "object")
         add("additionalProperties", false.toJsonPrimitive())
         add("required", JsonArray().apply {
-            listOf("intent", "summary", "files", "usedApis", "requirements", "risks", "verificationSteps", "notes")
+            listOf("intent", "summary", "files", "usedApis", "requirements", "risks", "warnings", "verificationSteps", "notes")
                 .forEach(::add)
         })
         add("properties", JsonObject().apply {
@@ -66,6 +66,7 @@ object AiPromptBuilder {
             })
             add("requirements", stringArraySchema())
             add("risks", stringArraySchema())
+            add("warnings", stringArraySchema())
             add("verificationSteps", stringArraySchema())
             add("notes", stringSchema())
         })
@@ -129,6 +130,7 @@ object AiPromptBuilder {
         appendLine("- For create_script, return one .js file.")
         appendLine("- For create_project, return project.json and the main .js file. project.json main must point to an existing generated script.")
         appendLine("- usedApis must name every AutoJs6 API used and its doc file.")
+        appendLine("- warnings must list uncertain APIs, compatibility concerns, or user checks before applying the result.")
     }
 
     private fun StringBuilder.appendCodeBlock(text: String) {
