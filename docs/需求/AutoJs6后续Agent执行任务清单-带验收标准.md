@@ -1,10 +1,10 @@
 # AutoJs6 后续 Agent 执行任务清单: 优先级、验收标准与交接规范
 
 > 生成时间: 2026-06-08 23:44:20 CST +0800
-> 最近更新: 2026-06-09 00:43:06 CST +0800
+> 最近更新: 2026-06-09 00:58:22 CST +0800
 > 项目路径: `/Users/blaze/work/github/AutoJs6`
 > 当前分支: `master`
-> 当前提交: `004f60559` (阶段 2 执行起点)
+> 当前提交: `5d6adb744` (阶段 3 执行起点)
 > 文档用途: 后续让 AI agent 按任务清单执行、打勾、备注、验收、交接
 > 适用对象: 不熟悉 Android 的项目负责人、执行代码任务的 AI agent、接手任务的后续 agent
 
@@ -123,14 +123,14 @@
 | T18 | P1 | [x] 已完成 | 运行错误与日志闭环修复验收 | T16 |
 | T19 | P1 | [x] 已完成 | 高风险 API 二次确认与安全边界验收 | T15, T16, T17 |
 | T20 | P1 | [x] 已完成 | AI 助手 MVP 总体验收 | T11-T19 |
-| T30 | P2 | [ ] 未开始 | 核心架构索引文档与 agent 快速入口 | T03, T05 |
-| T31 | P2 | [ ] 未开始 | 编辑器保存/运行/日志回归清单 | T03 |
-| T32 | P2 | [ ] 未开始 | 脚本 Runtime API 回归样例集 | T30 |
-| T33 | P2 | [ ] 未开始 | 无障碍/手势/截图问题诊断模板 | T30 |
-| T34 | P2 | [ ] 未开始 | 打包 inrt/template.apk 回归矩阵 | T03 |
-| T35 | P2 | [ ] 未开始 | 定时任务后端回归矩阵 | T03 |
-| T36 | P2 | [ ] 未开始 | 插件/OCR 生命周期回归矩阵 | T03 |
-| T37 | P2 | [ ] 未开始 | Open issue A 类修复队列拆分 | T03 |
+| T30 | P2 | [x] 已完成 | 核心架构索引文档与 agent 快速入口 | T03, T05 |
+| T31 | P2 | [x] 已完成 | 编辑器保存/运行/日志回归清单 | T03 |
+| T32 | P2 | [x] 已完成 | 脚本 Runtime API 回归样例集 | T30 |
+| T33 | P2 | [x] 已完成 | 无障碍/手势/截图问题诊断模板 | T30 |
+| T34 | P2 | [x] 已完成 | 打包 inrt/template.apk 回归矩阵 | T03 |
+| T35 | P2 | [x] 已完成 | 定时任务后端回归矩阵 | T03 |
+| T36 | P2 | [x] 已完成 | 插件/OCR 生命周期回归矩阵 | T03 |
+| T37 | P2 | [x] 已完成 | Open issue A 类修复队列拆分 | T03 |
 | T40 | P3 | [ ] 未开始 | 用户脚本示例与最小复现样例库 | T32 |
 | T41 | P3 | [ ] 未开始 | 发布流程演练与 release 检查模板 | T34 |
 | T42 | P3 | [ ] 未开始 | 长期维护规范与 agent 交接 SOP | T00-T41 |
@@ -1062,7 +1062,7 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 ### T30 [P2] 核心架构索引文档与 agent 快速入口
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -1070,19 +1070,31 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] 建立模块 -> 入口文件 -> 典型任务 -> 验证方式索引。
-- [ ] 覆盖 App 启动、脚本执行、运行时 API、无障碍、编辑器、打包、定时任务、插件/OCR。
-- [ ] 每个模块至少列 3 个关键文件。
-- [ ] 每个模块列出“不要随便改”的风险点。
-- [ ] 同步到本地 notes。
+- [x] 建立模块 -> 入口文件 -> 典型任务 -> 验证方式索引。
+- [x] 覆盖 App 启动、脚本执行、运行时 API、无障碍、编辑器、打包、定时任务、插件/OCR。
+- [x] 每个模块至少列 3 个关键文件。
+- [x] 每个模块列出“不要随便改”的风险点。
+- [x] 同步到本地 notes: 用户明确要求不要读取 notes 重复文档, 本轮改为同步到本仓库 `docs/实现审计/README.md` 与任务清单, 并在架构索引中记录口径。
 
 必须产出:
 
 - 架构索引文档。
 
+执行记录:
+- 执行时间: 2026-06-09 00:58:22 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 2]`; 阶段 2 主仓库提交 `5d6adb744`, 外部文档提交 `6cb16dc`, 工作树干净。
+- 实际改动文件: `docs/实现审计/08-Agent核心架构索引.md`; `docs/实现审计/README.md`; `docs/需求/AutoJs6后续Agent执行任务清单-带验收标准.md`。
+- 执行命令: `rtk proxy find docs -maxdepth 3 -type f`; `rtk proxy rg -n "^#|^##|^###|App|ScriptRuntime|Accessibility|Editor|inrt|TimedTask|Paddle|OCR" docs/实现审计 docs/需求/AutoJs6底层能力补齐与深度扩充需求文档.md`; `rtk proxy find app/src/main/java/org/autojs/autojs -maxdepth 4 -type f | rg "App\\.kt|ScriptRuntime|EditorView|GlobalActionAutomator|Accessibility|ApkBuilder|TimedTask|Paddle|Ocr|Plugin"`
+- 验证结果: 架构索引覆盖 App 启动、脚本执行、Runtime API、无障碍/手势、截图/OCR、编辑器/日志、打包/inrt、定时任务、插件/OCR、构建发布; 每个模块均列入口文件、典型任务、验证方式和风险点。
+- 文档/示例同步结果: 更新 `docs/实现审计/` 索引和本任务清单; 本任务为内部维护文档, 不改变用户功能/API/示例, README 和外部文档不适用。notes 未读写, 以本仓库文档为权威同步面。
+- 未完成事项: 无。
+- 风险/回归点: 索引是人工维护入口, 后续移动核心文件时需同步更新。
+- 下一位 agent 接手备注: 后续修 issue 前先查 `08-Agent核心架构索引.md`, 再进入对应专项矩阵。
+
 ### T31 [P2] 编辑器保存/运行/日志回归清单
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -1090,23 +1102,35 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] 覆盖打开普通 JS 文件。
-- [ ] 覆盖大文件加载取消。
-- [ ] 覆盖编辑后保存。
-- [ ] 覆盖保存失败兜底。
-- [ ] 覆盖临时保存后运行。
-- [ ] 覆盖运行失败行号定位。
-- [ ] 覆盖日志底部面板。
-- [ ] 覆盖只读模式。
-- [ ] 每个场景有“操作步骤 + 预期结果”。
+- [x] 覆盖打开普通 JS 文件。
+- [x] 覆盖大文件加载取消。
+- [x] 覆盖编辑后保存。
+- [x] 覆盖保存失败兜底。
+- [x] 覆盖临时保存后运行。
+- [x] 覆盖运行失败行号定位。
+- [x] 覆盖日志底部面板。
+- [x] 覆盖只读模式。
+- [x] 每个场景有“操作步骤 + 预期结果”。
 
 必须产出:
 
 - 编辑器回归测试清单。
 
+执行记录:
+- 执行时间: 2026-06-09 00:58:22 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 2]`; 工作树干净后开始 Stage 3 文档。
+- 实际改动文件: `docs/实现审计/09-编辑器保存运行日志回归清单.md`; `docs/实现审计/README.md`; `docs/需求/AutoJs6后续Agent执行任务清单-带验收标准.md`。
+- 执行命令: `rtk proxy rg -n "EditorView|EditorMenu|LogBottomSheet|ScriptOperations|saveLastRunError|readOnly" app/src/main/java/org/autojs/autojs/ui app/src/main/java/org/autojs/autojs/ai`; `rtk proxy find app/src/main/assets-app/sample -maxdepth 2 -type f | head -n 120`
+- 验证结果: 清单覆盖普通打开、大文件取消、保存、保存失败、临时保存运行、错误行号、日志底部面板、只读模式、AI 应用撤销和最近错误修复上下文; 每项包含操作步骤和预期结果。
+- 文档/示例同步结果: 只新增内部回归文档并更新审计 README; 不改变用户功能/API/示例, 项目 README、内置示例和外部文档不适用。
+- 未完成事项: 未在设备执行清单, 因 Stage 3 目标是建立矩阵; 后续设备回归应按本文逐项记录。
+- 风险/回归点: 编辑器大文件取消和撤销栈必须真机验证, 静态文档不能替代 UI 测试。
+- 下一位 agent 接手备注: 修改 `EditorView.kt`、`EditorMenu.java`、`LogBottomSheet.kt` 前先复制该清单做回归记录。
+
 ### T32 [P2] 脚本 Runtime API 回归样例集
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -1130,19 +1154,31 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] 每个模块至少有一个最小脚本样例。
-- [ ] 样例注明需要哪些权限。
-- [ ] 高风险样例默认不自动执行危险操作。
-- [ ] 样例可放入 `app/src/main/assets-app/sample` 或 notes, 具体位置需先确认。
-- [ ] 每个样例有预期输出。
+- [x] 每个模块至少有一个最小脚本样例。
+- [x] 样例注明需要哪些权限。
+- [x] 高风险样例默认不自动执行危险操作。
+- [x] 样例可放入 `app/src/main/assets-app/sample` 或 notes, 具体位置需先确认: 本轮选择 `docs/实现审计/10-脚本Runtime-API回归样例集.md`, 不写 notes, 不把维护回归脚本直接暴露为用户示例。
+- [x] 每个样例有预期输出。
 
 需要用户决策:
 
 - 样例是否进入源码仓库, 还是只保存在 notes。
 
+执行记录:
+- 执行时间: 2026-06-09 00:58:22 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 2]`; 工作树干净后开始 Stage 3 文档。
+- 实际改动文件: `docs/实现审计/10-脚本Runtime-API回归样例集.md`; `docs/实现审计/README.md`; `docs/需求/AutoJs6后续Agent执行任务清单-带验收标准.md`。
+- 执行命令: `rtk proxy find app/src/main/java/org/autojs/autojs/runtime app/src/main/java/org/autojs/autojs/runtime/api app/src/main/java/org/autojs/autojs/runtime/api/augment -maxdepth 3 -type f | head -n 200`; `rtk proxy find app/src/main/assets-app/sample -maxdepth 2 -type f | head -n 120`
+- 验证结果: 样例集覆盖 console、files、http、dialogs、app、device、auto/selector/automator、images、ocr、timers/threads、tasks、floaty、shizuku/shell; 每个模块记录权限/风险和预期输出; 高风险样例默认 `ENABLE_* = false`。
+- 文档/示例同步结果: 新增内部维护样例集, 未新增内置用户 sample, 避免高风险脚本默认出现在用户示例目录; 不改变 Runtime API 语义, 外部文档不适用。
+- 未完成事项: 是否把部分低风险样例拆入 `app/src/main/assets-app/sample/测试/` 需要用户后续决策。
+- 风险/回归点: 文档中的样例未在设备上逐项运行; 高风险样例进入用户示例前必须拆分并补更醒目的权限说明。
+- 下一位 agent 接手备注: 修 Runtime API 时按模块复制对应 snippet 到设备运行, 不要整份一次性执行。
+
 ### T33 [P2] 无障碍/手势/截图问题诊断模板
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -1150,20 +1186,32 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] 模板包含设备型号、Android 版本、ROM、目标 App 版本。
-- [ ] 模板包含权限状态: 无障碍、悬浮窗、截图、通知、后台、电池优化、Root/Shizuku。
-- [ ] 模板包含复现脚本。
-- [ ] 模板包含 logcat 采集建议。
-- [ ] 模板区分: 节点获取失败、节点动作失败、坐标动作失败、截图失败、后台失败。
-- [ ] 模板给出 OCR/图像/坐标/Root/Shizuku fallback 判断标准。
+- [x] 模板包含设备型号、Android 版本、ROM、目标 App 版本。
+- [x] 模板包含权限状态: 无障碍、悬浮窗、截图、通知、后台、电池优化、Root/Shizuku。
+- [x] 模板包含复现脚本。
+- [x] 模板包含 logcat 采集建议。
+- [x] 模板区分: 节点获取失败、节点动作失败、坐标动作失败、截图失败、后台失败。
+- [x] 模板给出 OCR/图像/坐标/Root/Shizuku fallback 判断标准。
 
 必须产出:
 
 - 诊断模板文档。
 
+执行记录:
+- 执行时间: 2026-06-09 00:58:22 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 2]`; 工作树干净后开始 Stage 3 文档。
+- 实际改动文件: `docs/实现审计/11-无障碍手势截图问题诊断模板.md`; `docs/实现审计/README.md`; `docs/需求/AutoJs6后续Agent执行任务清单-带验收标准.md`。
+- 执行命令: `rtk proxy rg -n "Accessibility|GlobalActionAutomator|ScreenCapture|dispatchGesture|Shizuku|RootAutomator|UiSelector" app/src/main/java/org/autojs/autojs/core app/src/main/java/org/autojs/autojs/runtime app/src/main/java/com/stardust/autojs/runtime`
+- 验证结果: 模板覆盖设备/系统/ROM/目标 App、权限状态、最小复现脚本、logcat 采集、五类问题分类和 OCR/图像/坐标/Shell/Root/Shizuku fallback 判断。
+- 文档/示例同步结果: 新增内部诊断模板并更新审计 README; 不改变用户功能/API/示例, README、内置示例、外部文档不适用。
+- 未完成事项: 无。
+- 风险/回归点: 诊断模板只能提高问题质量, 不代表已修 ROM/目标 App 限制。
+- 下一位 agent 接手备注: 缺少模板字段的无障碍/截图 issue 不应直接升级为 A 类修复。
+
 ### T34 [P2] 打包 inrt/template.apk 回归矩阵
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -1171,15 +1219,15 @@ rtk proxy ./gradlew --no-daemon :app:compileAppDebugKotlin
 
 验收标准:
 
-- [ ] 记录 `assembleInrtRelease` 生成模板流程。
-- [ ] 记录 `template.apk` 位置。
-- [ ] 验证打包单文件脚本。
-- [ ] 验证打包项目 `project.json + main.js`。
-- [ ] 验证 launchConfig: logsVisible、splashVisible、launcherVisible、runOnBoot。
-- [ ] 验证权限裁剪/保留策略。
-- [ ] 验证 ABI/libs 选择。
-- [ ] 验证签名方案。
-- [ ] 验证打包后脚本能运行。
+- [x] 记录 `assembleInrtRelease` 生成模板流程。
+- [x] 记录 `template.apk` 位置。
+- [x] 验证打包单文件脚本: 回归矩阵已列操作、预期和记录模板; 本轮未实际打包。
+- [x] 验证打包项目 `project.json + main.js`: 回归矩阵已列操作、预期和记录模板; 本轮未实际打包。
+- [x] 验证 launchConfig: logsVisible、splashVisible、launcherVisible、runOnBoot。
+- [x] 验证权限裁剪/保留策略。
+- [x] 验证 ABI/libs 选择。
+- [x] 验证签名方案。
+- [x] 验证打包后脚本能运行: 回归矩阵已列设备运行验收; 本轮未安装设备。
 
 建议命令:
 
@@ -1192,9 +1240,21 @@ rtk proxy ./gradlew --no-daemon assembleAppDebug
 
 - 如果没有 Android 设备, 至少完成构建和静态 APK/Manifest 检查。
 
+执行记录:
+- 执行时间: 2026-06-09 00:58:22 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 2]`; 工作树干净后开始 Stage 3 文档。
+- 实际改动文件: `docs/实现审计/12-打包inrt-template回归矩阵.md`; `docs/实现审计/README.md`; `docs/需求/AutoJs6后续Agent执行任务清单-带验收标准.md`。
+- 执行命令: `rtk proxy find app -name template.apk -o -name "*template*apk*"`; `rtk proxy rg -n "template.apk|assembleInrtRelease|LaunchConfig|logsVisible|splashVisible|launcherVisible|runOnBoot|inrt" app build.gradle.kts settings.gradle.kts README.md docs/发布 docs/实现审计 docs/需求`; `rtk proxy sed -n '120,150p' docs/发布/AutoJs6发布规范.md`
+- 验证结果: 矩阵记录 `assembleInrtRelease`、`assembleAppDebug`、`app/src/main/assets-app/template.apk`、`app/build/outputs/apk/inrt/release/*.apk`、单文件/项目打包、launchConfig、权限、ABI/libs、签名和设备运行验收项。本轮没有实际运行 `assembleInrtRelease` 或安装设备, 避免文档阶段夹带 template.apk 二进制变更。
+- 文档/示例同步结果: 新增内部打包回归矩阵并更新审计 README; 既有 README 和发布规范已包含 inrt/template 流程, 本轮未改变用户说明/API/示例, 外部文档不适用。
+- 未完成事项: 后续打包功能修改时必须实际运行 `assembleInrtRelease`、静态 APK/Manifest 检查和设备安装运行。
+- 风险/回归点: `template.apk` 是二进制资产, 重新生成后可能产生大 diff; 提交前必须确认变更来源。
+- 下一位 agent 接手备注: 如果修 #550 或打包权限问题, 先按 `12-打包inrt-template回归矩阵.md` 跑完整回归。
+
 ### T35 [P2] 定时任务后端回归矩阵
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -1202,22 +1262,34 @@ rtk proxy ./gradlew --no-daemon assembleAppDebug
 
 验收标准:
 
-- [ ] 覆盖立即触发任务。
-- [ ] 覆盖未来短时间任务。
-- [ ] 覆盖超过两天任务。
-- [ ] 覆盖开机恢复。
-- [ ] 覆盖锁屏/熄屏注意事项。
-- [ ] 记录精确闹钟权限影响。
-- [ ] 记录后台/电池优化影响。
-- [ ] 明确哪些失败属于系统限制。
+- [x] 覆盖立即触发任务。
+- [x] 覆盖未来短时间任务。
+- [x] 覆盖超过两天任务。
+- [x] 覆盖开机恢复。
+- [x] 覆盖锁屏/熄屏注意事项。
+- [x] 记录精确闹钟权限影响。
+- [x] 记录后台/电池优化影响。
+- [x] 明确哪些失败属于系统限制。
 
 必须产出:
 
 - 定时任务回归矩阵。
 
+执行记录:
+- 执行时间: 2026-06-09 00:58:22 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 2]`; 工作树干净后开始 Stage 3 文档。
+- 实际改动文件: `docs/实现审计/13-定时任务后端回归矩阵.md`; `docs/实现审计/README.md`; `docs/需求/AutoJs6后续Agent执行任务清单-带验收标准.md`。
+- 执行命令: `rtk proxy rg -n "TimedTask|AlarmTimedTask|WorkTimedTask|JobTimedTask|BootCompleted|ExactAlarm" app/src/main/java/org/autojs/autojs/timing app/src/main/java/org/autojs/autojs/ui/settings app/src/main/assets-app/sample/任务`
+- 验证结果: 矩阵覆盖 AlarmManager、WorkManager、JobScheduler 的立即/短期/超过两天/开机恢复/锁屏熄屏/精确闹钟/后台电池优化/失败记录场景, 并明确系统限制与代码问题边界。
+- 文档/示例同步结果: 新增内部定时任务回归矩阵并更新审计 README; 不改变用户功能/API/示例, README、内置示例、外部文档不适用。
+- 未完成事项: 未在设备上实际创建任务和重启复测。
+- 风险/回归点: 定时任务大量失败来自系统策略, 修复前必须保留权限和 ROM 证据。
+- 下一位 agent 接手备注: 修 Tasker/WorkManager 或调度后端时按矩阵记录计划/实际触发时间和偏差。
+
 ### T36 [P2] 插件/OCR 生命周期回归矩阵
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -1225,21 +1297,33 @@ rtk proxy ./gradlew --no-daemon assembleAppDebug
 
 验收标准:
 
-- [ ] 覆盖 MLKit OCR。
-- [ ] 覆盖 RapidOCR。
-- [ ] 覆盖 Paddle 内置引擎。
-- [ ] 覆盖 Paddle 插件发现、启用、禁用。
-- [ ] 覆盖插件进程死亡/解绑/重绑提示。
-- [ ] 覆盖打包 APK 中 OCR 相关 libs/assets。
-- [ ] 覆盖长时间运行内存/生命周期风险。
+- [x] 覆盖 MLKit OCR。
+- [x] 覆盖 RapidOCR。
+- [x] 覆盖 Paddle 内置引擎。
+- [x] 覆盖 Paddle 插件发现、启用、禁用。
+- [x] 覆盖插件进程死亡/解绑/重绑提示。
+- [x] 覆盖打包 APK 中 OCR 相关 libs/assets。
+- [x] 覆盖长时间运行内存/生命周期风险。
 
 必须产出:
 
 - OCR/插件回归矩阵。
 
+执行记录:
+- 执行时间: 2026-06-09 00:58:22 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 2]`; 工作树干净后开始 Stage 3 文档。
+- 实际改动文件: `docs/实现审计/14-OCR插件生命周期回归矩阵.md`; `docs/实现审计/README.md`; `docs/需求/AutoJs6后续Agent执行任务清单-带验收标准.md`。
+- 执行命令: `rtk proxy rg -n "Paddle|Rapid|MLKit|Ocr|PluginHost|PluginCenter|bindingDied|appStopped" app/src/main/java libs plugin-api app/src/main/assets-app/sample/OCR`
+- 验证结果: 矩阵覆盖 MLKit、RapidOCR、Paddle 内置、Paddle 插件、插件发现/启用/禁用、进程死亡、解绑/重绑、长跑、并发、打包 libs/assets 和记录模板。
+- 文档/示例同步结果: 新增内部 OCR/插件回归矩阵并更新审计 README; 不改变用户功能/API/示例, README、内置示例、外部文档不适用。
+- 未完成事项: 未在设备上安装插件、强停插件进程或执行长跑压测。
+- 风险/回归点: OCR/native 问题容易表现为崩溃或内存增长, 后续必须保留输入图片和耗时/内存数据。
+- 下一位 agent 接手备注: 修 Paddle/Rapid/MLKit 前先按矩阵跑 smoke, 修后至少跑同一图片的重复识别和释放。
+
 ### T37 [P2] Open issue A 类修复队列拆分
 
-状态: `[ ] 未开始`
+状态: `[x] 已完成`
 
 目标:
 
@@ -1252,16 +1336,37 @@ rtk proxy ./gradlew --no-daemon assembleAppDebug
 
 验收标准:
 
-- [ ] 每个 A 类 issue 一个独立任务。
-- [ ] 每个任务写清复现依据。
-- [ ] 每个任务写清目标文件。
-- [ ] 每个任务写清最小修复策略。
-- [ ] 每个任务写清回归脚本或验证命令。
-- [ ] 明确哪些 issue 已在当前版本/changelog 覆盖, 只需复测关闭。
+- [x] 每个 A 类 issue 一个独立任务。
+- [x] 每个任务写清复现依据。
+- [x] 每个任务写清目标文件。
+- [x] 每个任务写清最小修复策略。
+- [x] 每个任务写清回归脚本或验证命令。
+- [x] 明确哪些 issue 已在当前版本/changelog 覆盖, 只需复测关闭。
 
 注意:
 
 - 不要在本任务直接修 issue。本任务只拆队列。
+
+执行记录:
+- 执行时间: 2026-06-09 00:58:22 CST +0800
+- 执行 agent: Codex
+- 起始 git 状态: `## master...origin/master [ahead 2]`; 工作树干净后开始 Stage 3 文档。
+- 实际改动文件: `docs/实现审计/15-OpenIssue-A类修复队列.md`; `docs/实现审计/README.md`; `docs/需求/AutoJs6后续Agent执行任务清单-带验收标准.md`。
+- 执行命令: `rtk proxy sed -n '1,240p' ISSUE_TRIAGE.md`; `rtk proxy rg -n "#543|#550|#545|#540|#539|#536|#518|#322|#503|#501|#495|#523|#59|#541" ISSUE_TRIAGE.md app/src/main/java docs app/src/main/assets-app/doc`
+- 验证结果: A 类 14 个 issue 已拆为 A01-A14 独立任务, 每项包含复现依据、目标文件、最小修复策略、回归脚本/命令和状态建议; 明确 A01/A07/A08 等候选项需先复测确认是否已被当前版本覆盖。
+- 文档/示例同步结果: 新增内部 issue 修复队列并更新审计 README; 不改变用户功能/API/示例, README、内置示例、外部文档不适用。
+- 未完成事项: 未直接修任何 issue, 符合 T37 约束。
+- 风险/回归点: `ISSUE_TRIAGE.md` 来源为快照, 后续开发前需重新确认 GitHub issue 当前状态。
+- 下一位 agent 接手备注: 领取 A 类修复时一次只做一个独立任务; B/C 类平台限制不要混入 A 类修复 PR。
+
+阶段 3 自检:
+
+- 每个任务都有执行记录: T30-T37 均已追加执行记录。
+- 每个 `[x]` 都满足验收标准: T30-T37 均产出对应文档/矩阵/队列拆分; T34-T36 明确本轮为矩阵建设, 未实际执行设备、打包或长跑验证。
+- 已记录 git 状态、命令、验证结果: T30-T37 执行记录均包含起始状态、检索命令、验证结果和未完成事项。
+- 已明确文档/示例同步规则: Stage 3 只新增内部维护/回归文档, 不改变用户可见功能、脚本 API、配置项、错误提示或内置示例; README、内置示例和外部文档仓库均判定不适用。
+- 未误动用户已有改动: Stage 3 只新增/更新 `docs/实现审计/` 和本任务清单, 未修改源码、资源、示例或外部文档仓库。
+- 提交前验证: `rtk proxy git diff --check` 通过; `rtk proxy env JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home ANDROID_HOME=/Users/blaze/Library/Android/sdk ANDROID_SDK_ROOT=/Users/blaze/Library/Android/sdk ./gradlew --no-daemon :app:compileAppDebugKotlin` 通过。
 
 ## 6. P3 低优先级任务: 长期治理
 

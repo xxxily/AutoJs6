@@ -16,6 +16,14 @@
 | [05-Native与第三方模块审计.md](05-Native与第三方模块审计.md) | RapidOCR、Paddle OCR、apk-parser、apk-signer、imagequant、第三方模块问题 |
 | [06-构建发布与供应链审计.md](06-构建发布与供应链审计.md) | Gradle、CI、远程依赖、签名、wrapper、发布完整性问题 |
 | [07-文件覆盖清单.md](07-文件覆盖清单.md) | 当前审计纳入的全量文件清单, 用于证明每个文件已被确认归档 |
+| [08-Agent核心架构索引.md](08-Agent核心架构索引.md) | 后续 agent 快速定位 App 启动、脚本执行、运行时 API、无障碍、编辑器、打包、定时任务、插件/OCR |
+| [09-编辑器保存运行日志回归清单.md](09-编辑器保存运行日志回归清单.md) | 编辑器打开、保存、运行、错误定位、日志底部面板和只读模式回归步骤 |
+| [10-脚本Runtime-API回归样例集.md](10-脚本Runtime-API回归样例集.md) | console/files/http/dialogs/app/device/auto/images/ocr/tasks/floaty/shizuku/shell 等最小脚本样例 |
+| [11-无障碍手势截图问题诊断模板.md](11-无障碍手势截图问题诊断模板.md) | 无障碍、手势、截图、ROM/目标 App 限制的问题采集模板和 fallback 判断标准 |
+| [12-打包inrt-template回归矩阵.md](12-打包inrt-template回归矩阵.md) | `assembleInrtRelease`、`template.apk`、项目打包、权限、ABI、签名和设备验证矩阵 |
+| [13-定时任务后端回归矩阵.md](13-定时任务后端回归矩阵.md) | AlarmManager、WorkManager、JobScheduler 后端行为差异和系统限制记录 |
+| [14-OCR插件生命周期回归矩阵.md](14-OCR插件生命周期回归矩阵.md) | MLKit、RapidOCR、Paddle 内置/插件、进程死亡、重绑、打包资产和长跑风险 |
+| [15-OpenIssue-A类修复队列.md](15-OpenIssue-A类修复队列.md) | 基于 `ISSUE_TRIAGE.md` 的 A 类 issue 独立开发任务拆分, 不直接修复 |
 
 ## 关键结论
 
