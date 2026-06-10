@@ -90,11 +90,28 @@ object AiResultValidator {
             .filter { it.isNotBlank() && !capabilityIndex.containsApi(it) }
             .distinct()
         if (unknownUsedApis.isNotEmpty()) {
-            issues += "usedApis contains APIs not found in local docs: ${unknownUsedApis.joinToString(", ")}"
+            issues += "usedApis contains APIs not found in the current AutoJs6 local docs/capability index: ${unknownUsedApis.joinToString(", ")}"
         }
         val mergedCode = result.files.joinToString("\n") { it.content }
         val codeValidation = capabilityIndex.validateGeneratedCode(mergedCode)
+        val undeclaredRisks = codeValidation.risks
+            .filterNot { risk -> result.declaresRisk(risk.name) || result.declaresRisk(risk.description) }
+            .filter { it.level == "high" }
+            .map { it.name }
+            .distinct()
+        if (undeclaredRisks.isNotEmpty()) {
+            issues += "High-risk capabilities must be declared in requirements or risks before apply: ${undeclaredRisks.joinToString(", ")}"
+        }
         return AiValidatedResult(result, issues, codeValidation)
+    }
+
+    private fun AiGenerationResult.declaresRisk(needle: String): Boolean {
+        if (needle.isBlank()) return false
+        val lower = needle.lowercase()
+        return (requirements + risks + warnings).any { item ->
+            val text = item.lowercase()
+            lower in text || text in lower
+        }
     }
 }
 
@@ -105,6 +122,13 @@ data class AiValidatedResult(
 ) {
     val hasWarnings: Boolean
         get() = issues.isNotEmpty() || codeValidation.unknownApis.isNotEmpty() || codeValidation.risks.isNotEmpty()
+
+    val blocksApply: Boolean
+        get() = codeValidation.unknownApis.isNotEmpty() ||
+            issues.any {
+                it.startsWith("usedApis contains APIs") ||
+                    it.startsWith("High-risk capabilities must be declared")
+            }
 
     val requiresSecondConfirmation: Boolean
         get() = issues.isNotEmpty() || codeValidation.unknownApis.isNotEmpty() || codeValidation.risks.isNotEmpty()

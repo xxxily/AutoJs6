@@ -177,6 +177,14 @@
             <ul>
 <li><span class="stability_undefined"><a href="#shizuku_shizuku">Shizuku</a></span><ul>
 <li><span class="stability_undefined"><a href="#shizuku_shizuku_1">[@] shizuku</a></span><ul>
+<li><span class="stability_undefined"><a href="#shizuku_structured_api">结构化特权 API</a></span></li>
+<li><span class="stability_undefined"><a href="#shizuku_structured_app">shizuku.app</a></span></li>
+<li><span class="stability_undefined"><a href="#shizuku_structured_settings">shizuku.settings</a></span></li>
+<li><span class="stability_undefined"><a href="#shizuku_structured_package">shizuku.package</a></span></li>
+<li><span class="stability_undefined"><a href="#shizuku_structured_input">shizuku.input</a></span></li>
+<li><span class="stability_undefined"><a href="#shizuku_structured_process">shizuku.process</a></span></li>
+<li><span class="stability_undefined"><a href="#shizuku_structured_users">shizuku.users</a></span></li>
+<li><span class="stability_undefined"><a href="#shizuku_structured_audit">shizuku.audit</a></span></li>
 <li><span class="stability_undefined"><a href="#shizuku_shizuku_cmd">shizuku(cmd)</a></span></li>
 <li><span class="stability_undefined"><a href="#shizuku_shizuku_cmdlist">shizuku(cmdList)</a></span></li>
 </ul>
@@ -201,6 +209,7 @@
 <li>Shizuku 服务已启动 (参阅 <a href="https://shizuku.rikka.app/guide/setup/#start-shizuku">Shizuku 用户手册</a>)</li>
 <li>AutoJs6 首页抽屉开启 Shizuku 权限开关</li>
 </ul>
+<p><strong><code>6.7.3+</code></strong> 项目脚本可在 <code>project.json</code> 的 <code>capabilities</code> 声明 <code>shizuku</code>、<code>root</code>、<code>write_secure_settings</code>、<code>install_apk</code> 或 <code>uninstall_apk</code>. 未声明时会按 <code>riskPolicy</code> / <code>privilegedPolicy</code> 提示或拒绝, Shizuku 命令和结构化特权 API 会写入 <code>capabilities.audit()</code> 审计记录.</p>
 <hr>
 <p style="font: bold 2em sans-serif; color: #FF7043">shizuku</p>
 
@@ -209,7 +218,46 @@
 <p>shizuku 可作为全局对象使用:</p>
 <pre><code class="lang-js">typeof shizuku; // &quot;function&quot;
 typeof shizuku.execCommand; // &quot;function&quot;
+typeof shizuku.app.forceStop; // &quot;function&quot;
+typeof shizuku.settings.secure.put; // &quot;function&quot;
 </code></pre>
+<h2>结构化特权 API<span><a class="mark" href="#shizuku_structured_api" id="shizuku_structured_api">#</a></span></h2>
+<p><strong><code>6.7.3</code></strong></p>
+<p>常见 <code>pm</code>、<code>am</code>、<code>settings</code>、<code>input</code> 场景应优先使用结构化 API, 不需要手写 shell 字符串. 结构化调用会返回包含 <code>ok</code>、<code>code</code>、<code>result</code>、<code>error</code>、<code>backend</code>、<code>riskLevel</code>、<code>capabilities</code>、<code>auditId</code> 和 <code>data</code> 的结果对象, 并写入可导出的审计记录.</p>
+<p><code>options</code> 可包含 <code>backend</code> / <code>by</code> (<code>&quot;auto&quot;</code>、<code>&quot;shizuku&quot;</code>、<code>&quot;root&quot;</code>)、<code>userId</code>、<code>replace</code>、<code>keepData</code>. 默认 <code>auto</code> 会优先使用 Shizuku, 不可用时回退 Root; 普通 shell 只作为少量只读查询的内部降级实现.</p>
+<pre><code class="lang-js">/* 高风险: 强制停止应用. */
+let stopped = shizuku.app.forceStop(&quot;com.example.target&quot;);
+log(stopped.ok, stopped.riskLevel, stopped.capabilities);
+
+/* 高风险: 授予权限. */
+shizuku.app.grantPermission(autojs.packageName, &quot;android.permission.WRITE_SECURE_SETTINGS&quot;);
+
+/* 高风险: 修改安全设置. */
+shizuku.settings.secure.put(
+    &quot;enabled_accessibility_services&quot;,
+    `${autojs.packageName}/org.autojs.autojs.core.accessibility.AccessibilityServiceUsher`,
+);
+
+/* 高风险: 与无障碍手势不同, 这里走 input 注入后端. */
+shizuku.input.injectTap(100, 120);
+
+/* 导出审计记录. 审计记录包含操作、目标、后端、风险级别和能力声明, 不暴露内部 shell 命令. */
+log(shizuku.audit.exportJson());
+</code></pre>
+<h3>shizuku.app<span><a class="mark" href="#shizuku_structured_app" id="shizuku_structured_app">#</a></span></h3>
+<p>应用管理 API: <code>forceStop(packageName[, options])</code><span><a class="mark" href="#shizuku_app_forcestop" id="shizuku_app_forcestop">#</a></span>, <code>clearData(packageName[, options])</code><span><a class="mark" href="#shizuku_app_cleardata" id="shizuku_app_cleardata">#</a></span>, <code>enableComponent(component[, options])</code>, <code>disableComponent(component[, options])</code>, <code>setComponentEnabled(component, enabled[, options])</code>, <code>grantPermission(packageName, permission[, options])</code><span><a class="mark" href="#shizuku_app_grantpermission" id="shizuku_app_grantpermission">#</a></span>, <code>revokePermission(packageName, permission[, options])</code><span><a class="mark" href="#shizuku_app_revokepermission" id="shizuku_app_revokepermission">#</a></span>, <code>install(apkPath[, options])</code><span><a class="mark" href="#shizuku_app_install" id="shizuku_app_install">#</a></span>, <code>uninstall(packageName[, options])</code><span><a class="mark" href="#shizuku_app_uninstall" id="shizuku_app_uninstall">#</a></span>.</p>
+<h3>shizuku.settings<span><a class="mark" href="#shizuku_structured_settings" id="shizuku_structured_settings">#</a></span></h3>
+<p>设置 API: <code>get(namespace, key[, options])</code><span><a class="mark" href="#shizuku_settings_get" id="shizuku_settings_get">#</a></span>, <code>put(namespace, key, value[, options])</code><span><a class="mark" href="#shizuku_settings_put" id="shizuku_settings_put">#</a></span>, <code>delete(namespace, key[, options])</code><span><a class="mark" href="#shizuku_settings_delete" id="shizuku_settings_delete">#</a></span>. 也可使用 <code>shizuku.settings.secure.get</code>、<code>shizuku.settings.global.put</code>、<code>shizuku.settings.system.delete</code> 等命名空间快捷对象.</p>
+<h3>shizuku.package<span><a class="mark" href="#shizuku_structured_package" id="shizuku_structured_package">#</a></span></h3>
+<p>包管理查询 API: <code>info(packageName[, options])</code><span><a class="mark" href="#shizuku_package_info" id="shizuku_package_info">#</a></span>, <code>apkPath(packageName[, options])</code><span><a class="mark" href="#shizuku_package_apkpath" id="shizuku_package_apkpath">#</a></span>, <code>permissionState(packageName, permission[, options])</code><span><a class="mark" href="#shizuku_package_permissionstate" id="shizuku_package_permissionstate">#</a></span>.</p>
+<h3>shizuku.input<span><a class="mark" href="#shizuku_structured_input" id="shizuku_structured_input">#</a></span></h3>
+<p>输入注入 API: <code>injectTap(x, y[, options])</code><span><a class="mark" href="#shizuku_input_injecttap" id="shizuku_input_injecttap">#</a></span>, <code>injectSwipe(x1, y1, x2, y2[, duration][, options])</code><span><a class="mark" href="#shizuku_input_injectswipe" id="shizuku_input_injectswipe">#</a></span>, <code>keyEvent(keyCode[, options])</code><span><a class="mark" href="#shizuku_input_keyevent" id="shizuku_input_keyevent">#</a></span>. 这些方法通过系统 input 后端注入事件, 与无障碍 <code>click</code> / <code>swipe</code> 手势不同.</p>
+<h3>shizuku.process<span><a class="mark" href="#shizuku_structured_process" id="shizuku_structured_process">#</a></span></h3>
+<p>进程 API: <code>list([options])</code><span><a class="mark" href="#shizuku_process_list" id="shizuku_process_list">#</a></span>, <code>kill(pidOrPackage[, options])</code><span><a class="mark" href="#shizuku_process_kill" id="shizuku_process_kill">#</a></span>, <code>foreground([options])</code><span><a class="mark" href="#shizuku_process_foreground" id="shizuku_process_foreground">#</a></span>.</p>
+<h3>shizuku.users<span><a class="mark" href="#shizuku_structured_users" id="shizuku_structured_users">#</a></span></h3>
+<p>用户/多开 API: <code>listUsers([options])</code><span><a class="mark" href="#shizuku_users_listusers" id="shizuku_users_listusers">#</a></span>, <code>currentUser([options])</code><span><a class="mark" href="#shizuku_users_currentuser" id="shizuku_users_currentuser">#</a></span>, <code>runAsUser(userId, operation, ...args)</code><span><a class="mark" href="#shizuku_users_runasuser" id="shizuku_users_runasuser">#</a></span>, <code>dualApps([packageName][, options])</code><span><a class="mark" href="#shizuku_users_dualapps" id="shizuku_users_dualapps">#</a></span>. <code>runAsUser</code> 只接受受支持的结构化操作名, 不接受任意 shell 字符串.</p>
+<h3>shizuku.audit<span><a class="mark" href="#shizuku_structured_audit" id="shizuku_structured_audit">#</a></span></h3>
+<p>审计 API: <code>list()</code><span><a class="mark" href="#shizuku_audit_list" id="shizuku_audit_list">#</a></span>, <code>clear()</code>, <code>exportJson()</code><span><a class="mark" href="#shizuku_audit_exportjson" id="shizuku_audit_exportjson">#</a></span>, <code>metadata()</code>. <code>shizuku.operations</code><span><a class="mark" href="#shizuku_structured_operations" id="shizuku_structured_operations">#</a></span> 会返回每个结构化操作的能力声明和风险级别.</p>
 <h3>shizuku(cmd)<span><a class="mark" href="#shizuku_shizuku_cmd" id="shizuku_shizuku_cmd">#</a></span></h3>
 <p><strong><code>6.4.0</code></strong> <strong><code>Overload 1/2</code></strong></p>
 <ul>
@@ -225,22 +273,19 @@ shizuku(`input keyevent ${KeyEvent.KEYCODE_BACK}`); /* 同上. */
 shizuku(&#39;input keyevent 26&#39;);
 shizuku(`input keyevent ${KeyEvent.KEYCODE_POWER}`); /* 同上. */
 
-/* 点击屏幕坐标 (100, 120). */
-shizuku(&#39;input tap 100 120&#39;);
+/* 点击屏幕坐标 (100, 120), 新脚本优先使用结构化 API. */
+shizuku.input.injectTap(100, 120);
 
-/* 授予 AutoJs6 &quot;修改安全设置&quot; 权限. */
-shizuku(&#39;pm grant org.autojs.autojs6 android.permission.WRITE_SECURE_SETTINGS&#39;);
+/* 授予 AutoJs6 &quot;修改安全设置&quot; 权限, 高风险操作会产生审计记录. */
+shizuku.app.grantPermission(autojs.packageName, &quot;android.permission.WRITE_SECURE_SETTINGS&quot;);
 
-/* 授予 AutoJs6 &quot;投影媒体&quot; 权限. */
-shizuku(&#39;appops set org.autojs.autojs6 PROJECT_MEDIA allow&#39;);
-
-/* 获取当前时间. */
+/* 获取当前时间. execCommand 仅保留为兼容入口. */
 console.log(shizuku(&#39;date&#39;).result.trim());
 </code></pre>
 <p>使用 shizuku 启用 AutoJs6 无障碍服务 (共计 4 步):</p>
 <pre><code class="lang-js">
 /* [ 1. 获取无障碍服务列表, 列表是一个字符串, 不同无障碍服务之间以 &quot;:&quot; 分隔. ] */
-let services = shizuku(&#39;settings get secure enabled_accessibility_services&#39;).result.trim(); /* 结尾 &quot;\n&quot; 可通过 trim() 方法去除. */
+let services = shizuku.settings.secure.get(&#39;enabled_accessibility_services&#39;).data.value; /* 结尾 &quot;\n&quot; 已由结构化 API 去除. */
 
 /* [ 2. 确保无障碍服务列表中不存在 AutoJs6. ] */
 let servicesWithoutAutoJs6 = services
@@ -255,10 +300,10 @@ let servicesWithAutoJs6 = (() =&gt; {
     return servicesWithoutAutoJs6.length &gt; 0 ? `${servicesWithoutAutoJs6}:${serviceAutoJs6}` : serviceAutoJs6;
 })();
 
-/* [ 4. 通过覆盖系统的无障碍物服列表, 使 AutoJs6 无障碍服务生效. ] */
-shizuku(`settings put secure enabled_accessibility_services ${servicesWithAutoJs6}`);
+/* [ 4. 通过覆盖系统的无障碍服务列表, 使 AutoJs6 无障碍服务生效. ] */
+shizuku.settings.secure.put(&#39;enabled_accessibility_services&#39;, servicesWithAutoJs6);
 
-/* 需特别留意, 如果只执行 shizuku(`settings put secure enabled_accessibility_services ${AutoJs6 包名}/${AutoJs6 服务类名}`), 系统将只启用 AutoJs6 无障碍服务, 其他应用的无障碍服务将全部关闭. */
+/* 需特别留意, 如果只写入 AutoJs6 包名/服务类名, 系统将只启用 AutoJs6 无障碍服务, 其他应用的无障碍服务将全部关闭. */
 
 /* 另, 禁用 AutoJs6 无障碍服务, 只需执行上述示例的 [ 1, 2, 4 ] 步骤即可. */
 </code></pre>

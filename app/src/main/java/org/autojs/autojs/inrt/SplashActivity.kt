@@ -9,6 +9,7 @@ import android.content.pm.PackageManager.PERMISSION_DENIED
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -70,11 +71,23 @@ class SplashActivity : AppCompatActivity() {
             }
         }
         CoroutineScope(Dispatchers.Main).launch {
-            if (timeout > 0 && Pref.isFirstUsing) {
+            val firstUsing = Pref.isFirstUsing
+            if (timeout > 0 && firstUsing) {
                 delay(timeout)
+            }
+            if (firstUsing) {
+                guideMissingCapabilities(projectConfig)
             }
             checkPermission(WRITE_EXTERNAL_STORAGE)
         }
+    }
+
+    private fun guideMissingCapabilities(projectConfig: ProjectConfig) {
+        val missing = InrtDiagnostics.missingOrRequestableChecks(this, projectConfig)
+        if (missing.isEmpty()) return
+        val names = missing.joinToString { it.name }
+        Toast.makeText(this, getString(R.string.text_inrt_capability_preflight_missing, names), Toast.LENGTH_LONG).show()
+        InrtDiagnostics.openSettingsIfNeeded(this, missing)
     }
 
     private fun runScript() {
@@ -88,6 +101,10 @@ class SplashActivity : AppCompatActivity() {
                     Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
                     startActivity(Intent(context, LogActivity::class.java))
                     AutoJs.instance.globalConsole.printAllStackTrace(e)
+                    AutoJs.instance.globalConsole.println(
+                        Log.ERROR,
+                        "[INRT_DIAGNOSTICS]\n${InrtDiagnostics.export(context, e)}",
+                    )
                 }
             }
         }
@@ -132,4 +149,3 @@ class SplashActivity : AppCompatActivity() {
     }
 
 }
-

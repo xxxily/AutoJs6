@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import org.autojs.autojs.timing.TaskReceiver.EXTRA_SCHEDULED_AT
 import org.autojs.autojs.timing.TaskReceiver.EXTRA_TASK_ID
 
 object AlarmTimedTaskScheduler : TimedTaskBackend {
@@ -20,13 +21,19 @@ object AlarmTimedTaskScheduler : TimedTaskBackend {
 
     override fun schedule(context: Context, task: TimedTask, triggerAtMillis: Long) {
         val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val pi = buildPendingIntent(context, task.id)
+        val pi = buildPendingIntent(context, task.id, triggerAtMillis)
         try {
             am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAtMillis, pi)
         } catch (e: Exception) {
             // When reaching exceptions like "maximum 500 alarms per UID", fall back to WorkManager to avoid failure.
             // zh-CN: 达到 "每 UID 最多 500 个闹钟" 等异常时, 退回到 WorkManager, 避免失败.
             Log.e(LOG_TAG, "Failed to schedule exact alarm, fallback to WorkManager. taskId=${task.id}, cause=${e.message}")
+            TimedTaskManager.notifyTaskScheduleDegraded(
+                task,
+                triggerAtMillis,
+                "AlarmTimedTaskScheduler->WorkTimedTaskScheduler",
+                e.message ?: e.javaClass.name,
+            )
             WorkTimedTaskScheduler.schedule(context, task, triggerAtMillis)
         }
     }
@@ -35,10 +42,11 @@ object AlarmTimedTaskScheduler : TimedTaskBackend {
         WorkTimedTaskScheduler.schedulePeriodicCheck(context, intervalMillis)
     }
 
-    private fun buildPendingIntent(context: Context, taskId: Long): PendingIntent {
+    private fun buildPendingIntent(context: Context, taskId: Long, scheduledAt: Long = 0L): PendingIntent {
         val intent = Intent(context, TimedTaskAlarmReceiver::class.java)
             .setAction(ACTION_RUN_ALARM_TIMED_TASK)
             .putExtra(EXTRA_TASK_ID, taskId)
+            .putExtra(EXTRA_SCHEDULED_AT, scheduledAt)
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         return PendingIntent.getBroadcast(context, taskId.toInt(), intent, flags)
     }

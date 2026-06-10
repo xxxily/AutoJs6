@@ -235,6 +235,7 @@
 <hr>
 <p>files模块提供了一些常见的文件处理, 包括文件读写、移动、复制、删掉等.</p>
 <p>一次性的文件读写可以直接使用<code>files.read()</code>, <code>files.write()</code>, <code>files.append()</code>等方便的函数, 但如果需要频繁读写或随机读写, 则使用<code>open()</code>函数打开一个文件对象来操作文件, 并在操作完毕后调用<code>close()</code>函数关闭文件.</p>
+<p><strong><code>6.7.3+</code></strong> 项目脚本可在 <code>project.json</code> 的 <code>capabilities</code> 声明 <code>storage</code>, 并用 <code>filePolicy</code> 限制可写入或删除的路径范围. 覆盖写入、复制覆盖、移动覆盖、删除文件或递归删除目录等高风险操作会按策略提示或拒绝, 并写入 <code>capabilities.audit()</code> 审计记录.</p>
 <h2>files.isFile(path)<span><a class="mark" href="#files_files_isfile_path" id="files_files_isfile_path">#</a></span></h2>
 <div class="signature"><ul>
 <li><code>path</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 路径</li>

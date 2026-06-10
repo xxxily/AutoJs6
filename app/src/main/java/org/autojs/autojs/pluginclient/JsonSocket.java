@@ -220,7 +220,7 @@ abstract public class JsonSocket extends Socket {
         }
     }
 
-    private void writeData(String type, JsonObject data) {
+    public void writeData(String type, JsonObject data) {
         JsonObject json = new JsonObject();
 
         json.addProperty("type", type);

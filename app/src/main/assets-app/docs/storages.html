@@ -70,6 +70,7 @@
 <li><a class="nav-ui" href="ui.html">UI - 用户界面</a></li>
 <li><a class="nav-web" href="web.html">Web - 万维网</a></li>
 <li><a class="nav-http" href="http.html">HTTP</a></li>
+<li><a class="nav-ipc" href="ipc.html">IPC - 脚本间通信</a></li>
 <li><a class="nav-base64" href="base64.html">Base64</a></li>
 <li><a class="nav-crypto" href="crypto.html">Crypto - 密文</a></li>
 <li><a class="nav-opencc" href="opencc.html">OpenCC - 中文转换</a></li>
@@ -180,6 +181,10 @@
 <li><span class="stability_undefined"><a href="#storages_create_name">create(name)</a></span></li>
 </ul>
 </li>
+<li><span class="stability_undefined"><a href="#storages_m_namespace">[m] namespace</a></span><ul>
+<li><span class="stability_undefined"><a href="#storages_namespace_name_namespace">namespace(name, namespace)</a></span></li>
+</ul>
+</li>
 <li><span class="stability_undefined"><a href="#storages_m_remove">[m] remove</a></span><ul>
 <li><span class="stability_undefined"><a href="#storages_remove_name">remove(name)</a></span></li>
 </ul>
@@ -262,6 +267,26 @@ sto === stoCopied; // false
 <p>为保证数据安全及唯一性, <code>name</code> 参数应尽量具体:</p>
 <pre><code class="lang-js">storages.create(&#39;project-publishing-schedule&#39;);
 </code></pre>
+<h2>[m] namespace<span><a class="mark" href="#storages_m_namespace" id="storages_m_namespace">#</a></span></h2>
+<h3>namespace(name, namespace)<span><a class="mark" href="#storages_namespace_name_namespace" id="storages_namespace_name_namespace">#</a></span></h3>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><strong>name</strong> { <span class="type"><a href="dataTypes.html#datatypes_string">string</a></span> } - 存储组名称</li>
+<li><strong>namespace</strong> { <span class="type"><a href="dataTypes.html#datatypes_string">string</a></span> } - 命名空间名称</li>
+<li><ins><strong>returns</strong></ins> { <span class="type"><a href="storageType.html">Storage</a></span> }</li>
+</ul>
+</div><p>创建命名空间 KV 存储. 同一个 <code>name</code> 下不同 <code>namespace</code> 相互隔离, 适合按账号、环境、脚本模块或下载索引拆分数据.</p>
+<pre><code class="lang-js">let prod = storages.namespace('sync-cache', 'prod');
+let dev = storages.namespace('sync-cache', 'dev');
+
+prod.put('token', 'prod-token');
+dev.put('token', 'dev-token');
+
+log(prod.get('token')); // prod-token
+log(dev.get('token'));  // dev-token
+log(storages.namespaceNames('sync-cache'));
+</code></pre>
+<p>辅助方法: <code>storages.namespaceNames(name)</code>, <code>storages.removeNamespace(name, namespace)</code>, <code>storages.removeNamespaceSync(name, namespace)</code>.</p>
 <h2>[m] remove<span><a class="mark" href="#storages_m_remove" id="storages_m_remove">#</a></span></h2>
 <h3>remove(name)<span><a class="mark" href="#storages_remove_name" id="storages_remove_name">#</a></span></h3>
 <div class="signature"><ul>

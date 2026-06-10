@@ -7,6 +7,7 @@ import org.autojs.autojs.rhino.extension.AnyExtensions.isJsNullish
 import org.autojs.autojs.rhino.extension.AnyExtensions.jsBrief
 import org.autojs.autojs.rhino.extension.AnyExtensions.toRuntimePath
 import org.autojs.autojs.rhino.ArgumentGuards
+import org.autojs.autojs.rhino.extension.ScriptableExtensions.defineProp
 import org.autojs.autojs.rhino.extension.ScriptableExtensions.prop
 import org.autojs.autojs.rhino.extension.ScriptableObjectExtensions.acquire
 import org.autojs.autojs.rhino.extension.ScriptableObjectExtensions.inquire
@@ -18,7 +19,10 @@ import org.autojs.autojs.runtime.api.augment.threads.Threads
 import org.autojs.autojs.runtime.exception.WrappedIllegalArgumentException
 import org.autojs.autojs.timing.IntentTask
 import org.autojs.autojs.timing.TimedTask
+import org.autojs.autojs.timing.TimedTaskQueueItem
 import org.autojs.autojs.timing.TimedTaskManager
+import org.autojs.autojs.timing.TimedTaskRunRecord
+import org.autojs.autojs.timing.TimedTaskScheduler
 import org.autojs.autojs.util.RhinoUtils.callFunction
 import org.autojs.autojs.util.RhinoUtils.coerceArray
 import org.autojs.autojs.util.RhinoUtils.coerceBoolean
@@ -57,6 +61,8 @@ class Tasks(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
         ::updateTask.name,
         ::queryTimedTasks.name,
         ::queryIntentTasks.name,
+        ::queryTimedTaskRuns.name,
+        ::queryTimedTaskQueue.name,
         ::timeFlagToDays.name,
         ::daysToTimeFlag.name,
     )
@@ -257,6 +263,28 @@ class Tasks(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
 
         @JvmStatic
         @RhinoRuntimeFunctionInterface
+        fun queryTimedTaskRuns(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeArray = ensureArgumentsAtMost(args, 1) { argList ->
+            val (options) = argList
+            val opt = coerceObject(options, newNativeObject())
+
+            val taskId = opt.inquire(listOf("taskId", "id")) { coerceLongNumber(it) }
+            val limit = opt.inquire("limit", ::coerceIntNumber, 50)
+
+            TimedTaskManager.queryRunRecords(taskId, limit)
+                .map { it.toNativeObject() }
+                .toNativeArray()
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun queryTimedTaskQueue(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeArray = ensureArgumentsAtMost(args, 0) {
+            TimedTaskManager.currentTimedTaskQueue(TimedTaskScheduler.currentBackendName())
+                .map { it.toNativeObject() }
+                .toNativeArray()
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
         fun timeFlagToDays(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeArray = ensureArgumentsOnlyOne(args) {
             val flag = coerceIntNumber(it)
             val days = mutableListOf<Int>()
@@ -284,6 +312,17 @@ class Tasks(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
             delay = config.inquire("delay", ::coerceLongNumber, 0L)
             interval = config.inquire("interval", ::coerceLongNumber, 0L)
             loopTimes = config.inquire("loopTimes", ::coerceIntNumber, 1)
+            setArgument(TimedTask.ARG_MAX_RETRIES, config.inquire("maxRetries", ::coerceIntNumber, 0).coerceAtLeast(0))
+            setArgument(
+                TimedTask.ARG_RETRY_BACKOFF_MILLIS,
+                config.inquire(listOf("retryBackoffMillis", "retryBackoff"), ::coerceLongNumber, 0L).coerceAtLeast(0L),
+            )
+            setArgument(TimedTask.ARG_MUTEX, config.inquire("mutex", ::coerceBoolean, false))
+            setArgument(TimedTask.ARG_MUTEX_KEY, config.inquire("mutexKey", ::coerceString, ""))
+            setArgument(
+                TimedTask.ARG_TIMEOUT_MILLIS,
+                config.inquire(listOf("timeoutMillis", "timeout"), ::coerceLongNumber, 0L).coerceAtLeast(0L),
+            )
         }
 
         private fun parseLocalTime(options: ScriptableObject): LocalTime {
@@ -348,6 +387,47 @@ class Tasks(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
                     runnableResult
                 }
             }
+        }
+
+        private fun TimedTaskRunRecord.toNativeObject(): NativeObject = newNativeObject().also { obj ->
+            obj.defineProp("id", id)
+            obj.defineProp("taskId", taskId)
+            obj.defineProp("executionId", executionId)
+            obj.defineProp("scriptPath", scriptPath)
+            obj.defineProp("eventType", eventType)
+            obj.defineProp("scheduledAt", scheduledAt)
+            obj.defineProp("triggeredAt", triggeredAt)
+            obj.defineProp("startedAt", startedAt)
+            obj.defineProp("finishedAt", finishedAt)
+            obj.defineProp("launchStatus", launchStatus)
+            obj.defineProp("finishStatus", finishStatus)
+            obj.defineProp("exception", exception)
+            obj.defineProp("duration", duration)
+            obj.defineProp("backend", backend)
+            obj.defineProp("deviceState", deviceState)
+            obj.defineProp("degradationReason", degradationReason)
+            obj.defineProp("nextScheduledAt", nextScheduledAt)
+            obj.defineProp("retryAttempt", retryAttempt)
+            obj.defineProp("maxRetries", maxRetries)
+            obj.defineProp("backoffMillis", backoffMillis)
+            obj.defineProp("mutexKey", mutexKey)
+            obj.defineProp("timeoutMillis", timeoutMillis)
+        }
+
+        private fun TimedTaskQueueItem.toNativeObject(): NativeObject = newNativeObject().also { obj ->
+            obj.defineProp("taskId", taskId)
+            obj.defineProp("scriptPath", scriptPath)
+            obj.defineProp("nextScheduledAt", nextScheduledAt)
+            obj.defineProp("scheduled", scheduled)
+            obj.defineProp("backend", backend)
+            obj.defineProp("delay", delay)
+            obj.defineProp("interval", interval)
+            obj.defineProp("loopTimes", loopTimes)
+            obj.defineProp("maxRetries", maxRetries)
+            obj.defineProp("retryBackoffMillis", retryBackoffMillis)
+            obj.defineProp("mutex", mutex)
+            obj.defineProp("mutexKey", mutexKey)
+            obj.defineProp("timeoutMillis", timeoutMillis)
         }
 
     }

@@ -3,12 +3,12 @@ package org.autojs.autojs.timing
 import android.content.Context
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
-import org.autojs.autojs.external.ScriptIntents
 import org.autojs.autojs.util.WorkManagerUtils
 import java.util.concurrent.TimeUnit
 
@@ -25,6 +25,12 @@ object WorkTimedTaskScheduler : TimedTaskBackend {
         val request = OneTimeWorkRequestBuilder<TimedTaskWorker>()
             .setInitialDelay(delay.coerceAtLeast(0), TimeUnit.MILLISECONDS)
             .addTag(task.id.toString())
+            .setInputData(
+                Data.Builder()
+                    .putLong(KEY_TASK_ID, task.id)
+                    .putLong(KEY_SCHEDULED_AT, triggerAtMillis)
+                    .build(),
+            )
             .setConstraints(Constraints.NONE)
             .build()
         WorkManagerUtils.getInstance(context).enqueueUniqueWork(
@@ -47,11 +53,16 @@ object WorkTimedTaskScheduler : TimedTaskBackend {
     internal class TimedTaskWorker(appContext: Context, params: WorkerParameters) : CoroutineWorker(appContext, params) {
         override suspend fun doWork(): Result {
             val tags = this.tags // contains taskId string. (zh-CN: 包含 taskId 字符串.)
-            val taskId = tags.firstNotNullOfOrNull { it.toLongOrNull() } ?: return Result.failure()
+            val taskId = inputData.getLong(KEY_TASK_ID, -1L).takeIf { it > 0L }
+                ?: tags.firstNotNullOfOrNull { it.toLongOrNull() }
+                ?: return Result.failure()
             val task = TimedTaskManager.getTimedTask(taskId) ?: return Result.failure()
-            val intent = task.createIntent()
-            ScriptIntents.handleIntent(applicationContext, intent)
-            TimedTaskManager.notifyTaskFinished(task.id)
+            TimedTaskManager.triggerTask(
+                applicationContext,
+                task,
+                "WorkTimedTaskScheduler",
+                inputData.getLong(KEY_SCHEDULED_AT, task.getNextTime(applicationContext)),
+            )
             return Result.success()
         }
     }
@@ -62,5 +73,8 @@ object WorkTimedTaskScheduler : TimedTaskBackend {
             return Result.success()
         }
     }
+
+    private const val KEY_TASK_ID = "task_id"
+    private const val KEY_SCHEDULED_AT = "scheduled_at"
 
 }

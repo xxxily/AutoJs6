@@ -74,7 +74,7 @@ object PluginInfoDialogManager {
                 d.dismiss()
                 val url = info.validateApkUrlAndPrompt(context, d) ?: return@onNeutral
                 CoroutineScope(Dispatchers.Main).launch {
-                    PluginInstaller.installFromUrlWithPrompt(context, url, info.sha256)
+                    PluginInstaller.installFromUrlWithPrompt(context, url, info.sha256, info.certificateSha256)
                 }
             }
         }
@@ -199,20 +199,8 @@ object PluginInfoDialogManager {
     }
 
     internal fun showUpdatablePluginInfoDialog(context: Context, info: PluginInfoUpdatable, parentDialog: MaterialDialog? = null) {
-        info.validateApkUrlAndPrompt(context, parentDialog) ?: return
+        val url = info.validateApkUrlAndPrompt(context, parentDialog) ?: return
         parentDialog?.dismiss()
-
-        // TODO 更新详情参考 org.autojs.autojs.network.UpdateChecker.Dialog.Builder.Update.
-        // showPluginInfoDialogInternal(context, info) {
-        //     positiveText(R.string.dialog_button_update_now)
-        //     positiveColorRes(R.color.dialog_button_attraction)
-        //     onPositive { d, _ ->
-        //         d.dismiss()
-        //         CoroutineScope(Dispatchers.Main).launch {
-        //             PluginInstaller.installFromUrlWithPrompt(context, url, info.sha256)
-        //         }
-        //     }
-        // }
 
         val ignoreUpdateOption = MaterialDialog.OptionMenuItemSpec(context.getString(R.string.dialog_button_ignore_current_update)) { parentDialog ->
             MaterialDialog.Builder(context)
@@ -228,23 +216,30 @@ object PluginInfoDialogManager {
                 }
                 .showAdaptive()
         }
+        val releaseNotes = listOfNotNull(
+            info.item.updatableChangelogText?.takeIf { it.isNotBlank() },
+            info.item.updatableChangelogUrl?.takeIf { it.isNotBlank() },
+        ).takeIf { it.isNotEmpty() }?.joinToString("\n\n")
+            ?: context.getString(R.string.text_retrieving_release_notes)
 
         MaterialDialog.Builder(context)
             .title(info.version ?: info.title)
             .options(listOf(ignoreUpdateOption))
-            .content(R.string.text_retrieving_release_notes)
-            .neutralText(R.string.dialog_button_release_history)
-            .neutralColor(context.getColor(R.color.dialog_button_hint))
-            .onNeutral { _, _ ->
-                // DisplayReleaseHistoryActivity.launch(context)
-            }
+            .content(releaseNotes)
             .negativeText(R.string.dialog_button_cancel)
             .negativeColor(context.getColor(R.color.dialog_button_default))
             .onNegative { d, _ -> d.dismiss() }
             .positiveText(R.string.dialog_button_update_now)
-            .positiveColor(context.getColor(R.color.dialog_button_unavailable))
+            .positiveColorRes(R.color.dialog_button_attraction)
+            .onPositive { d, _ ->
+                d.dismiss()
+                CoroutineScope(Dispatchers.Main).launch {
+                    PluginInstaller.installFromUrlWithPrompt(context, url, info.sha256, info.certificateSha256)
+                }
+            }
             .autoDismiss(false)
             .cancelable(false)
+            .showAdaptive()
     }
 
     private fun parseStates(context: Context, item: PluginCenterItem): List<String> {
@@ -290,6 +285,17 @@ object PluginInfoDialogManager {
                 MaterialDialog.Builder(context)
                     .title(R.string.text_prompt)
                     .content(R.string.error_no_available_url_provided_for_current_plugin)
+                    .positiveText(R.string.dialog_button_dismiss)
+                    .showAdaptive()
+                parentDialog
+                    ?.getActionButton(DialogAction.POSITIVE)
+                    ?.setTextColor(context.getColor(R.color.dialog_button_unavailable))
+                null
+            }
+            sha256.isNullOrBlank() -> {
+                MaterialDialog.Builder(context)
+                    .title(R.string.text_integrity_verification_failed)
+                    .content(R.string.error_plugin_index_missing_apk_sha256)
                     .positiveText(R.string.dialog_button_dismiss)
                     .showAdaptive()
                 parentDialog
@@ -400,12 +406,16 @@ object PluginInfoDialogManager {
         val packageSize: Long
         val apkUrl: String? get() = item.installableApkUrl
         val sha256: String? get() = item.installableApkSha256
+        val certificateSha256: List<String> get() = item.certificateSha256
     }
 
     internal class PluginInfoUpdatable(
         override val item: PluginCenterItem,
-        override val packageSize: Long = item.installableApkSizeBytes ?: 0L,
+        override val packageSize: Long = item.updatableApkSizeBytes ?: 0L,
         override val version: String? = item.updatableVersionSummary,
+        override val apkUrl: String? = item.updatableApkUrl,
+        override val sha256: String? = item.updatableApkSha256,
+        override val certificateSha256: List<String> = item.updatableCertificateSha256,
     ) : PluginInfoBase
 
     private data class PluginInfoInstallable(

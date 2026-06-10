@@ -49,6 +49,7 @@ import org.autojs.autojs.util.RhinoUtils.callFunction
 import org.autojs.autojs.util.RhinoUtils.coerceBoolean
 import org.autojs.autojs.util.RhinoUtils.coerceFloatNumber
 import org.autojs.autojs.util.RhinoUtils.coerceIntNumber
+import org.autojs.autojs.util.RhinoUtils.coerceLongNumber
 import org.autojs.autojs.util.RhinoUtils.coerceNumber
 import org.autojs.autojs.util.RhinoUtils.coerceString
 import org.autojs.autojs.util.RhinoUtils.coerceStringLowercase
@@ -96,6 +97,7 @@ class Images(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime), AsEmitt
         ::requestScreenCaptureAsync.name to AS_GLOBAL,
         ::stopScreenCapture.name,
         ::getScreenCaptureOptions.name,
+        ::openCaptureSession.name,
         ::save.name,
         ::saveImage.name,
         ::invert.name,
@@ -341,6 +343,22 @@ class Images(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime), AsEmitt
         @RhinoRuntimeFunctionInterface
         fun getScreenCaptureOptions(scriptRuntime: ScriptRuntime, args: Array<out Any?>): ScreenCapturer.Options? = ensureArgumentsIsEmpty(args) {
             scriptRuntime.images.screenCaptureOptions
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun openCaptureSession(scriptRuntime: ScriptRuntime, args: Array<out Any?>): ScreenCaptureSessionNativeObject = ensureArgumentsAtMost(args, 1) { argList ->
+            val (rawOptions) = argList
+            val options = parseCaptureSessionOptions(rawOptions)
+            val rtImages = scriptRuntime.images
+            if (options.autoRequest && isBackgroundThread() && rtImages.screenCapturer == null) {
+                val requestOptions = when (rawOptions) {
+                    is NativeObject -> rawOptions
+                    else -> newNativeObject()
+                }
+                requestScreenCapture(scriptRuntime, arrayOf(requestOptions))
+            }
+            ScreenCaptureSessionNativeObject(scriptRuntime, rtImages.openCaptureSession(options))
         }
 
         @JvmStatic
@@ -1525,6 +1543,48 @@ class Images(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime), AsEmitt
                 require(y + it <= imageHeight) { "Excessive height: region [$y + $it] > image [$imageHeight]" }
             }
             return OpencvRect(x, y, w, h)
+        }
+
+        private fun parseCaptureSessionOptions(rawOptions: Any?): ApiImages.CaptureSessionOptions {
+            val presetOptions = when (rawOptions) {
+                is String -> ApiImages.CaptureSessionOptions.forPreset(coerceString(rawOptions))
+                is NativeObject -> ApiImages.CaptureSessionOptions.forPreset(
+                    rawOptions.inquire("preset") { coerceString(it) }
+                        ?: rawOptions.inquire("mode") { coerceString(it) }
+                )
+                else -> {
+                    require(rawOptions.isJsNullish()) {
+                        "Argument \"options\" ${rawOptions.jsBrief()} for images.openCaptureSession must be a JavaScript Object or preset string"
+                    }
+                    ApiImages.CaptureSessionOptions.forPreset(null)
+                }
+            }
+            if (rawOptions !is NativeObject) {
+                return presetOptions
+            }
+
+            val cacheSize = rawOptions.inquire("cacheSize") { coerceIntNumber(it) }
+                ?: rawOptions.inquire("maxFrames") { coerceIntNumber(it) }
+                ?: presetOptions.cacheSize
+            val timeout = rawOptions.inquire("timeout") { coerceLongNumber(it) }
+                ?: rawOptions.inquire("defaultTimeout") { coerceLongNumber(it) }
+                ?: rawOptions.inquire("defaultTimeoutMillis") { coerceLongNumber(it) }
+                ?: presetOptions.defaultTimeoutMillis
+            val minInterval = rawOptions.inquire("interval") { coerceLongNumber(it) }
+                ?: rawOptions.inquire("minInterval") { coerceLongNumber(it) }
+                ?: rawOptions.inquire("minIntervalMillis") { coerceLongNumber(it) }
+                ?: presetOptions.minIntervalMillis
+            val logErrors = rawOptions.inquire("logErrors", ::coerceBoolean, presetOptions.logErrors)
+            val autoRequest = rawOptions.inquire("autoRequest", ::coerceBoolean, presetOptions.autoRequest)
+
+            return ApiImages.CaptureSessionOptions(
+                presetOptions.preset,
+                cacheSize,
+                timeout,
+                minInterval,
+                logErrors,
+                autoRequest,
+            )
         }
 
         private fun requestScreenCaptureInternal(scriptRuntime: ScriptRuntime, vararg args: Any?): ScriptPromiseAdapter {

@@ -2,6 +2,7 @@ package org.autojs.autojs.app.tool
 
 import android.annotation.SuppressLint
 import android.content.Context
+import org.autojs.autojs.observability.RemoteDebugBridge
 import org.autojs.autojs.util.Observers
 import org.autojs.autojs.util.ViewUtils
 
@@ -35,6 +36,10 @@ class JsonSocketServerTool(context: Context) : AbstractJsonSocketTool(context) {
     override fun disconnect() {
         devPlugin.disconnectJsonSocketServer()
         isNormallyClosed = true
+    }
+
+    fun showRemoteDebugBridgeManager() {
+        RemoteDebugBridge.showLocalManager(context)
     }
 
     override fun dispose() {

@@ -14,6 +14,9 @@ import org.autojs.autojs.core.plugin.Plugin.PluginLoadException
 import org.autojs.autojs.core.plugin.center.PluginEnableStore
 import org.autojs.autojs.core.plugin.center.PluginTrustManager
 import org.autojs.autojs.execution.ExecutionConfig
+import org.autojs.autojs.capability.ProjectCapabilityAction
+import org.autojs.autojs.capability.ProjectCapabilityAuditLog
+import org.autojs.autojs.capability.ProjectCapabilityDecision
 import org.autojs.autojs.pio.PFiles.copyAssetDir
 import org.autojs.autojs.pio.PFiles.deleteRecursively
 import org.autojs.autojs.rhino.TopLevelScope
@@ -34,6 +37,7 @@ class Plugins(private val context: Context, private val runtime: PluginRuntime) 
 
     fun load(packageName: String): Plugin {
         mPlugins[packageName]?.let { return it }
+        auditPluginLoad(packageName)
 
         if (!PluginEnableStore.isEnabled(context, packageName, defaultEnabled = true)) {
             throw PluginLoadException(context.getString(R.string.error_plugin_is_not_enabled_in_plugin_center, packageName))
@@ -89,8 +93,29 @@ class Plugins(private val context: Context, private val runtime: PluginRuntime) 
         null
     }
 
+    private fun auditPluginLoad(packageName: String) {
+        ProjectCapabilityAuditLog.record(
+            ProjectCapabilityDecision(
+                action = ProjectCapabilityAction.ALLOW,
+                allowed = true,
+                projectKey = runtime.projectKey.ifBlank { "plugin-runtime" },
+                api = "plugins.load",
+                capabilities = runtime.projectCapabilities,
+                riskLevel = "medium",
+                target = packageName,
+                reason = "Plugin call uses host project capability manifest.",
+            )
+        )
+    }
+
     @JvmRecord
-    data class PluginRuntime(val topLevelScope: TopLevelScope, val pluginSearchDir: String, val engine: String) {
+    data class PluginRuntime(
+        val topLevelScope: TopLevelScope,
+        val pluginSearchDir: String,
+        val engine: String,
+        val projectKey: String = "",
+        val projectCapabilities: List<String> = emptyList(),
+    ) {
         fun createScopedAppContext(hostContext: Context, selfContext: Context?) = ScopedAppContext(hostContext, selfContext)
     }
 

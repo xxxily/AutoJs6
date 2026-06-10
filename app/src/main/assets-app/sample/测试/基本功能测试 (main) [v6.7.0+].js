@@ -73,6 +73,11 @@ assert(isFunc(Array.prototype.flat), 'Array.prototype.flat');
 assert(isObjOrFunc(auto), 'auto');
 assert(isFunc(auto.waitFor), 'auto.waitFor()');
 assert(noError(auto.waitFor, auto), 'auto.waitFor()');
+assert(isFunc(auto.waitUntil), 'auto.waitUntil()');
+assert(isFunc(auto.retry), 'auto.retry()');
+assert(isFunc(auto.stableClick), 'auto.stableClick()');
+assert(isFunc(auto.stableSetText), 'auto.stableSetText()');
+assert(isFunc(auto.findWithScroll), 'auto.findWithScroll()');
 assert(Array.isArray(auto.windows), 'auto.windows');
 assert(typeof auto.service /* nullable */ === 'object', 'auto.service');
 
@@ -432,6 +437,8 @@ assert(!isNullish(events.broadcast), 'events.broadcast');
 
 assert(isObjOrFunc(tasks), 'tasks');
 assert(Array.isArray(tasks.queryTimedTasks({ path: files.cwd() })), 'tasks.queryTimedTasks()');
+assert(Array.isArray(tasks.queryTimedTaskRuns({ limit: 1 })), 'tasks.queryTimedTaskRuns()');
+assert(Array.isArray(tasks.queryTimedTaskQueue()), 'tasks.queryTimedTaskQueue()');
 assert(tasks.timeFlagToDays(55).join('') === '01245', 'tasks.timeFlagToDays()');
 assert(tasks.daysToTimeFlag([ 0, 1, 2, 4 ]) === 23, 'tasks.daysToTimeFlag()');
 

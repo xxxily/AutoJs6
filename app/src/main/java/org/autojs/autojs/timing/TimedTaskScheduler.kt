@@ -5,10 +5,8 @@ import android.content.Context
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.autojs.autojs.core.pref.Pref
-import org.autojs.autojs.external.ScriptIntents.handleIntent
 import org.autojs.autojs.util.StringUtils.key
 import org.autojs.autojs6.R
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by Stardust on Nov 27, 2017.
@@ -18,14 +16,7 @@ object TimedTaskScheduler {
 
     private const val LOG_TAG = "TimedTaskScheduler"
 
-    private val SCHEDULE_TASK_MIN_TIME = TimeUnit.DAYS.toMillis(2)
-    private val SCHEDULE_PERIODIC_CHECK_TIME = TimeUnit.MINUTES.toMillis(20)
-
     private lateinit var backend: TimedTaskBackend
-
-    // Alarm quota reserved for the current application (not exceeding 500).
-    // zh-CN: 为当前应用保留的闹钟配额 (不超过 500).
-    private const val MAX_ALARM_SLOTS = 450
 
     fun init(context: Context) {
         val backend = run initBackend@{
@@ -41,7 +32,7 @@ object TimedTaskScheduler {
 
         println("$LOG_TAG: init backend = ${TimedTaskScheduler.backend}")
         backend.init(context)
-        backend.schedulePeriodicCheck(context, SCHEDULE_PERIODIC_CHECK_TIME)
+        backend.schedulePeriodicCheck(context, TimedTaskSchedulingPolicy.schedulePeriodicCheckTimeMillis)
 
         checkTasks(context, true)
     }
@@ -52,20 +43,23 @@ object TimedTaskScheduler {
         println("$LOG_TAG: cancel task (${backend}): task = $timedTask")
     }
 
-    fun runTask(context: Context, task: TimedTask) {
+    fun runTask(
+        context: Context,
+        task: TimedTask,
+        scheduledAt: Long = task.getNextTime(context),
+        triggerReason: String = TimedTaskRunRecord.EVENT_RUN,
+        backendName: String = currentBackendName(),
+    ) {
         println("$LOG_TAG: run task: task = $task")
-        val intent = task.createIntent()
-        handleIntent(context, intent)
-        TimedTaskManager.notifyTaskFinished(task.id)
+        TimedTaskManager.triggerTask(context, task, backendName, scheduledAt, triggerReason)
     }
 
     @SuppressLint("CheckResult")
     fun checkTasks(context: Context, force: Boolean) {
         println("$LOG_TAG: check tasks: force = $force")
         when (backend) {
-            AlarmTimedTaskScheduler -> TimedTaskManager.allTasksAsList
-                .sortedBy { it.getNextTime(context) }
-                .take(MAX_ALARM_SLOTS)
+            AlarmTimedTaskScheduler -> TimedTaskSchedulingPolicy
+                .selectAlarmCandidates(TimedTaskManager.allTasksAsList) { it.getNextTime(context) }
                 .forEach { timedTask -> scheduleTaskIfNeeded(context, timedTask, force) }
             else -> TimedTaskManager.allTasks
                 .subscribeOn(Schedulers.io())
@@ -77,11 +71,12 @@ object TimedTaskScheduler {
     @JvmStatic
     fun scheduleTaskIfNeeded(context: Context, timedTask: TimedTask, force: Boolean) {
         val millis = timedTask.getNextTime(context)
-        if (millis <= System.currentTimeMillis()) {
-            runTask(context, timedTask)
+        val now = System.currentTimeMillis()
+        if (TimedTaskSchedulingPolicy.shouldRunNow(millis, now)) {
+            runTask(context, timedTask, millis, TimedTaskRunRecord.EVENT_COMPENSATED_RUN)
             return
         }
-        if (!force && timedTask.isScheduled || millis - System.currentTimeMillis() > SCHEDULE_TASK_MIN_TIME) {
+        if (!TimedTaskSchedulingPolicy.shouldSchedule(millis, now, timedTask.isScheduled, force)) {
             return
         }
         scheduleTask(context, timedTask, millis, force)
@@ -94,16 +89,20 @@ object TimedTaskScheduler {
             return
         }
         timedTask.isScheduled = true
-        val timeWindow = millis - System.currentTimeMillis()
+        val timeWindow = TimedTaskSchedulingPolicy.timeWindowMillis(millis, System.currentTimeMillis())
         TimedTaskManager.updateTaskWithoutReScheduling(timedTask)
         if (timeWindow <= 0) {
-            runTask(context, timedTask)
+            runTask(context, timedTask, millis, TimedTaskRunRecord.EVENT_COMPENSATED_RUN)
             return
         }
         cancel(context, timedTask)
         println("$LOG_TAG: schedule task: task = $timedTask, millis = $millis, timeWindow = $timeWindow")
 
         backend.schedule(context, timedTask, millis)
+    }
+
+    fun currentBackendName(): String {
+        return if (::backend.isInitialized) backend.javaClass.simpleName.removeSuffix("$") else "uninitialized"
     }
 
 }

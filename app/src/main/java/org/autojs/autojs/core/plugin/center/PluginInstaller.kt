@@ -2,7 +2,10 @@ package org.autojs.autojs.core.plugin.center
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.core.content.FileProvider
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
@@ -85,8 +88,13 @@ object PluginInstaller {
         }.startSafely(context)
     }
 
-    suspend fun installFromUrlWithPrompt(context: Context, url: String, expectedSha256: String? = null) {
-        when (val result = downloadWithProgress(context, url, expectedSha256)) {
+    suspend fun installFromUrlWithPrompt(
+        context: Context,
+        url: String,
+        expectedSha256: String? = null,
+        expectedCertificateSha256: List<String> = emptyList(),
+    ) {
+        when (val result = downloadWithProgress(context, url, expectedSha256, expectedCertificateSha256)) {
             is DownloadResult.Success -> {
                 installFromFileUriWithPrompt(context, result.uri)
             }
@@ -99,14 +107,19 @@ object PluginInstaller {
                 // zh-CN: 等待用户在失败对话框中的操作 (重试/放弃).
                 val wantRetry = showFailureDialogAndAwaitDecision(context, result)
                 if (wantRetry) {
-                    installFromUrlWithPrompt(context, url, expectedSha256)
+                    installFromUrlWithPrompt(context, url, expectedSha256, expectedCertificateSha256)
                 }
             }
         }
     }
 
-    suspend fun installFromUrl(context: Context, url: String, expectedSha256: String? = null) {
-        when (val result = downloadWithProgress(context, url, expectedSha256)) {
+    suspend fun installFromUrl(
+        context: Context,
+        url: String,
+        expectedSha256: String? = null,
+        expectedCertificateSha256: List<String> = emptyList(),
+    ) {
+        when (val result = downloadWithProgress(context, url, expectedSha256, expectedCertificateSha256)) {
             is DownloadResult.Success -> {
                 installFromFileUri(context, result.uri)
             }
@@ -119,7 +132,7 @@ object PluginInstaller {
                 // zh-CN: 等待用户在失败对话框中的操作 (重试/放弃).
                 val wantRetry = showFailureDialogAndAwaitDecision(context, result)
                 if (wantRetry) {
-                    installFromUrl(context, url, expectedSha256)
+                    installFromUrl(context, url, expectedSha256, expectedCertificateSha256)
                 }
             }
         }
@@ -149,6 +162,7 @@ object PluginInstaller {
         context: Context,
         url: String,
         expectedSha256: String?,
+        expectedCertificateSha256: List<String>,
     ): DownloadResult {
         val cancelFlag = AtomicBoolean(false)
         val dialog = MaterialDialog.Builder(context)
@@ -242,9 +256,11 @@ object PluginInstaller {
                 }
             }
 
-            if (expectedSha256 != null && !expectedSha256.equals(sha256Hex, ignoreCase = true)) {
-                throw ChecksumMismatchException(expectedSha256, sha256Hex)
+            val normalizedExpectedSha256 = expectedSha256?.let(PluginIndexSecurity::normalizeSha256)
+            if (!normalizedExpectedSha256.isNullOrBlank() && normalizedExpectedSha256 != sha256Hex) {
+                throw ChecksumMismatchException(normalizedExpectedSha256, sha256Hex)
             }
+            validateCertificatePins(context, out, expectedCertificateSha256)
 
             val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", out)
             return DownloadResult.Success(uri, len, sha256Hex)
@@ -256,6 +272,11 @@ object PluginInstaller {
             return DownloadResult.Failure(
                 R.string.text_integrity_verification_failed,
                 context.getString(R.string.text_sha256_mismatch_multiline_expected_actual, me.expected, me.actual),
+            )
+        } catch (ce: CertificatePinMismatchException) {
+            return DownloadResult.Failure(
+                R.string.text_integrity_verification_failed,
+                context.getString(R.string.error_plugin_apk_certificate_mismatch, ce.expected.joinToString(), ce.actual.joinToString()),
             )
         } catch (ioe: EOFException) {
             return DownloadResult.Failure(R.string.text_failed_to_retrieve, "Unexpected EOF: ${ioe.message}")
@@ -274,6 +295,39 @@ object PluginInstaller {
         val last = url.substringAfterLast('/').substringBefore('?')
         require(last.isNotBlank()) { "Invalid url: $url" }
         return if (last.endsWith(".apk", ignoreCase = true)) last else "$last.apk"
+    }
+
+    private fun validateCertificatePins(context: Context, apkFile: File, expectedPins: List<String>) {
+        val expected = PluginIndexSecurity.normalizeSha256List(expectedPins)
+        if (expected.isEmpty()) return
+        val actual = readApkSigningCertificateSha256(context, apkFile)
+        if (actual.none { it in expected }) {
+            throw CertificatePinMismatchException(expected, actual)
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun readApkSigningCertificateSha256(context: Context, apkFile: File): List<String> {
+        val pm = context.packageManager
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            PackageManager.GET_SIGNING_CERTIFICATES
+        } else {
+            PackageManager.GET_SIGNATURES
+        }
+        val packageInfo: PackageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            pm.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.PackageInfoFlags.of(flags.toLong()))
+        } else {
+            pm.getPackageArchiveInfo(apkFile.absolutePath, flags)
+        } ?: throw SecurityException("Unable to read APK signing certificates: ${apkFile.name}")
+        val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            packageInfo.signingInfo?.apkContentsSigners
+        } else {
+            packageInfo.signatures
+        }
+        return signatures
+            ?.map { PluginIndexSecurity.sha256Hex(it.toByteArray()) }
+            ?.distinct()
+            .orEmpty()
     }
 
     private suspend fun showFailureDialogAndAwaitDecision(
@@ -321,6 +375,11 @@ object PluginInstaller {
     private data class HttpStatusException(val code: Int, override val message: String) : RuntimeException(message)
 
     private data class ChecksumMismatchException(val expected: String, val actual: String) : RuntimeException("sha256 mismatch")
+
+    private data class CertificatePinMismatchException(
+        val expected: List<String>,
+        val actual: List<String>,
+    ) : RuntimeException("certificate pin mismatch")
 
     sealed interface DownloadResult {
         data class Success(val uri: Uri, val length: Long, val sha256: String) : DownloadResult

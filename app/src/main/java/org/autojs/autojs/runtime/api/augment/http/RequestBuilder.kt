@@ -47,7 +47,10 @@ class RequestBuilder(
 
         fun MutableOkHttp.applyOkHttpClientBuilder(opt: NativeObject) {
             val clientProp = opt.prop(KEY_CLIENT).takeUnless { it.isJsNullish() }
-            require(clientProp is NativeObject?) { "Argument \"client\" ${clientProp.jsBrief()} for http.request must be a JavaScript Object" }
+            require(clientProp is NativeObject? || clientProp is CharSequence) {
+                "Argument \"client\" ${clientProp.jsBrief()} for http.request must be a JavaScript Object or named client string"
+            }
+            val clientOptions = clientProp as? NativeObject ?: return
 
             val timeout = coerceLongNumber(opt.prop(KEY_TIMEOUT), getTimeout())
             val isInsecure = opt.inquire(listOf("isInsecure", "insecure"), ::coerceBoolean, false)
@@ -83,7 +86,7 @@ class RequestBuilder(
                 return builderClass.methods.filter { it.name == name && it.declaringClass == builderClass }
             }
 
-            clientProp?.forEach { entry ->
+            clientOptions.forEach { entry ->
                 val (rawKey, rawVal) = entry
                 val methodName = coerceString(rawKey, "").trim()
                 if (methodName.isEmpty()) return@forEach

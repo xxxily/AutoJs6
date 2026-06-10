@@ -18,8 +18,10 @@ data class PluginIndexEntry(
     val variant: String? = null,
     /** @sample "paddle-ocr-pp-ocrv5" */
     val engineId: String? = null,
+    val manifest: PluginCapabilityManifest = PluginCapabilityManifest(),
 
     val releases: List<PluginIndexRelease> = emptyList(),
 
     val tags: List<String> = emptyList(),
+    val indexSignature: PluginIndexSignature? = null,
 )

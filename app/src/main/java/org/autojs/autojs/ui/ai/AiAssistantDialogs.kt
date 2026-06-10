@@ -15,6 +15,12 @@ import okhttp3.Call
 import org.autojs.autojs.ai.client.AiClientException
 import org.autojs.autojs.ai.client.OpenAiCompatibleClient
 import org.autojs.autojs.ai.config.AiConfigRepository
+import org.autojs.autojs.ai.copilot.AiContextSource
+import org.autojs.autojs.ai.copilot.AiCopilotContextBuilder
+import org.autojs.autojs.ai.copilot.AiCopilotContextExtras
+import org.autojs.autojs.ai.copilot.AiCopilotPreflight
+import org.autojs.autojs.ai.copilot.AiCopilotPrivacyPolicy
+import org.autojs.autojs.ai.copilot.AiPatchApplicator
 import org.autojs.autojs.ai.docs.AiCapabilityEntry
 import org.autojs.autojs.ai.docs.AiCapabilityIndex
 import org.autojs.autojs.ai.prompt.AiPromptBuilder
@@ -25,6 +31,7 @@ import org.autojs.autojs.ai.result.AiGeneratedFile
 import org.autojs.autojs.ai.result.AiResultParser
 import org.autojs.autojs.ai.result.AiResultValidator
 import org.autojs.autojs.ai.result.AiValidatedResult
+import org.autojs.autojs.capability.CapabilityRegistry
 import org.autojs.autojs.ui.common.ScriptOperations
 import org.autojs.autojs.ui.edit.EditorView
 import org.autojs.autojs.util.ClipboardUtils
@@ -80,6 +87,16 @@ object AiAssistantDialogs {
             val repo = AiConfigRepository(context)
             val settings = repo.getSettings()
             val lastError = editorView.getLastRunErrorForAi()
+            val inferredCapabilityIds = if (taskType == AiTaskType.FIX_ERROR) {
+                CapabilityRegistry.inferCapabilityIdsFromScript(snapshotText)
+            } else {
+                emptyList()
+            }
+            val capabilityStateSummary = if (inferredCapabilityIds.isNotEmpty()) {
+                AiCopilotPreflight.summarizeCapabilityChecks(CapabilityRegistry.check(context, inferredCapabilityIds))
+            } else {
+                ""
+            }
             val croppedText = when {
                 selectedText.isNotBlank() -> cropAroundSelection(
                     snapshotText,
@@ -109,11 +126,16 @@ object AiAssistantDialogs {
                 errorLine = lastError?.line ?: -1,
                 errorColumn = lastError?.column ?: 0,
                 logSnippet = if (settings.allowRecentLogs) crop(lastError?.logSnippet.orEmpty(), settings.maxLogChars) else "",
+                capabilityStateSummary = capabilityStateSummary,
+            )
+            val contextExtras = AiCopilotContextExtras(
+                clipboardText = if (settings.allowClipboardContext) ClipboardUtils.getClipOrEmpty(context).toString() else "",
             )
             runAiTask(
                 context = context,
                 scriptContext = scriptContext,
-                contextSummary = buildContextSummary(context, scriptContext, selectedText.isNotBlank()),
+                contextSummary = buildContextSummary(context, scriptContext, selectedText.isNotBlank(), contextExtras),
+                contextExtras = contextExtras,
                 onResult = { validated, docs ->
                     showEditorPreview(
                         editorView = editorView,
@@ -239,6 +261,7 @@ object AiAssistantDialogs {
         context: Context,
         scriptContext: AiScriptContext,
         contextSummary: String,
+        contextExtras: AiCopilotContextExtras = AiCopilotContextExtras(),
         onResult: (AiValidatedResult, List<AiCapabilityEntry>) -> Unit,
     ) {
         val repo = AiConfigRepository(context)
@@ -257,6 +280,8 @@ object AiAssistantDialogs {
             showOpenSettingsPrompt(context, context.getString(R.string.error_ai_missing_api_key))
             return
         }
+        val privacyPolicy = AiCopilotPrivacyPolicy.fromSettings(settings)
+        val privacySummary = AiCopilotContextBuilder.summarize(scriptContext, contextExtras, privacyPolicy)
 
         MaterialDialog.Builder(context)
             .title(R.string.text_ai_context_summary)
@@ -265,7 +290,11 @@ object AiAssistantDialogs {
             .positiveText(R.string.text_ai_send)
             .positiveColorRes(R.color.dialog_button_attraction)
             .onPositive { _, _ ->
-                executeAiRequest(context, provider.displayName(), scriptContext, provider, apiKey, onResult)
+                val confirmedPolicy = privacyPolicy.copy(
+                    confirmedSources = privacyPolicy.confirmedSources + privacySummary.confirmationRequiredSources,
+                )
+                val prepared = AiCopilotContextBuilder.prepare(scriptContext, contextExtras, confirmedPolicy)
+                executeAiRequest(context, provider.displayName(), prepared.scriptContext, provider, apiKey, onResult)
             }
             .show()
     }
@@ -307,7 +336,12 @@ object AiAssistantDialogs {
                 callConsumer = { callRef.set(it) },
             )
             val result = AiResultParser.parse(response.content)
-            AiResultValidator.validate(result, scriptContext.taskType, index) to docs
+            val validated = AiResultValidator.validate(result, scriptContext.taskType, index)
+            val generatedCode = result.files.joinToString("\n") { it.content }
+            val capabilityIds = CapabilityRegistry.inferCapabilityIdsFromScript(generatedCode)
+            val capabilityChecks = if (capabilityIds.isEmpty()) emptyList() else CapabilityRegistry.check(context, capabilityIds)
+            val preflight = AiCopilotPreflight.analyze(result, index, capabilityChecks)
+            validated.copy(issues = (validated.issues + preflight.issues).distinct()) to docs
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -465,25 +499,28 @@ object AiAssistantDialogs {
 
     private fun applyToEditor(editorView: EditorView, snapshotText: String, taskType: AiTaskType, file: AiGeneratedFile) {
         val context = editorView.context
-        if (editorView.getTextForAi() != snapshotText) {
+        val patchResult = AiPatchApplicator.apply(
+            currentText = editorView.getTextForAi(),
+            snapshotText = snapshotText,
+            selectionStart = editorView.getSelectionStartForAi(),
+            selectionEnd = editorView.getSelectionEndForAi(),
+            file = file,
+        )
+        if (!patchResult.applied) {
             MaterialDialog.Builder(context)
                 .title(R.string.text_prompt)
-                .content(R.string.prompt_ai_editor_changed_before_apply)
-                .negativeText(R.string.dialog_button_cancel)
-                .positiveText(R.string.dialog_button_continue)
-                .positiveColorRes(R.color.dialog_button_caution)
-                .onPositive { _, _ -> applyToEditorUnchecked(editorView, taskType, file) }
+                .content(patchResult.message.ifBlank { context.getString(R.string.prompt_ai_editor_changed_before_apply) })
+                .positiveText(R.string.dialog_button_dismiss)
                 .show()
             return
         }
-        applyToEditorUnchecked(editorView, taskType, file)
+        applyToEditorUnchecked(editorView, taskType, file, patchResult.newText)
     }
 
-    private fun applyToEditorUnchecked(editorView: EditorView, taskType: AiTaskType, file: AiGeneratedFile) {
+    private fun applyToEditorUnchecked(editorView: EditorView, taskType: AiTaskType, file: AiGeneratedFile, appliedText: String) {
         when {
-            taskType == AiTaskType.MODIFY_SELECTION || file.operation == "replace_selection" -> editorView.replaceSelectionFromAi(file.content)
-            taskType == AiTaskType.CREATE_SCRIPT && editorView.getTextForAi().isNotBlank() -> editorView.insertFromAi(file.content)
-            else -> editorView.replaceAllFromAi(file.content)
+            taskType == AiTaskType.CREATE_SCRIPT && editorView.getTextForAi().isNotBlank() && file.operation != "patch" -> editorView.insertFromAi(file.content)
+            else -> editorView.replaceAllFromAi(appliedText)
         }
     }
 
@@ -612,6 +649,14 @@ object AiAssistantDialogs {
     }
 
     private fun confirmWarningsIfNeeded(context: Context, validated: AiValidatedResult, action: () -> Unit) {
+        if (validated.blocksApply) {
+            MaterialDialog.Builder(context)
+                .title(R.string.text_ai_risk_confirmation)
+                .content(validationText(validated))
+                .positiveText(R.string.dialog_button_dismiss)
+                .show()
+            return
+        }
         if (!AiConfigRepository(context).getSettings().highRiskConfirmation || !validated.requiresSecondConfirmation) {
             action()
             return
@@ -707,14 +752,24 @@ object AiAssistantDialogs {
             .show()
     }
 
-    private fun buildContextSummary(context: Context, scriptContext: AiScriptContext, hasSelection: Boolean): String = buildString {
+    private fun buildContextSummary(
+        context: Context,
+        scriptContext: AiScriptContext,
+        hasSelection: Boolean,
+        contextExtras: AiCopilotContextExtras = AiCopilotContextExtras(),
+    ): String = buildString {
+        val settings = AiConfigRepository(context).getSettings()
+        val policy = AiCopilotPrivacyPolicy.fromSettings(settings)
+        val summary = AiCopilotContextBuilder.summarize(scriptContext, contextExtras, policy)
         appendLine(context.getString(R.string.text_ai_context_summary_provider_placeholder))
         appendLine("Task: ${scriptContext.taskType.wireName}")
         appendLine("File: ${scriptContext.filePath.ifBlank { "(unknown)" }}")
         appendLine("Includes selection: $hasSelection")
-        appendLine("Includes current text chars: ${scriptContext.currentText.length}")
-        appendLine("Includes project structure: ${scriptContext.projectSummary.isNotBlank()}")
-        appendLine("Includes recent error/logs: ${scriptContext.errorMessage.isNotBlank() || scriptContext.logSnippet.isNotBlank()}")
+        appendLine("Includes current text chars: ${if (policy.allows(AiContextSource.FILE)) scriptContext.currentText.length else 0}")
+        appendLine("Includes project structure: ${policy.allows(AiContextSource.PROJECT_STRUCTURE) && scriptContext.projectSummary.isNotBlank()}")
+        appendLine("Includes recent error/logs: ${policy.allows(AiContextSource.RECENT_LOGS) && (scriptContext.errorMessage.isNotBlank() || scriptContext.logSnippet.isNotBlank())}")
+        appendLine("Copilot privacy summary:")
+        summary.lines.forEach { appendLine(it) }
     }
 
     private fun titleFor(context: Context, taskType: AiTaskType): String = when (taskType) {
@@ -769,6 +824,15 @@ object AiAssistantDialogs {
           "packageName": "$packageName",
           "main": "$mainScript",
           "assets": [],
+          "capabilities": [],
+          "pluginDependencies": [],
+          "riskPolicy": {
+            "default": "prompt",
+            "undeclared": "prompt",
+            "high": "prompt",
+            "critical": "reject",
+            "rememberAllowed": true
+          },
           "launchConfig": {
             "logsVisible": true,
             "splashVisible": true,

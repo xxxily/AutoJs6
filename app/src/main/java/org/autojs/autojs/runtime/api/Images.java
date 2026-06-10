@@ -57,10 +57,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.MessageFormat;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static android.app.Activity.RESULT_OK;
 import static org.autojs.autojs.util.RhinoUtils.isMainThread;
@@ -121,6 +129,7 @@ public class Images {
     private ImageWrapper mPreCaptureImage;
     private ScreenCapturer mScreenCapturer;
     private ScreenCaptureRequester mScreenCaptureRequester;
+    private final Set<ScreenCaptureSession> mScreenCaptureSessions = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public Images(Context context, ScriptRuntime scriptRuntime) {
         mContext = context;
@@ -364,6 +373,398 @@ public class Images {
     public boolean captureScreen(String path) {
         ImageWrapper image = captureScreen();
         return image != null && image.saveTo(path);
+    }
+
+    public ScreenCaptureSession openCaptureSession(@NonNull CaptureSessionOptions options) {
+        ScreenCaptureSession session = new ScreenCaptureSession(options);
+        mScreenCaptureSessions.add(session);
+        return session;
+    }
+
+    private void unregisterCaptureSession(@NonNull ScreenCaptureSession session) {
+        mScreenCaptureSessions.remove(session);
+    }
+
+    private void closeCaptureSessions() {
+        for (ScreenCaptureSession session : new ArrayList<>(mScreenCaptureSessions)) {
+            session.closeFromOwner();
+        }
+        mScreenCaptureSessions.clear();
+    }
+
+    @NonNull
+    private SessionCaptureResult captureScreenForSession(long timeoutMillis) {
+        synchronized (this) {
+            if (mScreenCapturer == null) {
+                return SessionCaptureResult.failure(new ScreenCapturer.CaptureFailure(
+                        ScreenCapturer.FAILURE_UNAUTHORIZED,
+                        mContext.getString(R.string.error_no_screen_capture_permission),
+                        "Call images.requestScreenCapture() before opening or using a capture session."
+                ), 0L, null);
+            }
+            ScreenCapturer.CaptureResult result = mScreenCapturer.captureDetailed(timeoutMillis);
+            if (result.image() == null) {
+                ScreenCapturer.CaptureFailure failure = result.failure() != null
+                        ? result.failure()
+                        : new ScreenCapturer.CaptureFailure(
+                        ScreenCapturer.FAILURE_NO_FRAME,
+                        "No screen frame is available",
+                        "Retry with a larger timeout or request screen capture permission again."
+                );
+                return SessionCaptureResult.failure(failure, result.durationMillis(), result.recoveryEvent());
+            }
+            return SessionCaptureResult.success(new ImageWrapper(mScriptRuntime, result.image()), result.durationMillis(), result.recoveryEvent());
+        }
+    }
+
+    private record SessionCaptureResult(
+            @Nullable ImageWrapper image,
+            @Nullable ScreenCapturer.CaptureFailure failure,
+            long durationMillis,
+            @Nullable ScreenCapturer.RecoveryEvent recoveryEvent
+    ) {
+        static SessionCaptureResult success(
+                @NonNull ImageWrapper image,
+                long durationMillis,
+                @Nullable ScreenCapturer.RecoveryEvent recoveryEvent
+        ) {
+            return new SessionCaptureResult(image, null, durationMillis, recoveryEvent);
+        }
+
+        static SessionCaptureResult failure(
+                @NonNull ScreenCapturer.CaptureFailure failure,
+                long durationMillis,
+                @Nullable ScreenCapturer.RecoveryEvent recoveryEvent
+        ) {
+            return new SessionCaptureResult(null, failure, durationMillis, recoveryEvent);
+        }
+
+        boolean isSuccess() {
+            return image != null;
+        }
+    }
+
+    public static final class CaptureSessionOptions {
+
+        public static final String PRESET_SINGLE = "single";
+        public static final String PRESET_OCR = "ocr";
+        public static final String PRESET_COLOR = "color";
+        public static final String PRESET_LOW_POWER = "low_power";
+
+        public final String preset;
+        public final int cacheSize;
+        public final long defaultTimeoutMillis;
+        public final long minIntervalMillis;
+        public final boolean logErrors;
+        public final boolean autoRequest;
+
+        public CaptureSessionOptions(
+                @NonNull String preset,
+                int cacheSize,
+                long defaultTimeoutMillis,
+                long minIntervalMillis,
+                boolean logErrors,
+                boolean autoRequest
+        ) {
+            this.preset = normalizePreset(preset);
+            this.cacheSize = Math.max(1, cacheSize);
+            this.defaultTimeoutMillis = Math.max(1L, defaultTimeoutMillis);
+            this.minIntervalMillis = Math.max(0L, minIntervalMillis);
+            this.logErrors = logErrors;
+            this.autoRequest = autoRequest;
+        }
+
+        @NonNull
+        public static CaptureSessionOptions forPreset(@Nullable String preset) {
+            String normalized = normalizePreset(preset);
+            return switch (normalized) {
+                case PRESET_OCR -> new CaptureSessionOptions(PRESET_OCR, 2, 1800L, 250L, true, true);
+                case PRESET_COLOR -> new CaptureSessionOptions(PRESET_COLOR, 2, 1000L, 16L, true, true);
+                case PRESET_LOW_POWER -> new CaptureSessionOptions(PRESET_LOW_POWER, 1, 2500L, 1000L, true, true);
+                default -> new CaptureSessionOptions(PRESET_SINGLE, 1, 1500L, 0L, true, true);
+            };
+        }
+
+        @NonNull
+        public static String normalizePreset(@Nullable String preset) {
+            if (preset == null || preset.isBlank()) {
+                return PRESET_SINGLE;
+            }
+            String key = preset.trim().toLowerCase(Locale.ROOT).replace('-', '_');
+            return switch (key) {
+                case "continuous_ocr", "ocr_continuous" -> PRESET_OCR;
+                case "find_color", "high_frequency_color", "high_frequency_find_color", "color_finder" -> PRESET_COLOR;
+                case "lowpower", "background", "background_monitor", "monitor" -> PRESET_LOW_POWER;
+                case PRESET_OCR, PRESET_COLOR, PRESET_LOW_POWER -> key;
+                default -> PRESET_SINGLE;
+            };
+        }
+
+        @NonNull
+        public Map<String, Object> toMap() {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("preset", preset);
+            map.put("cacheSize", cacheSize);
+            map.put("defaultTimeout", defaultTimeoutMillis);
+            map.put("minInterval", minIntervalMillis);
+            map.put("logErrors", logErrors);
+            map.put("autoRequest", autoRequest);
+            return map;
+        }
+    }
+
+    public final class ScreenCaptureSession implements AutoCloseable {
+
+        private final CaptureSessionOptions options;
+        private final ArrayDeque<ImageWrapper> frameCache = new ArrayDeque<>();
+        private final long openedUptimeMillis = SystemClock.uptimeMillis();
+        private long lastCaptureUptimeMillis = 0L;
+        private long attempts = 0L;
+        private long frames = 0L;
+        private long failures = 0L;
+        private long timeouts = 0L;
+        private long totalFrameDurationMillis = 0L;
+        private long firstFrameMillis = -1L;
+        private long lastFrameDurationMillis = -1L;
+        private long orientationRecoveryCount = 0L;
+        private long totalOrientationRecoveryMillis = 0L;
+        private Map<String, Object> lastError;
+        private Map<String, Object> lastRecovery;
+        private boolean closed = false;
+
+        private ScreenCaptureSession(@NonNull CaptureSessionOptions options) {
+            this.options = options;
+        }
+
+        @Nullable
+        public synchronized ImageWrapper latest() {
+            ensureOpen();
+            ImageWrapper image = frameCache.peekLast();
+            if (image == null || image.isRecycled()) {
+                return null;
+            }
+            return image.clone();
+        }
+
+        @Nullable
+        public synchronized ImageWrapper nextFrame(long timeoutMillis) {
+            ensureOpen();
+            waitForMinInterval();
+
+            long timeout = timeoutMillis > 0 ? timeoutMillis : options.defaultTimeoutMillis;
+            attempts++;
+            SessionCaptureResult result = captureScreenForSession(timeout);
+            if (result.recoveryEvent() != null) {
+                recordRecovery(result.recoveryEvent());
+            }
+            if (!result.isSuccess()) {
+                recordFailure(result.failure(), result.durationMillis(), timeout);
+                return null;
+            }
+
+            ImageWrapper image = result.image();
+            if (image == null) {
+                recordFailure(new ScreenCapturer.CaptureFailure(
+                        ScreenCapturer.FAILURE_NO_FRAME,
+                        "Capture returned no frame",
+                        "Retry with a larger timeout or request screen capture permission again."
+                ), result.durationMillis(), timeout);
+                return null;
+            }
+
+            frames++;
+            totalFrameDurationMillis += result.durationMillis();
+            lastFrameDurationMillis = result.durationMillis();
+            if (firstFrameMillis < 0L) {
+                firstFrameMillis = SystemClock.uptimeMillis() - openedUptimeMillis;
+            }
+            lastCaptureUptimeMillis = SystemClock.uptimeMillis();
+            lastError = null;
+
+            ImageWrapper exposed;
+            try {
+                exposed = image.clone();
+            } catch (RuntimeException ex) {
+                image.recycle();
+                throw ex;
+            }
+            addToCache(image);
+            return exposed;
+        }
+
+        @NonNull
+        public synchronized Map<String, Object> metrics() {
+            Map<String, Object> metrics = new LinkedHashMap<>();
+            metrics.put("preset", options.preset);
+            metrics.put("attempts", attempts);
+            metrics.put("frames", frames);
+            metrics.put("failures", failures);
+            metrics.put("timeouts", timeouts);
+            metrics.put("timeoutRate", attempts == 0L ? 0.0 : (double) timeouts / (double) attempts);
+            metrics.put("firstFrameMillis", firstFrameMillis);
+            metrics.put("averageFrameMillis", frames == 0L ? -1.0 : (double) totalFrameDurationMillis / (double) frames);
+            metrics.put("lastFrameMillis", lastFrameDurationMillis);
+            metrics.put("orientationRecoveryCount", orientationRecoveryCount);
+            metrics.put("averageOrientationRecoveryMillis", orientationRecoveryCount == 0L ? -1.0 : (double) totalOrientationRecoveryMillis / (double) orientationRecoveryCount);
+            metrics.put("cachedFrames", frameCache.size());
+            metrics.put("cacheSize", options.cacheSize);
+            metrics.put("cachedFrameBytes", estimateCachedFrameBytes());
+            metrics.put("usedMemoryBytes", usedMemoryBytes());
+            metrics.put("closed", closed);
+            metrics.put("lastError", lastError);
+            metrics.put("lastRecovery", lastRecovery);
+            metrics.put("options", options.toMap());
+            return metrics;
+        }
+
+        @Nullable
+        public synchronized Map<String, Object> lastError() {
+            return lastError == null ? null : new LinkedHashMap<>(lastError);
+        }
+
+        public synchronized boolean isClosed() {
+            return closed;
+        }
+
+        @Override
+        public void close() {
+            closeInternal(true);
+        }
+
+        private synchronized void closeFromOwner() {
+            closeInternal(false);
+        }
+
+        private void closeInternal(boolean unregister) {
+            if (closed) {
+                return;
+            }
+            closed = true;
+            while (!frameCache.isEmpty()) {
+                ImageWrapper image = frameCache.removeFirst();
+                if (image != null && !image.isRecycled()) {
+                    image.recycle();
+                }
+            }
+            if (unregister) {
+                unregisterCaptureSession(this);
+            }
+        }
+
+        private void ensureOpen() {
+            if (closed) {
+                throw new IllegalStateException("Screen capture session has been closed");
+            }
+        }
+
+        private void waitForMinInterval() {
+            if (options.minIntervalMillis <= 0L || lastCaptureUptimeMillis <= 0L) {
+                return;
+            }
+            long waitMillis = lastCaptureUptimeMillis + options.minIntervalMillis - SystemClock.uptimeMillis();
+            if (waitMillis <= 0L) {
+                return;
+            }
+            try {
+                Thread.sleep(waitMillis);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        private void addToCache(@NonNull ImageWrapper image) {
+            frameCache.addLast(image);
+            while (frameCache.size() > options.cacheSize) {
+                ImageWrapper old = frameCache.removeFirst();
+                if (old != null && !old.isRecycled()) {
+                    old.recycle();
+                }
+            }
+        }
+
+        private void recordFailure(@Nullable ScreenCapturer.CaptureFailure failure, long durationMillis, long timeoutMillis) {
+            failures++;
+            ScreenCapturer.CaptureFailure safeFailure = failure != null
+                    ? failure
+                    : new ScreenCapturer.CaptureFailure(
+                    ScreenCapturer.FAILURE_NO_FRAME,
+                    "Capture failed without detailed cause",
+                    "Retry or request screen capture permission again."
+            );
+            if (ScreenCapturer.FAILURE_NO_FRAME.equals(safeFailure.category()) || durationMillis >= timeoutMillis) {
+                timeouts++;
+            }
+            lastError = failureToMap(safeFailure, durationMillis);
+            if (options.logErrors) {
+                logCaptureFailure(safeFailure, durationMillis);
+            }
+        }
+
+        private void recordRecovery(@NonNull ScreenCapturer.RecoveryEvent event) {
+            orientationRecoveryCount++;
+            totalOrientationRecoveryMillis += event.durationMillis();
+            lastRecovery = recoveryToMap(event);
+            String message = MessageFormat.format(
+                    "[images.captureSession] recovered reason={0}, orientation={1}, size={2}x{3}, duration={4}ms",
+                    event.reason(),
+                    event.orientation(),
+                    event.width(),
+                    event.height(),
+                    event.durationMillis()
+            );
+            Log.i(TAG, message);
+            mScriptRuntime.console.info(message);
+        }
+
+        private void logCaptureFailure(@NonNull ScreenCapturer.CaptureFailure failure, long durationMillis) {
+            String message = MessageFormat.format(
+                    "[images.captureSession] capture failed category={0}, duration={1}ms, message={2}, suggestion={3}",
+                    failure.category(),
+                    durationMillis,
+                    failure.message(),
+                    failure.suggestion()
+            );
+            Log.w(TAG, message);
+            mScriptRuntime.console.warn(message);
+        }
+
+        @NonNull
+        private Map<String, Object> failureToMap(@NonNull ScreenCapturer.CaptureFailure failure, long durationMillis) {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("category", failure.category());
+            map.put("message", failure.message());
+            map.put("suggestion", failure.suggestion());
+            map.put("duration", durationMillis);
+            map.put("at", System.currentTimeMillis());
+            return map;
+        }
+
+        @NonNull
+        private Map<String, Object> recoveryToMap(@NonNull ScreenCapturer.RecoveryEvent event) {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("reason", event.reason());
+            map.put("orientation", event.orientation());
+            map.put("width", event.width());
+            map.put("height", event.height());
+            map.put("duration", event.durationMillis());
+            map.put("uptime", event.uptimeMillis());
+            return map;
+        }
+
+        private long estimateCachedFrameBytes() {
+            long bytes = 0L;
+            for (ImageWrapper image : frameCache) {
+                if (image != null && !image.isRecycled()) {
+                    bytes += (long) image.getWidth() * (long) image.getHeight() * 4L;
+                }
+            }
+            return bytes;
+        }
+
+        private long usedMemoryBytes() {
+            Runtime runtime = Runtime.getRuntime();
+            return runtime.totalMemory() - runtime.freeMemory();
+        }
     }
 
     public ImageWrapper copy(@NonNull ImageWrapper image) {
@@ -658,6 +1059,7 @@ public class Images {
     }
 
     public void releaseScreenCapturer() {
+        closeCaptureSessions();
         synchronized (this) {
             if (mScreenCapturer != null) {
                 mScreenCapturer.release();

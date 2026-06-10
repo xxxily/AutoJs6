@@ -14,6 +14,7 @@ import org.autojs.autojs.execution.ScriptExecution;
 import org.autojs.autojs.io.Zip;
 import org.autojs.autojs.model.explorer.Explorers;
 import org.autojs.autojs.model.script.Scripts;
+import org.autojs.autojs.observability.RemoteDebugBridge;
 import org.autojs.autojs.pio.PFiles;
 import org.autojs.autojs.project.ProjectLauncher;
 import org.autojs.autojs.script.StringScriptSource;
@@ -94,6 +95,38 @@ public class DevPluginResponseHandler implements Handler {
     @Override
     public boolean handle(JsonObject data) {
         return mRouter.handle(data);
+    }
+
+    public boolean handle(JsonObject data, JsonSocket socket) {
+        if (handleDebugCommand(data, socket)) {
+            return true;
+        }
+        return handle(data);
+    }
+
+    private boolean handleDebugCommand(JsonObject json, JsonSocket socket) {
+        JsonElement type = json.get("type");
+        if (type == null || !type.isJsonPrimitive() || !TYPE_COMMAND.equals(type.getAsString())) {
+            return false;
+        }
+        JsonElement dataElement = json.get("data");
+        if (dataElement == null || !dataElement.isJsonObject()) {
+            return false;
+        }
+        JsonObject data = dataElement.getAsJsonObject();
+        JsonElement command = data.get("command");
+        if (command == null || !command.isJsonPrimitive()) {
+            return false;
+        }
+        String commandName = command.getAsString();
+        if (!"debug".equals(commandName) && !commandName.startsWith("debug.")) {
+            return false;
+        }
+        JsonObject response = RemoteDebugBridge.handleCommand(mContext, data);
+        if (socket != null) {
+            socket.writeData("debug_response", response);
+        }
+        return true;
     }
 
     public Observable<File> handleBytes(JsonObject data, JsonSocket.Bytes bytes) {

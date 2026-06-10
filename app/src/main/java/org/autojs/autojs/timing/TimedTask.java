@@ -22,6 +22,11 @@ import java.util.concurrent.TimeUnit;
 public class TimedTask extends BaseModel {
 
     public static final String TABLE = "TimedTask";
+    public static final String ARG_MAX_RETRIES = "maxRetries";
+    public static final String ARG_RETRY_BACKOFF_MILLIS = "retryBackoffMillis";
+    public static final String ARG_MUTEX = "mutex";
+    public static final String ARG_MUTEX_KEY = "mutexKey";
+    public static final String ARG_TIMEOUT_MILLIS = "timeoutMillis";
 
     private static final int FLAG_DISPOSABLE = 0;
     public final static int FLAG_SUNDAY = 0x1;
@@ -48,6 +53,16 @@ public class TimedTask extends BaseModel {
 
     String mScriptPath;
 
+    int mMaxRetries = 0;
+
+    long mRetryBackoffMillis = 0;
+
+    boolean mMutex = false;
+
+    String mMutexKey = "";
+
+    long mTimeoutMillis = 0;
+
     private final Context mGlobalAppContext = GlobalAppContext.get();
 
     public TimedTask() {
@@ -61,6 +76,11 @@ public class TimedTask extends BaseModel {
         mDelay = config.getDelay();
         mLoopTimes = config.getLoopTimes();
         mInterval = config.getInterval();
+        mMaxRetries = intArgument(config, ARG_MAX_RETRIES, 0);
+        mRetryBackoffMillis = longArgument(config, ARG_RETRY_BACKOFF_MILLIS, 0);
+        mMutex = booleanArgument(config, ARG_MUTEX, false);
+        mMutexKey = stringArgument(config, ARG_MUTEX_KEY, "");
+        mTimeoutMillis = longArgument(config, ARG_TIMEOUT_MILLIS, 0);
     }
 
     public boolean isDisposable() {
@@ -190,6 +210,46 @@ public class TimedTask extends BaseModel {
         mScriptPath = scriptPath;
     }
 
+    public int getMaxRetries() {
+        return mMaxRetries;
+    }
+
+    public void setMaxRetries(int maxRetries) {
+        mMaxRetries = maxRetries;
+    }
+
+    public long getRetryBackoffMillis() {
+        return mRetryBackoffMillis;
+    }
+
+    public void setRetryBackoffMillis(long retryBackoffMillis) {
+        mRetryBackoffMillis = retryBackoffMillis;
+    }
+
+    public boolean isMutex() {
+        return mMutex;
+    }
+
+    public void setMutex(boolean mutex) {
+        mMutex = mutex;
+    }
+
+    public String getMutexKey() {
+        return mMutexKey;
+    }
+
+    public void setMutexKey(String mutexKey) {
+        mMutexKey = mutexKey;
+    }
+
+    public long getTimeoutMillis() {
+        return mTimeoutMillis;
+    }
+
+    public void setTimeoutMillis(long timeoutMillis) {
+        mTimeoutMillis = timeoutMillis;
+    }
+
     public boolean isDaily() {
         return mTimeFlag == FLAG_EVERYDAY;
     }
@@ -200,7 +260,12 @@ public class TimedTask extends BaseModel {
                 .putExtra(ScriptIntents.EXTRA_KEY_PATH, mScriptPath)
                 .putExtra(ScriptIntents.EXTRA_KEY_DELAY, mDelay)
                 .putExtra(ScriptIntents.EXTRA_KEY_LOOP_TIMES, mLoopTimes)
-                .putExtra(ScriptIntents.EXTRA_KEY_LOOP_INTERVAL, mInterval);
+                .putExtra(ScriptIntents.EXTRA_KEY_LOOP_INTERVAL, mInterval)
+                .putExtra(ARG_MAX_RETRIES, mMaxRetries)
+                .putExtra(ARG_RETRY_BACKOFF_MILLIS, mRetryBackoffMillis)
+                .putExtra(ARG_MUTEX, mMutex)
+                .putExtra(ARG_MUTEX_KEY, mMutexKey)
+                .putExtra(ARG_TIMEOUT_MILLIS, mTimeoutMillis);
     }
 
     public PendingIntent createPendingIntent(Context context) {
@@ -220,6 +285,11 @@ public class TimedTask extends BaseModel {
                 ", mLoopTimes=" + mLoopTimes +
                 ", mMillis=" + mMillis +
                 ", mScriptPath='" + mScriptPath + '\'' +
+                ", mMaxRetries=" + mMaxRetries +
+                ", mRetryBackoffMillis=" + mRetryBackoffMillis +
+                ", mMutex=" + mMutex +
+                ", mMutexKey='" + mMutexKey + '\'' +
+                ", mTimeoutMillis=" + mTimeoutMillis +
                 '}';
     }
 
@@ -237,5 +307,51 @@ public class TimedTask extends BaseModel {
 
     public boolean hasDayOfWeek(Context context, int dayOfWeek) {
         return (mTimeFlag & getDayOfWeekTimeFlag(context, dayOfWeek)) != 0;
+    }
+
+    private static int intArgument(ExecutionConfig config, String key, int defaultValue) {
+        Object value = config.getArgument(key);
+        if (value instanceof Number) {
+            return ((Number) value).intValue();
+        }
+        if (value instanceof String) {
+            try {
+                return Integer.parseInt((String) value);
+            } catch (NumberFormatException ignored) {
+                return defaultValue;
+            }
+        }
+        return defaultValue;
+    }
+
+    private static long longArgument(ExecutionConfig config, String key, long defaultValue) {
+        Object value = config.getArgument(key);
+        if (value instanceof Number) {
+            return ((Number) value).longValue();
+        }
+        if (value instanceof String) {
+            try {
+                return Long.parseLong((String) value);
+            } catch (NumberFormatException ignored) {
+                return defaultValue;
+            }
+        }
+        return defaultValue;
+    }
+
+    private static boolean booleanArgument(ExecutionConfig config, String key, boolean defaultValue) {
+        Object value = config.getArgument(key);
+        if (value instanceof Boolean) {
+            return (Boolean) value;
+        }
+        if (value instanceof String) {
+            return Boolean.parseBoolean((String) value);
+        }
+        return defaultValue;
+    }
+
+    private static String stringArgument(ExecutionConfig config, String key, String defaultValue) {
+        Object value = config.getArgument(key);
+        return value == null ? defaultValue : String.valueOf(value);
     }
 }

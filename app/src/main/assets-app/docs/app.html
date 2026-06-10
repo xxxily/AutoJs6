@@ -70,6 +70,7 @@
 <li><a class="nav-ui" href="ui.html">UI - 用户界面</a></li>
 <li><a class="nav-web" href="web.html">Web - 万维网</a></li>
 <li><a class="nav-http" href="http.html">HTTP</a></li>
+<li><a class="nav-ipc" href="ipc.html">IPC - 脚本间通信</a></li>
 <li><a class="nav-base64" href="base64.html">Base64</a></li>
 <li><a class="nav-crypto" href="crypto.html">Crypto - 密文</a></li>
 <li><a class="nav-opencc" href="opencc.html">OpenCC - 中文转换</a></li>
@@ -195,6 +196,9 @@
 <li><span class="stability_undefined"><a href="#app_app_intent_options">app.intent(options)</a></span></li>
 <li><span class="stability_undefined"><a href="#app_app_startactivity_options">app.startActivity(options)</a></span></li>
 <li><span class="stability_undefined"><a href="#app_app_sendbroadcast_options">app.sendBroadcast(options)</a></span></li>
+<li><span class="stability_undefined"><a href="#app_app_buildtypedintent_type_payload_options">app.buildTypedIntent(type, payload?, options?)</a></span></li>
+<li><span class="stability_undefined"><a href="#app_app_sendtypedbroadcast_type_payload_options">app.sendTypedBroadcast(type, payload?, options?)</a></span></li>
+<li><span class="stability_undefined"><a href="#app_app_parsetypedintent_intent">app.parseTypedIntent(intent)</a></span></li>
 <li><span class="stability_undefined"><a href="#app_app_startservice_options">app.startService(options)</a></span></li>
 <li><span class="stability_undefined"><a href="#app_app_sendbroadcast_name">app.sendBroadcast(name)</a></span></li>
 <li><span class="stability_undefined"><a href="#app_app_intenttoshell_options">app.intentToShell(options)</a></span></li>
@@ -216,6 +220,7 @@
 <hr>
 <p>app模块提供一系列函数, 用于使用其他应用、与其他应用交互. 例如发送意图、打开文件、发送邮件等.</p>
 <p>同时提供了方便的进阶函数startActivity和sendBroadcast, 用他们可完成app模块没有内置的和其他应用的交互.</p>
+<p><strong><code>6.7.3+</code></strong> 项目脚本可在 <code>project.json</code> 的 <code>capabilities</code> 声明 <code>install_apk</code>、<code>uninstall_apk</code>、<code>phone</code>、<code>sms</code>、<code>contacts</code>、<code>root</code> 或 <code>shizuku</code>. 卸载应用、Root/Shizuku 启动 Intent、电话/短信/联系人相关敏感 Intent 会按 <code>riskPolicy</code> / <code>privilegedPolicy</code> 提示或拒绝, 并写入 <code>capabilities.audit()</code> 审计记录.</p>
 <h2>app.versionCode<span><a class="mark" href="#app_app_versioncode" id="app_app_versioncode">#</a></span></h2>
 <div class="signature"><ul>
 <li>{ <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">number</a> }</li>
@@ -397,6 +402,38 @@ context.startActivity(i);
 <li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 选项</li>
 </ul>
 </div><p>根据选项构造一个Intent, 并发送该广播.</p>
+<h2>app.buildTypedIntent(type, payload?, options?)<span><a class="mark" href="#app_app_buildtypedintent_type_payload_options" id="app_app_buildtypedintent_type_payload_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>type</code> { <span class="type">string</span> } 消息类型.</li>
+<li><code>payload</code> { <span class="type">any</span> } 可 JSON 序列化的载荷.</li>
+<li><code>options</code> { <span class="type">Object</span> } 可选项: <code>action</code>, <code>packageName</code>, <code>className</code>, <code>category</code>, <code>flags</code>, <code>data</code>, <code>replyTo</code>, <code>requestId</code>, <code>extras</code>.</li>
+</ul>
+</div><p>构造结构化 typed Intent. AutoJs6 会写入固定 extras: <code>MESSAGE_TYPE</code>, <code>MESSAGE_PAYLOAD</code>, <code>MESSAGE_REPLY_TO</code>, <code>MESSAGE_REQUEST_ID</code>. payload 使用 JSON 字符串保存, 接收端可用 <code>app.parseTypedIntent()</code> 还原.</p>
+<pre><code class="lang-js">let intent = app.buildTypedIntent('sync.start', { account: 'main' }, {
+    action: 'org.example.SYNC',
+    packageName: 'org.example.receiver',
+    replyTo: 'sync.reply',
+    requestId: 'req-001'
+});
+</code></pre>
+<h2>app.sendTypedBroadcast(type, payload?, options?)<span><a class="mark" href="#app_app_sendtypedbroadcast_type_payload_options" id="app_app_sendtypedbroadcast_type_payload_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<p>构造并发送 typed Broadcast. <code>options.local</code> 为 <code>true</code> 时使用 AutoJs6 内部 Intent Task 分发; <code>options.permission</code> 可指定广播权限.</p>
+<pre><code class="lang-js">let sent = app.sendTypedBroadcast('sync.start', {
+    account: 'main',
+    force: true
+}, {
+    action: 'org.example.SYNC',
+    packageName: 'org.example.receiver',
+    requestId: 'sync-001'
+});
+
+log(sent.type);
+</code></pre>
+<h2>app.parseTypedIntent(intent)<span><a class="mark" href="#app_app_parsetypedintent_intent" id="app_app_parsetypedintent_intent">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<p>解析 typed Intent, 返回 <code>{ action, type, payload, replyTo, requestId, packageName, className, extras }</code>.</p>
 <h2>app.startService(options)<span><a class="mark" href="#app_app_startservice_options" id="app_app_startservice_options">#</a></span></h2>
 <div class="signature"><ul>
 <li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 选项</li>

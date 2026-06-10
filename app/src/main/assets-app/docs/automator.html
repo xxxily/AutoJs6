@@ -224,6 +224,13 @@
 <li><span class="stability_undefined"><a href="#automator_auto_rootinactivewindow">auto.rootInActiveWindow</a></span></li>
 <li><span class="stability_undefined"><a href="#automator_auto_setwindowfilter_filter">auto.setWindowFilter(filter)</a></span></li>
 <li><span class="stability_undefined"><a href="#automator_auto_windowroots">auto.windowRoots</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_snapshot_options">auto.snapshot(options)</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_diffsnapshot_before_after_options">auto.diffSnapshot(before, after[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_waituntil_condition_options">auto.waitUntil(condition[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_retry_action_options">auto.retry(action[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_stableclick_target_options">auto.stableClick(target[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_stablesettext_target_text_options">auto.stableSetText(target, text[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_findwithscroll_target_scrollcontainer_options">auto.findWithScroll(target[, scrollContainer][, options])</a></span></li>
 </ul>
 </li>
 <li><span class="stability_undefined"><a href="#automator_simpleactionautomator_1">SimpleActionAutomator</a></span><ul>
@@ -543,6 +550,112 @@ sleep(500);
 </ul>
 <p>返回当前被WindowFilter过滤的窗口的布局根元素组成的数组.</p>
 <p>如果系统是Android5.0以下, 则始终返回当前活跃的窗口的布局根元素的数组.</p>
+<h2>auto.snapshot(options)<span><a class="mark" href="#automator_auto_snapshot_options" id="automator_auto_snapshot_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 支持 <code>includeWindows</code>, <code>maxDepth</code>, <code>maxNodes</code>, <code>redact</code>, <code>redactInputs</code>, <code>redactPatterns</code>, <code>format</code>, <code>indent</code>.</li>
+<li>返回 { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> }</li>
+</ul>
+</div><p>导出当前无障碍 UI 树诊断快照, 用于失败复现、AI 修复上下文和选择器稳定性分析. 快照包含 <code>timestamp</code>, <code>packageName</code>, <code>activity</code>, <code>windows</code>, <code>nodeCount</code>, <code>truncated</code> 以及节点的 <code>text</code>, <code>desc</code>, <code>id</code>, <code>resourceName</code>, <code>className</code>, <code>bounds</code>, <code>clickable</code>, <code>enabled</code>, <code>visibleToUser</code>, <code>children</code> 等字段.</p>
+<p>每个节点会附带 <code>selector</code> 评分结果. 评分优先考虑唯一的 <code>id/resourceName</code>, 其次是 <code>desc</code>, <code>text</code>, <code>className</code>, 并将 <code>bounds</code> 和 <code>indexInParent</code> 标记为脆弱候选. 当 <code>redact</code> 为 <code>true</code> 时, 输入框、密码、手机号和邮箱等敏感文本会被替换为 <code>[redacted]</code>.</p>
+<pre><code>auto.waitFor();
+var snapshotJson = auto.snapshot({
+    format: &quot;json&quot;,
+    indent: 2,
+    redact: true,
+    maxNodes: 2000
+});
+files.write(&quot;/sdcard/AutoJs6/ui-snapshot.json&quot;, snapshotJson);
+</code></pre><h2>auto.diffSnapshot(before, after[, options])<span><a class="mark" href="#automator_auto_diffsnapshot_before_after_options" id="automator_auto_diffsnapshot_before_after_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>before</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 操作前快照或 JSON 字符串.</li>
+<li><code>after</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 操作后快照或 JSON 字符串.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 支持 <code>format</code> 和 <code>indent</code>.</li>
+</ul>
+</div><p>比较两份 UI 快照, 输出节点新增、移除、变化数量和明细. 变化字段覆盖 <code>bounds</code>, <code>text</code>, <code>desc</code>, <code>id</code>, <code>resourceName</code>, <code>className</code>, <code>clickable</code>, <code>enabled</code>, <code>visibleToUser</code>. 返回值中的 <code>stableSelectors</code> 会列出跨快照仍稳定的高分选择器.</p>
+<pre><code>var before = auto.snapshot({ redact: true });
+click(&quot;确定&quot;);
+sleep(500);
+var after = auto.snapshot({ redact: true });
+var diff = auto.diffSnapshot(before, after);
+console.log(diff.changedCount, diff.stableSelectors[0]);
+</code></pre><h2>auto.waitUntil(condition[, options])<span><a class="mark" href="#automator_auto_waituntil_condition_options" id="automator_auto_waituntil_condition_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>condition</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">Function</a> | <span class="type">UiSelector</span> | <span class="type">UiObject</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 等待条件. 字符串会按 <code>text()</code> 精确匹配.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 常用字段包括 <code>timeout</code>, <code>interval</code>, <code>stableCount</code>, <code>captureSnapshot</code>, <code>captureOnFailure</code>, <code>redact</code>, <code>snapshotMaxNodes</code>.</li>
+</ul>
+</div><p>等待函数、选择器、控件或文本达到稳定状态. 返回结构化结果对象, 字段包括 <code>ok</code>/<code>success</code>, <code>duration</code>, <code>attempts</code>, <code>selector</code>, <code>matched</code>, <code>uiObject</code>, <code>reason</code>, <code>strategy</code>, <code>snapshotRef</code> 和可选 <code>snapshot</code>. 失败时默认捕获脱敏 UI 快照, 可用于诊断和 AI 修复上下文.</p>
+<pre><code>var ready = auto.waitUntil(text(&quot;首页&quot;), {
+    timeout: 10000,
+    interval: 200,
+    stableCount: 2
+});
+if (!ready.ok) {
+    throw new Error(&quot;首页未就绪: &quot; + ready.reason);
+}
+</code></pre><h2>auto.retry(action[, options])<span><a class="mark" href="#automator_auto_retry_action_options" id="automator_auto_retry_action_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>action</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">Function</a> } 被重试的动作. 函数返回 <code>true</code> 或返回 <code>{ ok: true }</code> 时视为成功.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 支持 <code>retries</code>/<code>maxRetries</code>, <code>interval</code>, <code>backoff</code>, <code>timeout</code>, <code>captureSnapshot</code>, <code>captureOnFailure</code>.</li>
+</ul>
+</div><p>按重试次数、间隔和退避策略执行动作, 并把最后一次结果或异常转换为结构化诊断.</p>
+<pre><code>var result = auto.retry(function () {
+    return auto.stableClick(text(&quot;重试&quot;), { timeout: 1500, captureOnFailure: false });
+}, {
+    retries: 3,
+    interval: 300,
+    backoff: 1.5
+});
+</code></pre><h2>auto.stableClick(target[, options])<span><a class="mark" href="#automator_auto_stableclick_target_options" id="automator_auto_stableclick_target_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>target</code> { <span class="type">UiSelector</span> | <span class="type">UiObject</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 要点击的控件. 字符串会按 <code>text()</code> 精确匹配.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 支持 <code>timeout</code>, <code>interval</code>, <code>stableCount</code>, <code>retries</code>, <code>scrollFind</code>, <code>fallbackToParent</code>, <code>fallbackToBounds</code>, <code>ocrFallback</code>, <code>captureOnFailure</code>.</li>
+</ul>
+</div><p>先等待控件稳定, 再校验可见、可用和 bounds, 点击失败后可尝试父节点 fallback 和坐标 fallback. 当前版本不会内置 OCR 查找; 如设置 <code>ocrFallback: true</code>, 失败结果会记录 <code>ocrFallback:not_available</code> 诊断.</p>
+<h2>auto.stableSetText(target, text[, options])<span><a class="mark" href="#automator_auto_stablesettext_target_text_options" id="automator_auto_stablesettext_target_text_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>target</code> { <span class="type">UiSelector</span> | <span class="type">UiObject</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 输入控件.</li>
+<li><code>text</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 要设置的文本.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 与 <code>auto.stableClick</code> 类似.</li>
+</ul>
+</div><p>稳定等待并校验输入控件后执行 <code>setText</code>. 当节点设置失败时, 可尝试父节点或点击 bounds 聚焦后设置当前输入框.</p>
+<h2>auto.findWithScroll(target[, scrollContainer][, options])<span><a class="mark" href="#automator_auto_findwithscroll_target_scrollcontainer_options" id="automator_auto_findwithscroll_target_scrollcontainer_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>target</code> { <span class="type">UiSelector</span> | <span class="type">UiObject</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 要查找的目标.</li>
+<li><code>scrollContainer</code> { <span class="type">UiSelector</span> | <span class="type">UiObject</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 可选. 滚动容器, 省略时使用第一个可滚动控件.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 支持 <code>timeout</code>, <code>interval</code>, <code>stableCount</code>, <code>maxScrolls</code>, <code>scrollInterval</code>, <code>captureOnFailure</code>.</li>
+</ul>
+</div><p>先查找目标, 未命中时滚动容器后继续查找, 成功后返回匹配控件摘要和 <code>uiObject</code>. 适合列表、搜索结果和分页内容.</p>
+<pre><code>auto.waitFor();
+app.launchApp(&quot;示例应用&quot;);
+
+var home = auto.waitUntil(text(&quot;搜索&quot;), { timeout: 10000, stableCount: 2 });
+if (!home.ok) throw new Error(&quot;首页未就绪: &quot; + home.reason);
+
+var openSearch = auto.stableClick(text(&quot;搜索&quot;), { timeout: 5000 });
+if (!openSearch.ok) throw new Error(&quot;无法打开搜索: &quot; + openSearch.reason);
+
+var input = auto.stableSetText(id(&quot;search_src_text&quot;), &quot;AutoJs6&quot;, {
+    timeout: 5000,
+    scrollFind: true
+});
+if (!input.ok) throw new Error(&quot;无法输入搜索词: &quot; + input.reason);
+
+var result = auto.findWithScroll(textContains(&quot;AutoJs6&quot;), {
+    timeout: 8000,
+    maxScrolls: 8,
+    stableCount: 2
+});
+if (!result.ok) throw new Error(&quot;未找到搜索结果: &quot; + result.reason);
+
+auto.stableClick(result.uiObject, { timeout: 3000 });
+</code></pre>
 <h1>SimpleActionAutomator<span><a class="mark" href="#automator_simpleactionautomator_1" id="automator_simpleactionautomator_1">#</a></span></h1>
 <p>SimpleActionAutomator提供了一些模拟简单操作的函数, 例如点击文字、模拟按键等. 这些函数可以直接作为全局函数使用.</p>
 <h2>click(text[, i])<span><a class="mark" href="#automator_click_text_i" id="automator_click_text_i">#</a></span></h2>

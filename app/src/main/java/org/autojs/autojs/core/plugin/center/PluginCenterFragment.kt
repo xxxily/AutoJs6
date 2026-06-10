@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.SystemClock.uptimeMillis
 import android.view.View
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -402,11 +403,13 @@ class PluginCenterFragment : Fragment(R.layout.fragment_plugin_center) {
         adapter.notifyDataSetChanged()
 
         viewLifecycleOwner.lifecycleScope.launch {
+            val start = uptimeMillis()
             val error = runCatching {
                 PaddleOcrPluginHost.probe(contextRef, item.packageName)
             }.exceptionOrNull()
+            val elapsed = uptimeMillis() - start
             if (error != null && error !is CancellationException) {
-                val mapped = PluginErrorMapper.fromThrowable(error)
+                val mapped = PluginErrorMapper.fromThrowable(error, elapsed)
                 val shouldRecommend = item.canActivate && PluginErrorMapper.shouldRecommendActivation(mapped)
                 if (item.activatedState == PluginActivatedState.UNKNOWN && shouldRecommend) {
                     item.activatedState = PluginActivatedState.RECOMMENDED
@@ -453,6 +456,9 @@ class PluginCenterFragment : Fragment(R.layout.fragment_plugin_center) {
         if (!hintText.isNullOrBlank()) {
             messageParts += contextRef.getString(R.string.text_hint) + contextRef.getString(R.string.symbol_colon_with_blank)
             messageParts += hintText
+        }
+        mapped.elapsedMillis?.let {
+            messageParts += "Elapsed: ${it} ms"
         }
         val message = messageParts.joinToString("\n\n")
 

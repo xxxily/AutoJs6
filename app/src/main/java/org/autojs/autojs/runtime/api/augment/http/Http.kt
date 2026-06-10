@@ -10,6 +10,8 @@ import okhttp3.Response
 import org.autojs.autojs.annotation.RhinoFunctionBody
 import org.autojs.autojs.annotation.RhinoRuntimeFunctionInterface
 import org.autojs.autojs.core.http.MutableOkHttp
+import org.autojs.autojs.rhino.extension.IterableExtensions.toNativeArray
+import org.autojs.autojs.rhino.extension.MapExtensions.toNativeObject
 import org.autojs.autojs.rhino.extension.AnyExtensions.isJsFunction
 import org.autojs.autojs.rhino.extension.AnyExtensions.isJsNullish
 import org.autojs.autojs.rhino.extension.AnyExtensions.jsBrief
@@ -20,6 +22,11 @@ import org.autojs.autojs.rhino.ArgumentGuards.Companion.component4
 import org.autojs.autojs.rhino.extension.ScriptableExtensions.prop
 import org.autojs.autojs.rhino.extension.ScriptableObjectExtensions.inquire
 import org.autojs.autojs.runtime.ScriptRuntime
+import org.autojs.autojs.runtime.api.Http.ClientConfig
+import org.autojs.autojs.runtime.api.Http.ClientSummary
+import org.autojs.autojs.runtime.api.Http.DownloadOptions
+import org.autojs.autojs.runtime.api.Http.DownloadStatus
+import org.autojs.autojs.runtime.api.Http.RequestInterceptorSpec
 import org.autojs.autojs.runtime.api.Mime
 import org.autojs.autojs.runtime.api.augment.Augmentable
 import org.autojs.autojs.runtime.api.augment.continuation.Continuation
@@ -39,6 +46,7 @@ import org.autojs.autojs.util.RhinoUtils.newNativeObject
 import org.autojs.autojs.util.RhinoUtils.withRhinoContext
 import org.mozilla.javascript.BaseFunction
 import org.mozilla.javascript.Context
+import org.mozilla.javascript.NativeArray
 import org.mozilla.javascript.NativeObject
 import org.mozilla.javascript.ScriptableObject.DONTENUM
 import org.mozilla.javascript.ScriptableObject.PERMANENT
@@ -53,6 +61,15 @@ class Http(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
     )
 
     override val selfAssignmentFunctions = listOf(
+        ::client.name,
+        ::clients.name,
+        ::removeClient.name,
+        ::download.name,
+        ::downloads.name,
+        ::downloadStatus.name,
+        ::pauseDownload.name,
+        ::resumeDownload.name,
+        ::cancelDownload.name,
         ::buildRequest.name,
         ::request.name,
         ::requestAsync.name,
@@ -82,6 +99,7 @@ class Http(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
         internal const val KEY_FILES = "files"
         internal const val KEY_BODY = "body"
         internal const val KEY_CLIENT = "client"
+        internal const val KEY_CLIENT_NAME = "clientName"
         internal const val KEY_TIMEOUT = "timeout"
 
         private const val KEY_MAX_RETRIES = "maxRetries"
@@ -107,6 +125,74 @@ class Http(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
 
         @JvmField
         val DEFAULT_BODY_CACHE_THRESHOLD_BYTES = 8L * 1024 * 1024
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun client(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeObject = ensureArgumentsLengthInRange(args, 1..2) { argList ->
+            val (name, options) = argList
+            val clientName = coerceString(name).trim()
+            require(clientName.isNotEmpty()) { "Argument name for http.client() must not be empty" }
+            val summary = when {
+                options.isJsNullish() -> scriptRuntime.http.clientSummary(clientName)
+                options is NativeObject -> scriptRuntime.http.putClient(parseClientConfig(clientName, options))
+                else -> throw WrappedIllegalArgumentException("Argument \"options\" ${options.jsBrief()} for http.client() must be a JavaScript Object")
+            }
+            summaryToNative(summary)
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun clients(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeArray = ensureArgumentsIsEmpty(args) {
+            scriptRuntime.http.clientSummaries().map { summaryToNative(it) }.toNativeArray()
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun removeClient(scriptRuntime: ScriptRuntime, args: Array<out Any?>): Boolean = ensureArgumentsOnlyOne(args) {
+            scriptRuntime.http.removeClient(coerceString(it).trim())
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun download(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeObject = ensureArgumentsLengthInRange(args, 2..3) { argList ->
+            val (url, path, options) = argList
+            val status = scriptRuntime.http.enqueueDownload(
+                url = coerceString(url),
+                path = scriptRuntime.files.nonNullPath(coerceString(path)),
+                options = parseDownloadOptions(options),
+            )
+            downloadStatusToNative(status)
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun downloads(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeArray = ensureArgumentsIsEmpty(args) {
+            scriptRuntime.http.downloadStatuses().map { downloadStatusToNative(it) }.toNativeArray()
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun downloadStatus(scriptRuntime: ScriptRuntime, args: Array<out Any?>): Any = ensureArgumentsOnlyOne(args) {
+            scriptRuntime.http.downloadStatus(coerceString(it))?.let(::downloadStatusToNative) ?: UNDEFINED
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun pauseDownload(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeObject = ensureArgumentsOnlyOne(args) {
+            downloadStatusToNative(scriptRuntime.http.pauseDownload(coerceString(it)))
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun resumeDownload(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeObject = ensureArgumentsOnlyOne(args) {
+            downloadStatusToNative(scriptRuntime.http.resumeDownload(coerceString(it)))
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun cancelDownload(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeObject = ensureArgumentsOnlyOne(args) {
+            downloadStatusToNative(scriptRuntime.http.cancelDownload(coerceString(it)))
+        }
 
         @JvmStatic
         @RhinoRuntimeFunctionInterface
@@ -513,9 +599,13 @@ class Http(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
 
             // Apply OkHttp runtime configs (retries/client builder).
             // zh-CN: 应用 OkHttp 运行时配置 (重试/Client Builder).
-            scriptRuntime.http.okhttp.apply {
-                setMaxRetries(coerceIntNumber(opt.prop(KEY_MAX_RETRIES), getMaxRetries()))
-                applyOkHttpClientBuilder(opt)
+            val namedClient = clientNameFromOptions(opt)
+            val requestClient = when {
+                namedClient != null -> scriptRuntime.http.resolveClient(namedClient)
+                else -> scriptRuntime.http.okhttp.apply {
+                    setMaxRetries(coerceIntNumber(opt.prop(KEY_MAX_RETRIES), getMaxRetries()))
+                    applyOkHttpClientBuilder(opt)
+                }.client()
             }
 
             // Cache policy for response body wrapper.
@@ -526,7 +616,7 @@ class Http(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
             // Build request with normalized options and create call.
             // zh-CN: 使用规范化后的 options 构建 Request 并创建 Call.
             val request = buildRequestRhinoWithRuntime(scriptRuntime, url, opt)
-            val call = scriptRuntime.http.client().newCall(request)
+            val call = requestClient.newCall(request)
 
             return PreparedRequest(
                 call = call,
@@ -541,6 +631,79 @@ class Http(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
             // zh-CN: 将 okhttp3.Response 包装为 Rhino 可用对象.
             return ResponseWrapper(scriptRuntime, response, cacheBody, cacheThreshold).wrap()
         }
+
+        private fun parseClientConfig(name: String, options: NativeObject): ClientConfig {
+            return ClientConfig(
+                name = name,
+                timeoutMillis = coerceLongNumber(options.prop(KEY_TIMEOUT), DEFAULT_TIMEOUT),
+                maxRetries = coerceIntNumber(options.prop(KEY_MAX_RETRIES), DEFAULT_MAX_RETRIES),
+                defaultHeaders = parseStringMap(options.inquire(listOf("defaultHeaders", "headers"))),
+                interceptors = parseInterceptors(options.prop("interceptors")),
+                certificatePins = parsePins(options.inquire(listOf("certificatePins", "pins"))),
+                allowedHosts = parseStringList(options.inquire(listOf("allowedHosts", "hosts"))).toSet(),
+                followRedirects = options.prop("followRedirects").takeUnless { it.isJsNullish() }?.let { coerceBoolean(it) },
+            )
+        }
+
+        private fun parseDownloadOptions(options: Any?): DownloadOptions {
+            val opt = coerceObject(options, newNativeObject())
+            val clientName = clientNameFromOptions(opt)
+            return DownloadOptions(
+                id = coerceString(opt.prop("id"), java.util.UUID.randomUUID().toString()),
+                clientName = clientName,
+                headers = parseStringMap(opt.prop(KEY_HEADERS)),
+                resume = opt.inquire("resume", ::coerceBoolean, true),
+                overwrite = opt.inquire("overwrite", ::coerceBoolean, true),
+            )
+        }
+
+        private fun clientNameFromOptions(options: NativeObject): String? {
+            val clientName = options.prop(KEY_CLIENT_NAME).takeUnless { it.isJsNullish() }
+            if (clientName != null) return coerceString(clientName).trim().takeIf { it.isNotEmpty() }
+            val client = options.prop(KEY_CLIENT).takeUnless { it.isJsNullish() }
+            return when (client) {
+                is CharSequence -> coerceString(client).trim().takeIf { it.isNotEmpty() }
+                else -> null
+            }
+        }
+
+        private fun parseInterceptors(raw: Any?): List<RequestInterceptorSpec> {
+            return parseAnyList(raw).map { item ->
+                require(item is NativeObject) { "HTTP interceptor ${item.jsBrief()} must be a JavaScript Object" }
+                RequestInterceptorSpec(
+                    type = coerceString(item.prop("type"), "header").trim(),
+                    name = item.prop("name").takeUnless { it.isJsNullish() }?.let { coerceString(it) },
+                    value = item.prop("value").takeUnless { it.isJsNullish() }?.let { coerceString(it) },
+                )
+            }
+        }
+
+        private fun parsePins(raw: Any?): Map<String, List<String>> {
+            if (raw.isJsNullish()) return emptyMap()
+            require(raw is NativeObject) { "HTTP certificate pins ${raw.jsBrief()} must be a JavaScript Object" }
+            return raw.entries.associate { (host, pins) ->
+                coerceString(host) to parseStringList(pins)
+            }.filterValues { it.isNotEmpty() }
+        }
+
+        private fun parseStringMap(raw: Any?): Map<String, String> {
+            if (raw.isJsNullish()) return emptyMap()
+            require(raw is NativeObject) { "Expected a JavaScript Object, got ${raw.jsBrief()}" }
+            return raw.entries.associate { (key, value) -> coerceString(key) to coerceString(value) }
+        }
+
+        private fun parseStringList(raw: Any?): List<String> = parseAnyList(raw).map { coerceString(it) }.filter { it.isNotBlank() }
+
+        private fun parseAnyList(raw: Any?): List<Any?> = when {
+            raw.isJsNullish() -> emptyList()
+            raw is NativeArray -> (0 until raw.length.toInt()).map { raw.get(it, raw) }
+            raw is Iterable<*> -> raw.toList()
+            else -> listOf(raw)
+        }
+
+        private fun summaryToNative(summary: ClientSummary) = summary.toMap().toNativeObject()
+
+        private fun downloadStatusToNative(status: DownloadStatus) = status.toMap().toNativeObject()
 
     }
 

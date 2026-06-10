@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EdgeEffect
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.autojs.autojs.runtime.api.Permissions
@@ -30,7 +31,7 @@ class SettingsActivity : AppCompatActivity() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_setting, preferenceFragment)
-            .commit()
+            .commitNow()
 
         binding.toolbar.apply {
             setTitle(R.string.text_settings)
@@ -45,6 +46,9 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        if (preferenceFragment.isAdded) {
+            preferenceFragment.refreshDiagnosticsSummary()
+        }
         listOf(
             R.string.key_foreground_service,
             R.string.key_post_notifications_permission,
@@ -61,6 +65,11 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.fragment_preferences_inrt)
+            addBuildDiagnosticsPreference()
+        }
+
+        fun refreshDiagnosticsSummary() {
+            findPreference<Preference>(KEY_BUILD_DIAGNOSTICS)?.summary = InrtDiagnostics.summaryForSettings(requireContext())
         }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,6 +89,25 @@ class SettingsActivity : AppCompatActivity() {
             listView.isHorizontalScrollBarEnabled = false
             listView.isVerticalScrollBarEnabled = false
             listView.excludePaddingClippableViewFromBottomNavigationBar()
+        }
+
+        private fun addBuildDiagnosticsPreference() {
+            val context = requireContext()
+            preferenceScreen.addPreference(
+                Preference(context).apply {
+                    key = KEY_BUILD_DIAGNOSTICS
+                    title = context.getString(R.string.text_inrt_build_diagnostics)
+                    summary = InrtDiagnostics.summaryForSettings(context)
+                    setOnPreferenceClickListener {
+                        InrtDiagnostics.copyToClipboard(context)
+                        true
+                    }
+                },
+            )
+        }
+
+        companion object {
+            private const val KEY_BUILD_DIAGNOSTICS = "key_inrt_build_diagnostics"
         }
     }
 }

@@ -127,9 +127,9 @@ AutoJs6 在 Auto.js 最终项目的基础上, 于 `2021/12/01` 进行二次开�
 
 相较于 Auto.js 最终开源版本 `4.1.1 Alpha2`, AutoJs6 主要进行了以下升级或变更:
 
-* 支持通过 [Shizuku](https://shizuku.rikka.app/introduction/) 获得 ADB 特权并使用系统 API
+* 支持通过 [Shizuku](https://shizuku.rikka.app/introduction/) 获得 ADB 特权并使用系统 API, 并提供应用管理、系统设置、包管理、输入、进程、用户等结构化特权 API 及审计记录
 * 支持构建 [WebSocket](https://docs.autojs6.com/#/webSocketType) 实例以完成基于 [WebSocket 协议](https://zh.wikipedia.org/wiki/WebSocket) 的网络请求
-* 新增模块 [ [base64](https://docs.autojs6.com/#/base64) / [crypto](https://docs.autojs6.com/#/crypto) / [sqlite](https://docs.autojs6.com/#/sqlite) / [i18n](https://docs.autojs6.com/#/i18n) / [notice](https://docs.autojs6.com/#/notice) / [ocr](https://docs.autojs6.com/#/ocr) / [opencc](https://docs.autojs6.com/#/opencc) / [qrcode](https://docs.autojs6.com/#/qrcode) / [shizuku](https://docs.autojs6.com/#/shizuku) / ... ]
+* 新增模块 [ [base64](https://docs.autojs6.com/#/base64) / [crypto](https://docs.autojs6.com/#/crypto) / [sqlite](https://docs.autojs6.com/#/sqlite) / [i18n](https://docs.autojs6.com/#/i18n) / [notice](https://docs.autojs6.com/#/notice) / [ocr](https://docs.autojs6.com/#/ocr) / [vision](https://docs.autojs6.com/#/vision) / [opencc](https://docs.autojs6.com/#/opencc) / [qrcode](https://docs.autojs6.com/#/qrcode) / [shizuku](https://docs.autojs6.com/#/shizuku) / ... ]
 * 多语言适配 [ 西 / 法 / 俄 / 阿 / 日 / 韩 / 英 / 简中 / 繁中 / ... ]
 * 主题色适配 [ 分组 / 定位 / 搜索 / 历史记录 / 亮度及对比度自动适配 / ... ]
 * 夜间模式适配 [ 设置页面 / 文档页面 / 布局分析页面 / 浮动窗口 / ... ]
@@ -169,6 +169,10 @@ AutoJs6 在 Auto.js 最终项目的基础上, 于 `2021/12/01` 进行二次开�
 ###### 2026/06/07
 
 * `新增` 新增 AI 脚本助手功能, 支持在代码编辑器等处通过 AI 辅助编写、修改与解释脚本
+* `新增` auto.snapshot / auto.diffSnapshot 方法, 用于导出 UI 树诊断快照、比较快照差异并给出稳定选择器建议
+* `新增` auto.waitUntil / auto.retry / auto.stableClick / auto.stableSetText / auto.findWithScroll 可靠自动化 DSL, 用于替代脆弱 sleep 与裸点击输入循环
+* `新增` images.openCaptureSession 截图 Session, 支持帧缓存、单次/连续 OCR/高频找色/低功耗预设、错误分类和性能指标
+* `新增` vision 屏幕感知融合模块, 将无障碍节点、OCR 文本块、图像模板/颜色特征和当前 App/Activity 统一为带来源、置信度、bounds 与建议动作的目标对象
 * `优化` 更新 GitHub Actions 工作流以使用 Node 24 兼容的 Action 版本以消除弃用警告
 
 # v6.7.1
@@ -222,6 +226,7 @@ AutoJs6 在 Auto.js 最终项目的基础上, 于 `2021/12/01` 进行二次开�
 * `新增` http 模块请求相关方法支持不安全选项参数 (isInsecure/insecure), 用于忽略证书相关异常 _[`issue #417`](http://issues.autojs6.com/417)_
 * `新增` http 模块请求相关方法支持 options.client 选项, 用于配置 OkHttpClient.Builder (如 followRedirects 等) _[`issue #454`](http://issues.autojs6.com/454)_
 * `新增` auto.state 属性 (getter) 及 shizuku.state 属性 (getter), 用于获取无障碍服务状态及 Shizuku 服务状态
+* `新增` shizuku.app/settings/package/input/process/users/audit 结构化特权 API, 常见 pm/am/settings/input 场景无需手写 Shell 字符串, 并返回能力声明、风险等级和审计编号
 * `新增` runtime.(set/is)JavaPrimitiveWrap 方法, 用于设置或获取 Java 原始类型包装策略 _[`issue #435`](http://issues.autojs6.com/435)_
 * `新增` autojs.(restart/exit) 方法, 用于重启或退出 AutoJs6 应用, 并支持应用重启时自动运行其参数指定的脚本 _[`issue #460`](http://issues.autojs6.com/460)_
 * `新增` UiObject#isShifted 方法, 用于检测控件位置变化 _[`issue #469`](http://issues.autojs6.com/469)_
@@ -588,6 +593,17 @@ autojs6-v6.6.2-arm64-v8a-0f2a9d74.apk
 如需在应用内通过 AI 辅助编写、修改或解释脚本, 可在设置页配置 OpenAI 兼容服务商后, 从代码编辑器菜单或文件管理器浮动按钮进入 AI 脚本助手:
 
 - [AI 脚本助手 MVP 验收矩阵](docs/需求/AI脚本助手MVP验收矩阵.md) - 入口、供应商配置、上下文发送、预览应用与高风险二次确认说明
+- 脚本可通过 `capabilities.check()`, `capabilities.ensure()`, `capabilities.explain()` 和 `capabilities.manifest()` 检查无障碍、截图、Shizuku 等运行前能力状态; 项目可在 `project.json` 声明 `capabilities` / `pluginDependencies` / `riskPolicy` / `filePolicy` / `privilegedPolicy`, 高风险调用会写入 `capabilities.audit()`, 编辑器运行前预检、AI 风险校验、插件调用和打包权限映射共用同一份能力图谱; 打包 APK 会在构建前检查主脚本、资源、能力和插件依赖, 并内置 `project/build-diagnostics.json` 供 inrt 设置页和日志诊断导出使用
+- 自动化方案库覆盖 App 启动与等待、列表滚动查找、表单填写、OCR 文字点击、截图找图、定时任务、Shizuku 应用管理和插件 OCR; 内置文档 `automation-solutions.html`、示例 `方案库/自动化方案库模板入口 [v6.7.3+].js` 和 AI 检索索引会优先复用这些方案模板, 再补充底层 API 文档
+- 插件中心支持插件能力 manifest、OCR 引擎/权限/风险展示、官方索引 APK SHA-256 校验和证书指纹 pinning; SDK 模板与测试宿主清单见 [插件 SDK 模板与供应链审计](docs/实现审计/17-插件SDK模板与供应链审计.md)
+- 脚本运行会写入统一观测时间线, 编辑器菜单可查看“运行详情”并复制诊断 JSON; 服务端模式的管理入口可本地启用远程调试桥并生成 token, 桌面端通过 `debug.*` 命令查看运行中脚本、日志、异常、能力调用、资源快照和脱敏 UI 快照
+- 网络和数据脚本可通过 `http.client()` 声明命名 HTTP client, 使用请求拦截器、域名约束和可选证书 pinning, 并通过 `http.download()` / `http.pauseDownload()` / `http.resumeDownload()` 管理断点续传下载; `storages.namespace()` 提供 KV 命名空间, `ipc.publish()` / `ipc.subscribe()` / `ipc.request()` / `ipc.reply()` 提供本地脚本消息总线, `app.sendTypedBroadcast()` 提供结构化 Intent/Broadcast 入口
+- AI Copilot 二期会在应用前拦截未知 API 和未声明高风险能力, 修改当前文件时优先使用 `replace_selection` 或 unified diff 最小补丁, 并在补丁应用前校验编辑器上下文未漂移
+- AI 上下文发送前会展示摘要并按设置排除文件、日志、剪贴板、UI 快照、截图和 OCR 摘要; 剪贴板、UI 快照、截图和 OCR 默认关闭, 开启后仍需在发送前确认, API Key 与请求错误会脱敏
+- 定时任务支持运行历史和当前队列查询: `tasks.queryTimedTaskRuns()` / `tasks.queryTimedTaskQueue()`, 并可在创建任务时声明 `maxRetries`, `retryBackoffMillis`, `mutex`, `timeoutMillis` 等可靠性策略
+- 截图脚本可使用 `images.openCaptureSession()` 管理长期取帧, 查看首帧/平均帧耗时、超时率、方向恢复耗时、内存估算和最近错误分类
+- UI 自动化脚本优先使用 `auto.waitUntil()`, `auto.retry()`, `auto.stableClick()`, `auto.stableSetText()` 和 `auto.findWithScroll()` 获取结构化结果、失败原因和 UI 快照诊断
+- 屏幕理解脚本可使用 `vision.targets()`, `vision.findText()`, `vision.findButton()`, `vision.observe()` 和 `vision.waitForScene()` 融合无障碍、OCR、图像模板与颜色区域信号, 并按 `sources` 与 `interval` 控制性能
 
 使用开发工具编写代码时, 代码智能补全功能可以更好地辅助开发者完成代码编写:
 

@@ -12,6 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.autojs.autojs.annotation.RhinoFunctionBody
 import org.autojs.autojs.annotation.RhinoRuntimeFunctionInterface
+import org.autojs.autojs.capability.CapabilityRegistry
+import org.autojs.autojs.capability.ProjectCapabilitySecurity
 import org.autojs.autojs.rhino.extension.AnyExtensions.isJsNullish
 import org.autojs.autojs.rhino.extension.AnyExtensions.jsBrief
 import org.autojs.autojs.rhino.ArgumentGuards
@@ -71,6 +73,9 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
         ::startService.name to AS_GLOBAL,
         ::sendEmail.name to AS_GLOBAL,
         ::sendBroadcast.name to AS_GLOBAL,
+        ::buildTypedIntent.name,
+        ::sendTypedBroadcast.name,
+        ::parseTypedIntent.name,
         ::sendLocalBroadcastSync.name to AS_GLOBAL,
         ::parseUri.name,
         ::openUrl.name,
@@ -107,6 +112,11 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
     companion object : ArgumentGuards() {
 
         private const val PROTOCOL_FILE = "file://"
+        private const val DEFAULT_TYPED_MESSAGE_ACTION = "org.autojs.autojs6.action.TYPED_MESSAGE"
+        private const val EXTRA_TYPED_MESSAGE_TYPE = "org.autojs.autojs6.extra.MESSAGE_TYPE"
+        private const val EXTRA_TYPED_MESSAGE_PAYLOAD = "org.autojs.autojs6.extra.MESSAGE_PAYLOAD"
+        private const val EXTRA_TYPED_MESSAGE_REPLY_TO = "org.autojs.autojs6.extra.MESSAGE_REPLY_TO"
+        private const val EXTRA_TYPED_MESSAGE_REQUEST_ID = "org.autojs.autojs6.extra.MESSAGE_REQUEST_ID"
 
         private val presetPackageNames by lazy {
             PresetApp.entries.associate {
@@ -150,19 +160,19 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
                     }
                 }
                 is Intent -> when {
-                    options.isJsNullish() -> startActivityWithGlobalContext(obj)
+                    options.isJsNullish() -> startActivityWithGlobalContext(scriptRuntime, obj)
                     options is NativeObject -> obj.configure(scriptRuntime, options).let { configuredIntent ->
                         when {
                             checkDualProperty(options) -> startDualActivity(scriptRuntime, args)
                             checkShizukuProperty(options) -> {
                                 val tmpIntent = configuredIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                WrappedShizuku.execCommand("am start ${intentToShellRhino(tmpIntent)}").throwIfError()
+                                execShizukuCommand(scriptRuntime, "app.startActivity(shizuku)", "am start ${intentToShellRhino(tmpIntent)}").throwIfError()
                             }
                             checkRootProperty(options) -> {
                                 val tmpIntent = configuredIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 Shell.execCommand(scriptRuntime, arrayOf<Any>("am start ${intentToShellRhino(tmpIntent)}", /* withRoot = */ true)).throwIfError()
                             }
-                            else -> startActivityWithGlobalContext(configuredIntent)
+                            else -> startActivityWithGlobalContext(scriptRuntime, configuredIntent)
                         }
                     }
                     else -> throw IllegalArgumentException("Argument[1] for app.startActivity must be a JavaScript Object when argument[0] is Intent")
@@ -182,7 +192,7 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
                         checkShizukuProperty(opt) -> {
                             val tmpIntent = intentRhinoWithRuntime(scriptRuntime, opt).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
                             val intentCommand = intentToShellRhino(tmpIntent)
-                            WrappedShizuku.execCommand("am start $intentCommand").throwIfError()
+                            execShizukuCommand(scriptRuntime, "app.startActivity(shizuku)", "am start $intentCommand").throwIfError()
                         }
                         checkRootProperty(opt) -> {
                             val tmpIntent = intentRhinoWithRuntime(scriptRuntime, opt).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
@@ -467,6 +477,40 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
 
         @JvmStatic
         @RhinoRuntimeFunctionInterface
+        fun buildTypedIntent(scriptRuntime: ScriptRuntime, args: Array<out Any?>): Intent = ensureArgumentsLengthInRange(args, 1..3) { argList ->
+            val (type, payload, options) = argList
+            buildTypedIntentRhinoWithRuntime(scriptRuntime, type, payload, options)
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun sendTypedBroadcast(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeObject = ensureArgumentsLengthInRange(args, 1..3) { argList ->
+            val (type, payload, options) = argList
+            val opt = normalizeTypedMessageOptions(options)
+            val intent = buildTypedIntentRhinoWithRuntime(scriptRuntime, type, payload, opt)
+            when {
+                opt.inquire("local", ::coerceBoolean, false) -> sendLocalBroadcastSyncInternal(intent)
+                else -> {
+                    val permission = opt.prop("permission").takeUnless { it.isJsNullish() }?.let { coerceString(it) }
+                    if (permission.isNullOrBlank()) {
+                        globalContext.sendBroadcast(intent)
+                    } else {
+                        globalContext.sendBroadcast(intent, permission)
+                    }
+                }
+            }
+            parseTypedIntentRhino(intent)
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
+        fun parseTypedIntent(scriptRuntime: ScriptRuntime, args: Array<out Any?>): NativeObject = ensureArgumentsOnlyOne(args) {
+            require(it is Intent) { "Argument intent ${it.jsBrief()} for app.parseTypedIntent() must be an Intent" }
+            parseTypedIntentRhino(it)
+        }
+
+        @JvmStatic
+        @RhinoRuntimeFunctionInterface
         fun sendLocalBroadcastSync(scriptRuntime: ScriptRuntime, args: Array<out Any?>): Undefined = ensureArgumentsOnlyOne(args) {
             sendLocalBroadcastSyncRhino(it)
         }
@@ -508,6 +552,66 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
                     e.printStackTrace()
                 }
             }
+        }
+
+        @JvmStatic
+        @RhinoFunctionBody
+        fun buildTypedIntentRhinoWithRuntime(scriptRuntime: ScriptRuntime, type: Any?, payload: Any? = UNDEFINED, options: Any? = null): Intent {
+            val opt = normalizeTypedMessageOptions(options)
+            val action = opt.inquire("action", ::coerceString, DEFAULT_TYPED_MESSAGE_ACTION)
+            val intent = Intent(action)
+            opt.prop("packageName").takeUnless { it.isJsNullish() }?.let { intent.setPackage(coerceString(it)) }
+            opt.prop("className").takeUnless { it.isJsNullish() }?.let { className ->
+                val packageName = opt.prop("packageName").takeUnless { it.isJsNullish() }?.let { coerceString(it) }
+                require(!packageName.isNullOrBlank()) { "Typed intent className requires packageName" }
+                intent.setClassName(packageName, coerceString(className))
+            }
+            opt.prop("category").takeUnless { it.isJsNullish() }?.let { categoryRaw ->
+                when (categoryRaw) {
+                    is Iterable<*> -> categoryRaw.forEach { intent.addCategory(Context.toString(it)) }
+                    else -> intent.addCategory(Context.toString(categoryRaw))
+                }
+            }
+            opt.prop("flags").takeUnless { it.isJsNullish() }?.let { intent.setFlags(parseIntentFlags(it)) }
+            opt.prop("data").takeUnless { it.isJsNullish() }?.let { intent.setData(parseUriRhinoWithRuntime(scriptRuntime, it)) }
+            val messageType = coerceString(type).trim()
+            require(messageType.isNotEmpty()) { "Typed message type must not be empty" }
+            intent.putExtra(EXTRA_TYPED_MESSAGE_TYPE, messageType)
+            intent.putExtra(EXTRA_TYPED_MESSAGE_PAYLOAD, Context.toString(RhinoUtils.js_json_stringify(payload)))
+            opt.prop("replyTo").takeUnless { it.isJsNullish() }?.let { intent.putExtra(EXTRA_TYPED_MESSAGE_REPLY_TO, coerceString(it)) }
+            opt.prop("requestId").takeUnless { it.isJsNullish() }?.let { intent.putExtra(EXTRA_TYPED_MESSAGE_REQUEST_ID, coerceString(it)) }
+            val extras = opt.prop("extras")
+            if (extras is NativeObject) {
+                extras.entries.forEach { (key, value) ->
+                    RhinoUtils.putExtraForIntent(intent, key, value)
+                }
+            }
+            return intent
+        }
+
+        @JvmStatic
+        @RhinoFunctionBody
+        fun parseTypedIntentRhino(intent: Intent): NativeObject = newNativeObject().also { obj ->
+            obj.put("action", obj, intent.action ?: UNDEFINED)
+            obj.put("type", obj, intent.getStringExtra(EXTRA_TYPED_MESSAGE_TYPE) ?: UNDEFINED)
+            obj.put("payload", obj, intent.getStringExtra(EXTRA_TYPED_MESSAGE_PAYLOAD)?.let { RhinoUtils.js_json_parse(it) } ?: UNDEFINED)
+            obj.put("replyTo", obj, intent.getStringExtra(EXTRA_TYPED_MESSAGE_REPLY_TO) ?: UNDEFINED)
+            obj.put("requestId", obj, intent.getStringExtra(EXTRA_TYPED_MESSAGE_REQUEST_ID) ?: UNDEFINED)
+            obj.put("packageName", obj, intent.`package` ?: intent.component?.packageName ?: UNDEFINED)
+            obj.put("className", obj, intent.component?.className ?: UNDEFINED)
+            @Suppress("DEPRECATION")
+            val extras = intent.extras
+            obj.put("extras", obj, newNativeObject().also { extraObj ->
+                extras?.keySet()?.forEach { key ->
+                    extraObj.put(key, extraObj, extras.get(key))
+                }
+            })
+        }
+
+        private fun normalizeTypedMessageOptions(options: Any?): NativeObject {
+            if (options.isJsNullish()) return newNativeObject()
+            require(options is NativeObject) { "Argument options ${options.jsBrief()} for typed intent API must be a JavaScript Object" }
+            return options
         }
 
         @JvmStatic
@@ -710,10 +814,10 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
         fun uninstall(scriptRuntime: ScriptRuntime, args: Array<out Any?>): Undefined = ensureArgumentsOnlyOne(args) { o ->
             when {
                 o.isJsNullish() -> Unit
-                o is PresetApp -> scriptRuntime.app.uninstall(o.packageName)
+                o is PresetApp -> uninstallInternal(scriptRuntime, o.packageName)
                 else -> getAppByAliasRhino(o)?.let {
-                    scriptRuntime.app.uninstall(it.packageName)
-                } ?: scriptRuntime.app.uninstall(Context.toString(o))
+                    uninstallInternal(scriptRuntime, it.packageName)
+                } ?: uninstallInternal(scriptRuntime, Context.toString(o))
             }
             UNDEFINED
         }
@@ -781,7 +885,7 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
             val packageName = getPackageName(scriptRuntime, argList) ?: return@ensureArgumentsLength false
             with("am force-stop $packageName") {
                 listOf(
-                    toShizukuShellAction(),
+                    toShizukuShellAction(scriptRuntime),
                     toRootShellAction(scriptRuntime),
                     toFallbackShellAction(scriptRuntime),
                 ).first { it.condition() }.execute().code == 0
@@ -907,7 +1011,12 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
         }
 
         private fun startActivityWithGlobalContext(scriptRuntime: ScriptRuntime, o: Any?) {
-            startActivityWithGlobalContext(intentRhinoWithRuntime(scriptRuntime, o))
+            startActivityWithGlobalContext(scriptRuntime, intentRhinoWithRuntime(scriptRuntime, o))
+        }
+
+        private fun startActivityWithGlobalContext(scriptRuntime: ScriptRuntime, o: Intent) {
+            guardSensitiveIntent(scriptRuntime, o, "app.startActivity")
+            o.startSafely(globalContext)
         }
 
         private fun startActivityWithGlobalContext(o: Intent) {
@@ -954,7 +1063,7 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
                     else -> "$command --user $uid"
                 }
 
-                val shizuku = cmd.toShizukuShellAction()
+                val shizuku = cmd.toShizukuShellAction(scriptRuntime)
                 val root = cmd.toRootShellAction(scriptRuntime)
                 val fallback = cmd.toFallbackShellAction(scriptRuntime)
 
@@ -1003,9 +1112,92 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
         }
 
         private fun uninstallDualInternal(scriptRuntime: ScriptRuntime, packageName: String) {
+            guardPackageMutation(scriptRuntime, "app.uninstallDual", CapabilityRegistry.UNINSTALL_APK, packageName)
             startActivityForDualUser(scriptRuntime, Intent(Intent.ACTION_DELETE).apply {
                 data = "package:$packageName".toUri()
             })
+            auditPackageMutation(scriptRuntime, "app.uninstallDual", CapabilityRegistry.UNINSTALL_APK, packageName)
+        }
+
+        private fun uninstallInternal(scriptRuntime: ScriptRuntime, packageName: String) {
+            guardPackageMutation(scriptRuntime, "app.uninstall", CapabilityRegistry.UNINSTALL_APK, packageName)
+            scriptRuntime.app.uninstall(packageName)
+            auditPackageMutation(scriptRuntime, "app.uninstall", CapabilityRegistry.UNINSTALL_APK, packageName)
+        }
+
+        private fun execShizukuCommand(scriptRuntime: ScriptRuntime, api: String, command: String): AbstractShell.Result {
+            ProjectCapabilitySecurity.guard(
+                scriptRuntime = scriptRuntime,
+                api = api,
+                capabilities = listOf(CapabilityRegistry.SHIZUKU),
+                riskLevel = "high",
+                target = command,
+            )
+            return WrappedShizuku.execCommand(command).also { result ->
+                ProjectCapabilitySecurity.audit(
+                    scriptRuntime = scriptRuntime,
+                    api = api,
+                    capabilities = listOf(CapabilityRegistry.SHIZUKU),
+                    riskLevel = "high",
+                    target = command,
+                    message = "code=${result.code}; error=${result.error.orEmpty().take(120)}",
+                )
+            }
+        }
+
+        private fun guardPackageMutation(scriptRuntime: ScriptRuntime, api: String, capability: String, packageName: String) {
+            ProjectCapabilitySecurity.guard(
+                scriptRuntime = scriptRuntime,
+                api = api,
+                capabilities = listOf(capability),
+                riskLevel = "critical",
+                target = packageName,
+            )
+        }
+
+        private fun auditPackageMutation(scriptRuntime: ScriptRuntime, api: String, capability: String, packageName: String) {
+            ProjectCapabilitySecurity.audit(
+                scriptRuntime = scriptRuntime,
+                api = api,
+                capabilities = listOf(capability),
+                riskLevel = "critical",
+                target = packageName,
+                message = "requested",
+            )
+        }
+
+        private fun guardSensitiveIntent(scriptRuntime: ScriptRuntime, intent: Intent, api: String) {
+            val capability = sensitiveIntentCapability(intent) ?: return
+            ProjectCapabilitySecurity.guard(
+                scriptRuntime = scriptRuntime,
+                api = api,
+                capabilities = listOf(capability),
+                riskLevel = "high",
+                target = "${intent.action.orEmpty()} ${intent.dataString.orEmpty()}".trim(),
+            )
+            ProjectCapabilitySecurity.audit(
+                scriptRuntime = scriptRuntime,
+                api = api,
+                capabilities = listOf(capability),
+                riskLevel = "high",
+                target = "${intent.action.orEmpty()} ${intent.dataString.orEmpty()}".trim(),
+                message = "sensitive intent",
+            )
+        }
+
+        private fun sensitiveIntentCapability(intent: Intent): String? {
+            val action = intent.action.orEmpty()
+            val data = intent.dataString.orEmpty()
+            val scheme = intent.data?.scheme.orEmpty().lowercase()
+            val type = intent.type.orEmpty().lowercase()
+            return when {
+                action == Intent.ACTION_CALL -> CapabilityRegistry.PHONE
+                scheme in setOf("sms", "smsto", "mms", "mmsto") -> CapabilityRegistry.SMS
+                action == Intent.ACTION_SENDTO && scheme in setOf("sms", "smsto", "mms", "mmsto") -> CapabilityRegistry.SMS
+                scheme == "content" && "contacts" in data.lowercase() -> CapabilityRegistry.CONTACTS
+                "contact" in type -> CapabilityRegistry.CONTACTS
+                else -> null
+            }
         }
 
         private fun checkDualProperty(o: NativeObject) = o.inquire("dual", ::coerceBoolean, false)
@@ -1115,7 +1307,7 @@ class App(scriptRuntime: ScriptRuntime) : Augmentable(scriptRuntime) {
             fun execute() = action(cmd)
 
             companion object {
-                fun String.toShizukuShellAction() = ShellAction(this, { WrappedShizuku.isOperational() }, { WrappedShizuku.execCommand(it) })
+                fun String.toShizukuShellAction(scriptRuntime: ScriptRuntime) = ShellAction(this, { WrappedShizuku.isOperational() }, { execShizukuCommand(scriptRuntime, "app.shell(shizuku)", it) })
                 fun String.toRootShellAction(scriptRuntime: ScriptRuntime) = ShellAction(this, { RootUtils.isRootAvailable() }, { Shell.execCommand(scriptRuntime, arrayOf<Any>(it, /* withRoot = */ true)) })
                 fun String.toFallbackShellAction(scriptRuntime: ScriptRuntime) = ShellAction(this, { true }, { Shell.execCommand(scriptRuntime, arrayOf<Any>(it, /* withRoot = */ false)) })
             }

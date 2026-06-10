@@ -4,4 +4,8 @@
     <item
         android:id="@+id/settings"
         android:title="@string/text_settings"/>
+
+    <item
+        android:id="@+id/copy_diagnostics"
+        android:title="@string/dialog_button_copy_diagnostics"/>
 </menu>

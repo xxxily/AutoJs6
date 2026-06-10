@@ -42,7 +42,7 @@ object JobTimedTaskScheduler : TimedTaskBackend {
             val task = TimedTaskManager.getTimedTask(id)
             println("$LOG_TAG: onRunJob: id = $id, task = $task")
             task ?: return Result.FAILURE
-            TimedTaskScheduler.runTask(context, task)
+            TimedTaskScheduler.runTask(context, task, backendName = "JobTimedTaskScheduler")
             return Result.SUCCESS
         }
     }

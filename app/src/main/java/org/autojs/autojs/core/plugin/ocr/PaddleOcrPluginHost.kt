@@ -68,6 +68,7 @@ object PaddleOcrPluginHost {
         val serviceInfo: ServiceInfo,
         val pluginInfo: PluginInfo?,
         val error: Throwable?,
+        val probeElapsedMillis: Long?,
     )
 
     suspend fun discover(context: Context): List<Discovered> {
@@ -75,13 +76,15 @@ object PaddleOcrPluginHost {
         Log.i(TAG, "discover: services=${services.size}")
         return services.map { svc ->
             Log.i(TAG, "discover: ${svc.packageName}/${svc.name}")
+            val start = uptimeMillis()
             val result = runCatching { withService(context, svc, DEFAULT_BIND_TIMEOUT_MS) { it.getInfo() } }
+            val elapsed = uptimeMillis() - start
             val info = result.getOrNull()
             val error = result.exceptionOrNull()
             if (error != null) {
-                Log.w(TAG, "getInfo failed: ${error.message}")
+                Log.w(TAG, "getInfo failed in ${elapsed}ms: ${error.message}")
             }
-            Discovered(svc, info, error)
+            Discovered(svc, info, error, elapsed)
         }
     }
 

@@ -10,6 +10,8 @@ import org.autojs.autojs.AutoJs
 import org.autojs.autojs.annotation.ScriptInterface
 import org.autojs.autojs.annotation.ScriptVariable
 import org.autojs.autojs.concurrent.VolatileDispose
+import org.autojs.autojs.capability.CapabilityRegistry
+import org.autojs.autojs.capability.ProjectCapabilitySecurity
 import org.autojs.autojs.core.accessibility.AccessibilityBridge
 import org.autojs.autojs.core.accessibility.SimpleActionAutomator
 import org.autojs.autojs.core.accessibility.monitor.CloseableManager
@@ -39,6 +41,7 @@ import org.autojs.autojs.runtime.api.augment.automator.RootAutomator
 import org.autojs.autojs.runtime.api.augment.barcode.Barcode
 import org.autojs.autojs.runtime.api.augment.barcode.QrCode
 import org.autojs.autojs.runtime.api.augment.base64.Base64
+import org.autojs.autojs.runtime.api.augment.capabilities.Capabilities as CapabilitiesAugment
 import org.autojs.autojs.runtime.api.augment.canvas.Canvas
 import org.autojs.autojs.runtime.api.augment.colors.Color
 import org.autojs.autojs.runtime.api.augment.colors.Colors
@@ -60,6 +63,7 @@ import org.autojs.autojs.runtime.api.augment.global.IsNullish
 import org.autojs.autojs.runtime.api.augment.global.Species
 import org.autojs.autojs.runtime.api.augment.http.Http
 import org.autojs.autojs.runtime.api.augment.images.Images
+import org.autojs.autojs.runtime.api.augment.ipc.Ipc
 import org.autojs.autojs.runtime.api.augment.jsox.Arrayx
 import org.autojs.autojs.runtime.api.augment.jsox.Jsox
 import org.autojs.autojs.runtime.api.augment.jsox.Mathx
@@ -136,6 +140,7 @@ import org.autojs.autojs.core.permission.Permissions as CorePermissions
 import org.autojs.autojs.core.web.WebSocket as CoreWebSocket
 import org.autojs.autojs.rhino.continuation.Continuation as RhinoContinuation
 import org.autojs.autojs.runtime.api.Barcode as ApiBarcode
+import org.autojs.autojs.runtime.api.Capabilities as ApiCapabilities
 import org.autojs.autojs.runtime.api.Device as ApiDevice
 import org.autojs.autojs.runtime.api.Dialogs as ApiDialogs
 import org.autojs.autojs.runtime.api.Engines as ApiEngines
@@ -144,6 +149,7 @@ import org.autojs.autojs.runtime.api.Files as ApiFiles
 import org.autojs.autojs.runtime.api.Floaty as ApiFloaty
 import org.autojs.autojs.runtime.api.Http as ApiHttp
 import org.autojs.autojs.runtime.api.Images as ApiImages
+import org.autojs.autojs.runtime.api.Ipc as ApiIpc
 import org.autojs.autojs.runtime.api.Media as ApiMedia
 import org.autojs.autojs.runtime.api.Mime as ApiMime
 import org.autojs.autojs.runtime.api.Notice as ApiNotice
@@ -170,6 +176,7 @@ import org.autojs.autojs.runtime.api.augment.util.Java as UtilJava
 import org.autojs.autojs.runtime.api.augment.util.MorseCode as UtilMorseCode
 import org.autojs.autojs.runtime.api.augment.util.Version as UtilVersion
 import org.autojs.autojs.runtime.api.augment.util.VersionCodes as UtilVersionCodes
+import org.autojs.autojs.runtime.api.augment.vision.Vision
 
 /**
  * Created by Stardust on Jan 27, 2017.
@@ -278,6 +285,10 @@ class ScriptRuntime private constructor(builder: Builder) {
 
     @JvmField
     @ScriptVariable
+    val ipc: ApiIpc
+
+    @JvmField
+    @ScriptVariable
     val device: ApiDevice
 
     @JvmField
@@ -350,6 +361,10 @@ class ScriptRuntime private constructor(builder: Builder) {
 
     @JvmField
     @ScriptVariable
+    val capabilities: ApiCapabilities
+
+    @JvmField
+    @ScriptVariable
     val shizuku: WrappedShizuku
 
     @JvmField
@@ -372,6 +387,13 @@ class ScriptRuntime private constructor(builder: Builder) {
 
     @get:ScriptInterface
     val rootShell: AbstractShell by lazy {
+        ProjectCapabilitySecurity.guard(
+            scriptRuntime = this,
+            api = "rootShell",
+            capabilities = listOf(CapabilityRegistry.SHELL, CapabilityRegistry.ROOT),
+            riskLevel = "high",
+            target = "rootShell",
+        )
         builder.shellSupplier.get().also {
             it.SetScreenMetrics(screenMetrics)
             mRootShell = it
@@ -474,9 +496,11 @@ class ScriptRuntime private constructor(builder: Builder) {
         sqlite = ApiSQLite(mUiHandlerAppContext, this)
 
         http = ApiHttp()
+        ipc = ApiIpc(this)
         ocrMLKit = ApiOcrMLKit()
         ocrRapid = ApiOcrRapid()
         barcode = ApiBarcode()
+        capabilities = ApiCapabilities(mUiHandlerAppContext)
 
         shizuku = WrappedShizuku
         mime = ApiMime
@@ -489,10 +513,16 @@ class ScriptRuntime private constructor(builder: Builder) {
         loopers = Loopers(this)
         events = ApiEvents(mUiHandlerAppContext, accessibilityBridge, this)
         sensors = ApiSensors(mUiHandlerAppContext, this)
+        val projectCapabilityConfig = ProjectCapabilitySecurity.projectConfigForRuntime(this)
         plugins = ApiPlugins.PluginRuntime(
             topLevelScope = topLevelScope,
             pluginSearchDir = PFiles.join(engines.myEngine().cwd(), "plugins"),
             engine = "rhino",
+            projectKey = projectCapabilityConfig?.sourcePath
+                ?: projectCapabilityConfig?.packageName
+                ?: projectCapabilityConfig?.name
+                ?: "",
+            projectCapabilities = projectCapabilityConfig?.capabilities.orEmpty(),
         ).let { ApiPlugins(mUiHandlerAppContext, it) }
 
         augment(topLevelScope)
@@ -535,7 +565,30 @@ class ScriptRuntime private constructor(builder: Builder) {
     }
 
     @ScriptInterface
-    fun shell(cmd: String, withRoot: Int): AbstractShell.Result = ProcessShell.execCommand(cmd, withRoot != 0)
+    fun shell(cmd: String, withRoot: Int): AbstractShell.Result {
+        val capabilities = when {
+            withRoot != 0 -> listOf(CapabilityRegistry.SHELL, CapabilityRegistry.ROOT)
+            else -> listOf(CapabilityRegistry.SHELL)
+        }
+        val api = if (withRoot != 0) "shell(root)" else "shell"
+        ProjectCapabilitySecurity.guard(
+            scriptRuntime = this,
+            api = api,
+            capabilities = capabilities,
+            riskLevel = "high",
+            target = cmd,
+        )
+        return ProcessShell.execCommand(cmd, withRoot != 0).also { result ->
+            ProjectCapabilitySecurity.audit(
+                scriptRuntime = this,
+                api = api,
+                capabilities = capabilities,
+                riskLevel = "high",
+                target = cmd,
+                message = "code=${result.code}; error=${result.error.orEmpty().take(120)}",
+            )
+        }
+    }
 
     @ScriptInterface
     fun selector() = CoreUiSelector(accessibilityBridge)
@@ -631,6 +684,7 @@ class ScriptRuntime private constructor(builder: Builder) {
         ignoresException { events.recycle() }
         ignoresException { media.recycle() }
         ignoresException { loopers.recycle() }
+        ignoresException { ipc.recycle() }
         ignoresException { recycleShell() }
         ignoresException { images.releaseScreenCapturer() }
         ignoresException { images.stopScreenCapturerForegroundService() }
@@ -765,8 +819,10 @@ class ScriptRuntime private constructor(builder: Builder) {
             OcrPaddle(this).augment(ocr, false).also { augmentedOcrPaddle = it }
             OcrRapid(this).augment(ocr, false).also { augmentedOcrRapid = it }
         }
+        Vision(this).augment(target, true)
         Barcode(this).augment(target, true)
         QrCode(this).augment(target, true)
+        CapabilitiesAugment(this).augment(target, capabilities, true)
         Threads(this).augment(target, threads, true)
         UI(this).proxying(target, ui, true)
         Colors.augmentWithRuntime(target, this, Colors.colorTables + colors, true)
@@ -775,6 +831,7 @@ class ScriptRuntime private constructor(builder: Builder) {
         Dialogs(this).augment(target, true)
         Continuation(this).augment(target, js_mod_continuation, true, READONLY)
         Http(this).augment(target, http, true)
+        Ipc(this).augment(target, ipc, true)
         Web(this).augment(target, true)
         WebSocket(this).augment(target, WebSocketFields, false)
         S13n.augmentWithRuntime(target, this, true)

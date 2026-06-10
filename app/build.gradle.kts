@@ -278,6 +278,7 @@ dependencies /* MIME */ {
 
 dependencies /* Test */ {
     testImplementation(libs.junit)
+    testImplementation(libs.json)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.junit.jupiter)
 }

@@ -10,6 +10,7 @@ import android.text.TextUtils
 import org.autojs.autojs.engine.encryption.ScriptEncryption
 import org.autojs.autojs.execution.ExecutionConfig
 import org.autojs.autojs.execution.ScriptExecution
+import org.autojs.autojs.inrt.InrtDiagnostics
 import org.autojs.autojs.inrt.LogActivity
 import org.autojs.autojs.inrt.Pref
 import org.autojs.autojs.inrt.autojs.AutoJs
@@ -19,6 +20,7 @@ import org.autojs.autojs.project.ProjectConfig
 import org.autojs.autojs.script.JavaScriptFileSource
 import org.autojs.autojs.script.JavaScriptSource
 import org.autojs.autojs.util.IntentUtils.startSafely
+import android.util.Log
 import java.io.File
 import java.io.IOException
 
@@ -84,6 +86,10 @@ open class AssetsProjectLauncher(private val mAssetsProjectDir: String, private 
             mScriptExecution = AutoJs.instance.scriptEngineService.execute(source, config)
         } catch (e: Exception) {
             AutoJs.instance.globalConsole.error(e)
+            AutoJs.instance.globalConsole.println(
+                Log.ERROR,
+                "[INRT_DIAGNOSTICS]\n${InrtDiagnostics.export(mActivity, e)}",
+            )
         }
     }
 

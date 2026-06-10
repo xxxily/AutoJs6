@@ -1,6 +1,8 @@
 package org.autojs.autojs.runtime.api
 
 import android.content.Context
+import org.autojs.autojs.capability.CapabilityRegistry
+import org.autojs.autojs.capability.ProjectCapabilitySecurity
 import org.autojs.autojs.pio.PFileInterface
 import org.autojs.autojs.pio.PFiles
 import org.autojs.autojs.pio.PFiles.getElegantPath
@@ -65,7 +67,11 @@ class Files(private val scriptRuntime: ScriptRuntime) {
 
     @JvmOverloads
     fun open(path: String? = null, mode: String? = null, encoding: String? = null, bufferSize: Int? = null): PFileInterface {
-        return PFiles.open(path(path), mode, encoding, bufferSize)
+        val resolved = path(path)
+        if (mode.orEmpty().any { it == 'w' || it == '+' }) {
+            guardFileMutation("files.open", resolved, "overwrite")
+        }
+        return PFiles.open(resolved, mode, encoding, bufferSize)
     }
 
     fun create(path: String?): Boolean {
@@ -109,7 +115,10 @@ class Files(private val scriptRuntime: ScriptRuntime) {
 
     @JvmOverloads
     fun write(path: String?, text: String, encoding: String? = PFiles.DEFAULT_ENCODING) {
-        PFiles.write(path(path), text, encoding)
+        val resolved = path(path)
+        guardFileMutation("files.write", resolved, "overwrite")
+        PFiles.write(resolved, text, encoding)
+        auditFileMutation("files.write", resolved, "overwrite")
     }
 
     @JvmOverloads
@@ -122,13 +131,24 @@ class Files(private val scriptRuntime: ScriptRuntime) {
     }
 
     fun writeBytes(path: String?, bytes: ByteArray?) {
-        PFiles.writeBytes(ensurePathNotNull(path, ::writeBytes.name), bytes)
+        val resolved = ensurePathNotNull(path, ::writeBytes.name)
+        guardFileMutation("files.writeBytes", resolved, "overwrite")
+        PFiles.writeBytes(resolved, bytes)
+        auditFileMutation("files.writeBytes", resolved, "overwrite")
     }
 
-    fun copy(pathFrom: String?, pathTo: String?): Boolean = PFiles.copy(
-        ensurePathNotNull(pathFrom, ::copy.name, "pathFrom"),
-        ensurePathNotNull(pathTo, ::copy.name, "pathTo"),
-    )
+    fun copy(pathFrom: String?, pathTo: String?): Boolean {
+        val from = ensurePathNotNull(pathFrom, ::copy.name, "pathFrom")
+        val to = ensurePathNotNull(pathTo, ::copy.name, "pathTo")
+        if (PFiles.exists(to)) {
+            guardFileMutation("files.copy", to, "overwrite")
+        }
+        return PFiles.copy(from, to).also { ok ->
+            if (ok && PFiles.exists(to)) {
+                auditFileMutation("files.copy", to, "overwrite")
+            }
+        }
+    }
 
     fun renameWithoutExtension(path: String?, newName: String): Boolean {
         return PFiles.renameWithoutExtension(ensurePathNotNull(path, ::renameWithoutExtension.name), newName)
@@ -165,11 +185,19 @@ class Files(private val scriptRuntime: ScriptRuntime) {
     }
 
     fun remove(path: String?): Boolean {
-        return PFiles.remove(path(path))
+        val resolved = path(path)
+        guardFileMutation("files.remove", resolved, "delete")
+        return PFiles.remove(resolved).also { ok ->
+            if (ok) auditFileMutation("files.remove", resolved, "delete")
+        }
     }
 
     fun removeDir(path: String?): Boolean {
-        return PFiles.removeDir(path(path))
+        val resolved = path(path)
+        guardFileMutation("files.removeDir", resolved, "delete")
+        return PFiles.removeDir(resolved).also { ok ->
+            if (ok) auditFileMutation("files.removeDir", resolved, "delete")
+        }
     }
 
     fun listDir(path: String?): Array<String> {
@@ -224,6 +252,30 @@ class Files(private val scriptRuntime: ScriptRuntime) {
             )
         )
         return path
+    }
+
+    private fun guardFileMutation(api: String, path: String?, accessType: String) {
+        val target = path ?: return
+        ProjectCapabilitySecurity.guard(
+            scriptRuntime = scriptRuntime,
+            api = api,
+            capabilities = listOf(CapabilityRegistry.STORAGE),
+            riskLevel = "high",
+            target = target,
+            accessType = accessType,
+        )
+    }
+
+    private fun auditFileMutation(api: String, path: String?, accessType: String) {
+        val target = path ?: return
+        ProjectCapabilitySecurity.audit(
+            scriptRuntime = scriptRuntime,
+            api = api,
+            capabilities = listOf(CapabilityRegistry.STORAGE),
+            riskLevel = "high",
+            target = target,
+            message = accessType,
+        )
     }
 
     companion object {

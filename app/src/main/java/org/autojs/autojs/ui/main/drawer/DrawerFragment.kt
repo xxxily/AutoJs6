@@ -301,6 +301,7 @@ open class DrawerFragment : Fragment() {
 
         JsonSocketServerTool(mActivity).apply {
             val devPluginService = AutoJs.instance.devPluginService
+            val serverTool = this
 
             val drawerItem = DrawerMenuDisposableItem(
                 helper = this,
@@ -308,12 +309,8 @@ open class DrawerFragment : Fragment() {
                 title = R.string.text_server_mode,
                 descriptionRes = R.string.description_server_mode,
             ).also { item ->
-                item.setOnLaunchManagerListener { d ->
-                    if (d != null) {
-                        ViewUtils.showSnack(d.view, R.string.text_under_development, 1_200)
-                    } else {
-                        ViewUtils.showToast(mContext, R.string.text_under_development)
-                    }
+                item.setOnLaunchManagerListener {
+                    serverTool.showRemoteDebugBridgeManager()
                 }
                 mServerModeItem = item
             }

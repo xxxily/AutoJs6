@@ -42,6 +42,7 @@
 <li><a class="nav-color" href="color.html">Color - 颜色</a></li>
 <li><a class="nav-image" href="image.html">Image - 图像</a></li>
 <li><a class="nav-ocr" href="ocr.html">OCR - 光学字符识别</a></li>
+<li><a class="nav-vision" href="vision.html">Vision - 屏幕感知</a></li>
 <li><a class="nav-barcode" href="barcode.html">Barcode - 条码</a></li>
 <li><a class="nav-qrcode" href="qrcode.html">QR Code - 二维码</a></li>
 <li><a class="nav-keys" href="keys.html">Keys - 按键</a></li>
@@ -56,7 +57,9 @@
 <li><a class="nav-notice" href="notice.html">Notice - 消息通知</a></li>
 <li><a class="nav-console" href="console.html">Console - 控制台</a></li>
 <li><a class="nav-shell" href="shell.html">Shell</a></li>
+<li><a class="nav-capabilities" href="capabilities.html">Capabilities - 能力状态中心</a></li>
 <li><a class="nav-shizuku" href="shizuku.html">Shizuku</a></li>
+<li><a class="nav-automation-solutions" href="automation-solutions.html">Automation Solutions - 自动化方案库</a></li>
 <li><a class="nav-media" href="media.html">Media - 多媒体</a></li>
 <li><a class="nav-sensors" href="sensors.html">Sensor - 传感器</a></li>
 <li><a class="nav-recorder" href="recorder.html">Recorder - 记录器</a></li>
@@ -70,6 +73,7 @@
 <li><a class="nav-ui" href="ui.html">UI - 用户界面</a></li>
 <li><a class="nav-web" href="web.html">Web - 万维网</a></li>
 <li><a class="nav-http" href="http.html">HTTP</a></li>
+<li><a class="nav-ipc" href="ipc.html">IPC - 脚本间通信</a></li>
 <li><a class="nav-base64" href="base64.html">Base64</a></li>
 <li><a class="nav-crypto" href="crypto.html">Crypto - 密文</a></li>
 <li><a class="nav-opencc" href="opencc.html">OpenCC - 中文转换</a></li>
@@ -638,6 +642,13 @@
 <li><span class="stability_undefined"><a href="#automator_auto_rootinactivewindow">auto.rootInActiveWindow</a></span></li>
 <li><span class="stability_undefined"><a href="#automator_auto_setwindowfilter_filter">auto.setWindowFilter(filter)</a></span></li>
 <li><span class="stability_undefined"><a href="#automator_auto_windowroots">auto.windowRoots</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_snapshot_options">auto.snapshot(options)</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_diffsnapshot_before_after_options">auto.diffSnapshot(before, after[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_waituntil_condition_options">auto.waitUntil(condition[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_retry_action_options">auto.retry(action[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_stableclick_target_options">auto.stableClick(target[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_stablesettext_target_text_options">auto.stableSetText(target, text[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#automator_auto_findwithscroll_target_scrollcontainer_options">auto.findWithScroll(target[, scrollContainer][, options])</a></span></li>
 </ul>
 </li>
 <li><span class="stability_undefined"><a href="#automator_simpleactionautomator_1">SimpleActionAutomator</a></span><ul>
@@ -733,6 +744,9 @@
 <li><span class="stability_undefined"><a href="#app_app_intent_options">app.intent(options)</a></span></li>
 <li><span class="stability_undefined"><a href="#app_app_startactivity_options">app.startActivity(options)</a></span></li>
 <li><span class="stability_undefined"><a href="#app_app_sendbroadcast_options">app.sendBroadcast(options)</a></span></li>
+<li><span class="stability_undefined"><a href="#app_app_buildtypedintent_type_payload_options">app.buildTypedIntent(type, payload?, options?)</a></span></li>
+<li><span class="stability_undefined"><a href="#app_app_sendtypedbroadcast_type_payload_options">app.sendTypedBroadcast(type, payload?, options?)</a></span></li>
+<li><span class="stability_undefined"><a href="#app_app_parsetypedintent_intent">app.parseTypedIntent(intent)</a></span></li>
 <li><span class="stability_undefined"><a href="#app_app_startservice_options">app.startService(options)</a></span></li>
 <li><span class="stability_undefined"><a href="#app_app_sendbroadcast_name">app.sendBroadcast(name)</a></span></li>
 <li><span class="stability_undefined"><a href="#app_app_intenttoshell_options">app.intentToShell(options)</a></span></li>
@@ -1057,6 +1071,7 @@
 <li><span class="stability_undefined"><a href="#image_images_requestscreencapture_landscape">images.requestScreenCapture([landscape])</a></span></li>
 <li><span class="stability_undefined"><a href="#image_images_capturescreen">images.captureScreen()</a></span></li>
 <li><span class="stability_undefined"><a href="#image_images_capturescreen_path">images.captureScreen(path)</a></span></li>
+<li><span class="stability_undefined"><a href="#image_images_opencapturesession_options">images.openCaptureSession(options)</a></span></li>
 <li><span class="stability_undefined"><a href="#image_images_pixel_image_x_y">images.pixel(image, x, y)</a></span></li>
 <li><span class="stability_undefined"><a href="#image_images_findcolor_image_color_options">images.findColor(image, color, options)</a></span></li>
 <li><span class="stability_undefined"><a href="#image_images_findcolorinregion_img_color_x_y_width_height_threshold">images.findColorInRegion(img, color, x, y[, width, height, threshold])</a></span></li>
@@ -1215,6 +1230,10 @@
 <li><span class="stability_undefined"><a href="#storages_create_name">create(name)</a></span></li>
 </ul>
 </li>
+<li><span class="stability_undefined"><a href="#storages_m_namespace">[m] namespace</a></span><ul>
+<li><span class="stability_undefined"><a href="#storages_namespace_name_namespace">namespace(name, namespace)</a></span></li>
+</ul>
+</li>
 <li><span class="stability_undefined"><a href="#storages_m_remove">[m] remove</a></span><ul>
 <li><span class="stability_undefined"><a href="#storages_remove_name">remove(name)</a></span></li>
 </ul>
@@ -1276,6 +1295,7 @@
 <li><span class="stability_undefined"><a href="#engines_engines_stopallandtoast">engines.stopAllAndToast()</a></span></li>
 <li><span class="stability_undefined"><a href="#engines_engines_myengine">engines.myEngine()</a></span></li>
 <li><span class="stability_undefined"><a href="#engines_engines_all">engines.all()</a></span></li>
+<li><span class="stability_undefined"><a href="#engines_runtime_observability">运行观测与远程调试桥</a></span></li>
 </ul>
 </li>
 <li><span class="stability_undefined"><a href="#engines_scriptexecution">ScriptExecution</a></span><ul>
@@ -2104,10 +2124,26 @@
 <li><span class="stability_undefined"><a href="#http_request_url_options_callback">request(url, options?, callback?)</a></span></li>
 </ul>
 </li>
+<li><span class="stability_undefined"><a href="#http_m_client">[m] client</a></span><ul>
+<li><span class="stability_undefined"><a href="#http_client_name_options">client(name, options?)</a></span></li>
+</ul>
+</li>
+<li><span class="stability_undefined"><a href="#http_m_download">[m] download</a></span><ul>
+<li><span class="stability_undefined"><a href="#http_download_url_path_options">download(url, path, options?)</a></span></li>
+</ul>
+</li>
 <li><span class="stability_undefined"><a href="#http_m_buildrequest">[m] buildRequest</a></span><ul>
 <li><span class="stability_undefined"><a href="#http_buildrequest_url_options">buildRequest(url, options)</a></span></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><span class="stability_undefined"><a href="#ipc_ipc">IPC</a></span><ul>
+<li><span class="stability_undefined"><a href="#ipc_m_publish">[m] publish</a></span></li>
+<li><span class="stability_undefined"><a href="#ipc_m_subscribe">[m] subscribe</a></span></li>
+<li><span class="stability_undefined"><a href="#ipc_m_messages">[m] messages</a></span></li>
+<li><span class="stability_undefined"><a href="#ipc_m_request">[m] request</a></span></li>
+<li><span class="stability_undefined"><a href="#ipc_m_reply">[m] reply</a></span></li>
 </ul>
 </li>
 <li><span class="stability_undefined"><a href="#base64_base64">Base64</a></span><ul>
@@ -2298,6 +2334,17 @@
 </ul>
 </li>
 <li><span class="stability_undefined"><a href="#i18n_internationalization">国际化 (Internationalization)</a></span></li>
+<li><span class="stability_undefined"><a href="#automation_solutions">Automation Solutions - 自动化方案库</a></span><ul>
+<li><span class="stability_undefined"><a href="#app_launch_wait">App 启动与等待</a></span></li>
+<li><span class="stability_undefined"><a href="#list_scroll_find">列表滚动查找</a></span></li>
+<li><span class="stability_undefined"><a href="#form_fill_submit">表单填写</a></span></li>
+<li><span class="stability_undefined"><a href="#ocr_text_click">OCR 文字点击</a></span></li>
+<li><span class="stability_undefined"><a href="#screenshot_image_match">截图找图</a></span></li>
+<li><span class="stability_undefined"><a href="#timed_task_reliable">定时任务</a></span></li>
+<li><span class="stability_undefined"><a href="#shizuku_app_management">Shizuku 应用管理</a></span></li>
+<li><span class="stability_undefined"><a href="#plugin_ocr">插件 OCR</a></span></li>
+</ul>
+</li>
 <li><span class="stability_undefined"><a href="#e4x_e4x">E4X</a></span></li>
 </ul>
 
@@ -4915,6 +4962,112 @@ sleep(500);
 </ul>
 <p>返回当前被WindowFilter过滤的窗口的布局根元素组成的数组.</p>
 <p>如果系统是Android5.0以下, 则始终返回当前活跃的窗口的布局根元素的数组.</p>
+<h2>auto.snapshot(options)<span><a class="mark" href="#automator_auto_snapshot_options" id="automator_auto_snapshot_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 支持 <code>includeWindows</code>, <code>maxDepth</code>, <code>maxNodes</code>, <code>redact</code>, <code>redactInputs</code>, <code>redactPatterns</code>, <code>format</code>, <code>indent</code>.</li>
+<li>返回 { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> }</li>
+</ul>
+</div><p>导出当前无障碍 UI 树诊断快照, 用于失败复现、AI 修复上下文和选择器稳定性分析. 快照包含 <code>timestamp</code>, <code>packageName</code>, <code>activity</code>, <code>windows</code>, <code>nodeCount</code>, <code>truncated</code> 以及节点的 <code>text</code>, <code>desc</code>, <code>id</code>, <code>resourceName</code>, <code>className</code>, <code>bounds</code>, <code>clickable</code>, <code>enabled</code>, <code>visibleToUser</code>, <code>children</code> 等字段.</p>
+<p>每个节点会附带 <code>selector</code> 评分结果. 评分优先考虑唯一的 <code>id/resourceName</code>, 其次是 <code>desc</code>, <code>text</code>, <code>className</code>, 并将 <code>bounds</code> 和 <code>indexInParent</code> 标记为脆弱候选. 当 <code>redact</code> 为 <code>true</code> 时, 输入框、密码、手机号和邮箱等敏感文本会被替换为 <code>[redacted]</code>.</p>
+<pre><code>auto.waitFor();
+var snapshotJson = auto.snapshot({
+    format: &quot;json&quot;,
+    indent: 2,
+    redact: true,
+    maxNodes: 2000
+});
+files.write(&quot;/sdcard/AutoJs6/ui-snapshot.json&quot;, snapshotJson);
+</code></pre><h2>auto.diffSnapshot(before, after[, options])<span><a class="mark" href="#automator_auto_diffsnapshot_before_after_options" id="automator_auto_diffsnapshot_before_after_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>before</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 操作前快照或 JSON 字符串.</li>
+<li><code>after</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 操作后快照或 JSON 字符串.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 支持 <code>format</code> 和 <code>indent</code>.</li>
+</ul>
+</div><p>比较两份 UI 快照, 输出节点新增、移除、变化数量和明细. 变化字段覆盖 <code>bounds</code>, <code>text</code>, <code>desc</code>, <code>id</code>, <code>resourceName</code>, <code>className</code>, <code>clickable</code>, <code>enabled</code>, <code>visibleToUser</code>. 返回值中的 <code>stableSelectors</code> 会列出跨快照仍稳定的高分选择器.</p>
+<pre><code>var before = auto.snapshot({ redact: true });
+click(&quot;确定&quot;);
+sleep(500);
+var after = auto.snapshot({ redact: true });
+var diff = auto.diffSnapshot(before, after);
+console.log(diff.changedCount, diff.stableSelectors[0]);
+</code></pre><h2>auto.waitUntil(condition[, options])<span><a class="mark" href="#automator_auto_waituntil_condition_options" id="automator_auto_waituntil_condition_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>condition</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">Function</a> | <span class="type">UiSelector</span> | <span class="type">UiObject</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 等待条件. 字符串会按 <code>text()</code> 精确匹配.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 常用字段包括 <code>timeout</code>, <code>interval</code>, <code>stableCount</code>, <code>captureSnapshot</code>, <code>captureOnFailure</code>, <code>redact</code>, <code>snapshotMaxNodes</code>.</li>
+</ul>
+</div><p>等待函数、选择器、控件或文本达到稳定状态. 返回结构化结果对象, 字段包括 <code>ok</code>/<code>success</code>, <code>duration</code>, <code>attempts</code>, <code>selector</code>, <code>matched</code>, <code>uiObject</code>, <code>reason</code>, <code>strategy</code>, <code>snapshotRef</code> 和可选 <code>snapshot</code>. 失败时默认捕获脱敏 UI 快照, 可用于诊断和 AI 修复上下文.</p>
+<pre><code>var ready = auto.waitUntil(text(&quot;首页&quot;), {
+    timeout: 10000,
+    interval: 200,
+    stableCount: 2
+});
+if (!ready.ok) {
+    throw new Error(&quot;首页未就绪: &quot; + ready.reason);
+}
+</code></pre><h2>auto.retry(action[, options])<span><a class="mark" href="#automator_auto_retry_action_options" id="automator_auto_retry_action_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>action</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">Function</a> } 被重试的动作. 函数返回 <code>true</code> 或返回 <code>{ ok: true }</code> 时视为成功.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 支持 <code>retries</code>/<code>maxRetries</code>, <code>interval</code>, <code>backoff</code>, <code>timeout</code>, <code>captureSnapshot</code>, <code>captureOnFailure</code>.</li>
+</ul>
+</div><p>按重试次数、间隔和退避策略执行动作, 并把最后一次结果或异常转换为结构化诊断.</p>
+<pre><code>var result = auto.retry(function () {
+    return auto.stableClick(text(&quot;重试&quot;), { timeout: 1500, captureOnFailure: false });
+}, {
+    retries: 3,
+    interval: 300,
+    backoff: 1.5
+});
+</code></pre><h2>auto.stableClick(target[, options])<span><a class="mark" href="#automator_auto_stableclick_target_options" id="automator_auto_stableclick_target_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>target</code> { <span class="type">UiSelector</span> | <span class="type">UiObject</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 要点击的控件. 字符串会按 <code>text()</code> 精确匹配.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 支持 <code>timeout</code>, <code>interval</code>, <code>stableCount</code>, <code>retries</code>, <code>scrollFind</code>, <code>fallbackToParent</code>, <code>fallbackToBounds</code>, <code>ocrFallback</code>, <code>captureOnFailure</code>.</li>
+</ul>
+</div><p>先等待控件稳定, 再校验可见、可用和 bounds, 点击失败后可尝试父节点 fallback 和坐标 fallback. 当前版本不会内置 OCR 查找; 如设置 <code>ocrFallback: true</code>, 失败结果会记录 <code>ocrFallback:not_available</code> 诊断.</p>
+<h2>auto.stableSetText(target, text[, options])<span><a class="mark" href="#automator_auto_stablesettext_target_text_options" id="automator_auto_stablesettext_target_text_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>target</code> { <span class="type">UiSelector</span> | <span class="type">UiObject</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 输入控件.</li>
+<li><code>text</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 要设置的文本.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 与 <code>auto.stableClick</code> 类似.</li>
+</ul>
+</div><p>稳定等待并校验输入控件后执行 <code>setText</code>. 当节点设置失败时, 可尝试父节点或点击 bounds 聚焦后设置当前输入框.</p>
+<h2>auto.findWithScroll(target[, scrollContainer][, options])<span><a class="mark" href="#automator_auto_findwithscroll_target_scrollcontainer_options" id="automator_auto_findwithscroll_target_scrollcontainer_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>target</code> { <span class="type">UiSelector</span> | <span class="type">UiObject</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 要查找的目标.</li>
+<li><code>scrollContainer</code> { <span class="type">UiSelector</span> | <span class="type">UiObject</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 可选. 滚动容器, 省略时使用第一个可滚动控件.</li>
+<li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 可选. 支持 <code>timeout</code>, <code>interval</code>, <code>stableCount</code>, <code>maxScrolls</code>, <code>scrollInterval</code>, <code>captureOnFailure</code>.</li>
+</ul>
+</div><p>先查找目标, 未命中时滚动容器后继续查找, 成功后返回匹配控件摘要和 <code>uiObject</code>. 适合列表、搜索结果和分页内容.</p>
+<pre><code>auto.waitFor();
+app.launchApp(&quot;示例应用&quot;);
+
+var home = auto.waitUntil(text(&quot;搜索&quot;), { timeout: 10000, stableCount: 2 });
+if (!home.ok) throw new Error(&quot;首页未就绪: &quot; + home.reason);
+
+var openSearch = auto.stableClick(text(&quot;搜索&quot;), { timeout: 5000 });
+if (!openSearch.ok) throw new Error(&quot;无法打开搜索: &quot; + openSearch.reason);
+
+var input = auto.stableSetText(id(&quot;search_src_text&quot;), &quot;AutoJs6&quot;, {
+    timeout: 5000,
+    scrollFind: true
+});
+if (!input.ok) throw new Error(&quot;无法输入搜索词: &quot; + input.reason);
+
+var result = auto.findWithScroll(textContains(&quot;AutoJs6&quot;), {
+    timeout: 8000,
+    maxScrolls: 8,
+    stableCount: 2
+});
+if (!result.ok) throw new Error(&quot;未找到搜索结果: &quot; + result.reason);
+
+auto.stableClick(result.uiObject, { timeout: 3000 });
+</code></pre>
 <h1>SimpleActionAutomator<span><a class="mark" href="#automator_simpleactionautomator_1" id="automator_simpleactionautomator_1">#</a></span></h1>
 <p>SimpleActionAutomator提供了一些模拟简单操作的函数, 例如点击文字、模拟按键等. 这些函数可以直接作为全局函数使用.</p>
 <h2>click(text[, i])<span><a class="mark" href="#automator_click_text_i" id="automator_click_text_i">#</a></span></h2>
@@ -5398,6 +5551,31 @@ context.startActivity(i);
 <li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 选项</li>
 </ul>
 </div><p>根据选项构造一个Intent, 并发送该广播.</p>
+<h2>app.buildTypedIntent(type, payload?, options?)<span><a class="mark" href="#app_app_buildtypedintent_type_payload_options" id="app_app_buildtypedintent_type_payload_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<p>构造结构化 typed Intent. AutoJs6 会写入固定 extras: <code>MESSAGE_TYPE</code>, <code>MESSAGE_PAYLOAD</code>, <code>MESSAGE_REPLY_TO</code>, <code>MESSAGE_REQUEST_ID</code>. payload 使用 JSON 字符串保存.</p>
+<pre><code class="lang-js">let intent = app.buildTypedIntent('sync.start', { account: 'main' }, {
+    action: 'org.example.SYNC',
+    packageName: 'org.example.receiver',
+    replyTo: 'sync.reply',
+    requestId: 'req-001'
+});
+</code></pre>
+<h2>app.sendTypedBroadcast(type, payload?, options?)<span><a class="mark" href="#app_app_sendtypedbroadcast_type_payload_options" id="app_app_sendtypedbroadcast_type_payload_options">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<p>构造并发送 typed Broadcast. <code>options.local</code> 为 <code>true</code> 时使用 AutoJs6 内部 Intent Task 分发; <code>options.permission</code> 可指定广播权限.</p>
+<pre><code class="lang-js">let sent = app.sendTypedBroadcast('sync.start', {
+    account: 'main',
+    force: true
+}, {
+    action: 'org.example.SYNC',
+    packageName: 'org.example.receiver',
+    requestId: 'sync-001'
+});
+</code></pre>
+<h2>app.parseTypedIntent(intent)<span><a class="mark" href="#app_app_parsetypedintent_intent" id="app_app_parsetypedintent_intent">#</a></span></h2>
+<p><strong>[v6.7.3新增]</strong></p>
+<p>解析 typed Intent, 返回 <code>{ action, type, payload, replyTo, requestId, packageName, className, extras }</code>.</p>
 <h2>app.startService(options)<span><a class="mark" href="#app_app_startservice_options" id="app_app_startservice_options">#</a></span></h2>
 <div class="signature"><ul>
 <li><code>options</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">Object</a> } 选项</li>
@@ -7591,6 +7769,42 @@ toast(colors.toString(color));
 </ul>
 </div><p>截取当前屏幕并以PNG格式保存到path中. 如果文件不存在会被创建；文件存在会被覆盖.</p>
 <p>该函数不会返回任何值. 该函数也可以作为全局函数使用.</p>
+<h2>images.openCaptureSession(options)<span><a class="mark" href="#image_images_opencapturesession_options" id="image_images_opencapturesession_options">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>options</code> { <span class="type">Object</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 截图会话选项或预设名称</li>
+<li>返回 { <span class="type">ScreenCaptureSession</span> }</li>
+</ul>
+</div><p>打开一个长期截图会话, 用于连续 OCR、高频找色、低功耗后台监测等需要稳定取帧的场景.</p>
+<p>会话内部维护帧缓存并在 <code>close()</code>、脚本退出或停止截图时回收缓存图片. <code>latest()</code> 与 <code>nextFrame()</code> 返回的是缓存帧副本, 脚本回收返回图片不会破坏会话缓存.</p>
+<p>可用预设包括 <code>single</code>、<code>ocr</code>、<code>color</code>、<code>low_power</code>. 常用选项包括 <code>cacheSize</code>、<code>timeout</code>、<code>interval</code>、<code>logErrors</code>、<code>autoRequest</code>.</p>
+<p><code>session.nextFrame(timeout)</code> 返回下一帧 Image; 失败时返回 <code>null</code>, 同时在控制台输出分类原因和建议修复动作. 可通过 <code>session.lastError()</code> 获取最近错误, 错误分类包括 <code>unauthorized</code>、<code>service_not_started</code>、<code>no_frame</code>、<code>orientation_mismatch</code>、<code>image_reader_exception</code>、<code>media_projection_invalid</code>.</p>
+<p><code>session.metrics()</code> 返回首帧耗时、平均帧耗时、超时率、方向恢复耗时、缓存帧数和内存估算等指标. 方向切换恢复后会输出 <code>recovered</code> 日志并更新 <code>lastRecovery</code>.</p>
+<pre><code>if (!requestScreenCapture()) {
+    toast(&quot;请求截图失败&quot;);
+    exit();
+}
+
+var session = images.openCaptureSession({
+    preset: &quot;color&quot;,
+    cacheSize: 2,
+    timeout: 1200,
+    interval: 16
+});
+
+try {
+    var img = session.nextFrame(1500);
+    if (img) {
+        var p = images.findColor(img, &quot;#ffffff&quot;);
+        log(&quot;findColor=&quot; + p);
+        img.recycle();
+    } else {
+        log(session.lastError());
+    }
+    log(session.metrics());
+} finally {
+    session.close();
+}
+</code></pre>
 <h2>images.pixel(image, x, y)<span><a class="mark" href="#image_images_pixel_image_x_y" id="image_images_pixel_image_x_y">#</a></span></h2>
 <div class="signature"><ul>
 <li><code>image</code> { <span class="type">Image</span> } 图片</li>
@@ -8263,6 +8477,29 @@ console.log(ocr.summary());
 <p>同样, [ 4, 5, 6 ] 三种形式的条件, 是 OCR 工作模式为 <code>paddle</code>, 即 <code>ocr.mode</code> 返回 <code>paddle</code>. 否则需要调用 <code>ocr.mode = &#39;paddle&#39;</code> 切换工作模式.</p>
 <p>由此可见, <code>ocr(...)</code> 和 <code>ocr.detect(...)</code> 等方法是动态变化的, 其功能取决于工作模式. 这种形式的优点是写法简单, 但可读性相对较差, 可能难以辨识 OCR 的具体工作引擎. 如需兼顾可读性, 则可使用 <code>ocr.mlkit(...)</code> 和 <code>ocr.mlkit.detect(...)</code> 等形式.
 <!-- [end-include:ocr.md] --></p>
+<!-- [start-include:vision.md] -->
+<h1>屏幕感知 (Vision)<span><a class="mark" href="#vision_vision" id="vision_vision">#</a></span></h1>
+<p><code>vision</code> 模块将无障碍节点、OCR 文本块、图像模板结果、颜色/区域特征和当前 App/Activity 归一化为统一目标对象。</p>
+<p>默认来源为 <code>a11y+ocr</code>。当 OCR 命中但无对应无障碍节点时, 目标会带有 OCR bounds fallback, 可通过 <code>suggestedAction</code> 执行坐标兜底。</p>
+<h2>[m] targets<span><a class="mark" href="#vision_m_targets" id="vision_m_targets">#</a></span></h2>
+<h3>targets(options?)<span><a class="mark" href="#vision_targets_options" id="vision_targets_options">#</a></span></h3>
+<p>采样当前屏幕并返回融合目标列表。目标包含 <code>source</code>、<code>confidence</code>、<code>bounds</code>、<code>suggestedAction</code>、<code>currentPackage</code> 和 <code>currentActivity</code>。</p>
+<pre><code class="lang-js">let targets = vision.targets({ sources: 'a11y+ocr', interval: 500 });
+</code></pre>
+<h2>[m] findText<span><a class="mark" href="#vision_m_findtext" id="vision_m_findtext">#</a></span></h2>
+<h3>findText(text, options?)<span><a class="mark" href="#vision_findtext_text_options" id="vision_findtext_text_options">#</a></span></h3>
+<p>按文本查找最匹配的融合目标。</p>
+<h2>[m] findButton<span><a class="mark" href="#vision_m_findbutton" id="vision_m_findbutton">#</a></span></h2>
+<h3>findButton(text, options?)<span><a class="mark" href="#vision_findbutton_text_options" id="vision_findbutton_text_options">#</a></span></h3>
+<p>按按钮文本查找可点击目标。无障碍节点缺失时可返回 OCR bounds 兜底目标。</p>
+<h2>[m] observe<span><a class="mark" href="#vision_m_observe" id="vision_m_observe">#</a></span></h2>
+<h3>observe(options?)<span><a class="mark" href="#vision_observe_options" id="vision_observe_options">#</a></span></h3>
+<p>创建屏幕观察句柄, 支持 <code>latest()</code>、<code>next()</code>、<code>targets()</code>、<code>metrics()</code> 和 <code>close()</code>。</p>
+<h2>[m] waitForScene<span><a class="mark" href="#vision_m_waitforscene" id="vision_m_waitforscene">#</a></span></h2>
+<h3>waitForScene(scene, options?)<span><a class="mark" href="#vision_waitforscene_scene_options" id="vision_waitforscene_scene_options">#</a></span></h3>
+<p>等待 JSON 场景规则匹配当前屏幕, 规则可包含 <code>texts</code>、<code>buttons</code> 和 <code>targets</code>。</p>
+<h2>[m] summary<span><a class="mark" href="#vision_summary" id="vision_summary">#</a></span></h2>
+<!-- [end-include:vision.md] -->
 <!-- [start-include:barcode.md] -->
 <h1>条码 (Barcode)<span><a class="mark" href="#barcode_barcode" id="barcode_barcode">#</a></span></h1>
 <hr>
@@ -8856,6 +9093,21 @@ sto === stoCopied; // false
 <p>为保证数据安全及唯一性, <code>name</code> 参数应尽量具体:</p>
 <pre><code class="lang-js">storages.create(&#39;project-publishing-schedule&#39;);
 </code></pre>
+<h2>[m] namespace<span><a class="mark" href="#storages_m_namespace" id="storages_m_namespace">#</a></span></h2>
+<h3>namespace(name, namespace)<span><a class="mark" href="#storages_namespace_name_namespace" id="storages_namespace_name_namespace">#</a></span></h3>
+<p><strong>[v6.7.3新增]</strong></p>
+<p>创建命名空间 KV 存储. 同一个 <code>name</code> 下不同 <code>namespace</code> 相互隔离, 适合按账号、环境、脚本模块或下载索引拆分数据.</p>
+<pre><code class="lang-js">let prod = storages.namespace('sync-cache', 'prod');
+let dev = storages.namespace('sync-cache', 'dev');
+
+prod.put('token', 'prod-token');
+dev.put('token', 'dev-token');
+
+log(prod.get('token')); // prod-token
+log(dev.get('token'));  // dev-token
+log(storages.namespaceNames('sync-cache'));
+</code></pre>
+<p>辅助方法: <code>storages.namespaceNames(name)</code>, <code>storages.removeNamespace(name, namespace)</code>, <code>storages.removeNamespaceSync(name, namespace)</code>.</p>
 <h2>[m] remove<span><a class="mark" href="#storages_m_remove" id="storages_m_remove">#</a></span></h2>
 <h3>remove(name)<span><a class="mark" href="#storages_remove_name" id="storages_remove_name">#</a></span></h3>
 <div class="signature"><ul>
@@ -9160,7 +9412,21 @@ log(jsFiles);
 <p>engines模块包含了一些与脚本环境、脚本运行、脚本引擎有关的函数, 包括运行其他脚本, 关闭脚本等.</p>
 <p>例如, 获取脚本所在目录：</p>
 <pre><code>toast(engines.myEngine().cwd());
-</code></pre><h2>engines.execScript(name, script[, config])<span><a class="mark" href="#engines_engines_execscript_name_script_config" id="engines_engines_execscript_name_script_config">#</a></span></h2>
+</code></pre><h2>运行观测与远程调试桥<span><a class="mark" href="#engines_runtime_observability" id="engines_runtime_observability">#</a></span></h2>
+<p><strong>[v6.7.3+]</strong> AutoJs6 会为脚本运行维护统一观测模型, 包含 <code>executionId</code>、脚本路径、线程、运行状态、开始/结束时间、异常堆栈、日志、能力调用事件和资源快照.</p>
+<p>编辑器菜单中的 <strong>运行详情</strong> 可查看最近运行、异常堆栈、能力调用、日志摘要和资源占用, 并可复制诊断 JSON.</p>
+<p>远程调试桥复用服务端模式的 JSON Socket. 桌面端可发送 <code>debug.status</code>、<code>debug.listRuns</code>、<code>debug.running</code>、<code>debug.snapshot</code>、<code>debug.logs</code>、<code>debug.exportDiagnostics</code>、<code>debug.stop</code>、<code>debug.stopAll</code>、<code>debug.restartLast</code>、<code>debug.uiSnapshot</code> 和 <code>debug.screenshot</code> 命令. 除 <code>debug.status</code> 外, 命令必须携带本机生成的访问令牌.</p>
+<p>远程调试桥默认关闭. 需要在 AutoJs6 抽屉的 <strong>服务端模式</strong> 管理入口中本地确认启用并生成 token; token 可轮换或禁用. UI 快照会进行文本脱敏, 截图拉取要求设备已有本地截图授权/会话.</p>
+<pre><code class="lang-json">{
+  "type": "command",
+  "data": {
+    "command": "debug.snapshot",
+    "token": "&lt;device-token&gt;",
+    "executionId": 12
+  }
+}
+</code></pre><p>响应以 <code>type: "debug_response"</code> 返回, <code>payload.run</code> 中包含时间线、日志、能力事件、资源快照和最小调试信息.</p>
+<h2>engines.execScript(name, script[, config])<span><a class="mark" href="#engines_engines_execscript_name_script_config" id="engines_engines_execscript_name_script_config">#</a></span></h2>
 <div class="signature"><ul>
 <li><code>name</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 要运行的脚本名称. 这个名称和文件名称无关, 只是在任务管理中显示的名称.</li>
 <li><code>script</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 要运行的脚本内容.</li>
@@ -9311,8 +9577,47 @@ e.getEngine().emit(&quot;say&quot;, &quot;你好&quot;);
 <!-- [start-include:tasks.md] -->
 <h1>任务 (Tasks)<span><a class="mark" href="#tasks_tasks" id="tasks_tasks">#</a></span></h1>
 <hr>
-<p style="font: italic 1em sans-serif; color: #78909C">此章节待补充或完善...</p>
-<p style="font: italic 1em sans-serif; color: #78909C">Marked by SuperMonster003 on Oct 22, 2022.</p>
+<p><code>tasks</code> 模块用于创建、查询、更新和移除 AutoJs6 的定时任务与广播任务.</p>
+<p>定时任务由 AlarmManager、WorkManager 或 android-job 后端触发. AutoJs6 会记录每次触发的运行历史, 包括任务 ID、脚本路径、执行 ID、计划时间、实际触发时间、启动状态、结束状态、异常、耗时、调度后端、设备状态、降级原因和下次计划时间.</p>
+<h2>定时任务可靠性选项<span><a class="mark" href="#tasks_reliability_options" id="tasks_reliability_options">#</a></span></h2>
+<p><code>addDailyTask(options)</code>、<code>addWeeklyTask(options)</code> 和 <code>addDisposableTask(options)</code> 支持以下可靠性选项:</p>
+<ul>
+<li><code>maxRetries</code> { number } 失败、异常或超时后的最大重试次数, 默认 <code>0</code>, 最大按 <code>10</code> 处理.</li>
+<li><code>retryBackoffMillis</code> / <code>retryBackoff</code> { number } 首次重试退避毫秒数. 后续重试按指数退避增长, 上限 1 小时.</li>
+<li><code>mutex</code> { boolean } 是否按脚本路径启用同脚本互斥, 默认 <code>false</code>.</li>
+<li><code>mutexKey</code> { string } 自定义互斥 key. 设置后即使 <code>mutex</code> 为 <code>false</code> 也会按该 key 互斥.</li>
+<li><code>timeoutMillis</code> / <code>timeout</code> { number } 单次执行超时时间. 超时后运行记录会标记为 <code>timeout</code>, 并尝试停止脚本引擎.</li>
+</ul>
+<pre><code class="lang-js">tasks.addDailyTask({
+    path: './sync.js',
+    time: '08:30',
+    maxRetries: 2,
+    retryBackoffMillis: 30e3,
+    mutex: true,
+    timeoutMillis: 5 * 60e3,
+});
+</code></pre>
+<h2>tasks.queryTimedTaskRuns(options)<span><a class="mark" href="#tasks_querytimedtaskruns_options" id="tasks_querytimedtaskruns_options">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>options</code> { Object }</li>
+<li>返回 { Array }</li>
+</ul></div>
+<p>查询定时任务运行历史. <code>options.taskId</code> 或 <code>options.id</code> 可过滤单个任务, <code>options.limit</code> 控制返回数量, 默认 <code>50</code>, 范围 <code>1..500</code>.</p>
+<p>返回项包含 <code>taskId</code>、<code>executionId</code>、<code>scriptPath</code>、<code>eventType</code>、<code>scheduledAt</code>、<code>triggeredAt</code>、<code>startedAt</code>、<code>finishedAt</code>、<code>launchStatus</code>、<code>finishStatus</code>、<code>exception</code>、<code>duration</code>、<code>backend</code>、<code>deviceState</code>、<code>degradationReason</code>、<code>nextScheduledAt</code>、<code>retryAttempt</code>、<code>maxRetries</code>、<code>backoffMillis</code>、<code>mutexKey</code> 和 <code>timeoutMillis</code>.</p>
+<pre><code class="lang-js">var runs = tasks.queryTimedTaskRuns({ taskId: 1, limit: 20 });
+runs.forEach(function (run) {
+    console.log(run.finishStatus, run.exception, run.backend, run.duration);
+});
+</code></pre>
+<h2>tasks.queryTimedTaskQueue()<span><a class="mark" href="#tasks_querytimedtaskqueue" id="tasks_querytimedtaskqueue">#</a></span></h2>
+<div class="signature"><ul>
+<li>返回 { Array }</li>
+</ul></div>
+<p>查询当前定时任务队列. 返回项包含 <code>taskId</code>、<code>scriptPath</code>、<code>nextScheduledAt</code>、<code>scheduled</code>、<code>backend</code>、<code>delay</code>、<code>interval</code>、<code>loopTimes</code>、<code>maxRetries</code>、<code>retryBackoffMillis</code>、<code>mutex</code>、<code>mutexKey</code> 和 <code>timeoutMillis</code>.</p>
+<pre><code class="lang-js">tasks.queryTimedTaskQueue().forEach(function (item) {
+    console.log(item.taskId, item.backend, new Date(item.nextScheduledAt));
+});
+</code></pre>
 
 <hr>
 <!-- [end-include:tasks.md] -->
@@ -9372,6 +9677,14 @@ module.exports = function(width) {
 <p>加载及使用方式:</p>
 <pre><code class="lang-js">let { exp } = plugins.load(&#39;org.autojs.autojs.plugin.demo&#39;);
 exp.test(&#39;hello&#39;);
+</code></pre>
+<p>打包项目时, 脚本中的 <code>plugins.load(...)</code> 需要在 <code>project.json</code> 的 <code>pluginDependencies</code> 中声明。缺少声明会在打包预检阶段阻断, 避免 APK 安装后才发现插件缺失或依赖不清晰。</p>
+<pre><code class="lang-json">{
+  &quot;name&quot;: &quot;插件打包示例&quot;,
+  &quot;main&quot;: &quot;main.js&quot;,
+  &quot;capabilities&quot;: [&quot;ocr&quot;, &quot;screen_capture&quot;],
+  &quot;pluginDependencies&quot;: [&quot;org.autojs.autojs.plugin.demo&quot;]
+}
 </code></pre>
 <h2>项目插件<span><a class="mark" href="#plugins_1" id="plugins_1">#</a></span></h2>
 <p>项目插件是依附于项目的一组 JavaScript 模块, 它们位于项目根目录的 <code>plugins</code> 文件夹中, 由 AutoJs6 通过 <a href="#all_m_load">plugins.load</a> 方法加载并使用.</p>
@@ -11098,7 +11411,7 @@ console.timeEnd(&#39;fruit&#39;);
 <li>error { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 运行的错误信息(stderr输出结果). 例如执行需要root权限的命令但没有授予root权限会返回错误信息&quot;Permission denied&quot;.</li>
 </ul>
 <p>示例(强制停止微信) ：</p>
-<pre><code>var result = shell(&quot;am force-stop com.tencent.mm&quot;, true);
+<pre><code>var result = shell(&quot;id&quot;, true);
 log(result);
 console.show();
 if(result.code == 0){
@@ -11115,7 +11428,7 @@ if(result.code == 0){
 </div><p>Shell对象的&quot;构造函数&quot;.</p>
 <pre><code>var sh = new Shell(true);
 //强制停止微信
-sh.exec(&quot;am force-stop com.tencent.mm&quot;);
+sh.exec(&quot;echo AutoJs6&quot;);
 sh.exit();
 </code></pre><h2>Shell.exec(cmd)<span><a class="mark" href="#shell_shell_exec_cmd" id="shell_shell_exec_cmd">#</a></span></h2>
 <div class="signature"><ul>
@@ -14400,10 +14713,79 @@ log(res.body.string());
 <li><code>body</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } | { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">Array</a> } | { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">Function</a> } HTTP请求的内容. 可以是一个字符串, 也可以是一个字节数组；或者是一个以<a href="https://github.com/square/okio/blob/master/okio/src/main/java/okio/BufferedSink.java/">BufferedSink</a>为参数的函数.</li>
 </ul>
 <p>该函数是get, post, postJson等函数的基础函数. 因此除非是PUT, DELETE等请求, 或者需要更高定制的HTTP请求, 否则直接使用get, post, postJson等函数会更加方便.</p>
+<h2>[m] client<span><a class="mark" href="#http_m_client" id="http_m_client">#</a></span></h2>
+<h3>client(name, options?)<span><a class="mark" href="#http_client_name_options" id="http_client_name_options">#</a></span></h3>
+<p><strong>[v6.7.3新增]</strong></p>
+<p>声明并复用命名 HTTP client. 可配置 <code>timeout</code>, <code>maxRetries</code>, <code>headers</code>/<code>defaultHeaders</code>, <code>interceptors</code>, <code>pins</code>/<code>certificatePins</code>, <code>allowedHosts</code>, <code>followRedirects</code>.</p>
+<pre><code class="lang-js">http.client('api', {
+    timeout: 15000,
+    maxRetries: 1,
+    headers: { 'X-Agent': 'AutoJs6' },
+    allowedHosts: ['api.example.com'],
+    interceptors: [
+        { type: 'bearer', value: 'token' },
+        { type: 'query', name: 'from', value: 'autojs6' }
+    ],
+    pins: {
+        'api.example.com': ['sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=']
+    }
+});
+
+let res = http.get('https://api.example.com/ping', { client: 'api' });
+</code></pre>
+<p>辅助方法: <code>http.clients()</code> 返回所有命名 client 摘要, <code>http.removeClient(name)</code> 删除命名 client.</p>
+<h2>[m] download<span><a class="mark" href="#http_m_download" id="http_m_download">#</a></span></h2>
+<h3>download(url, path, options?)<span><a class="mark" href="#http_download_url_path_options" id="http_download_url_path_options">#</a></span></h3>
+<p><strong>[v6.7.3新增]</strong></p>
+<p>创建可查询、暂停、恢复的下载任务. 启用 <code>resume</code> 时使用 <code>.part</code> 临时文件和 HTTP Range 请求续传.</p>
+<pre><code class="lang-js">let task = http.download('https://example.com/big.zip', '/sdcard/Download/big.zip', {
+    id: 'big-zip',
+    client: 'api',
+    resume: true
+});
+
+sleep(1000);
+log(http.downloadStatus('big-zip').progress);
+http.pauseDownload('big-zip');
+http.resumeDownload('big-zip');
+</code></pre>
+<p>辅助方法: <code>http.downloads()</code>, <code>http.downloadStatus(id)</code>, <code>http.pauseDownload(id)</code>, <code>http.resumeDownload(id)</code>, <code>http.cancelDownload(id)</code>.</p>
 <h2>[m] buildRequest<span><a class="mark" href="#http_m_buildrequest" id="http_m_buildrequest">#</a></span></h2>
 <h3>buildRequest(url, options)<span><a class="mark" href="#http_buildrequest_url_options" id="http_buildrequest_url_options">#</a></span></h3>
 <p>... ...
 <!-- [end-include:http.md] --></p>
+<!-- [start-include:ipc.md] -->
+<h1>IPC<span><a class="mark" href="#ipc_ipc" id="ipc_ipc">#</a></span></h1>
+<p><code>ipc</code> 模块提供进程内多脚本消息总线. 多个正在运行的 AutoJs6 脚本可通过 topic 发布、订阅、查询收件箱或使用 request/reply 语义通信, 不需要手写 Android Broadcast 细节.</p>
+<p>消息对象包含 <code>id</code>, <code>topic</code>, <code>payload</code>, <code>sender</code>, <code>replyTo</code>, <code>correlationId</code>, <code>timestamp</code>.</p>
+<h2>[m] publish<span><a class="mark" href="#ipc_m_publish" id="ipc_m_publish">#</a></span></h2>
+<h3>publish(topic, payload?, options?)<span><a class="mark" href="#ipc_publish_topic_payload_options" id="ipc_publish_topic_payload_options">#</a></span></h3>
+<p>发布消息并返回消息对象. <code>options.replyTo</code> 和 <code>options.correlationId</code> 可用于关联响应.</p>
+<pre><code class="lang-js">ipc.publish('jobs.next', { id: 1, name: 'sync' });</code></pre>
+<h2>[m] subscribe<span><a class="mark" href="#ipc_m_subscribe" id="ipc_m_subscribe">#</a></span></h2>
+<h3>subscribe(topic, callback)<span><a class="mark" href="#ipc_subscribe_topic_callback" id="ipc_subscribe_topic_callback">#</a></span></h3>
+<p>订阅 topic, 返回订阅 ID. topic 为 <code>*</code> 时接收全部消息. 脚本退出时会自动清理当前脚本创建的订阅.</p>
+<pre><code class="lang-js">let sub = ipc.subscribe('jobs.next', function (msg) {
+    log(msg.payload.name);
+});
+
+ipc.unsubscribe(sub);
+</code></pre>
+<h2>[m] messages<span><a class="mark" href="#ipc_m_messages" id="ipc_m_messages">#</a></span></h2>
+<h3>messages(topic?, options?)<span><a class="mark" href="#ipc_messages_topic_options" id="ipc_messages_topic_options">#</a></span></h3>
+<p>查询最近收件箱消息. <code>options.limit</code> 控制数量, <code>options.clear</code> 为 <code>true</code> 时查询后删除匹配消息.</p>
+<pre><code class="lang-js">let recent = ipc.messages('jobs.next', { limit: 10 });</code></pre>
+<h2>[m] request<span><a class="mark" href="#ipc_m_request" id="ipc_m_request">#</a></span></h2>
+<h3>request(topic, payload?, options?)<span><a class="mark" href="#ipc_request_topic_payload_options" id="ipc_request_topic_payload_options">#</a></span></h3>
+<p>发布带 <code>replyTo</code> 的请求消息. 未指定 <code>replyTo</code> 时自动生成回复 topic.</p>
+<pre><code class="lang-js">let req = ipc.request('worker.run', { id: 7 }, { replyTo: 'worker.reply' });</code></pre>
+<h2>[m] reply<span><a class="mark" href="#ipc_m_reply" id="ipc_m_reply">#</a></span></h2>
+<h3>reply(message, payload?)<span><a class="mark" href="#ipc_reply_message_payload" id="ipc_reply_message_payload">#</a></span></h3>
+<p>按消息对象中的 <code>replyTo</code> 回复, 并自动把原消息 <code>id</code> 写入 <code>correlationId</code>.</p>
+<pre><code class="lang-js">ipc.subscribe('worker.run', function (msg) {
+    ipc.reply(msg, { ok: true });
+});</code></pre>
+<!-- [end-include:ipc.md] -->
 <!-- [start-include:base64.md] -->
 <h1>Base64<span><a class="mark" href="#base64_base64" id="base64_base64">#</a></span></h1>
 <p>Base64 是一种编码方式, 同时可作为一种数据的存储格式, 并非严格意义上的加密与解密.</p>
@@ -15563,6 +15945,136 @@ console.log(opencc(str, &#39;JP2TWI&#39;)); /* 同上. */
 
 <hr>
 <!-- [end-include:i18n.md] -->
+<!-- [start-include:capabilities.md] -->
+<h1>Capabilities - 能力状态中心<span><a class="mark" href="#capabilities_capabilities" id="capabilities_capabilities">#</a></span></h1>
+<p><code>capabilities</code> 模块用于统一检查 AutoJs6 运行能力状态, 并让项目能力清单、安全守卫、AI 风险校验、插件调用和打包权限映射复用同一份能力图谱。</p>
+<p><code>project.json</code> 可声明 <code>capabilities</code>、<code>pluginDependencies</code>、<code>riskPolicy</code>、<code>networkPolicy</code>、<code>filePolicy</code> 和 <code>privilegedPolicy</code>。未声明的高风险 API 会按项目策略提示或拒绝, 并写入能力审计。打包 APK 时同一份清单还会用于预检、Android permissions 映射和 inrt 诊断。</p>
+<h2>capabilities.check(ids)<span><a class="mark" href="#capabilities_check_ids" id="capabilities_check_ids">#</a></span></h2>
+<p>检查一个或多个能力 ID/API 名称。未传入参数时返回全部能力状态。</p>
+<h2>capabilities.ensure(ids, options)<span><a class="mark" href="#capabilities_ensure_ids_options" id="capabilities_ensure_ids_options">#</a></span></h2>
+<p>检查能力并可按需打开系统授权入口。</p>
+<h2>capabilities.explain(idOrApi)<span><a class="mark" href="#capabilities_explain_id_or_api" id="capabilities_explain_id_or_api">#</a></span></h2>
+<p>解释能力 ID 或 AutoJs6 API 对应的权限、服务和风险信息。</p>
+<h2>capabilities.scan(script)<span><a class="mark" href="#capabilities_scan_script" id="capabilities_scan_script">#</a></span></h2>
+<p>对脚本文本做静态扫描, 返回可能涉及的能力定义。</p>
+<h2>capabilities.list()<span><a class="mark" href="#capabilities_list" id="capabilities_list">#</a></span></h2>
+<p>返回当前 AutoJs6 版本内置的能力定义清单。</p>
+<h2>capabilities.manifest()<span><a class="mark" href="#capabilities_manifest" id="capabilities_manifest">#</a></span></h2>
+<p>返回当前脚本所属项目的能力清单和策略。</p>
+<h2>项目打包预检与 inrt 诊断<span><a class="mark" href="#capabilities_project_packaging_preflight" id="capabilities_project_packaging_preflight">#</a></span></h2>
+<p><code>project.json</code> 的 <code>capabilities</code> 会在项目打包前映射 Android permissions、前台服务类型和 inrt 设置页需要项。单文件打包会根据脚本静态扫描自动补入推断能力; 项目打包遇到未声明的危险能力会阻断并提示。</p>
+<p>打包预检会检查主脚本、常见相对资源引用、<code>assets</code> 声明、<code>plugins.load()</code> 对应的 <code>pluginDependencies</code>, 并提示未由能力清单解释的高风险 Android 权限。打包成功后 APK 会内置 <code>assets/project/build-diagnostics.json</code>; inrt 首次启动会提示缺失能力, 运行失败可从日志页复制最小诊断 JSON。</p>
+<h2>capabilities.remember(ids, action)<span><a class="mark" href="#capabilities_remember_ids_action" id="capabilities_remember_ids_action">#</a></span></h2>
+<p>为当前项目记住能力授权选择。</p>
+<h2>capabilities.audit()<span><a class="mark" href="#capabilities_audit" id="capabilities_audit">#</a></span></h2>
+<p>查看最近高风险能力调用记录。</p>
+<h2>capabilities.clearAudit()<span><a class="mark" href="#capabilities_clear_audit" id="capabilities_clear_audit">#</a></span></h2>
+<p>清空当前进程内的能力审计记录。</p>
+<!-- [end-include:capabilities.md] -->
+<!-- [start-include:automation-solutions.md] -->
+<h1>Automation Solutions - 自动化方案库<span><a class="mark" href="#automation_solutions" id="automation_solutions">#</a></span></h1>
+<p>方案库按常见自动化场景组织可复制模板。每个方案包含适用场景、依赖能力、风险等级、完整脚本、常见失败原因和 project.json 提示。</p>
+<p>AI 脚本助手会优先检索 <code>solutions/automation-solutions.json</code> 中的方案模式, 再补充 API 文档片段。复杂任务应先选择最接近的方案, 再按目标 App 和页面文案替换变量。</p>
+<h2>App 启动与等待<span><a class="mark" href="#app_launch_wait" id="app_launch_wait">#</a></span></h2>
+<p><strong>适用场景:</strong> 打开目标 App, 等待首页或关键控件稳定后继续执行。</p>
+<p><strong>依赖能力:</strong> accessibility. <strong>风险等级:</strong> medium.</p>
+<p><strong>常见失败原因:</strong> 应用名称不匹配或未安装; 首页文案随语言、版本、登录状态变化; 无障碍服务未启用。</p>
+<pre><code class="lang-js">&quot;auto&quot;;
+var APP_NAME = &quot;目标应用&quot;;
+var READY_TEXT = &quot;首页&quot;;
+if (!app.launchApp(APP_NAME)) throw new Error(&quot;无法启动应用: &quot; + APP_NAME);
+var ready = auto.waitUntil(text(READY_TEXT), { timeout: 12000, stableCount: 2, captureOnFailure: true });
+if (!ready.ok) throw new Error(&quot;首页未就绪: &quot; + ready.reason);</code></pre>
+<h2>列表滚动查找<span><a class="mark" href="#list_scroll_find" id="list_scroll_find">#</a></span></h2>
+<p><strong>适用场景:</strong> 在长列表中滚动查找目标文本或控件, 找到后稳定点击。</p>
+<p><strong>依赖能力:</strong> accessibility. <strong>风险等级:</strong> medium.</p>
+<p><strong>常见失败原因:</strong> 列表容器不可滚动; 目标文本被截断或动态加载; 滚动次数过少。</p>
+<pre><code class="lang-js">&quot;auto&quot;;
+var KEYWORD = &quot;目标文本&quot;;
+var item = auto.findWithScroll(textContains(KEYWORD), null, { timeout: 15000, maxScrolls: 12, captureOnFailure: true });
+if (!item.ok) throw new Error(&quot;未找到列表项: &quot; + item.reason);
+var clicked = auto.stableClick(item.uiObject, { timeout: 3000 });
+if (!clicked.ok) throw new Error(&quot;列表项点击失败: &quot; + clicked.reason);</code></pre>
+<h2>表单填写<span><a class="mark" href="#form_fill_submit" id="form_fill_submit">#</a></span></h2>
+<p><strong>适用场景:</strong> 等待输入框和按钮稳定, 依次填写字段并提交。</p>
+<p><strong>依赖能力:</strong> accessibility. <strong>风险等级:</strong> medium.</p>
+<p><strong>常见失败原因:</strong> 输入框 id 变化; 键盘遮挡提交按钮; 提交前需要额外勾选协议或处理验证码。</p>
+<pre><code class="lang-js">&quot;auto&quot;;
+var account = auto.stableSetText(id(&quot;account&quot;), &quot;demo@example.com&quot;, { timeout: 8000 });
+if (!account.ok) throw new Error(&quot;账号输入失败: &quot; + account.reason);
+var password = auto.stableSetText(id(&quot;password&quot;), &quot;change-me&quot;, { timeout: 8000 });
+if (!password.ok) throw new Error(&quot;密码输入失败: &quot; + password.reason);
+var submit = auto.stableClick(text(&quot;登录&quot;), { timeout: 8000, stableCount: 2 });
+if (!submit.ok) throw new Error(&quot;提交失败: &quot; + submit.reason);</code></pre>
+<h2>OCR 文字点击<span><a class="mark" href="#ocr_text_click" id="ocr_text_click">#</a></span></h2>
+<p><strong>适用场景:</strong> 无障碍节点没有文本时, 使用屏幕感知/OCR 查找文字并点击。</p>
+<p><strong>依赖能力:</strong> accessibility, screen_capture, ocr. <strong>风险等级:</strong> medium.</p>
+<p><strong>常见失败原因:</strong> 截图权限未授权; OCR 引擎不可用; 文字被遮挡、置信度过低或命中区域不可点击。</p>
+<pre><code class="lang-js">&quot;auto&quot;;
+var target = vision.findText(&quot;确定&quot;, { sources: &quot;a11y+ocr&quot;, timeout: 6000, minConfidence: 0.35 });
+if (!target) throw new Error(&quot;未通过 OCR/无障碍找到目标文字&quot;);
+if (target.selector) {
+    var clicked = auto.stableClick(target.selector, { timeout: 3000 });
+    if (!clicked.ok) throw new Error(&quot;selector 点击失败: &quot; + clicked.reason);
+} else {
+    var action = target.suggestedAction;
+    click(action.x, action.y);
+}</code></pre>
+<h2>截图找图<span><a class="mark" href="#screenshot_image_match" id="screenshot_image_match">#</a></span></h2>
+<p><strong>适用场景:</strong> 请求截图权限后, 用模板图在当前屏幕中查找并点击。</p>
+<p><strong>依赖能力:</strong> screen_capture, storage. <strong>风险等级:</strong> medium.</p>
+<p><strong>常见失败原因:</strong> 模板图片路径不存在; 目标缩放、主题或分辨率变化; 截图权限未授权或会话失效。</p>
+<pre><code class="lang-js">if (!requestScreenCapture()) throw new Error(&quot;截图权限请求失败&quot;);
+var template = images.read(&quot;./assets/button.png&quot;);
+if (!template) throw new Error(&quot;模板图片不存在&quot;);
+try {
+    var point = images.findImage(captureScreen(), template, { threshold: 0.82 });
+    if (!point) throw new Error(&quot;未找到模板图&quot;);
+    click(point.x, point.y);
+} finally {
+    template.recycle();
+}</code></pre>
+<p><strong>project.json 提示:</strong> 声明 <code>capabilities: [&quot;screen_capture&quot;, &quot;storage&quot;]</code> 和 <code>assets: [&quot;assets/button.png&quot;]</code>。</p>
+<h2>定时任务<span><a class="mark" href="#timed_task_reliable" id="timed_task_reliable">#</a></span></h2>
+<p><strong>适用场景:</strong> 创建带重试、互斥和超时策略的定时任务, 并查询最近运行记录。</p>
+<p><strong>依赖能力:</strong> background_run, exact_alarm. <strong>风险等级:</strong> medium.</p>
+<p><strong>常见失败原因:</strong> 系统限制精确闹钟或后台启动; 脚本路径不存在; 任务因互斥跳过; 重启后未允许开机启动。</p>
+<pre><code class="lang-js">var task = tasks.addDailyTask({
+    path: files.join(files.cwd(), &quot;daily-sync.js&quot;),
+    time: &quot;08:30&quot;,
+    maxRetries: 2,
+    retryBackoffMillis: 60 * 1000,
+    mutex: &quot;daily-sync&quot;,
+    timeoutMillis: 5 * 60 * 1000
+});
+log(JSON.stringify(tasks.queryTimedTaskRuns({ taskId: task.id, limit: 5 })));</code></pre>
+<p><strong>project.json 提示:</strong> 声明 <code>capabilities: [&quot;background_run&quot;, &quot;exact_alarm&quot;]</code>。</p>
+<h2>Shizuku 应用管理<span><a class="mark" href="#shizuku_app_management" id="shizuku_app_management">#</a></span></h2>
+<p><strong>适用场景:</strong> 使用结构化 Shizuku API 查询、强停、授权或清理应用, 避免手写 pm/am 命令。</p>
+<p><strong>依赖能力:</strong> shizuku. <strong>风险等级:</strong> high.</p>
+<p><strong>常见失败原因:</strong> Shizuku 服务未运行或未授权 AutoJs6; 目标包名错误; 授权权限不属于目标应用 manifest。</p>
+<pre><code class="lang-js">&quot;auto&quot;;
+var PACKAGE = &quot;com.example.target&quot;;
+var state = shizuku.state();
+if (!state.available) throw new Error(&quot;Shizuku 不可用: &quot; + state.reason);
+log(JSON.stringify(shizuku.package.info(PACKAGE)));
+log(JSON.stringify(shizuku.app.forceStop(PACKAGE)));</code></pre>
+<p><strong>project.json 提示:</strong> 声明 <code>capabilities: [&quot;shizuku&quot;]</code>, <code>privilegedPolicy.shizuku = true</code>, 并设置高风险策略。</p>
+<h2>插件 OCR<span><a class="mark" href="#plugin_ocr" id="plugin_ocr">#</a></span></h2>
+<p><strong>适用场景:</strong> 通过 Paddle OCR 插件能力识别图片文字, 并在打包项目中声明插件依赖。</p>
+<p><strong>依赖能力:</strong> ocr, screen_capture. <strong>风险等级:</strong> medium.</p>
+<p><strong>常见失败原因:</strong> Paddle OCR 插件未安装、未启用或版本不兼容; 打包项目未声明 <code>pluginDependencies</code>; 图片路径不存在。</p>
+<pre><code class="lang-js">console.show();
+var img = images.read(&quot;./test.png&quot;);
+if (!img) throw new Error(&quot;图片不存在: ./test.png&quot;);
+try {
+    var results = ocr.paddle.detect(img, { useSlim: true, cpuThreadNum: 4 });
+    log(JSON.stringify(Array.from(results)));
+} finally {
+    img.recycle();
+}</code></pre>
+<p><strong>project.json 提示:</strong> 声明 <code>capabilities: [&quot;ocr&quot;, &quot;screen_capture&quot;]</code> 和 <code>pluginDependencies: [&quot;org.autojs.autojs.plugin.paddle.ocr&quot;]</code>。</p>
+<!-- [end-include:automation-solutions.md] -->
 <!-- [start-include:e4x.md] -->
 <h1>E4X<span><a class="mark" href="#e4x_e4x" id="e4x_e4x">#</a></span></h1>
 <blockquote>

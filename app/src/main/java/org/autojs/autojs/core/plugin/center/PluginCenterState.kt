@@ -30,13 +30,17 @@ sealed class PluginEnabledState {
 }
 
 enum class PluginErrorCode {
+    PLUGIN_NOT_INSTALLED,
+    PLUGIN_DISABLED,
     NOT_AUTHORIZED,
+    SIGNATURE_UNTRUSTED,
     BIND_FAILED,
     BIND_SECURITY_EXCEPTION,
     SERVICE_NOT_FOUND,
     HANDSHAKE_TIMEOUT,
     DEAD_OBJECT,
     PROTOCOL_MISMATCH,
+    VERSION_INCOMPATIBLE,
     ROM_FIRST_RUN_RESTRICTED_SUSPECTED,
     INTERNAL_ERROR,
 }
@@ -46,4 +50,5 @@ data class PluginError(
     val message: String? = null,
     val recoverHint: String? = null,
     val causeClass: String? = null,
+    val elapsedMillis: Long? = null,
 )

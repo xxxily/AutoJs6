@@ -17,8 +17,6 @@ import java.util.LinkedHashMap
 class LaunchConfig : FuzzyDeserializer.OriginalJsonKeyAware {
 
     @Transient
-    private val mContext = GlobalAppContext.get()
-    @Transient
     private val mOriginalJsonKeys = LinkedHashMap<String, String>()
 
     @SerializedName("logsVisible")
@@ -59,7 +57,7 @@ class LaunchConfig : FuzzyDeserializer.OriginalJsonKeyAware {
         With(value = "slugText"),
         With(value = "splashText", target = ["AutoX"]),
     )
-    var slug = mContext.getString(R.string.text_powered_by_autojs)
+    var slug = defaultSlug()
 
     // @SerializedName("permissions")
     // @field:SerializedNameCompatible(
@@ -91,5 +89,9 @@ class LaunchConfig : FuzzyDeserializer.OriginalJsonKeyAware {
             json.add(originalKey, value)
         }
     }
+
+    private fun defaultSlug() = runCatching {
+        GlobalAppContext.get().getString(R.string.text_powered_by_autojs)
+    }.getOrDefault("Powered by AutoJs6")
 
 }

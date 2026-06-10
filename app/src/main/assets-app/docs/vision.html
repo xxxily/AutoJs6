@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>屏幕感知 (Vision) | AutoJs6 文档 - 6.7.3</title>
+    <link rel="stylesheet" href="assets/fonts.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/sh.css">
+    <link rel="stylesheet" href="plugins/docsify-copy-code@2-styles.css">
+    <link rel="stylesheet" href="plugins/zoom-image-styles.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="user-scalable=no">
+</head>
+<body class="alt apidoc" id="api-section-vision">
+<div id="content" class="clearfix">
+    <div id="column2" class="interior">
+        <div id="intro" class="interior">
+            <a href="/" title="返回首页">AutoJs6</a>
+        </div>
+        <ul>
+            <li><a class="nav-global" href="global.html">Global - 全局对象</a></li>
+            <li><a class="nav-automator" href="automator.html">Automator - 自动化</a></li>
+            <li><a class="nav-image" href="image.html">Image - 图像</a></li>
+            <li><a class="nav-ocr" href="ocr.html">OCR - 光学字符识别</a></li>
+            <li><a class="nav-vision active" href="vision.html">Vision - 屏幕感知</a></li>
+            <li><a class="nav-shizuku" href="shizuku.html">Shizuku</a></li>
+        </ul>
+    </div>
+    <div id="column1" data-id="vision" class="interior">
+        <header>
+            <h1>屏幕感知 (Vision)<span><a class="mark" href="#vision_vision" id="vision_vision">#</a></span></h1>
+        </header>
+        <p><code>vision</code> 模块将无障碍节点、OCR 文本块、图像模板结果、颜色/区域特征和当前 App/Activity 归一化为统一目标对象。</p>
+        <p>默认来源为 <code>a11y+ocr</code>。无障碍节点命中时优先给出稳定 selector 和 <code>auto.stableClick</code> 建议; OCR 命中但无对应无障碍节点时, 使用 OCR bounds 作为坐标兜底。</p>
+
+        <h2>VisionTarget<span><a class="mark" href="#vision_target" id="vision_target">#</a></span></h2>
+        <p>融合目标对象常用字段:</p>
+        <ul>
+            <li><code>source</code> / <code>sources</code>: 命中来源, 如 <code>a11y+ocr</code>、<code>ocr</code>、<code>a11y+image</code>.</li>
+            <li><code>confidence</code>: 0..1 置信度, 多来源命中会提升置信度。</li>
+            <li><code>bounds</code>: <code>{ left, top, right, bottom, width, height, centerX, centerY }</code>.</li>
+            <li><code>suggestedAction</code>: <code>{ type, x, y, api, reason }</code>, 用于选择 <code>auto.stableClick</code>、<code>click</code> 或 <code>swipe</code>.</li>
+            <li><code>currentPackage</code> / <code>currentActivity</code>: 当前 App 和 Activity。</li>
+            <li><code>selector</code>: 来源于无障碍快照的 selector 候选。</li>
+            <li><code>explanation</code>: 融合解释, 包含 OCR fallback、多来源合并等原因。</li>
+        </ul>
+
+        <h2>VisionOptions<span><a class="mark" href="#vision_options" id="vision_options">#</a></span></h2>
+        <ul>
+            <li><code>sources</code> / <code>source</code>: 字符串或数组, 支持 <code>"a11y+ocr"</code>、<code>"ocr"</code>、<code>"a11y,image"</code>、<code>"all"</code>.</li>
+            <li><code>region</code>: <code>[x, y, width, height]</code> 或 bounds 对象, 限制感知区域。</li>
+            <li><code>interval</code>: <code>observe</code> 和 <code>waitForScene</code> 的采样间隔, 单位毫秒。</li>
+            <li><code>frameTimeout</code>: OCR 截图帧超时, 单位毫秒。</li>
+            <li><code>maxTargets</code>: 返回目标数量上限。</li>
+            <li><code>minConfidence</code>: 最低置信度阈值。</li>
+        </ul>
+
+        <h2>[m] targets<span><a class="mark" href="#vision_m_targets" id="vision_m_targets">#</a></span></h2>
+        <h3>targets(options?)<span><a class="mark" href="#vision_targets_options" id="vision_targets_options">#</a></span></h3>
+        <ul>
+            <li><strong>[ options ]</strong> { Object } - 感知选项。</li>
+            <li><ins><strong>returns</strong></ins> { Object[] } - 融合后的目标列表。</li>
+        </ul>
+        <pre><code class="lang-js">let targets = vision.targets({
+    sources: 'a11y+ocr',
+    region: [0, 0, device.width, device.height],
+    minConfidence: 0.35,
+});
+console.log(targets[0].source, targets[0].bounds, targets[0].suggestedAction);
+</code></pre>
+
+        <h2>[m] findText<span><a class="mark" href="#vision_m_findtext" id="vision_m_findtext">#</a></span></h2>
+        <h3>findText(text, options?)<span><a class="mark" href="#vision_findtext_text_options" id="vision_findtext_text_options">#</a></span></h3>
+        <ul>
+            <li><strong>text</strong> { string } - 待查找文本。</li>
+            <li><strong>[ options ]</strong> { Object } - 支持 <code>source/sources</code>、<code>region</code>、<code>exact</code>、<code>ignoreCase</code> 等。</li>
+            <li><ins><strong>returns</strong></ins> { Object | null } - 最匹配目标。</li>
+        </ul>
+        <pre><code class="lang-js">let ok = vision.findText('确定', { source: 'ocr+a11y' });
+if (ok) {
+    console.log(ok.confidence, ok.explanation);
+}
+</code></pre>
+
+        <h2>[m] findButton<span><a class="mark" href="#vision_m_findbutton" id="vision_m_findbutton">#</a></span></h2>
+        <h3>findButton(text, options?)<span><a class="mark" href="#vision_findbutton_text_options" id="vision_findbutton_text_options">#</a></span></h3>
+        <ul>
+            <li><strong>text</strong> { string } - 按钮文本。</li>
+            <li><strong>[ options ]</strong> { Object } - 感知选项。</li>
+            <li><ins><strong>returns</strong></ins> { Object | null } - 可点击或可坐标兜底的目标。</li>
+        </ul>
+        <pre><code class="lang-js">let login = vision.findButton('登录');
+if (login) {
+    let action = login.suggestedAction;
+    click(action.x, action.y);
+}
+</code></pre>
+
+        <h2>[m] observe<span><a class="mark" href="#vision_m_observe" id="vision_m_observe">#</a></span></h2>
+        <h3>observe(options?)<span><a class="mark" href="#vision_observe_options" id="vision_observe_options">#</a></span></h3>
+        <ul>
+            <li><strong>[ options ]</strong> { Object } - 支持 <code>interval</code>、<code>sources</code>、<code>region</code> 等。</li>
+            <li><ins><strong>returns</strong></ins> { VisionObservation } - 观察句柄。</li>
+        </ul>
+        <p>观察句柄提供 <code>latest()</code>、<code>next()</code>、<code>targets()</code>、<code>metrics()</code>、<code>close()</code>、<code>isClosed()</code>。当启用 OCR 来源时会复用 <code>images.openCaptureSession({ preset: 'ocr' })</code> 风格的帧缓存与节流。</p>
+        <pre><code class="lang-js">let observer = vision.observe({ sources: 'a11y+ocr', interval: 600 });
+try {
+    let sample = observer.next();
+    console.log(sample.targetCount, observer.metrics());
+} finally {
+    observer.close();
+}
+</code></pre>
+
+        <h2>[m] waitForScene<span><a class="mark" href="#vision_m_waitforscene" id="vision_m_waitforscene">#</a></span></h2>
+        <h3>waitForScene(scene, options?)<span><a class="mark" href="#vision_waitforscene_scene_options" id="vision_waitforscene_scene_options">#</a></span></h3>
+        <ul>
+            <li><strong>scene</strong> { Object | string } - 场景规则, 可包含 <code>name</code>、<code>texts</code>、<code>buttons</code>、<code>targets</code>、<code>all</code>。</li>
+            <li><strong>[ options ]</strong> { Object } - 支持 <code>timeout</code>、<code>interval</code>、<code>sources</code>、<code>region</code> 等。</li>
+            <li><ins><strong>returns</strong></ins> { Object } - <code>{ ok, matched, missing, targets, currentPackage, currentActivity }</code>.</li>
+        </ul>
+        <pre><code class="lang-js">let scene = vision.waitForScene({
+    name: 'login',
+    texts: ['账号登录'],
+    buttons: ['登录'],
+}, { timeout: 8000, interval: 500, sources: 'a11y+ocr' });
+
+if (!scene.ok) {
+    console.warn(scene.missing);
+}
+</code></pre>
+
+        <h2>[m] summary<span><a class="mark" href="#vision_summary" id="vision_summary">#</a></span></h2>
+        <h3>summary()<span><a class="mark" href="#vision_summary_1" id="vision_summary_1">#</a></span></h3>
+        <p>返回 <code>vision</code> 模块摘要。</p>
+    </div>
+</div>
+
+<script src="assets/sh_javascript.js"></script>
+<script src="assets/sh_java.js"></script>
+<script src="assets/sh_main.js"></script>
+<script src="plugins/docsify-copy-code@2.js"></script>
+<script src="plugins/zoom-image.js"></script>
+<script>
+    highlight(void 0, void 0, 'pre');
+    highlight(void 0, void 0, 'tt');
+</script>
+</body>
+</html>

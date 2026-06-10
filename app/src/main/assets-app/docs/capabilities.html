@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Capabilities | AutoJs6 文档</title>
+</head>
+<body class="alt apidoc" id="api-section-capabilities">
+<div id="content" class="clearfix">
+    <div id="column1" data-id="capabilities" class="interior">
+        <header>
+            <h1 id="capabilities">Capabilities - 能力状态中心</h1>
+            <p><code>capabilities</code> 模块用于在脚本运行前或运行中检查 AutoJs6 能力状态, 覆盖无障碍、截图、悬浮窗、通知、存储、网络、Root、Shizuku、Shell、UsageStats、WriteSettings、WriteSecureSettings、精确闹钟、后台运行、电池优化、开机启动、安装/卸载 APK、短信、联系人、电话、相机、录音和定位等核心能力。</p>
+            <p>每个能力返回 <code>available</code>、<code>requestable</code>、<code>missing</code>、<code>blocked</code> 或 <code>unsupported</code> 状态。</p>
+            <p>项目脚本可在 <code>project.json</code> 中声明 <code>capabilities</code>、<code>pluginDependencies</code>、<code>riskPolicy</code>、<code>networkPolicy</code>、<code>filePolicy</code> 和 <code>privilegedPolicy</code>。运行时高风险 API 会复用这份清单做守卫和审计, 打包 APK 时也会复用同一份清单做预检和权限映射。</p>
+        </header>
+
+        <section>
+            <h2 id="capabilities_check_ids">capabilities.check(ids)</h2>
+            <p>检查一个或多个能力 ID/API 名称。未传入参数时返回全部能力状态。</p>
+<pre><code class="language-js">let checks = capabilities.check(["accessibility", "screen_capture", "shizuku"]);
+checks.forEach(item => log(item.id + ": " + item.status));</code></pre>
+        </section>
+
+        <section>
+            <h2 id="capabilities_ensure_ids_options">capabilities.ensure(ids, options)</h2>
+            <p>检查能力并可按需打开系统授权入口。<code>options.request</code> 为 <code>true</code> 时会尝试发起可请求能力的授权流程, <code>options.timeout</code> 用于等待状态变为可用。</p>
+<pre><code class="language-js">let result = capabilities.ensure(["accessibility"], { request: true, timeout: 10000 });
+if (!result[0].available) toastLog(result[0].requestHint);</code></pre>
+        </section>
+
+        <section>
+            <h2 id="capabilities_explain_id_or_api">capabilities.explain(idOrApi)</h2>
+            <p>解释能力 ID 或 AutoJs6 API 对应的权限、服务和风险信息。</p>
+<pre><code class="language-js">let info = capabilities.explain("images.captureScreen");
+log(info.name + ": " + info.description);</code></pre>
+        </section>
+
+        <section>
+            <h2 id="capabilities_scan_script">capabilities.scan(script)</h2>
+            <p>对脚本文本做静态扫描, 返回可能涉及的能力定义。编辑器运行前预检和 AI 风险校验会使用同一份能力图谱。</p>
+<pre><code class="language-js">let caps = capabilities.scan("requestScreenCapture(); click('OK');");
+log(caps.map(c => c.id).join(", "));</code></pre>
+        </section>
+
+        <section>
+            <h2 id="capabilities_list">capabilities.list()</h2>
+            <p>返回当前 AutoJs6 版本内置的能力定义清单。</p>
+<pre><code class="language-js">log(capabilities.list().length);</code></pre>
+        </section>
+
+        <section>
+            <h2 id="capabilities_manifest">capabilities.manifest()</h2>
+            <p>返回当前脚本所属项目的能力清单和策略。非项目脚本会返回 <code>available: false</code>。</p>
+<pre><code class="language-js">let manifest = capabilities.manifest();
+log(manifest.capabilities.join(", "));
+log(manifest.riskPolicy.undeclared);</code></pre>
+        </section>
+
+        <section>
+            <h2 id="capabilities_project_packaging_preflight">项目打包预检与 inrt 诊断</h2>
+            <p><code>project.json</code> 的 <code>capabilities</code> 会在项目打包前映射 Android permissions、前台服务类型和 inrt 设置页需要项。单文件打包会根据脚本静态扫描自动补入推断能力; 项目打包遇到未声明的危险能力会阻断并提示。</p>
+            <p>打包预检会检查主脚本是否存在、常见相对资源引用是否存在、<code>assets</code> 声明是否有效、<code>plugins.load()</code> 使用的插件是否已写入 <code>pluginDependencies</code>, 并提示未由能力清单解释的高风险 Android 权限。</p>
+<pre><code class="language-json">{
+  "name": "能力打包示例",
+  "main": "main.js",
+  "capabilities": ["screen_capture", "overlay", "notifications"],
+  "pluginDependencies": ["org.autojs.autojs.plugin.ocr"],
+  "riskPolicy": {
+    "undeclared": "prompt",
+    "high": "prompt",
+    "critical": "reject",
+    "rememberAllowed": true
+  }
+}</code></pre>
+            <p>打包成功后, APK 会内置 <code>assets/project/build-diagnostics.json</code>, 记录能力映射、预检警告、插件依赖和构建摘要。inrt 首次启动会根据能力状态提示缺失项并打开设置页; 运行失败时可在日志页菜单复制最小诊断 JSON, 其中包含项目配置、构建诊断和异常信息。</p>
+        </section>
+
+        <section>
+            <h2 id="capabilities_remember_ids_action">capabilities.remember(ids, action)</h2>
+            <p>为当前项目记住能力授权选择。<code>action</code> 可为 <code>allow</code> 或 <code>reject</code>, 仅影响当前项目键。</p>
+<pre><code class="language-js">capabilities.remember(["shizuku", "shell"], "allow");</code></pre>
+        </section>
+
+        <section>
+            <h2 id="capabilities_audit">capabilities.audit()</h2>
+            <p>查看最近高风险能力调用记录, 覆盖 shell、Root/Shizuku、文件删除/覆盖、短信/联系人/电话、安装/卸载和插件调用入口。</p>
+<pre><code class="language-js">capabilities.audit().forEach(item => {
+    log(item.api + " " + item.action + " " + item.target);
+});</code></pre>
+        </section>
+
+        <section>
+            <h2 id="capabilities_clear_audit">capabilities.clearAudit()</h2>
+            <p>清空当前进程内的能力审计记录。</p>
+<pre><code class="language-js">capabilities.clearAudit();</code></pre>
+        </section>
+    </div>
+</div>
+</body>
+</html>

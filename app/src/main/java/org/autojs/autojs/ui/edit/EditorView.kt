@@ -41,6 +41,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.autojs.autojs.AutoJs
+import org.autojs.autojs.capability.CapabilityRegistry
 import org.autojs.autojs.core.pref.Pref.getEditorTextSize
 import org.autojs.autojs.core.pref.Pref.setEditorTextSize
 import org.autojs.autojs.engine.JavaScriptEngine
@@ -57,6 +58,8 @@ import org.autojs.autojs.model.script.Scripts.EXTRA_EXCEPTION_LINE_NUMBER
 import org.autojs.autojs.model.script.Scripts.EXTRA_EXCEPTION_MESSAGE
 import org.autojs.autojs.model.script.Scripts.openByOtherApps
 import org.autojs.autojs.model.script.Scripts.runWithBroadcastSender
+import org.autojs.autojs.observability.ScriptObservability
+import org.autojs.autojs.observability.ScriptRunSnapshot
 import org.autojs.autojs.pio.PFiles.getNameWithoutExtension
 import org.autojs.autojs.pio.PFiles.write
 import org.autojs.autojs.storage.file.StableDraftFileHelper
@@ -111,6 +114,8 @@ import java.io.InputStreamReader
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicBoolean
@@ -144,6 +149,96 @@ class EditorView : LinearLayout, OnHintClickListener, ClickCallback, ToolbarFrag
 
     fun showLogPanel() {
         mLogPanelCallback?.onShowLogPanel()
+    }
+
+    fun showRunDetailsDialog() {
+        val snapshot = currentRunSnapshotForDetails()
+        if (snapshot == null) {
+            MaterialDialog.Builder(context)
+                .title(R.string.text_run_details)
+                .content(R.string.text_run_details_empty)
+                .positiveText(R.string.dialog_button_dismiss)
+                .positiveColorRes(R.color.dialog_button_default)
+                .show()
+            return
+        }
+        val diagnosticsJson = ScriptObservability.exportDiagnosticsJson(snapshot.executionId)
+        MaterialDialog.Builder(context)
+            .title(R.string.text_run_details)
+            .content(buildRunDetailsContent(snapshot))
+            .neutralText(R.string.dialog_button_copy_diagnostics)
+            .neutralColorRes(R.color.dialog_button_hint)
+            .onNeutral { _, _ ->
+                ClipboardUtils.setClip(context, diagnosticsJson)
+                showSnack(this, R.string.text_already_copied_to_clip)
+            }
+            .negativeText(R.string.dialog_button_dismiss)
+            .negativeColorRes(R.color.dialog_button_default)
+            .positiveText(R.string.text_show_log)
+            .positiveColorRes(R.color.dialog_button_attraction)
+            .onPositive { _, _ -> showLogPanel() }
+            .show()
+    }
+
+    private fun currentRunSnapshotForDetails(): ScriptRunSnapshot? {
+        if (scriptExecutionId != ScriptExecution.NO_ID) {
+            ScriptObservability.snapshot(scriptExecutionId)?.let { return it }
+        }
+        return ScriptObservability.latestForPath(uri?.path) ?: ScriptObservability.latest()
+    }
+
+    private fun buildRunDetailsContent(snapshot: ScriptRunSnapshot): String {
+        val recentRuns = ScriptObservability.recentRuns(5)
+        return buildString {
+            appendLine("${context.getString(R.string.text_execution_id)}: ${snapshot.executionId}")
+            appendLine("${context.getString(R.string.text_status)}: ${snapshot.status}")
+            appendLine("${context.getString(R.string.text_script_path)}: ${snapshot.sourcePath}")
+            appendLine("${context.getString(R.string.text_start_time)}: ${formatRunTime(snapshot.startTime)}")
+            appendLine("${context.getString(R.string.text_end_time)}: ${snapshot.endTime?.let(::formatRunTime) ?: "-"}")
+            appendLine("${context.getString(R.string.text_duration)}: ${snapshot.durationMillis} ms")
+            appendLine("${context.getString(R.string.text_thread)}: ${snapshot.threadName} (${snapshot.threadId})")
+            appendLine("${context.getString(R.string.text_resource_usage)}: ${formatBytes(snapshot.resource.usedMemoryBytes)} / ${formatBytes(snapshot.resource.maxMemoryBytes)}, threads=${snapshot.resource.threadCount}")
+            appendLine("${context.getString(R.string.text_logs)}: ${snapshot.logs.size}")
+            appendLine("${context.getString(R.string.text_capability_calls)}: ${snapshot.capabilityEvents.size}")
+            appendLine("${context.getString(R.string.text_debug_stack)}: ${if (snapshot.debug.stackAvailable) "available" else "unavailable"}")
+            appendLine("${context.getString(R.string.text_debug_variables)}: ${snapshot.debug.variablesUnavailableReason}")
+            snapshot.exception?.let { exception ->
+                appendLine()
+                appendLine(context.getString(R.string.text_exception_stack))
+                appendLine("${exception.className}: ${exception.message}")
+                appendLine(exception.stackTrace.lineSequence().take(12).joinToString("\n"))
+            }
+            if (snapshot.capabilityEvents.isNotEmpty()) {
+                appendLine()
+                appendLine(context.getString(R.string.text_capability_calls))
+                snapshot.capabilityEvents.takeLast(8).forEach { event ->
+                    appendLine("#${event.id} ${event.api} ${event.action}/${event.allowed} [${event.capabilities.joinToString()}]")
+                }
+            }
+            if (snapshot.logs.isNotEmpty()) {
+                appendLine()
+                appendLine(context.getString(R.string.text_recent_logs))
+                snapshot.logs.takeLast(8).forEach { log ->
+                    appendLine("[${log.levelName}] ${log.message.lineSequence().firstOrNull().orEmpty()}")
+                }
+            }
+            if (recentRuns.isNotEmpty()) {
+                appendLine()
+                appendLine(context.getString(R.string.text_recent_runs))
+                recentRuns.forEach { run ->
+                    appendLine("#${run.executionId} ${run.status} ${run.sourceName} ${run.durationMillis}ms")
+                }
+            }
+        }.trim()
+    }
+
+    private fun formatRunTime(timestamp: Long): String {
+        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault()).format(Date(timestamp))
+    }
+
+    private fun formatBytes(bytes: Long): String {
+        val mib = bytes.toDouble() / 1024.0 / 1024.0
+        return String.format(Locale.getDefault(), "%.1f MiB", mib)
     }
 
     private var binding: EditorViewBinding = EditorViewBinding.bind(inflate(context, R.layout.editor_view, this))
@@ -1662,8 +1757,16 @@ class EditorView : LinearLayout, OnHintClickListener, ClickCallback, ToolbarFrag
     }
 
     @JvmOverloads
-    fun run(showMessage: Boolean, file: File? = uri?.path?.let { File(it) }, overriddenFullPath: String? = null): ScriptExecution? {
+    fun run(
+        showMessage: Boolean,
+        file: File? = uri?.path?.let { File(it) },
+        overriddenFullPath: String? = null,
+        skipCapabilityPreflight: Boolean = false,
+    ): ScriptExecution? {
         file ?: return null
+        if (!skipCapabilityPreflight && showCapabilityPreflightIfNeeded(showMessage, file, overriddenFullPath)) {
+            return null
+        }
         if (showMessage) {
             showSnack(this, R.string.text_start_running)
         }
@@ -1676,6 +1779,40 @@ class EditorView : LinearLayout, OnHintClickListener, ClickCallback, ToolbarFrag
         scriptExecutionId = execution.id
         setMenuItemStatus(R.id.run, false)
         return execution
+    }
+
+    private fun showCapabilityPreflightIfNeeded(showMessage: Boolean, file: File, overriddenFullPath: String?): Boolean {
+        val inferredCapabilityIds = CapabilityRegistry.inferCapabilityIdsFromScript(editor.text)
+        if (inferredCapabilityIds.isEmpty()) return false
+        val checks = CapabilityRegistry.check(context, inferredCapabilityIds)
+            .filterNot { it.available }
+            .distinctBy { it.id }
+        if (checks.isEmpty()) return false
+
+        val content = buildString {
+            appendLine(context.getString(R.string.text_run_capability_preflight_message))
+            checks.forEach { check ->
+                appendLine()
+                appendLine(context.getString(R.string.text_run_capability_preflight_item, check.name, check.status.wireName))
+                val details = (check.missing + check.blocked + check.unsupported).distinct()
+                if (details.isNotEmpty()) appendLine(context.getString(R.string.text_run_capability_preflight_details, details.joinToString(", ")))
+                appendLine(context.getString(R.string.text_run_capability_preflight_hint, check.requestHint))
+            }
+        }.trim()
+
+        MaterialDialog.Builder(context)
+            .title(R.string.text_run_capability_preflight)
+            .content(content)
+            .negativeText(R.string.dialog_button_cancel)
+            .negativeColorRes(R.color.dialog_button_default)
+            .positiveText(R.string.dialog_button_continue)
+            .positiveColorRes(R.color.dialog_button_caution)
+            .onPositive { dialog, _ ->
+                dialog.dismiss()
+                run(showMessage, file, overriddenFullPath, skipCapabilityPreflight = true)
+            }
+            .show()
+        return true
     }
 
     private fun runTmpFile(file: File? = uri?.path?.let { File(it) }): ScriptExecution? {

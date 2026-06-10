@@ -1,0 +1,374 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-06-10",
+  "description": "AutoJs6 automation solution patterns for users and AI retrieval.",
+  "solutions": [
+    {
+      "id": "app_launch_wait",
+      "title": "App 启动与等待",
+      "category": "app",
+      "scenario": "打开目标 App, 等待首页或关键控件稳定后继续执行。",
+      "capabilities": ["accessibility"],
+      "riskLevel": "medium",
+      "apis": ["app.launchApp", "auto.waitUntil", "auto.stableClick"],
+      "docs": ["app.html", "automator.html"],
+      "tags": ["启动应用", "等待首页", "稳定点击", "新手模板"],
+      "commonFailures": [
+        "应用名称不匹配或设备未安装目标 App。",
+        "首页文案因语言、版本或登录状态变化而不同。",
+        "无障碍服务未启用, 导致 selector 不可用。"
+      ],
+      "scriptLines": [
+        "\"auto\";",
+        "",
+        "var APP_NAME = \"目标应用\";",
+        "var READY_TEXT = \"首页\";",
+        "",
+        "if (!app.launchApp(APP_NAME)) {",
+        "    throw new Error(\"无法启动应用: \" + APP_NAME);",
+        "}",
+        "",
+        "var ready = auto.waitUntil(text(READY_TEXT), {",
+        "    timeout: 12000,",
+        "    interval: 500,",
+        "    stableCount: 2,",
+        "    captureOnFailure: true",
+        "});",
+        "",
+        "if (!ready.ok) {",
+        "    throw new Error(\"首页未就绪: \" + ready.reason);",
+        "}",
+        "",
+        "toastLog(\"已进入首页: \" + APP_NAME);"
+      ],
+      "templateLines": [
+        "\"auto\";",
+        "var APP_NAME = \"目标应用\";",
+        "var READY_TEXT = \"首页\";",
+        "if (!app.launchApp(APP_NAME)) throw new Error(\"无法启动应用: \" + APP_NAME);",
+        "var ready = auto.waitUntil(text(READY_TEXT), { timeout: 12000, stableCount: 2, captureOnFailure: true });",
+        "if (!ready.ok) throw new Error(\"首页未就绪: \" + ready.reason);"
+      ]
+    },
+    {
+      "id": "list_scroll_find",
+      "title": "列表滚动查找",
+      "category": "accessibility",
+      "scenario": "在长列表中滚动查找目标文本或控件, 找到后稳定点击。",
+      "capabilities": ["accessibility"],
+      "riskLevel": "medium",
+      "apis": ["auto.findWithScroll", "auto.stableClick", "textContains"],
+      "docs": ["automator.html"],
+      "tags": ["列表", "滚动查找", "稳定点击", "搜索结果"],
+      "commonFailures": [
+        "列表容器不可滚动或当前页面不是列表页。",
+        "目标文本被截断、动态加载或需要先触发搜索。",
+        "滚动次数过少, 未覆盖完整列表。"
+      ],
+      "scriptLines": [
+        "\"auto\";",
+        "",
+        "var KEYWORD = \"目标文本\";",
+        "var result = auto.findWithScroll(textContains(KEYWORD), null, {",
+        "    timeout: 15000,",
+        "    maxScrolls: 12,",
+        "    direction: \"down\",",
+        "    captureOnFailure: true",
+        "});",
+        "",
+        "if (!result.ok) {",
+        "    throw new Error(\"未找到列表项: \" + result.reason);",
+        "}",
+        "",
+        "var clicked = auto.stableClick(result.uiObject, { timeout: 3000 });",
+        "if (!clicked.ok) {",
+        "    throw new Error(\"列表项点击失败: \" + clicked.reason);",
+        "}"
+      ],
+      "templateLines": [
+        "\"auto\";",
+        "var KEYWORD = \"目标文本\";",
+        "var item = auto.findWithScroll(textContains(KEYWORD), null, { timeout: 15000, maxScrolls: 12, captureOnFailure: true });",
+        "if (!item.ok) throw new Error(\"未找到列表项: \" + item.reason);",
+        "var clicked = auto.stableClick(item.uiObject, { timeout: 3000 });",
+        "if (!clicked.ok) throw new Error(\"列表项点击失败: \" + clicked.reason);"
+      ]
+    },
+    {
+      "id": "form_fill_submit",
+      "title": "表单填写",
+      "category": "accessibility",
+      "scenario": "等待输入框和按钮稳定, 依次填写字段并提交。",
+      "capabilities": ["accessibility"],
+      "riskLevel": "medium",
+      "apis": ["auto.stableSetText", "auto.stableClick", "id", "text"],
+      "docs": ["automator.html"],
+      "tags": ["表单", "输入", "提交", "稳定输入"],
+      "commonFailures": [
+        "输入框 id 在不同版本中变化。",
+        "键盘遮挡提交按钮。",
+        "提交前需要额外勾选协议或处理验证码。"
+      ],
+      "scriptLines": [
+        "\"auto\";",
+        "",
+        "var account = auto.stableSetText(id(\"account\"), \"demo@example.com\", { timeout: 8000 });",
+        "if (!account.ok) throw new Error(\"账号输入失败: \" + account.reason);",
+        "",
+        "var password = auto.stableSetText(id(\"password\"), \"change-me\", { timeout: 8000 });",
+        "if (!password.ok) throw new Error(\"密码输入失败: \" + password.reason);",
+        "",
+        "var submit = auto.stableClick(text(\"登录\"), { timeout: 8000, stableCount: 2 });",
+        "if (!submit.ok) throw new Error(\"提交失败: \" + submit.reason);"
+      ],
+      "templateLines": [
+        "\"auto\";",
+        "var account = auto.stableSetText(id(\"account\"), \"demo@example.com\", { timeout: 8000 });",
+        "if (!account.ok) throw new Error(\"账号输入失败: \" + account.reason);",
+        "var password = auto.stableSetText(id(\"password\"), \"change-me\", { timeout: 8000 });",
+        "if (!password.ok) throw new Error(\"密码输入失败: \" + password.reason);",
+        "var submit = auto.stableClick(text(\"登录\"), { timeout: 8000, stableCount: 2 });",
+        "if (!submit.ok) throw new Error(\"提交失败: \" + submit.reason);"
+      ]
+    },
+    {
+      "id": "ocr_text_click",
+      "title": "OCR 文字点击",
+      "category": "vision",
+      "scenario": "无障碍节点没有文本时, 使用屏幕感知/OCR 查找文字并点击。",
+      "capabilities": ["accessibility", "screen_capture", "ocr"],
+      "riskLevel": "medium",
+      "apis": ["vision.findText", "auto.stableClick", "click"],
+      "docs": ["vision.html", "ocr.html", "automator.html"],
+      "tags": ["OCR", "文字点击", "屏幕感知", "坐标兜底"],
+      "commonFailures": [
+        "截图权限未授权或 OCR 引擎不可用。",
+        "目标文字被遮挡、滚动出屏幕或识别置信度过低。",
+        "OCR bounds 命中但目标区域不可点击。"
+      ],
+      "scriptLines": [
+        "\"auto\";",
+        "",
+        "var target = vision.findText(\"确定\", {",
+        "    sources: \"a11y+ocr\",",
+        "    timeout: 6000,",
+        "    minConfidence: 0.35",
+        "});",
+        "",
+        "if (!target) {",
+        "    throw new Error(\"未通过 OCR/无障碍找到目标文字\");",
+        "}",
+        "",
+        "if (target.selector) {",
+        "    var clicked = auto.stableClick(target.selector, { timeout: 3000 });",
+        "    if (!clicked.ok) throw new Error(\"selector 点击失败: \" + clicked.reason);",
+        "} else {",
+        "    var action = target.suggestedAction;",
+        "    click(action.x, action.y);",
+        "}"
+      ],
+      "templateLines": [
+        "\"auto\";",
+        "var target = vision.findText(\"确定\", { sources: \"a11y+ocr\", timeout: 6000, minConfidence: 0.35 });",
+        "if (!target) throw new Error(\"未通过 OCR/无障碍找到目标文字\");",
+        "if (target.selector) {",
+        "    var clicked = auto.stableClick(target.selector, { timeout: 3000 });",
+        "    if (!clicked.ok) throw new Error(\"selector 点击失败: \" + clicked.reason);",
+        "} else {",
+        "    var action = target.suggestedAction;",
+        "    click(action.x, action.y);",
+        "}"
+      ]
+    },
+    {
+      "id": "screenshot_image_match",
+      "title": "截图找图",
+      "category": "images",
+      "scenario": "请求截图权限后, 用模板图在当前屏幕中查找并点击。",
+      "capabilities": ["screen_capture", "storage"],
+      "riskLevel": "medium",
+      "apis": ["requestScreenCapture", "captureScreen", "images.read", "images.findImage", "click"],
+      "docs": ["image.html"],
+      "tags": ["截图", "找图", "模板匹配", "图像识别"],
+      "commonFailures": [
+        "模板图片路径不存在或打包时未声明 assets。",
+        "目标缩放、主题颜色或分辨率变化导致匹配失败。",
+        "截图权限未授权或 MediaProjection 会话失效。"
+      ],
+      "scriptLines": [
+        "if (!requestScreenCapture()) {",
+        "    throw new Error(\"截图权限请求失败\");",
+        "}",
+        "",
+        "var template = images.read(\"./assets/button.png\");",
+        "if (!template) throw new Error(\"模板图片不存在\");",
+        "",
+        "try {",
+        "    var screen = captureScreen();",
+        "    var point = images.findImage(screen, template, { threshold: 0.82 });",
+        "    if (!point) throw new Error(\"未找到模板图\");",
+        "    click(point.x, point.y);",
+        "} finally {",
+        "    template.recycle();",
+        "}"
+      ],
+      "templateLines": [
+        "if (!requestScreenCapture()) throw new Error(\"截图权限请求失败\");",
+        "var template = images.read(\"./assets/button.png\");",
+        "if (!template) throw new Error(\"模板图片不存在\");",
+        "try {",
+        "    var point = images.findImage(captureScreen(), template, { threshold: 0.82 });",
+        "    if (!point) throw new Error(\"未找到模板图\");",
+        "    click(point.x, point.y);",
+        "} finally {",
+        "    template.recycle();",
+        "}"
+      ],
+      "projectJson": {
+        "capabilities": ["screen_capture", "storage"],
+        "assets": ["assets/button.png"]
+      }
+    },
+    {
+      "id": "timed_task_reliable",
+      "title": "定时任务",
+      "category": "tasks",
+      "scenario": "创建带重试、互斥和超时策略的定时任务, 并查询最近运行记录。",
+      "capabilities": ["background_run", "exact_alarm"],
+      "riskLevel": "medium",
+      "apis": ["tasks.addDailyTask", "tasks.queryTimedTaskRuns", "tasks.queryTimedTaskQueue"],
+      "docs": ["tasks.html"],
+      "tags": ["定时任务", "重试", "运行记录", "后台运行"],
+      "commonFailures": [
+        "系统限制精确闹钟、后台启动或电池优化。",
+        "脚本路径不存在或任务互斥导致跳过。",
+        "设备重启后未允许开机启动。"
+      ],
+      "scriptLines": [
+        "var task = tasks.addDailyTask({",
+        "    path: files.join(files.cwd(), \"daily-sync.js\"),",
+        "    time: \"08:30\",",
+        "    maxRetries: 2,",
+        "    retryBackoffMillis: 60 * 1000,",
+        "    mutex: \"daily-sync\",",
+        "    timeoutMillis: 5 * 60 * 1000",
+        "});",
+        "",
+        "log(\"task id: \" + task.id);",
+        "log(\"queue: \" + JSON.stringify(tasks.queryTimedTaskQueue()));",
+        "log(\"runs: \" + JSON.stringify(tasks.queryTimedTaskRuns({ taskId: task.id, limit: 5 })));"
+      ],
+      "templateLines": [
+        "var task = tasks.addDailyTask({",
+        "    path: files.join(files.cwd(), \"daily-sync.js\"),",
+        "    time: \"08:30\",",
+        "    maxRetries: 2,",
+        "    retryBackoffMillis: 60 * 1000,",
+        "    mutex: \"daily-sync\",",
+        "    timeoutMillis: 5 * 60 * 1000",
+        "});",
+        "log(JSON.stringify(tasks.queryTimedTaskRuns({ taskId: task.id, limit: 5 })));"
+      ],
+      "projectJson": {
+        "capabilities": ["background_run", "exact_alarm"]
+      }
+    },
+    {
+      "id": "shizuku_app_management",
+      "title": "Shizuku 应用管理",
+      "category": "shizuku",
+      "scenario": "使用结构化 Shizuku API 查询、强停、授权或清理应用, 避免手写 pm/am 命令。",
+      "capabilities": ["shizuku"],
+      "riskLevel": "high",
+      "apis": ["shizuku.state", "shizuku.app.forceStop", "shizuku.app.grantPermission", "shizuku.package.info"],
+      "docs": ["shizuku.html", "capabilities.html"],
+      "tags": ["Shizuku", "应用管理", "授权", "强停", "高风险"],
+      "commonFailures": [
+        "Shizuku 服务未运行或未授权 AutoJs6。",
+        "目标包名错误或当前用户下未安装。",
+        "授予的权限不属于目标应用 manifest。"
+      ],
+      "scriptLines": [
+        "\"auto\";",
+        "",
+        "var PACKAGE = \"com.example.target\";",
+        "var state = shizuku.state();",
+        "if (!state.available) {",
+        "    throw new Error(\"Shizuku 不可用: \" + state.reason);",
+        "}",
+        "",
+        "var info = shizuku.package.info(PACKAGE);",
+        "log(\"target: \" + JSON.stringify(info));",
+        "",
+        "var stopped = shizuku.app.forceStop(PACKAGE);",
+        "log(\"forceStop: \" + JSON.stringify(stopped));"
+      ],
+      "templateLines": [
+        "\"auto\";",
+        "var PACKAGE = \"com.example.target\";",
+        "var state = shizuku.state();",
+        "if (!state.available) throw new Error(\"Shizuku 不可用: \" + state.reason);",
+        "log(JSON.stringify(shizuku.package.info(PACKAGE)));",
+        "log(JSON.stringify(shizuku.app.forceStop(PACKAGE)));"
+      ],
+      "projectJson": {
+        "capabilities": ["shizuku"],
+        "privilegedPolicy": {
+          "shizuku": true,
+          "backend": "shizuku"
+        },
+        "riskPolicy": {
+          "high": "prompt",
+          "critical": "reject",
+          "rememberAllowed": true
+        }
+      }
+    },
+    {
+      "id": "plugin_ocr",
+      "title": "插件 OCR",
+      "category": "plugins",
+      "scenario": "通过 Paddle OCR 插件能力识别图片文字, 并在打包项目中声明插件依赖。",
+      "capabilities": ["ocr", "screen_capture"],
+      "riskLevel": "medium",
+      "apis": ["ocr.paddle.detect", "images.read", "plugins.load"],
+      "docs": ["ocr.html", "plugins.html", "capabilities.html"],
+      "tags": ["插件", "OCR", "Paddle", "pluginDependencies", "打包"],
+      "commonFailures": [
+        "Paddle OCR 插件未安装、未启用或版本不兼容。",
+        "打包项目未声明 pluginDependencies。",
+        "图片路径不存在或截图权限未授权。"
+      ],
+      "scriptLines": [
+        "console.show();",
+        "",
+        "var img = images.read(\"./test.png\");",
+        "if (!img) throw new Error(\"图片不存在: ./test.png\");",
+        "",
+        "try {",
+        "    var results = ocr.paddle.detect(img, { useSlim: true, cpuThreadNum: 4 });",
+        "    Array.from(results).forEach(function (item) {",
+        "        log(item.label + \" \" + item.confidence + \" \" + JSON.stringify(item.bounds));",
+        "    });",
+        "} finally {",
+        "    img.recycle();",
+        "}"
+      ],
+      "templateLines": [
+        "console.show();",
+        "var img = images.read(\"./test.png\");",
+        "if (!img) throw new Error(\"图片不存在: ./test.png\");",
+        "try {",
+        "    var results = ocr.paddle.detect(img, { useSlim: true, cpuThreadNum: 4 });",
+        "    log(JSON.stringify(Array.from(results)));",
+        "} finally {",
+        "    img.recycle();",
+        "}"
+      ],
+      "projectJson": {
+        "capabilities": ["ocr", "screen_capture"],
+        "pluginDependencies": ["org.autojs.autojs.plugin.paddle.ocr"]
+      }
+    }
+  ]
+}

@@ -177,6 +177,9 @@
             <ul>
 <li><span class="stability_undefined"><a href="#plugins_plugins">插件 (Plugins)</a></span><ul>
 <li><span class="stability_undefined"><a href="#plugins">应用插件</a></span></li>
+<li><span class="stability_undefined"><a href="#plugins_manifest">插件能力 Manifest</a></span></li>
+<li><span class="stability_undefined"><a href="#plugins_index">官方索引与供应链校验</a></span></li>
+<li><span class="stability_undefined"><a href="#plugins_diagnostics_test_host">运行诊断与测试宿主</a></span></li>
 <li><span class="stability_undefined"><a href="#plugins_1">项目插件</a></span></li>
 <li><span class="stability_undefined"><a href="#plugins_2">内置扩展插件</a></span></li>
 <li><span class="stability_undefined"><a href="#plugins_m_load">[m] load</a></span><ul>
@@ -219,6 +222,84 @@
 <pre><code class="lang-js">let { exp } = plugins.load(&#39;org.autojs.autojs.plugin.demo&#39;);
 exp.test(&#39;hello&#39;);
 </code></pre>
+<p>打包项目时, 脚本中的 <code>plugins.load(...)</code> 需要在 <code>project.json</code> 的 <code>pluginDependencies</code> 中声明。缺少声明会在打包预检阶段阻断, 避免 APK 安装后才发现插件缺失或依赖不清晰。</p>
+<pre><code class="lang-json">{
+  &quot;name&quot;: &quot;插件打包示例&quot;,
+  &quot;main&quot;: &quot;main.js&quot;,
+  &quot;capabilities&quot;: [&quot;ocr&quot;, &quot;screen_capture&quot;],
+  &quot;pluginDependencies&quot;: [&quot;org.autojs.autojs.plugin.demo&quot;]
+}
+</code></pre>
+<h2>插件能力 Manifest<span><a class="mark" href="#plugins_manifest" id="plugins_manifest">#</a></span></h2>
+<p>应用插件可在官方索引或插件自身 <code>PluginInfo.capabilities</code> 中声明能力 manifest. 插件中心会合并本地插件声明与官方索引声明, 并在列表/详情中展示 OCR 引擎、能力、权限、风险等级、最低 AutoJs6 版本和信任状态.</p>
+<p>建议字段如下:</p>
+<pre><code class="lang-json">{
+  &quot;pluginType&quot;: &quot;ocr&quot;,
+  &quot;capabilities&quot;: [&quot;ocr&quot;, &quot;screen_capture&quot;],
+  &quot;permissions&quot;: [&quot;android.permission.INTERNET&quot;],
+  &quot;riskLevel&quot;: &quot;medium&quot;,
+  &quot;minAutoJsVersion&quot;: &quot;6.7.3&quot;,
+  &quot;documentationUrl&quot;: &quot;https://example.com/plugins/paddle-ocr&quot;,
+  &quot;examples&quot;: [&quot;https://example.com/samples/ocr.js&quot;],
+  &quot;engines&quot;: [
+    {
+      &quot;id&quot;: &quot;paddle-ocr-pp-ocrv5&quot;,
+      &quot;engine&quot;: &quot;paddle-ocr&quot;,
+      &quot;variant&quot;: &quot;v5&quot;,
+      &quot;label&quot;: &quot;PP-OCRv5&quot;
+    }
+  ]
+}
+</code></pre>
+<p>OCR 插件通过 <code>plugin-api:paddle-ocr-api</code> 实现 <code>IOcrPlugin</code> 时, <code>PluginInfo.capabilities</code> 可使用同名键: <code>capabilities</code>, <code>permissions</code>, <code>riskLevel</code>, <code>minAutoJsVersion</code>, <code>documentationUrl</code>, <code>examples</code>. <code>id</code>, <code>engine</code>, <code>variant</code> 和 <code>name</code> 会被识别为一个 OCR 引擎声明.</p>
+<h2>官方索引与供应链校验<span><a class="mark" href="#plugins_index" id="plugins_index">#</a></span></h2>
+<p>官方索引支持 <code>plugins</code> 或兼容字段 <code>items</code> 作为插件数组. 索引根对象可声明 <code>signature</code>, 插件条目可声明 <code>manifest</code>, release 必须声明 <code>apkSha256</code>.</p>
+<pre><code class="lang-json">{
+  &quot;signature&quot;: {
+    &quot;algorithm&quot;: &quot;sha256&quot;,
+    &quot;keyId&quot;: &quot;autojs6-official-2026&quot;,
+    &quot;payloadSha256&quot;: &quot;plugins-array-sha256&quot;,
+    &quot;signedAt&quot;: &quot;2026-06-09T00:00:00Z&quot;,
+    &quot;signature&quot;: &quot;detached-signature&quot;
+  },
+  &quot;plugins&quot;: [
+    {
+      &quot;packageName&quot;: &quot;org.autojs.plugin.ocr&quot;,
+      &quot;title&quot;: &quot;Paddle OCR&quot;,
+      &quot;description&quot;: &quot;OCR plugin&quot;,
+      &quot;manifest&quot;: {
+        &quot;pluginType&quot;: &quot;ocr&quot;,
+        &quot;capabilities&quot;: [&quot;ocr&quot;],
+        &quot;riskLevel&quot;: &quot;medium&quot;,
+        &quot;engines&quot;: [&quot;paddle-ocr-pp-ocrv5&quot;]
+      },
+      &quot;releases&quot;: [
+        {
+          &quot;versionName&quot;: &quot;1.2.0&quot;,
+          &quot;versionCode&quot;: 12,
+          &quot;apkUrl&quot;: &quot;https://example.com/plugin.apk&quot;,
+          &quot;apkSha256&quot;: &quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;,
+          &quot;certificateSha256&quot;: [
+            &quot;bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb&quot;
+          ],
+          &quot;changelogText&quot;: &quot;Update OCR engine and permission declaration.&quot;
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+<p>从插件中心安装或更新 URL APK 时, AutoJs6 会先下载到缓存并计算 APK SHA-256. 索引缺少 <code>apkSha256</code> 会拒绝安装; SHA-256 不匹配会拒绝安装; release 若提供 <code>certificateSha256</code>, 安装前还会读取 APK 签名证书指纹并执行 pinning 校验.</p>
+<h2>运行诊断与测试宿主<span><a class="mark" href="#plugins_diagnostics_test_host" id="plugins_diagnostics_test_host">#</a></span></h2>
+<p>插件调用失败会映射为结构化诊断码, 包括未安装、未启用、未授权、签名不可信、绑定失败、服务不存在、握手超时、服务死亡、协议不匹配、版本不兼容和内部错误. 插件中心会记录最近错误并给出可恢复提示.</p>
+<p>SDK 模板建议:</p>
+<ul>
+<li>依赖 <code>plugin-api:paddle-ocr-api</code>, 实现 <code>org.autojs.plugin.paddle.ocr.api.IOcrPlugin</code>.</li>
+<li><code>getInfo()</code> 返回 <code>PluginInfo</code>, 并填充 <code>capabilities</code> manifest.</li>
+<li>Android <code>service</code> 暴露 OCR AIDL 服务并声明必要 permission.</li>
+<li>用 AutoJs6 插件中心作为测试宿主: 安装插件 APK, 检查能力/风险/权限展示, 再通过 <code>plugins.load(packageName)</code> 或 OCR API 发起调用.</li>
+<li>索引解析和完整性字段可参考 AutoJs6 的 <code>PluginIndexRepositoryTest</code>.</li>
+</ul>
 <h2>项目插件<span><a class="mark" href="#plugins_1" id="plugins_1">#</a></span></h2>
 <p>项目插件是依附于项目的一组 JavaScript 模块, 它们位于项目根目录的 <code>plugins</code> 文件夹中, 由 AutoJs6 通过 <a href="#plugins_m_load">plugins.load</a> 方法加载并使用.</p>
 <p>例如项目结构 (部分) 如下:</p>

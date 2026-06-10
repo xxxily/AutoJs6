@@ -90,7 +90,7 @@ class JsonSocketServer(service: DevPluginService?, port: Int) : JsonSocket(servi
                         sRequiredBytesCommands[md5] = obj
                     }
                 }
-                else -> service.responseHandler.handle(obj)
+                else -> service.responseHandler.handle(obj, this)
             }
         } catch (e: Exception) {
             e.printStackTrace()

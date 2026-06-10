@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import org.autojs.autojs.external.ScriptIntents
 import org.autojs.autojs.timing.AlarmTimedTaskScheduler.ACTION_RUN_ALARM_TIMED_TASK
+import org.autojs.autojs.timing.TaskReceiver.EXTRA_SCHEDULED_AT
 import org.autojs.autojs.timing.TaskReceiver.EXTRA_TASK_ID
 
 class TimedTaskAlarmReceiver : BroadcastReceiver() {
@@ -17,9 +17,12 @@ class TimedTaskAlarmReceiver : BroadcastReceiver() {
         val task = TimedTaskManager.getTimedTask(id)
         Log.d("TimedTaskAlarmReceiver", "onReceive: id=$id, task=$task")
         if (task == null) return
-        val runIntent = task.createIntent()
-        ScriptIntents.handleIntent(context, runIntent)
-        TimedTaskManager.notifyTaskFinished(task.id)
+        TimedTaskManager.triggerTask(
+            context,
+            task,
+            "AlarmTimedTaskScheduler",
+            intent.getLongExtra(EXTRA_SCHEDULED_AT, task.getNextTime(context)),
+        )
     }
 
 }

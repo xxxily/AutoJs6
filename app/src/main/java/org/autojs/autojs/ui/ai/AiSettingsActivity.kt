@@ -77,6 +77,10 @@ class AiSettingsActivity : BaseActivity() {
         binding.checkFullFile.isChecked = settings.allowFullFileContext
         binding.checkProjectStructure.isChecked = settings.allowProjectStructure
         binding.checkRecentLogs.isChecked = settings.allowRecentLogs
+        binding.checkClipboardContext.isChecked = settings.allowClipboardContext
+        binding.checkUiSnapshotContext.isChecked = settings.allowUiSnapshotContext
+        binding.checkScreenCaptureContext.isChecked = settings.allowScreenCaptureContext
+        binding.checkOcrContext.isChecked = settings.allowOcrContext
         binding.checkHighRisk.isChecked = settings.highRiskConfirmation
         binding.inputMaxContext.setText(settings.maxContextChars.toString())
         binding.inputMaxLogs.setText(settings.maxLogChars.toString())
@@ -91,6 +95,10 @@ class AiSettingsActivity : BaseActivity() {
                 allowFullFileContext = binding.checkFullFile.isChecked,
                 allowProjectStructure = binding.checkProjectStructure.isChecked,
                 allowRecentLogs = binding.checkRecentLogs.isChecked,
+                allowClipboardContext = binding.checkClipboardContext.isChecked,
+                allowUiSnapshotContext = binding.checkUiSnapshotContext.isChecked,
+                allowScreenCaptureContext = binding.checkScreenCaptureContext.isChecked,
+                allowOcrContext = binding.checkOcrContext.isChecked,
                 highRiskConfirmation = binding.checkHighRisk.isChecked,
             )
         )

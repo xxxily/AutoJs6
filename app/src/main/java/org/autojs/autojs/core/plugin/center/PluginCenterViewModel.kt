@@ -36,8 +36,7 @@ import org.autojs.autojs6.R
  */
 class PluginCenterViewModel : ViewModel() {
 
-    // TODO by SuperMonster003 on Jan 17, 2026.
-    // private val indexRepo = PluginIndexRepository()
+    private val indexRepo = PluginIndexRepository()
 
     private val installedRepo = InstalledPluginRepository()
     private val legacyRepo = LegacyInstalledPluginRepository()
@@ -121,9 +120,7 @@ class PluginCenterViewModel : ViewModel() {
             // Asynchronously load index and merge.
             // zh-CN: 异步加载索引并合并.
             val indexEntries = runCatching {
-                // TODO by SuperMonster003 on Jan 17, 2026.
-                // indexRepo.fetchOfficialIndex(context, forceRefresh = forceRefreshIndex)
-                emptyList<PluginIndexEntry>()
+                indexRepo.fetchOfficialIndex(context, forceRefresh = forceRefreshIndex)
             }.onFailure {
                 // Index fetch exception is not fatal, just log it.
                 // zh-CN: 索引获取异常不算致命, 使用日志记录即可.
@@ -187,6 +184,7 @@ class PluginCenterViewModel : ViewModel() {
         val description = local?.description ?: index?.description
         val author = local?.author ?: index?.author
         val collaborators = index?.collaborators ?: emptyList()
+        val manifest = local?.manifest?.mergedWith(index?.manifest) ?: index?.manifest ?: PluginCapabilityManifest()
 
         val versionNameLocal = local?.versionName ?: index?.releases?.firstOrNull()?.versionName ?: context.getString(R.string.text_unknown)
         val versionCodeLocal = local?.versionCode
@@ -227,11 +225,15 @@ class PluginCenterViewModel : ViewModel() {
             else -> PluginActivatedState.UNKNOWN
         }
 
-        val mappedError = local?.bindError?.let { PluginErrorMapper.fromThrowable(it) }
+        val mappedError = local?.bindError?.let { PluginErrorMapper.fromThrowable(it, local.bindElapsedMillis) }
         if (mappedError != null && canActivate && activatedState == PluginActivatedState.UNKNOWN && PluginErrorMapper.shouldRecommendActivation(mappedError)) {
             activatedState = PluginActivatedState.RECOMMENDED
         }
-        val authError = if (trustInfo.authorizedState == PluginAuthorizedState.REQUIRED) PluginError(PluginErrorCode.NOT_AUTHORIZED) else null
+        val authError = when (trustInfo.authorizedState) {
+            PluginAuthorizedState.REQUIRED -> PluginError(PluginErrorCode.SIGNATURE_UNTRUSTED)
+            PluginAuthorizedState.DENIED -> PluginError(PluginErrorCode.NOT_AUTHORIZED)
+            else -> null
+        }
         val lastError = authError ?: mappedError
         val enabledState = when {
             !enabled -> PluginEnabledState.DISABLED
@@ -253,12 +255,15 @@ class PluginCenterViewModel : ViewModel() {
             updatableApkUrl = targetUpdate?.apkUrl,
             updatableApkSha256 = targetUpdate?.apkSha256,
             updatableApkSizeBytes = targetUpdate?.apkSizeBytes,
+            updatableCertificateSha256 = targetUpdate?.certificateSha256.orEmpty(),
             updatableChangelogUrl = targetUpdate?.changelogUrl,
             updatableChangelogText = targetUpdate?.changelogText,
 
             author = author ?: trustInfo.developer,
             collaborators = collaborators,
-            description = description,
+            description = buildDescription(description, manifest),
+            manifest = manifest,
+            certificateSha256 = latestRelease?.certificateSha256.orEmpty(),
 
             packageSize = local?.packageSize ?: 0L,
 
@@ -306,7 +311,12 @@ class PluginCenterViewModel : ViewModel() {
         }
 
         val enabledState = if (enabled) PluginEnabledState.READY else PluginEnabledState.DISABLED
-        val lastError = if (trustInfo.authorizedState == PluginAuthorizedState.REQUIRED) PluginError(PluginErrorCode.NOT_AUTHORIZED) else null
+        val lastError = when (trustInfo.authorizedState) {
+            PluginAuthorizedState.REQUIRED -> PluginError(PluginErrorCode.SIGNATURE_UNTRUSTED)
+            PluginAuthorizedState.DENIED -> PluginError(PluginErrorCode.NOT_AUTHORIZED)
+            else -> null
+        }
+        val manifest = PluginCapabilityManifest(pluginType = "legacy")
 
         return PluginCenterItem(
             title = local.title,
@@ -321,12 +331,15 @@ class PluginCenterViewModel : ViewModel() {
             updatableApkUrl = null,
             updatableApkSha256 = null,
             updatableApkSizeBytes = null,
+            updatableCertificateSha256 = emptyList(),
             updatableChangelogUrl = null,
             updatableChangelogText = null,
 
             author = local.author ?: trustInfo.developer,
             collaborators = emptyList(),
-            description = local.description,
+            description = buildDescription(local.description, manifest),
+            manifest = manifest,
+            certificateSha256 = emptyList(),
 
             packageSize = local.packageSize,
 
@@ -349,6 +362,14 @@ class PluginCenterViewModel : ViewModel() {
             isOfficialVerified = trustInfo.isOfficial,
             canActivate = false,
         )
+    }
+
+    private fun buildDescription(description: String?, manifest: PluginCapabilityManifest): String? {
+        val lines = listOfNotNull(
+            description?.takeIf { it.isNotBlank() },
+            manifest.compactSummary(),
+        )
+        return lines.takeIf { it.isNotEmpty() }?.joinToString("\n")
     }
 
     companion object {

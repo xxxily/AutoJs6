@@ -43,6 +43,8 @@ import io.reactivex.schedulers.Schedulers;
 import net.dongliu.apk.parser.ApkFile;
 import net.dongliu.apk.parser.bean.ApkMeta;
 import org.autojs.autojs.apkbuilder.ApkBuilder;
+import org.autojs.autojs.apkbuilder.ProjectBuildPreflight;
+import org.autojs.autojs.apkbuilder.ProjectBuildPreflightReport;
 import org.autojs.autojs.apkbuilder.keystore.KeyStore;
 import org.autojs.autojs.core.pref.Language;
 import org.autojs.autojs.external.fileprovider.AppFileProvider;
@@ -2174,7 +2176,17 @@ public class BuildActivity extends BaseActivity implements ApkBuilder.ProgressCa
             return;
         }
         saveCurrentBuildProfileSilently();
-        doBuildingApk();
+        ProjectConfig projectConfig = determineProjectConfig();
+        ProjectBuildPreflightReport preflightReport = ProjectBuildPreflight.run(projectConfig);
+        if (preflightReport.hasErrors()) {
+            showBuildPreflightDialog(preflightReport, false, null);
+            return;
+        }
+        if (preflightReport.hasWarnings()) {
+            showBuildPreflightDialog(preflightReport, true, () -> doBuildingApk(projectConfig, preflightReport));
+            return;
+        }
+        doBuildingApk(projectConfig, preflightReport);
     }
 
     private boolean checkInputs() {
@@ -2298,6 +2310,29 @@ public class BuildActivity extends BaseActivity implements ApkBuilder.ProgressCa
                 .show();
     }
 
+    private void showBuildPreflightDialog(
+            @NonNull ProjectBuildPreflightReport report,
+            boolean allowContinue,
+            @Nullable Runnable onContinue
+    ) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                .title(allowContinue ? R.string.text_build_preflight_warnings : R.string.text_build_preflight_failed)
+                .content(report.toDisplayString())
+                .negativeText(R.string.dialog_button_dismiss)
+                .negativeColorRes(R.color.dialog_button_default);
+        if (allowContinue) {
+            builder.positiveText(R.string.dialog_button_continue)
+                    .positiveColorRes(R.color.dialog_button_warn)
+                    .onPositive((dialog, which) -> {
+                        if (onContinue != null) {
+                            onContinue.run();
+                        }
+                    });
+        }
+        DialogUtils.widgetThemeColor(builder);
+        builder.show();
+    }
+
     // Determine whether a character is a wide glyph.
     // zh-CN: 判断字符是否是广范围双宽字符.
     private boolean isWideCharacter(char c) {
@@ -2318,8 +2353,8 @@ public class BuildActivity extends BaseActivity implements ApkBuilder.ProgressCa
     }
 
     @SuppressLint("CheckResult")
-    private void doBuildingApk() {
-        ProjectConfig projectConfig = determineProjectConfig();
+    private void doBuildingApk(@NonNull ProjectConfig projectConfig, @Nullable ProjectBuildPreflightReport preflightReport) {
+        ProjectBuildPreflight.applyReportToConfig(projectConfig, preflightReport != null ? preflightReport : ProjectBuildPreflight.run(projectConfig));
         File buildPath = new File(getCacheDir(), "build/");
         File outApk = new File(mOutputPathView.getText().toString(),
                 String.format("%s_v%s.apk", projectConfig.getName(), projectConfig.getVersionName()));
@@ -2339,7 +2374,7 @@ public class BuildActivity extends BaseActivity implements ApkBuilder.ProgressCa
         Observable.fromCallable(() -> {
                     mBuildThread = Thread.currentThread();
                     try {
-                        return callApkBuilder(buildPath, outApk, projectConfig);
+                        return callApkBuilder(buildPath, outApk, projectConfig, preflightReport);
                     } finally {
                         mBuildThread = null;
                     }
@@ -2504,11 +2539,17 @@ public class BuildActivity extends BaseActivity implements ApkBuilder.ProgressCa
         return result;
     }
 
-    private ApkBuilder callApkBuilder(File buildPath, File outApk, ProjectConfig projectConfig) throws Exception {
+    private ApkBuilder callApkBuilder(
+            File buildPath,
+            File outApk,
+            ProjectConfig projectConfig,
+            @Nullable ProjectBuildPreflightReport preflightReport
+    ) throws Exception {
         InputStream templateApk = getAssets().open(TEMPLATE_APK_NAME);
         return new ApkBuilder(templateApk, outApk, buildPath.getPath())
                 .setProgressCallback(BuildActivity.this)
                 .setCancelSignal(mBuildCancelled)
+                .setBuildPreflightReport(preflightReport)
                 .prepare(BuildActivity.this)
                 .withConfig(BuildActivity.this, projectConfig)
                 .build(BuildActivity.this)

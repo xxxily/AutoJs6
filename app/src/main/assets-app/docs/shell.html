@@ -262,6 +262,7 @@
 <li>通过<code>java.lang.Runtime.exec</code>执行(shell, Tap, Home等函数)</li>
 <li>通过内嵌终端模拟器执行(RootAutomator, Shell等对象)</li>
 </ul>
+<p><strong><code>6.7.3+</code></strong> 项目脚本可在 <code>project.json</code> 的 <code>capabilities</code> 声明 <code>shell</code> 或 <code>root</code>, 并用 <code>riskPolicy</code> / <code>privilegedPolicy</code> 控制未声明高风险命令的提示或拒绝. <code>shell(cmd, true)</code>、Root Shell 与 Shell 对象执行会写入 <code>capabilities.audit()</code> 审计记录.</p>
 <h1>shell函数<span><a class="mark" href="#shell_shell_1" id="shell_shell_1">#</a></span></h1>
 <h2>shell(cmd[, root])<span><a class="mark" href="#shell_shell_cmd_root" id="shell_shell_cmd_root">#</a></span></h2>
 <div class="signature"><ul>
@@ -275,7 +276,7 @@
 <li>error { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 运行的错误信息(stderr输出结果). 例如执行需要root权限的命令但没有授予root权限会返回错误信息&quot;Permission denied&quot;.</li>
 </ul>
 <p>示例(强制停止微信) ：</p>
-<pre><code>var result = shell(&quot;am force-stop com.tencent.mm&quot;, true);
+<pre><code>var result = shell(&quot;id&quot;, true);
 log(result);
 console.show();
 if(result.code == 0){
@@ -292,7 +293,7 @@ if(result.code == 0){
 </div><p>Shell对象的&quot;构造函数&quot;.</p>
 <pre><code>var sh = new Shell(true);
 //强制停止微信
-sh.exec(&quot;am force-stop com.tencent.mm&quot;);
+sh.exec(&quot;echo AutoJs6&quot;);
 sh.exit();
 </code></pre><h2>Shell.exec(cmd)<span><a class="mark" href="#shell_shell_exec_cmd" id="shell_shell_exec_cmd">#</a></span></h2>
 <div class="signature"><ul>

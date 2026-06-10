@@ -247,7 +247,7 @@ class JsonSocketClient(service: DevPluginService?, private val ctx: Context, pri
                     }
                 }
 
-                else -> service.responseHandler.handle(obj)
+                else -> service.responseHandler.handle(obj, this)
             }
         } catch (e: Exception) {
             e.printStackTrace()

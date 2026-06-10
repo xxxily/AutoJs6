@@ -65,6 +65,13 @@ public class ScreenCapturer {
     public static final int ORIENTATION_PORTRAIT = Configuration.ORIENTATION_PORTRAIT; // 2
     public static final int ORIENTATION_NONE = -1;
 
+    public static final String FAILURE_NO_FRAME = "no_frame";
+    public static final String FAILURE_UNAUTHORIZED = "unauthorized";
+    public static final String FAILURE_ORIENTATION_MISMATCH = "orientation_mismatch";
+    public static final String FAILURE_IMAGE_READER_EXCEPTION = "image_reader_exception";
+    public static final String FAILURE_MEDIA_PROJECTION_INVALID = "media_projection_invalid";
+    public static final String FAILURE_SERVICE_NOT_STARTED = "service_not_started";
+
     private volatile Image mUnderUsingImage;
     private final int mScreenDensity;
     private final Handler mHandler;
@@ -80,6 +87,7 @@ public class ScreenCapturer {
     private int mPixelFormat = PixelFormat.RGBA_8888;
     private volatile boolean mImageAvailable = false;
     private boolean mShouldRefreshVirtualDisplayOnNextCapture = false;
+    private volatile RecoveryEvent mLastRecoveryEvent;
 
     public ScreenCapturer(Context context, Intent data, Options options, Handler handler) {
         mOptions = options;
@@ -162,6 +170,30 @@ public class ScreenCapturer {
             return MessageFormat.format(
                     "Options'{'width={0}, height={1}, orientation={2}, density={3}, isAsync={4}'}'",
                     width, height, orientation, density, isAsync);
+        }
+    }
+
+    public record CaptureFailure(@NonNull String category, @NonNull String message, @NonNull String suggestion) {
+    }
+
+    public record RecoveryEvent(
+            @NonNull String reason,
+            int orientation,
+            int width,
+            int height,
+            long durationMillis,
+            long uptimeMillis
+    ) {
+    }
+
+    public record CaptureResult(
+            @Nullable Image image,
+            @Nullable CaptureFailure failure,
+            long durationMillis,
+            @Nullable RecoveryEvent recoveryEvent
+    ) {
+        public boolean isSuccess() {
+            return image != null;
         }
     }
 
@@ -282,6 +314,8 @@ public class ScreenCapturer {
     }
 
     private void refreshVirtualDisplay(int orientation, boolean isInit) {
+        long started = SystemClock.uptimeMillis();
+        int previousOrientation = mAppliedOrientation;
         AtomicInteger width = new AtomicInteger();
         AtomicInteger height = new AtomicInteger();
         if (orientation == ORIENTATION_NONE) {
@@ -316,6 +350,7 @@ public class ScreenCapturer {
             mVirtualDisplay = null;
             initVirtualDisplay(width.get(), height.get(), mScreenDensity);
             mAppliedOrientation = orientation;
+            recordRecoveryEvent("orientation_recreate", orientation, width.get(), height.get(), started);
             return;
         }
 
@@ -323,6 +358,21 @@ public class ScreenCapturer {
         mVirtualDisplay.setSurface(mImageReader.getSurface());
         mVirtualDisplay.resize(width.get(), height.get(), mScreenDensity);
         mAppliedOrientation = orientation;
+        if (!isInit) {
+            String reason = orientation != previousOrientation ? "orientation_resize" : "surface_refresh";
+            recordRecoveryEvent(reason, orientation, width.get(), height.get(), started);
+        }
+    }
+
+    private void recordRecoveryEvent(String reason, int orientation, int width, int height, long started) {
+        mLastRecoveryEvent = new RecoveryEvent(
+                reason,
+                orientation,
+                width,
+                height,
+                Math.max(0, SystemClock.uptimeMillis() - started),
+                SystemClock.uptimeMillis()
+        );
     }
 
     private void setImageListener(Handler handler) {
@@ -364,32 +414,68 @@ public class ScreenCapturer {
 
     @Nullable
     public Image capture() {
+        return captureDetailed(CAPTURE_TOTAL_TIMEOUT_MS).image();
+    }
+
+    @NonNull
+    public CaptureResult captureDetailed(long timeoutMillis) {
+        final long start = SystemClock.uptimeMillis();
+        long waitBudget = timeoutMillis > 0 ? timeoutMillis : CAPTURE_TOTAL_TIMEOUT_MS;
         if (mOptions.isAsync) {
-            throw new IllegalStateException("capture() is not available in async mode");
+            return failed(
+                    start,
+                    FAILURE_SERVICE_NOT_STARTED,
+                    "Synchronous capture is not available in async mode",
+                    "Open the capture session without async mode or call images.requestScreenCapture() before using nextFrame()."
+            );
+        }
+        if (mMediaProjection == null) {
+            return failed(
+                    start,
+                    FAILURE_MEDIA_PROJECTION_INVALID,
+                    "MediaProjection is not available",
+                    "Request screen capture permission again with images.requestScreenCapture()."
+            );
+        }
+        if (mVirtualDisplay == null || mImageReader == null) {
+            return failed(
+                    start,
+                    FAILURE_SERVICE_NOT_STARTED,
+                    "Screen capture virtual display is not started",
+                    "Restart screen capture permission or call images.stopScreenCapture() before requesting it again."
+            );
         }
 
-        final long start = SystemClock.uptimeMillis();
-        final long deadline = start + CAPTURE_TOTAL_TIMEOUT_MS;
+        final long deadline = start + waitBudget;
+        CaptureFailure lastFailure = new CaptureFailure(
+                FAILURE_NO_FRAME,
+                "No screen frame is available before timeout",
+                "Keep the target screen visible, then retry with a larger timeout or request screen capture permission again."
+        );
 
         // For AUTO mode, do a best-effort self-check before acquiring the frame.
         // zh-CN: AUTO 模式下, 在取帧之前做一次尽力自检, 发现画布尺寸不匹配则主动刷新 VirtualDisplay.
-        if (mOrientation == ORIENTATION_AUTO) {
-            refreshDetectedOrientation();
+        try {
+            if (mOrientation == ORIENTATION_AUTO) {
+                refreshDetectedOrientation();
 
-            int expectedWidth = getExpectedWidthByDetectedOrientation();
-            int expectedHeight = getExpectedHeightByDetectedOrientation();
+                int expectedWidth = getExpectedWidthByDetectedOrientation();
+                int expectedHeight = getExpectedHeightByDetectedOrientation();
 
-            // ImageReader size represents the "canvas" size of VirtualDisplay.
-            // zh-CN: ImageReader 尺寸代表 VirtualDisplay 的 "画布" 尺寸.
-            if (mImageReader != null
-                    && (mImageReader.getWidth() != expectedWidth || mImageReader.getHeight() != expectedHeight)) {
+                // ImageReader size represents the "canvas" size of VirtualDisplay.
+                // zh-CN: ImageReader 尺寸代表 VirtualDisplay 的 "画布" 尺寸.
+                if (mImageReader != null
+                        && (mImageReader.getWidth() != expectedWidth || mImageReader.getHeight() != expectedHeight)) {
+                    refreshVirtualDisplay(mDetectedOrientation, false);
+                }
+            }
+
+            if (mShouldRefreshVirtualDisplayOnNextCapture) {
+                mShouldRefreshVirtualDisplayOnNextCapture = false;
                 refreshVirtualDisplay(mDetectedOrientation, false);
             }
-        }
-
-        if (mShouldRefreshVirtualDisplayOnNextCapture) {
-            mShouldRefreshVirtualDisplayOnNextCapture = false;
-            refreshVirtualDisplay(mDetectedOrientation, false);
+        } catch (RuntimeException ex) {
+            return failed(start, classifyThrowable(ex));
         }
 
         // Retry a few times to skip transitional frames after resizing/switching,
@@ -402,21 +488,47 @@ public class ScreenCapturer {
             // Early self-healing in AUTO mode to avoid spending the whole budget waiting on a bad pipeline.
             // zh-CN: AUTO 模式下尽早自愈, 避免把整个预算都耗在一个已失效的管线 (如 BufferQueue abandoned) 上.
             if (mOrientation == ORIENTATION_AUTO && (now - start) >= EARLY_HEALING_AT_MS) {
-                refreshDetectedOrientation();
-                refreshVirtualDisplay(mDetectedOrientation, false);
+                try {
+                    refreshDetectedOrientation();
+                    refreshVirtualDisplay(mDetectedOrientation, false);
+                } catch (RuntimeException ex) {
+                    return failed(start, classifyThrowable(ex));
+                }
             }
 
-            Image acquireLatestImage = acquireLatestImage(deadline);
+            Image acquireLatestImage;
+            try {
+                acquireLatestImage = acquireLatestImage(deadline);
+            } catch (RuntimeException ex) {
+                return failed(start, classifyThrowable(ex));
+            }
             if (acquireLatestImage == null) continue;
 
             if (mOrientation == ORIENTATION_AUTO) {
                 int expectedWidth = getExpectedWidthByDetectedOrientation();
                 int expectedHeight = getExpectedHeightByDetectedOrientation();
                 if (acquireLatestImage.getWidth() != expectedWidth || acquireLatestImage.getHeight() != expectedHeight) {
+                    int actualWidth = acquireLatestImage.getWidth();
+                    int actualHeight = acquireLatestImage.getHeight();
                     // Drop mismatched frame and refresh display once more.
                     // zh-CN: 丢弃尺寸不匹配的帧, 并再次刷新 display.
                     acquireLatestImage.close();
-                    refreshVirtualDisplay(mDetectedOrientation, false);
+                    lastFailure = new CaptureFailure(
+                            FAILURE_ORIENTATION_MISMATCH,
+                            MessageFormat.format(
+                                    "Captured frame size {0}x{1} does not match expected orientation size {2}x{3}",
+                                    actualWidth,
+                                    actualHeight,
+                                    expectedWidth,
+                                    expectedHeight
+                            ),
+                            "Wait for orientation recovery or reopen the capture session after rotation."
+                    );
+                    try {
+                        refreshVirtualDisplay(mDetectedOrientation, false);
+                    } catch (RuntimeException ex) {
+                        return failed(start, classifyThrowable(ex));
+                    }
                     continue;
                 }
             }
@@ -425,25 +537,79 @@ public class ScreenCapturer {
                 mUnderUsingImage.close();
             }
             mUnderUsingImage = acquireLatestImage;
-            return mUnderUsingImage;
+            return new CaptureResult(mUnderUsingImage, null, SystemClock.uptimeMillis() - start, consumeLastRecoveryEvent());
         }
 
         // If timed out, force a best-effort rebuild once to recover from "no-frame" bad state.
         // zh-CN: 若超时, 尝试强制重建一次以从 "无帧" 坏状态中自愈.
         if (mOrientation == ORIENTATION_AUTO) {
-            refreshDetectedOrientation();
-            if (mVirtualDisplay != null) {
-                mVirtualDisplay.release();
-                mVirtualDisplay = null;
+            try {
+                refreshDetectedOrientation();
+                if (mVirtualDisplay != null) {
+                    mVirtualDisplay.release();
+                    mVirtualDisplay = null;
+                }
+                long rebuildStarted = SystemClock.uptimeMillis();
+                initVirtualDisplay(getExpectedWidthByDetectedOrientation(), getExpectedHeightByDetectedOrientation(), mScreenDensity);
+                mAppliedOrientation = mDetectedOrientation;
+                recordRecoveryEvent(
+                        "timeout_rebuild",
+                        mDetectedOrientation,
+                        getExpectedWidthByDetectedOrientation(),
+                        getExpectedHeightByDetectedOrientation(),
+                        rebuildStarted
+                );
+                mShouldRefreshVirtualDisplayOnNextCapture = false;
+            } catch (RuntimeException ex) {
+                return failed(start, classifyThrowable(ex));
             }
-            initVirtualDisplay(getExpectedWidthByDetectedOrientation(), getExpectedHeightByDetectedOrientation(), mScreenDensity);
-            mAppliedOrientation = mDetectedOrientation;
-            mShouldRefreshVirtualDisplayOnNextCapture = false;
         }
 
         // Do not return stale cached image when no valid frame is available.
         // zh-CN: 当无法获取到有效帧时, 不要返回旧缓存帧.
-        return null;
+        return failed(start, lastFailure);
+    }
+
+    @Nullable
+    private RecoveryEvent consumeLastRecoveryEvent() {
+        RecoveryEvent event = mLastRecoveryEvent;
+        mLastRecoveryEvent = null;
+        return event;
+    }
+
+    @NonNull
+    private CaptureResult failed(long start, @NonNull CaptureFailure failure) {
+        return new CaptureResult(null, failure, SystemClock.uptimeMillis() - start, consumeLastRecoveryEvent());
+    }
+
+    @NonNull
+    private CaptureResult failed(long start, @NonNull String category, @NonNull String message, @NonNull String suggestion) {
+        return failed(start, new CaptureFailure(category, message, suggestion));
+    }
+
+    @NonNull
+    private CaptureFailure classifyThrowable(@NonNull RuntimeException ex) {
+        String message = ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage();
+        String lower = message.toLowerCase();
+        if (ex instanceof SecurityException || lower.contains("mediaprojection") || lower.contains("media projection")) {
+            return new CaptureFailure(
+                    FAILURE_MEDIA_PROJECTION_INVALID,
+                    message,
+                    "Request screen capture permission again and keep the foreground service alive."
+            );
+        }
+        if (lower.contains("imagereader") || lower.contains("image reader") || lower.contains("bufferqueue") || lower.contains("abandoned")) {
+            return new CaptureFailure(
+                    FAILURE_IMAGE_READER_EXCEPTION,
+                    message,
+                    "Reopen the capture session; if it repeats after rotation, call images.stopScreenCapture() and request permission again."
+            );
+        }
+        return new CaptureFailure(
+                FAILURE_IMAGE_READER_EXCEPTION,
+                message,
+                "Retry after a short delay; reopen screen capture if the error persists."
+        );
     }
 
     public Options getOptions() {

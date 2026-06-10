@@ -176,6 +176,9 @@
             <h2>目录</h2>
             <ul>
 <li><span class="stability_undefined"><a href="#tasks_tasks">任务 (Tasks)</a></span></li>
+<li><span class="stability_undefined"><a href="#tasks_reliability_options">定时任务可靠性选项</a></span></li>
+<li><span class="stability_undefined"><a href="#tasks_querytimedtaskruns_options">tasks.queryTimedTaskRuns(options)</a></span></li>
+<li><span class="stability_undefined"><a href="#tasks_querytimedtaskqueue">tasks.queryTimedTaskQueue()</a></span></li>
 </ul>
 
         </div>
@@ -183,8 +186,50 @@
         <div id="apicontent">
             <h1>任务 (Tasks)<span><a class="mark" href="#tasks_tasks" id="tasks_tasks">#</a></span></h1>
 <hr>
-<p style="font: italic 1em sans-serif; color: #78909C">此章节待补充或完善...</p>
-<p style="font: italic 1em sans-serif; color: #78909C">Marked by SuperMonster003 on Oct 22, 2022.</p>
+<p><code>tasks</code> 模块用于创建、查询、更新和移除 AutoJs6 的定时任务与广播任务.</p>
+<p>定时任务由 AlarmManager、WorkManager 或 android-job 后端触发. AutoJs6 会记录每次触发的运行历史, 包括任务 ID、脚本路径、执行 ID、计划时间、实际触发时间、启动状态、结束状态、异常、耗时、调度后端、设备状态、降级原因和下次计划时间.</p>
+
+<h2>定时任务可靠性选项<span><a class="mark" href="#tasks_reliability_options" id="tasks_reliability_options">#</a></span></h2>
+<p><code>addDailyTask(options)</code>、<code>addWeeklyTask(options)</code> 和 <code>addDisposableTask(options)</code> 支持以下可靠性选项:</p>
+<ul>
+<li><code>maxRetries</code> { number } 失败、异常或超时后的最大重试次数, 默认 <code>0</code>, 最大按 <code>10</code> 处理.</li>
+<li><code>retryBackoffMillis</code> / <code>retryBackoff</code> { number } 首次重试退避毫秒数. 后续重试按指数退避增长, 上限 1 小时.</li>
+<li><code>mutex</code> { boolean } 是否按脚本路径启用同脚本互斥, 默认 <code>false</code>.</li>
+<li><code>mutexKey</code> { string } 自定义互斥 key. 设置后即使 <code>mutex</code> 为 <code>false</code> 也会按该 key 互斥.</li>
+<li><code>timeoutMillis</code> / <code>timeout</code> { number } 单次执行超时时间. 超时后运行记录会标记为 <code>timeout</code>, 并尝试停止脚本引擎.</li>
+</ul>
+<pre><code class="lang-js">tasks.addDailyTask({
+    path: './sync.js',
+    time: '08:30',
+    maxRetries: 2,
+    retryBackoffMillis: 30e3,
+    mutex: true,
+    timeoutMillis: 5 * 60e3,
+});
+</code></pre>
+
+<h2>tasks.queryTimedTaskRuns(options)<span><a class="mark" href="#tasks_querytimedtaskruns_options" id="tasks_querytimedtaskruns_options">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>options</code> { Object }</li>
+<li>返回 { Array }</li>
+</ul></div>
+<p>查询定时任务运行历史. <code>options.taskId</code> 或 <code>options.id</code> 可过滤单个任务, <code>options.limit</code> 控制返回数量, 默认 <code>50</code>, 范围 <code>1..500</code>.</p>
+<p>返回项包含 <code>taskId</code>、<code>executionId</code>、<code>scriptPath</code>、<code>eventType</code>、<code>scheduledAt</code>、<code>triggeredAt</code>、<code>startedAt</code>、<code>finishedAt</code>、<code>launchStatus</code>、<code>finishStatus</code>、<code>exception</code>、<code>duration</code>、<code>backend</code>、<code>deviceState</code>、<code>degradationReason</code>、<code>nextScheduledAt</code>、<code>retryAttempt</code>、<code>maxRetries</code>、<code>backoffMillis</code>、<code>mutexKey</code> 和 <code>timeoutMillis</code>.</p>
+<pre><code class="lang-js">var runs = tasks.queryTimedTaskRuns({ taskId: 1, limit: 20 });
+runs.forEach(function (run) {
+    console.log(run.finishStatus, run.exception, run.backend, run.duration);
+});
+</code></pre>
+
+<h2>tasks.queryTimedTaskQueue()<span><a class="mark" href="#tasks_querytimedtaskqueue" id="tasks_querytimedtaskqueue">#</a></span></h2>
+<div class="signature"><ul>
+<li>返回 { Array }</li>
+</ul></div>
+<p>查询当前定时任务队列. 返回项包含 <code>taskId</code>、<code>scriptPath</code>、<code>nextScheduledAt</code>、<code>scheduled</code>、<code>backend</code>、<code>delay</code>、<code>interval</code>、<code>loopTimes</code>、<code>maxRetries</code>、<code>retryBackoffMillis</code>、<code>mutex</code>、<code>mutexKey</code> 和 <code>timeoutMillis</code>.</p>
+<pre><code class="lang-js">tasks.queryTimedTaskQueue().forEach(function (item) {
+    console.log(item.taskId, item.backend, new Date(item.nextScheduledAt));
+});
+</code></pre>
 
 <hr>
 

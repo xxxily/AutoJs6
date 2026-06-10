@@ -19,6 +19,7 @@ import com.reandroid.arsc.chunk.TableBlock
 import org.autojs.autojs.AbstractAutoJs.Companion.isInrt
 import org.autojs.autojs.apkbuilder.keystore.AESUtils
 import org.autojs.autojs.app.GlobalAppContext
+import org.autojs.autojs.capability.CapabilityRegistry
 import org.autojs.autojs.core.plugin.center.PluginEnableStore
 import org.autojs.autojs.engine.encryption.AdvancedEncryptionStandard
 import org.autojs.autojs.pio.PFiles
@@ -68,6 +69,7 @@ open class ApkBuilder(apkInputStream: InputStream?, private val outApkFile: File
     private var mPendingProjectConfigFile: File? = null
     private var mPendingProjectConfigJson: String? = null
     private var mBundledProjectConfigJson: String? = null
+    private var mBuildPreflightReport: ProjectBuildPreflightReport? = null
 
     private lateinit var mProjectConfig: ProjectConfig
 
@@ -99,6 +101,10 @@ open class ApkBuilder(apkInputStream: InputStream?, private val outApkFile: File
     fun setCancelSignal(cancelSignal: AtomicBoolean?) = also {
         mCancelSignal = cancelSignal
         mApkPackager.setCancelSignal(cancelSignal)
+    }
+
+    fun setBuildPreflightReport(report: ProjectBuildPreflightReport?) = also {
+        mBuildPreflightReport = report
     }
 
     private fun getAssetsRoot(): File =
@@ -350,6 +356,7 @@ open class ApkBuilder(apkInputStream: InputStream?, private val outApkFile: File
             context.getString(R.string.text_processing),
             context.getString(R.string.text_preparing_build_config),
         )
+        config.applyCapabilityManifestPermissions()
         config.also { mProjectConfig = it }.run {
             ensureNotCancelled()
             notifyStepProgress(
@@ -379,6 +386,7 @@ open class ApkBuilder(apkInputStream: InputStream?, private val outApkFile: File
                 context.getString(R.string.text_updating_project_config),
             )
             updateProjectConfig(this)
+            writeBuildDiagnostics(context)
             ensureNotCancelled()
             notifyStepProgress(
                 ProgressStep.BUILD,
@@ -421,6 +429,12 @@ open class ApkBuilder(apkInputStream: InputStream?, private val outApkFile: File
             .setVersionName(config.versionName)
             .setVersionCode(config.versionCode)
             .setPackageName(config.packageName)
+    }
+
+    private fun ProjectConfig.applyCapabilityManifestPermissions() {
+        val mappedPermissions = CapabilityRegistry.manifestPermissionsForCapabilityIds(capabilities)
+        if (mappedPermissions.isEmpty()) return
+        permissions = (permissions + mappedPermissions).distinct()
     }
 
     private fun retrieveSplashThemeResources(launchConfig: LaunchConfig) {
@@ -479,6 +493,7 @@ open class ApkBuilder(apkInputStream: InputStream?, private val outApkFile: File
                         .setAbis(ArrayList(config.abis))
                         .setLibs(ArrayList(config.libs))
                         .setPermissions(ArrayList(config.permissions))
+                        .setCapabilitySecurityFrom(config)
                         .setSignatureScheme(config.signatureScheme)
                     sourceProjectConfig.launchConfig = config.launchConfig
                     val nextBuildInfo = BuildInfo.generate(sourceProjectConfig.buildInfo.buildNumber + 1)
@@ -504,6 +519,7 @@ open class ApkBuilder(apkInputStream: InputStream?, private val outApkFile: File
                     .setAbis(ArrayList(config.abis))
                     .setLibs(ArrayList(config.libs))
                     .setPermissions(ArrayList(config.permissions))
+                    .setCapabilitySecurityFrom(config)
                     .setSignatureScheme(config.signatureScheme)
                 newProjectConfig.launchConfig = config.launchConfig
                 newProjectConfig.setBuildInfo(BuildInfo.generate(newProjectConfig.versionCode.toLong()))
@@ -516,12 +532,25 @@ open class ApkBuilder(apkInputStream: InputStream?, private val outApkFile: File
 
         mKey = MD5Utils.md5(projectConfig.run { packageName + versionName + mainScriptFileName })
         mInitVector = MD5Utils.md5(projectConfig.run { buildInfo.buildId + name }).take(16)
+        mProjectConfig = projectConfig
         mBundledProjectConfigJson = projectConfig.toJson(true)
         Lib.entries.forEach { entry ->
             if (config.libs.contains(entry.label)) {
                 includeLibraryContributions(entry)
             }
         }
+    }
+
+    private fun writeBuildDiagnostics(context: Context) {
+        val report = mBuildPreflightReport ?: ProjectBuildPreflight.run(mProjectConfig)
+        val diagnosticsFile = File(buildPath, "assets/${ProjectBuildPreflight.DIAGNOSTICS_ASSET_PATH}")
+        diagnosticsFile.parentFile?.let { parent -> if (!parent.exists()) parent.mkdirs() }
+        notifyStepProgress(
+            ProgressStep.BUILD,
+            context.getString(R.string.text_writing_build_diagnostics),
+            diagnosticsFile.path,
+        )
+        diagnosticsFile.writeText(report.toJson(mProjectConfig).toString(2))
     }
 
     // Commit project config changes only after a successful build.

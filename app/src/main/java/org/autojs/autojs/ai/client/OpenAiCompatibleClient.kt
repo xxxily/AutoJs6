@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import org.autojs.autojs.ai.copilot.AiPrivacyRedactor
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -198,7 +199,7 @@ class OpenAiCompatibleClient {
     }
 
     private fun classifyHttpError(code: Int, body: String): AiClientException {
-        val message = sanitizeErrorMessage(extractErrorMessage(body).ifBlank { "HTTP $code" })
+        val message = AiPrivacyRedactor.redact(extractErrorMessage(body).ifBlank { "HTTP $code" }).take(800)
         val errorCode = when (code) {
             401, 403 -> AiErrorCode.AUTH_FAILED
             404 -> AiErrorCode.NOT_FOUND
@@ -213,13 +214,6 @@ class OpenAiCompatibleClient {
         val root = runCatching { gson.fromJson(body, JsonObject::class.java) }.getOrNull() ?: return body.take(240)
         val error = root.getAsJsonObject("error") ?: return body.take(240)
         return error.getStringOrNull("message") ?: body.take(240)
-    }
-
-    private fun sanitizeErrorMessage(message: String): String {
-        return message
-            .replace(Regex("Bearer\\s+[A-Za-z0-9._\\-]+"), "Bearer ****")
-            .replace(Regex("sk-[A-Za-z0-9._\\-]+"), "sk-****")
-            .take(800)
     }
 
     companion object {

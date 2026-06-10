@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import org.autojs.autojs.AutoJs
 import org.autojs.autojs.execution.ExecutionConfig
+import org.autojs.autojs.execution.ScriptExecution
+import org.autojs.autojs.execution.ScriptExecutionListener
 import org.autojs.autojs.model.script.PathChecker
 import org.autojs.autojs.script.JavaScriptFileSource
 import org.autojs.autojs.script.ScriptSource
@@ -32,7 +34,10 @@ object ScriptIntents {
     fun isTaskerJsonObjectValid(json: JSONObject) = json.has(EXTRA_KEY_PATH) || json.has(EXTRA_KEY_PRE_EXECUTE_SCRIPT)
 
     @JvmStatic
-    fun handleIntent(context: Context?, intent: Intent) {
+    fun handleIntent(context: Context?, intent: Intent): ScriptExecution? = handleIntent(context, intent, null)
+
+    @JvmStatic
+    fun handleIntent(context: Context?, intent: Intent, listener: ScriptExecutionListener?): ScriptExecution? {
         var path = getPath(intent)
         var script = intent.getStringExtra(EXTRA_KEY_PRE_EXECUTE_SCRIPT)
 
@@ -68,8 +73,9 @@ object ScriptIntents {
                     File(path).parent?.let { config.workingDirectory = it }
                 }
             }
-            source?.let { AutoJs.instance.scriptEngineService.execute(it, config) }
+            return source?.let { AutoJs.instance.scriptEngineService.execute(it, listener, config) }
         }
+        return null
     }
 
     private fun getPath(intent: Intent) = intent.data?.path ?: intent.getStringExtra(EXTRA_KEY_PATH)

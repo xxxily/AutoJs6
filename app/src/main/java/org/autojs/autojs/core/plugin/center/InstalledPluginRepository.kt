@@ -33,7 +33,9 @@ class InstalledPluginRepository {
         val lastUpdateTime: Long?,
         val icon: Drawable?,
         val pluginInfo: PluginInfo?,
+        val manifest: PluginCapabilityManifest,
         val bindError: Throwable?,
+        val bindElapsedMillis: Long?,
         val isStopped: Boolean,
     )
 
@@ -77,7 +79,9 @@ class InstalledPluginRepository {
                 lastUpdateTime = lastUpdateTime,
                 icon = icon,
                 pluginInfo = d.pluginInfo,
+                manifest = PluginCapabilityManifest.fromOcrPluginInfo(d.pluginInfo, serviceInfo.permission),
                 bindError = d.error,
+                bindElapsedMillis = d.probeElapsedMillis,
                 isStopped = isStopped,
             )
         }

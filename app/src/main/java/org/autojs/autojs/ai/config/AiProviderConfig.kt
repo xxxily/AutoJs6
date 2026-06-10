@@ -56,5 +56,9 @@ data class AiAssistantSettings(
     var allowFullFileContext: Boolean = true,
     var allowProjectStructure: Boolean = true,
     var allowRecentLogs: Boolean = true,
+    var allowClipboardContext: Boolean = false,
+    var allowUiSnapshotContext: Boolean = false,
+    var allowScreenCaptureContext: Boolean = false,
+    var allowOcrContext: Boolean = false,
     var highRiskConfirmation: Boolean = true,
 )

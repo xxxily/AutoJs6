@@ -70,6 +70,7 @@
 <li><a class="nav-ui" href="ui.html">UI - 用户界面</a></li>
 <li><a class="nav-web" href="web.html">Web - 万维网</a></li>
 <li><a class="nav-http active" href="http.html">HTTP</a></li>
+<li><a class="nav-ipc" href="ipc.html">IPC - 脚本间通信</a></li>
 <li><a class="nav-base64" href="base64.html">Base64</a></li>
 <li><a class="nav-crypto" href="crypto.html">Crypto - 密文</a></li>
 <li><a class="nav-opencc" href="opencc.html">OpenCC - 中文转换</a></li>
@@ -196,6 +197,14 @@
 </li>
 <li><span class="stability_undefined"><a href="#http_m_request">[m] request</a></span><ul>
 <li><span class="stability_undefined"><a href="#http_request_url_options_callback">request(url, options?, callback?)</a></span></li>
+</ul>
+</li>
+<li><span class="stability_undefined"><a href="#http_m_client">[m] client</a></span><ul>
+<li><span class="stability_undefined"><a href="#http_client_name_options">client(name, options?)</a></span></li>
+</ul>
+</li>
+<li><span class="stability_undefined"><a href="#http_m_download">[m] download</a></span><ul>
+<li><span class="stability_undefined"><a href="#http_download_url_path_options">download(url, path, options?)</a></span></li>
 </ul>
 </li>
 <li><span class="stability_undefined"><a href="#http_m_buildrequest">[m] buildRequest</a></span><ul>
@@ -388,6 +397,55 @@ log(res.body.string());
 <li><code>body</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } | { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">Array</a> } | { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">Function</a> } HTTP请求的内容. 可以是一个字符串, 也可以是一个字节数组；或者是一个以<a href="https://github.com/square/okio/blob/master/okio/src/main/java/okio/BufferedSink.java/">BufferedSink</a>为参数的函数.</li>
 </ul>
 <p>该函数是get, post, postJson等函数的基础函数. 因此除非是PUT, DELETE等请求, 或者需要更高定制的HTTP请求, 否则直接使用get, post, postJson等函数会更加方便.</p>
+<h2>[m] client<span><a class="mark" href="#http_m_client" id="http_m_client">#</a></span></h2>
+<h3>client(name, options?)<span><a class="mark" href="#http_client_name_options" id="http_client_name_options">#</a></span></h3>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>name</code> { <span class="type">string</span> } 命名 HTTP client 名称.</li>
+<li><code>options</code> { <span class="type">Object</span> } 可选配置. 省略时返回已有配置摘要.</li>
+<li><ins><strong>returns</strong></ins> { <span class="type">Object</span> } 配置摘要.</li>
+</ul>
+</div><p>声明并复用命名 HTTP client. 可配置 <code>timeout</code>, <code>maxRetries</code>, <code>headers</code>/<code>defaultHeaders</code>, <code>interceptors</code>, <code>pins</code>/<code>certificatePins</code>, <code>allowedHosts</code>, <code>followRedirects</code>.</p>
+<pre><code class="lang-js">http.client('api', {
+    timeout: 15000,
+    maxRetries: 1,
+    headers: { 'X-Agent': 'AutoJs6' },
+    allowedHosts: ['api.example.com'],
+    interceptors: [
+        { type: 'bearer', value: 'token' },
+        { type: 'query', name: 'from', value: 'autojs6' }
+    ],
+    pins: {
+        'api.example.com': ['sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=']
+    }
+});
+
+let res = http.get('https://api.example.com/ping', { client: 'api' });
+log(res.statusCode);
+</code></pre>
+<p>辅助方法: <code>http.clients()</code> 返回所有命名 client 摘要, <code>http.removeClient(name)</code> 删除命名 client.</p>
+<h2>[m] download<span><a class="mark" href="#http_m_download" id="http_m_download">#</a></span></h2>
+<h3>download(url, path, options?)<span><a class="mark" href="#http_download_url_path_options" id="http_download_url_path_options">#</a></span></h3>
+<p><strong>[v6.7.3新增]</strong></p>
+<div class="signature"><ul>
+<li><code>url</code> { <span class="type">string</span> } 下载地址.</li>
+<li><code>path</code> { <span class="type">string</span> } 保存路径.</li>
+<li><code>options</code> { <span class="type">Object</span> } 可选配置: <code>id</code>, <code>client</code>/<code>clientName</code>, <code>headers</code>, <code>resume</code>, <code>overwrite</code>.</li>
+<li><ins><strong>returns</strong></ins> { <span class="type">Object</span> } 下载任务状态.</li>
+</ul>
+</div><p>创建可查询、暂停、恢复的下载任务. 启用 <code>resume</code> 时使用 <code>.part</code> 临时文件和 HTTP Range 请求续传.</p>
+<pre><code class="lang-js">let task = http.download('https://example.com/big.zip', '/sdcard/Download/big.zip', {
+    id: 'big-zip',
+    client: 'api',
+    resume: true
+});
+
+sleep(1000);
+log(http.downloadStatus('big-zip').progress);
+http.pauseDownload('big-zip');
+http.resumeDownload('big-zip');
+</code></pre>
+<p>辅助方法: <code>http.downloads()</code>, <code>http.downloadStatus(id)</code>, <code>http.pauseDownload(id)</code>, <code>http.resumeDownload(id)</code>, <code>http.cancelDownload(id)</code>.</p>
 <h2>[m] buildRequest<span><a class="mark" href="#http_m_buildrequest" id="http_m_buildrequest">#</a></span></h2>
 <h3>buildRequest(url, options)<span><a class="mark" href="#http_buildrequest_url_options" id="http_buildrequest_url_options">#</a></span></h3>
 <p>... ...</p>

@@ -1,6 +1,7 @@
 package org.autojs.autojs.core.plugin.center
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.core.content.edit
 import kotlinx.coroutines.Dispatchers
@@ -222,18 +223,18 @@ class PluginIndexRepository {
         }
     }
 
-    private fun parseIndexJson(json: String): List<PluginIndexEntry> {
+    internal fun parseIndexJson(json: String): List<PluginIndexEntry> {
         val root = JSONObject(json)
         val list = mutableListOf<PluginIndexEntry>()
 
         // The index structure is { "plugins/items": PluginIndexEntry[] }.
         // zh-CN: 索引结构为 { "plugins/items": PluginIndexEntry[] }.
-        val arr: JSONArray = when {
-            root.has("plugins") -> root.getJSONArray("plugins")
-            root.has("items") -> root.getJSONArray("items")
-            else -> JSONArray().also {
-                Log.w(TAG, "Invalid index JSON: missing plugins/items field.")
-            }
+        val arr: JSONArray = root.optJSONArray("plugins") ?: root.optJSONArray("items") ?: JSONArray().also {
+            Log.w(TAG, "Invalid index JSON: missing plugins/items field.")
+        }
+        val signature = PluginIndexSignature.fromJson(root.optJSONObject("signature"))
+        if (!PluginIndexSecurity.verifyPayloadDigest(arr.toString(), signature)) {
+            throw IllegalStateException("Plugin index signature payload sha256 mismatch.")
         }
 
         for (i in 0 until arr.length()) {
@@ -248,17 +249,25 @@ class PluginIndexRepository {
             val engine = obj.optString("engine").takeIf { it.isNotBlank() }
             val variant = obj.optString("variant").takeIf { it.isNotBlank() }
             val engineId = obj.optString("engineId").takeIf { it.isNotBlank() }
-            val versionName = obj.optString("versionName", "0.0.0")
-            val versionCode = obj.optLong("versionCode", -1L).takeIf { it > 0 }
-            val versionDate = obj.optString("versionDate").takeIf { it.isNotBlank() }
-            val apkUrl = obj.optString("apkUrl").takeIf { it.isNotBlank() }
-            val apkSha256 = obj.optString("apkSha256").takeIf { it.isNotBlank() }
-            val apkSize = obj.optLong("apkSizeBytes", -1L).takeIf { it > 0 }
+            val manifestJson = obj.optJSONObject("manifest")
+                ?: obj.optJSONObject("pluginManifest")
+                ?: obj.optJSONObject("capabilityManifest")
+            val manifest = PluginCapabilityManifest.fromJson(
+                manifestJson ?: obj,
+                fallbackEngine = engine,
+                fallbackVariant = variant,
+                fallbackEngineId = engineId,
+            )
+            val entryCertificatePins = obj.optStringList(
+                "certificateSha256",
+                "certificateSha256Pins",
+                "signingCertificateSha256",
+            )
+            val releases = parseReleases(obj, entryCertificatePins)
 
             list += PluginIndexEntry(
                 packageName = pkg,
-                // TODO M2: 若索引提供 iconUrl 再解析为 Uri.
-                iconUrl = null,
+                iconUrl = obj.optString("iconUrl").takeIf { it.isNotBlank() }?.let { runCatching { Uri.parse(it) }.getOrNull() },
                 title = title,
                 description = desc,
                 author = author,
@@ -266,21 +275,59 @@ class PluginIndexRepository {
                 engine = engine,
                 variant = variant,
                 engineId = engineId,
-                releases = listOf(
-                    PluginIndexRelease(
-                        versionName = versionName,
-                        versionCode = versionCode ?: 0L,
-                        versionDate = versionDate,
-                        apkUrl = apkUrl,
-                        apkSha256 = apkSha256,
-                        apkSizeBytes = apkSize,
-                    ),
-                ),
-                tags = emptyList(),
+                manifest = manifest,
+                releases = releases,
+                tags = obj.optStringList("tags"),
+                indexSignature = signature,
             )
         }
 
         return list
+    }
+
+    private fun parseReleases(obj: JSONObject, entryCertificatePins: List<String>): List<PluginIndexRelease> {
+        val releasesArray = obj.optJSONArray("releases")
+        if (releasesArray != null) {
+            return List(releasesArray.length()) { idx ->
+                parseRelease(releasesArray.optJSONObject(idx) ?: JSONObject(), entryCertificatePins)
+            }.filter { it.versionName.isNotBlank() || !it.apkUrl.isNullOrBlank() }
+        }
+        return listOf(parseRelease(obj, entryCertificatePins))
+    }
+
+    private fun parseRelease(obj: JSONObject, entryCertificatePins: List<String>): PluginIndexRelease {
+        val versionName = obj.optString("versionName", "0.0.0")
+        val versionCode = obj.optLong("versionCode", -1L).takeIf { it > 0 } ?: 0L
+        val versionDate = obj.optString("versionDate").takeIf { it.isNotBlank() }
+        val apkUrl = obj.optString("apkUrl").takeIf { it.isNotBlank() }
+        val apkSha256 = obj.optString("apkSha256").takeIf { it.isNotBlank() }
+        val apkSize = obj.optLong("apkSizeBytes", -1L).takeIf { it > 0 }
+        val releasePins = obj.optStringList(
+            "certificateSha256",
+            "certificateSha256Pins",
+            "signingCertificateSha256",
+        )
+        return PluginIndexRelease(
+            versionName = versionName,
+            versionCode = versionCode,
+            versionDate = versionDate,
+            apkUrl = apkUrl,
+            apkSha256 = apkSha256,
+            apkSizeBytes = apkSize,
+            certificateSha256 = PluginIndexSecurity.normalizeSha256List(releasePins.ifEmpty { entryCertificatePins }),
+            changelogUrl = obj.optString("changelogUrl").takeIf { it.isNotBlank() },
+            changelogText = obj.optString("changelogText").takeIf { it.isNotBlank() },
+        )
+    }
+
+    private fun JSONObject.optStringList(vararg keys: String): List<String> {
+        return keys.firstNotNullOfOrNull { key ->
+            when (val value = opt(key)) {
+                is JSONArray -> List(value.length()) { idx -> value.optString(idx) }.filter { it.isNotBlank() }
+                is String -> value.split(',', ';').map { it.trim() }.filter { it.isNotBlank() }
+                else -> null
+            }?.takeIf { it.isNotEmpty() }
+        }.orEmpty().distinct()
     }
 
 }

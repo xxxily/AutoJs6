@@ -121,6 +121,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_run_details"
+        android:title="@string/text_run_details"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_ai_script_assistant"
         android:title="@string/text_ai_script_assistant"
         app:showAsAction="never">

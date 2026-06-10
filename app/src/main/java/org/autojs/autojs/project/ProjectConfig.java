@@ -3,7 +3,6 @@ package org.autojs.autojs.project;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.TextUtils;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,6 +70,10 @@ public class ProjectConfig implements FuzzyDeserializer.OriginalJsonKeyAware {
             .registerTypeAdapter(LaunchConfig.class, new FuzzyDeserializer<LaunchConfig>())
             .registerTypeAdapter(ScriptConfig.class, new FuzzyDeserializer<ScriptConfig>())
             .registerTypeAdapter(BuildInfo.class, new FuzzyDeserializer<BuildInfo>())
+            .registerTypeAdapter(ProjectRiskPolicy.class, new FuzzyDeserializer<ProjectRiskPolicy>())
+            .registerTypeAdapter(ProjectNetworkPolicy.class, new FuzzyDeserializer<ProjectNetworkPolicy>())
+            .registerTypeAdapter(ProjectFilePolicy.class, new FuzzyDeserializer<ProjectFilePolicy>())
+            .registerTypeAdapter(ProjectPrivilegedPolicy.class, new FuzzyDeserializer<ProjectPrivilegedPolicy>())
             .setStrictness(Strictness.LENIENT)
             .setPrettyPrinting()
             .create();
@@ -166,12 +169,59 @@ public class ProjectConfig implements FuzzyDeserializer.OriginalJsonKeyAware {
     })
     private List<String> mLibs = new ArrayList<>();
 
+    @SerializedName("pluginDependencies")
+    @SerializedNameCompatible(with = {
+            @With(value = "plugins"),
+            @With(value = "pluginDeps"),
+            @With(value = "requiredPlugins"),
+    })
+    private List<String> mPluginDependencies = new ArrayList<>();
+
     @SerializedName("permissions")
     @SerializedNameCompatible(with = {
             @With(value = "permission"),
             @With(value = "permissionList"),
     })
     private List<String> mPermissions = new ArrayList<>(DEFAULT_PERMISSIONS);
+
+    @SerializedName("capabilities")
+    @SerializedNameCompatible(with = {
+            @With(value = "capability"),
+            @With(value = "capabilityList"),
+            @With(value = "requiredCapabilities"),
+            @With(value = "usesCapabilities"),
+    })
+    private List<String> mCapabilities = new ArrayList<>();
+
+    @SerializedName("riskPolicy")
+    @SerializedNameCompatible(with = {
+            @With(value = "risk"),
+            @With(value = "riskPolicies"),
+            @With(value = "securityPolicy"),
+    })
+    private ProjectRiskPolicy mRiskPolicy = new ProjectRiskPolicy();
+
+    @SerializedName("networkPolicy")
+    @SerializedNameCompatible(with = {
+            @With(value = "network"),
+            @With(value = "networkPolicies"),
+    })
+    private ProjectNetworkPolicy mNetworkPolicy = new ProjectNetworkPolicy();
+
+    @SerializedName("filePolicy")
+    @SerializedNameCompatible(with = {
+            @With(value = "files"),
+            @With(value = "filePolicies"),
+    })
+    private ProjectFilePolicy mFilePolicy = new ProjectFilePolicy();
+
+    @SerializedName("privilegedPolicy")
+    @SerializedNameCompatible(with = {
+            @With(value = "privileged"),
+            @With(value = "privilegePolicy"),
+            @With(value = "shellPolicy"),
+    })
+    private ProjectPrivilegedPolicy mPrivilegedPolicy = new ProjectPrivilegedPolicy();
 
     @SerializedName("signatureScheme")
     @SerializedNameCompatible(with = {
@@ -221,19 +271,23 @@ public class ProjectConfig implements FuzzyDeserializer.OriginalJsonKeyAware {
     }
 
     private static boolean isValid(ProjectConfig config) {
-        if (TextUtils.isEmpty(config.getName())) {
+        if (isNullOrEmpty(config.getName())) {
             return false;
         }
-        if (TextUtils.isEmpty(config.getPackageName())) {
+        if (isNullOrEmpty(config.getPackageName())) {
             return false;
         }
-        if (TextUtils.isEmpty(config.getVersionName())) {
+        if (isNullOrEmpty(config.getVersionName())) {
             return false;
         }
-        if (TextUtils.isEmpty(config.getMainScriptFileName())) {
+        if (isNullOrEmpty(config.getMainScriptFileName())) {
             return false;
         }
         return config.getVersionCode() != -1;
+    }
+
+    private static boolean isNullOrEmpty(String value) {
+        return value == null || value.isEmpty();
     }
 
     public static ProjectConfig fromAssets(Context context, String path) {
@@ -296,9 +350,11 @@ public class ProjectConfig implements FuzzyDeserializer.OriginalJsonKeyAware {
         Pattern assetsPattern = Pattern.compile(listPatternWithKeyCapture("asset"), Pattern.CASE_INSENSITIVE);
         Pattern abisPattern = Pattern.compile(listPatternWithKeyCapture("abi"), Pattern.CASE_INSENSITIVE);
         Pattern libsPattern = Pattern.compile(listPatternWithKeyCapture("lib"), Pattern.CASE_INSENSITIVE);
+        Pattern pluginDependenciesPattern = Pattern.compile(listPatternWithKeyCapture("pluginDependenc(?:y|ie)|pluginDep|requiredPlugin|plugin"), Pattern.CASE_INSENSITIVE);
         Pattern useFeaturesPattern = Pattern.compile(listPatternWithKeyCapture("useFeature"), Pattern.CASE_INSENSITIVE);
 
         Pattern permissionsPattern = Pattern.compile(listPatternWithKeyCapture("permission"), Pattern.CASE_INSENSITIVE);
+        Pattern capabilitiesPattern = Pattern.compile(listPatternWithKeyCapture("capabilit(?:y|ie)"), Pattern.CASE_INSENSITIVE);
         Pattern signatureSchemePattern = Pattern.compile(stringPatternWithKeyCapture("signatureScheme"), Pattern.CASE_INSENSITIVE);
 
         Pattern excludeDirsPattern = Pattern.compile(listPatternWithKeyCapture("excludeDir"), Pattern.CASE_INSENSITIVE);
@@ -330,9 +386,11 @@ public class ProjectConfig implements FuzzyDeserializer.OriginalJsonKeyAware {
         setListIfMatchesWithKey(assetsPattern, s, "assets", projectConfig::setAssets, projectConfig, detectConflicts);
         setListIfMatchesWithKey(abisPattern, s, "abis", projectConfig::setAbis, projectConfig, detectConflicts);
         setListIfMatchesWithKey(libsPattern, s, "libs", projectConfig::setLibs, projectConfig, detectConflicts);
+        setListIfMatchesWithKey(pluginDependenciesPattern, s, "pluginDependencies", projectConfig::setPluginDependencies, projectConfig, detectConflicts);
         setListIfMatchesWithKey(useFeaturesPattern, s, "useFeatures", projectConfig::setFeatures, projectConfig, detectConflicts);
 
         setListIfMatchesWithKey(permissionsPattern, s, "permissions", projectConfig::setPermissions, projectConfig, detectConflicts);
+        setListIfMatchesWithKey(capabilitiesPattern, s, "capabilities", projectConfig::setCapabilities, projectConfig, detectConflicts);
         setFieldIfMatchesWithKey(signatureSchemePattern, s, "signatureScheme", projectConfig::setSignatureScheme, projectConfig, detectConflicts);
 
         setListIfMatchesWithKey(excludeDirsPattern, s, "excludeDirs", excludeDirs -> excludeDirs.forEach(projectConfig::excludeDir), projectConfig, detectConflicts);
@@ -718,6 +776,7 @@ public class ProjectConfig implements FuzzyDeserializer.OriginalJsonKeyAware {
     private void applyNestedOriginalKeys(@NonNull JsonObject root, boolean detectConflicts) {
         applyNestedOriginalKeysForLaunchConfig(root, detectConflicts);
         applyNestedOriginalKeysForBuildInfo(root, detectConflicts);
+        applyNestedOriginalKeysForCapabilityPolicies(root, detectConflicts);
     }
 
     private void applyNestedOriginalKeysForLaunchConfig(@NonNull JsonObject root, boolean detectConflicts) {
@@ -742,6 +801,33 @@ public class ProjectConfig implements FuzzyDeserializer.OriginalJsonKeyAware {
             return;
         }
         mBuildInfo.applyOriginalJsonKeys(buildElement.getAsJsonObject(), detectConflicts);
+    }
+
+    private void applyNestedOriginalKeysForCapabilityPolicies(@NonNull JsonObject root, boolean detectConflicts) {
+        applyCapabilityPolicyOriginalKeys(root, detectConflicts, "riskPolicy", mRiskPolicy);
+        applyCapabilityPolicyOriginalKeys(root, detectConflicts, "networkPolicy", mNetworkPolicy);
+        applyCapabilityPolicyOriginalKeys(root, detectConflicts, "filePolicy", mFilePolicy);
+        applyCapabilityPolicyOriginalKeys(root, detectConflicts, "privilegedPolicy", mPrivilegedPolicy);
+    }
+
+    private void applyCapabilityPolicyOriginalKeys(@NonNull JsonObject root, boolean detectConflicts, @NonNull String canonicalKey, @Nullable Object policy) {
+        if (policy == null) {
+            return;
+        }
+        String key = resolveTopLevelJsonKey(canonicalKey);
+        JsonElement element = root.get(key);
+        if (element == null || !element.isJsonObject()) {
+            return;
+        }
+        if (policy instanceof ProjectRiskPolicy) {
+            ((ProjectRiskPolicy) policy).applyOriginalJsonKeys(element.getAsJsonObject(), detectConflicts);
+        } else if (policy instanceof ProjectNetworkPolicy) {
+            ((ProjectNetworkPolicy) policy).applyOriginalJsonKeys(element.getAsJsonObject(), detectConflicts);
+        } else if (policy instanceof ProjectFilePolicy) {
+            ((ProjectFilePolicy) policy).applyOriginalJsonKeys(element.getAsJsonObject(), detectConflicts);
+        } else if (policy instanceof ProjectPrivilegedPolicy) {
+            ((ProjectPrivilegedPolicy) policy).applyOriginalJsonKeys(element.getAsJsonObject(), detectConflicts);
+        }
     }
 
     @NonNull
@@ -790,6 +876,18 @@ public class ProjectConfig implements FuzzyDeserializer.OriginalJsonKeyAware {
 
     public ProjectConfig setLibs(@Nullable List<String> libs) {
         mLibs = libs;
+        return this;
+    }
+
+    public List<String> getPluginDependencies() {
+        if (mPluginDependencies == null) {
+            setPluginDependencies(Collections.emptyList());
+        }
+        return mPluginDependencies;
+    }
+
+    public ProjectConfig setPluginDependencies(@Nullable List<String> pluginDependencies) {
+        mPluginDependencies = pluginDependencies;
         return this;
     }
 
@@ -860,6 +958,75 @@ public class ProjectConfig implements FuzzyDeserializer.OriginalJsonKeyAware {
     public ProjectConfig setPermissions(List<String> permissions) {
         mPermissions = permissions;
         return this;
+    }
+
+    public List<String> getCapabilities() {
+        if (mCapabilities == null) {
+            setCapabilities(Collections.emptyList());
+        }
+        return mCapabilities;
+    }
+
+    public ProjectConfig setCapabilities(List<String> capabilities) {
+        mCapabilities = capabilities;
+        return this;
+    }
+
+    public ProjectRiskPolicy getRiskPolicy() {
+        if (mRiskPolicy == null) {
+            mRiskPolicy = new ProjectRiskPolicy();
+        }
+        return mRiskPolicy;
+    }
+
+    public ProjectConfig setRiskPolicy(@Nullable ProjectRiskPolicy riskPolicy) {
+        mRiskPolicy = Objects.requireNonNullElseGet(riskPolicy, ProjectRiskPolicy::new);
+        return this;
+    }
+
+    public ProjectNetworkPolicy getNetworkPolicy() {
+        if (mNetworkPolicy == null) {
+            mNetworkPolicy = new ProjectNetworkPolicy();
+        }
+        return mNetworkPolicy;
+    }
+
+    public ProjectConfig setNetworkPolicy(@Nullable ProjectNetworkPolicy networkPolicy) {
+        mNetworkPolicy = Objects.requireNonNullElseGet(networkPolicy, ProjectNetworkPolicy::new);
+        return this;
+    }
+
+    public ProjectFilePolicy getFilePolicy() {
+        if (mFilePolicy == null) {
+            mFilePolicy = new ProjectFilePolicy();
+        }
+        return mFilePolicy;
+    }
+
+    public ProjectConfig setFilePolicy(@Nullable ProjectFilePolicy filePolicy) {
+        mFilePolicy = Objects.requireNonNullElseGet(filePolicy, ProjectFilePolicy::new);
+        return this;
+    }
+
+    public ProjectPrivilegedPolicy getPrivilegedPolicy() {
+        if (mPrivilegedPolicy == null) {
+            mPrivilegedPolicy = new ProjectPrivilegedPolicy();
+        }
+        return mPrivilegedPolicy;
+    }
+
+    public ProjectConfig setPrivilegedPolicy(@Nullable ProjectPrivilegedPolicy privilegedPolicy) {
+        mPrivilegedPolicy = Objects.requireNonNullElseGet(privilegedPolicy, ProjectPrivilegedPolicy::new);
+        return this;
+    }
+
+    public ProjectConfig setCapabilitySecurityFrom(@NonNull ProjectConfig config) {
+        return setCapabilities(new ArrayList<>(config.getCapabilities()))
+                .setPluginDependencies(new ArrayList<>(config.getPluginDependencies()))
+                .setRiskPolicy(config.getRiskPolicy())
+                .setNetworkPolicy(config.getNetworkPolicy())
+                .setFilePolicy(config.getFilePolicy())
+                .setPrivilegedPolicy(config.getPrivilegedPolicy());
     }
 
     public String getSignatureScheme() {

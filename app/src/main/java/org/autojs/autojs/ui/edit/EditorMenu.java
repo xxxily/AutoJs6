@@ -109,6 +109,9 @@ public class EditorMenu {
         if (itemId == R.id.action_show_log) {
             return tryDoing(mEditorView::showLogPanel);
         }
+        if (itemId == R.id.action_run_details) {
+            return tryDoing(mEditorView::showRunDetailsDialog);
+        }
         if (itemId == R.id.action_force_stop) {
             return tryDoing(mEditorView::forceStop);
         }

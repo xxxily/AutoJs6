@@ -183,6 +183,7 @@
 <li><span class="stability_undefined"><a href="#engines_engines_stopallandtoast">engines.stopAllAndToast()</a></span></li>
 <li><span class="stability_undefined"><a href="#engines_engines_myengine">engines.myEngine()</a></span></li>
 <li><span class="stability_undefined"><a href="#engines_engines_all">engines.all()</a></span></li>
+<li><span class="stability_undefined"><a href="#engines_runtime_observability">运行观测与远程调试桥</a></span></li>
 </ul>
 </li>
 <li><span class="stability_undefined"><a href="#engines_scriptexecution">ScriptExecution</a></span><ul>
@@ -218,7 +219,21 @@
 <p>engines模块包含了一些与脚本环境、脚本运行、脚本引擎有关的函数, 包括运行其他脚本, 关闭脚本等.</p>
 <p>例如, 获取脚本所在目录：</p>
 <pre><code>toast(engines.myEngine().cwd());
-</code></pre><h2>engines.execScript(name, script[, config])<span><a class="mark" href="#engines_engines_execscript_name_script_config" id="engines_engines_execscript_name_script_config">#</a></span></h2>
+</code></pre><h2>运行观测与远程调试桥<span><a class="mark" href="#engines_runtime_observability" id="engines_runtime_observability">#</a></span></h2>
+<p><strong>[v6.7.3+]</strong> AutoJs6 会为脚本运行维护统一观测模型, 包含 <code>executionId</code>、脚本路径、线程、运行状态、开始/结束时间、异常堆栈、日志、能力调用事件和资源快照.</p>
+<p>编辑器菜单中的 <strong>运行详情</strong> 可查看最近运行、异常堆栈、能力调用、日志摘要和资源占用, 并可复制诊断 JSON.</p>
+<p>远程调试桥复用服务端模式的 JSON Socket. 桌面端可发送 <code>debug.status</code>、<code>debug.listRuns</code>、<code>debug.running</code>、<code>debug.snapshot</code>、<code>debug.logs</code>、<code>debug.exportDiagnostics</code>、<code>debug.stop</code>、<code>debug.stopAll</code>、<code>debug.restartLast</code>、<code>debug.uiSnapshot</code> 和 <code>debug.screenshot</code> 命令. 除 <code>debug.status</code> 外, 命令必须携带本机生成的访问令牌.</p>
+<p>远程调试桥默认关闭. 需要在 AutoJs6 抽屉的 <strong>服务端模式</strong> 管理入口中本地确认启用并生成 token; token 可轮换或禁用. UI 快照会进行文本脱敏, 截图拉取要求设备已有本地截图授权/会话.</p>
+<pre><code class="lang-json">{
+  "type": "command",
+  "data": {
+    "command": "debug.snapshot",
+    "token": "&lt;device-token&gt;",
+    "executionId": 12
+  }
+}
+</code></pre><p>响应以 <code>type: "debug_response"</code> 返回, <code>payload.run</code> 中包含时间线、日志、能力事件、资源快照和最小调试信息.</p>
+<h2>engines.execScript(name, script[, config])<span><a class="mark" href="#engines_engines_execscript_name_script_config" id="engines_engines_execscript_name_script_config">#</a></span></h2>
 <div class="signature"><ul>
 <li><code>name</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 要运行的脚本名称. 这个名称和文件名称无关, 只是在任务管理中显示的名称.</li>
 <li><code>script</code> { <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 要运行的脚本内容.</li>

@@ -24,12 +24,15 @@ data class PluginCenterItem(
     var updatableApkUrl: String? = null,
     var updatableApkSha256: String? = null,
     var updatableApkSizeBytes: Long? = null,
+    var updatableCertificateSha256: List<String> = emptyList(),
     var updatableChangelogUrl: String? = null,
     var updatableChangelogText: String? = null,
 
     val author: String? = null,
     val collaborators: List<String> = emptyList(),
     val description: String? = null,
+    val manifest: PluginCapabilityManifest = PluginCapabilityManifest(),
+    val certificateSha256: List<String> = emptyList(),
 
     // Size of installed package (aggregated base + splits), 0 for uninstalled.
     // zh-CN: 已安装包大小 (聚合 base + splits), 未安装为 0.

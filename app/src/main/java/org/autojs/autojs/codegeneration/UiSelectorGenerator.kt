@@ -22,13 +22,13 @@ class UiSelectorGenerator(private val mRoot: UiObject, private val mTarget: UiOb
         if (mUsingId && tryWithStringCondition(selector, mTarget.id(), selector::id)) {
             return selector
         }
-        if (tryWithStringCondition(selector, mTarget.className(), selector::className)) {
+        if (mUsingDesc && tryWithStringCondition(selector, mTarget.desc(), selector::desc)) {
             return selector
         }
         if (mUsingText && tryWithStringCondition(selector, mTarget.text(), selector::text)) {
             return selector
         }
-        if (mUsingDesc && tryWithStringCondition(selector, mTarget.desc(), selector::desc)) {
+        if (tryWithStringCondition(selector, mTarget.className(), selector::className)) {
             return selector
         }
         if (mTarget.scrollable() && tryWithBooleanCondition(selector, mTarget.scrollable(), selector::scrollable)) {

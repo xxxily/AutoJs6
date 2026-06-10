@@ -70,6 +70,7 @@ jcip-annotations = "1.0"
 jdeferred = "1.2.6"
 joda-time = "2.14.0"
 jsoup = "1.21.2"
+json = "20250517"
 junit = "4.13.2"
 junit-jupiter = "5.13.4"
 junit-quickcheck-core = "1.0"
@@ -146,6 +147,7 @@ jcip-annotations = { module = "net.jcip:jcip-annotations", version.ref = "jcip-a
 jdeferred = { module = "org.jdeferred:jdeferred-android-aar", version.ref = "jdeferred" }
 joda-time = { module = "joda-time:joda-time", version.ref = "joda-time" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
+json = { module = "org.json:json", version.ref = "json" }
 junit = { module = "junit:junit", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 junit-quickcheck-core = { module = "com.pholser:junit-quickcheck-core", version.ref = "junit-quickcheck-core" }

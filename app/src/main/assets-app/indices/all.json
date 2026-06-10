@@ -6,7 +6,7 @@
     "properties": [
       {
         "key": "sleep",
-        "url": "global.html#global_sleep_n",
+        "url": "global.html#global_sleep_millis",
         "summary": "暂停运行",
         "global": true
       },
@@ -36,25 +36,25 @@
       },
       {
         "key": "toast",
-        "url": "global.html#global_toast_message",
+        "url": "global.html#global_m_toast",
         "summary": "气泡提示",
         "global": true
       },
       {
         "key": "toastLog",
-        "url": "global.html#global_toastlog_messagep",
+        "url": "global.html#global_toastlog_text",
         "summary": "提示&打印",
         "global": true
       },
       {
         "key": "waitForActivity",
-        "url": "global.html#global_waitforactivity_activity_period_200",
+        "url": "global.html#global_waitforactivity_activityname_limit_interval",
         "summary": "等待活动",
         "global": true
       },
       {
         "key": "waitForPackage",
-        "url": "global.html#global_waitforpackage_package_period_200",
+        "url": "global.html#global_waitforpackage_packagename_limit_interval",
         "summary": "等待包名",
         "global": true
       },{
@@ -71,7 +71,7 @@
       },
       {
         "key": "context",
-        "url": "global.html#global_context",
+        "url": "context.html#context_context",
         "summary": "",
         "global": true,
         "variable": true
@@ -122,7 +122,7 @@
       },
       {
         "key": "getPackageName",
-        "url": "global.html#global_getpackagename_appname",
+        "url": "app.html#app_app_getpackagename_appname",
         "summary": "获取包名"
       },
       {
@@ -159,85 +159,135 @@
         "key": "sendBroadcast",
         "url": "app.html#app_app_sendbroadcast_options",
         "summary": "发送广播"
+      },
+      {
+        "key": "buildTypedIntent",
+        "url": "app.html#app_app_buildtypedintent_type_payload_options",
+        "summary": "构建结构化 Intent"
+      },
+      {
+        "key": "sendTypedBroadcast",
+        "url": "app.html#app_app_sendtypedbroadcast_type_payload_options",
+        "summary": "发送结构化广播"
+      },
+      {
+        "key": "parseTypedIntent",
+        "url": "app.html#app_app_parsetypedintent_intent",
+        "summary": "解析结构化 Intent"
       }
     ]
   },
   {
     "name": "automator",
-    "url": "widgets-based-automation.html",
+    "url": "automator.html",
     "summary": "自动操作",
     "properties": [
       {
         "key": "click",
-        "url": "widgets-based-automation.html#widgets_based_automation_click_text_i",
+        "url": "automator.html#automator_click_text_i",
         "summary": "点击",
         "global": true
       },
       {
         "key": "longClick",
-        "url": "widgets-based-automation.html#widgets_based_automation_longclick_text_i",
+        "url": "automator.html#automator_longclick_text_i",
         "summary": "长按",
         "global": true
       },
       {
         "key": "press",
-        "url": "",
+        "url": "automator.html#automator_press_x_y_duration",
         "summary": "按住",
         "global": true
       },
       {
         "key": "swipe",
-        "url": "",
+        "url": "automator.html#automator_swipe_x1_y1_x2_y2_duration",
         "summary": "滑动",
         "global": true
       },
       {
         "key": "gesture",
-        "url": "",
+        "url": "automator.html#automator_gesture_duration_x1_y1_x2_y2",
         "summary": "手势",
         "global": true
       },
       {
         "key": "gestures",
-        "url": "",
+        "url": "automator.html#automator_gestures_delay1_duration1_x1_y1_x2_y2_delay2_duration2_x3_y3_x4_y4",
         "summary": "异步手势",
         "global": true
       },
       {
         "key": "gestureAsync",
-        "url": "",
+        "url": "automator.html#automator_gesture_duration_x1_y1_x2_y2",
         "summary": "多手势",
         "global": true
       },
       {
         "key": "gesturesAsync",
-        "url": "",
+        "url": "automator.html#automator_gestures_delay1_duration1_x1_y1_x2_y2_delay2_duration2_x3_y3_x4_y4",
         "summary": "异步多手势",
         "global": true
       },
       {
         "key": "scrollDown",
-        "url": "widgets-based-automation.html#widgets_based_automation_scrollup_i",
+        "url": "automator.html#automator_scrolldown_i",
         "summary": "下滑",
         "global": true
       },
       {
         "key": "scrollUp",
-        "url": "widgets-based-automation.html#widgets_based_automation_scrollup_i",
+        "url": "automator.html#automator_scrollup_i",
         "summary": "上滑",
         "global": true
       },
       {
         "key": "input",
-        "url": "widgets-based-automation.html#widgets_based_automation_input_i_text",
+        "url": "automator.html#automator_input_i_text",
         "summary": "输入文本",
         "global": true
       },
       {
         "key": "setText",
-        "url": "widgets-based-automation.html#widgets_based_automation_settext_i_text",
+        "url": "automator.html#automator_settext_i_text",
         "summary": "设置文本",
         "global": true
+      },
+      {
+        "key": "snapshot",
+        "url": "automator.html#automator_auto_snapshot_options",
+        "summary": "导出 UI 树快照"
+      },
+      {
+        "key": "diffSnapshot",
+        "url": "automator.html#automator_auto_diffsnapshot_before_after_options",
+        "summary": "比较 UI 树快照"
+      },
+      {
+        "key": "waitUntil",
+        "url": "automator.html#automator_auto_waituntil_condition_options",
+        "summary": "可靠等待函数、选择器、控件或文本达到稳定状态"
+      },
+      {
+        "key": "retry",
+        "url": "automator.html#automator_auto_retry_action_options",
+        "summary": "按重试与退避策略执行动作并返回结构化结果"
+      },
+      {
+        "key": "stableClick",
+        "url": "automator.html#automator_auto_stableclick_target_options",
+        "summary": "稳定等待并校验控件后点击, 支持 fallback 和诊断"
+      },
+      {
+        "key": "stableSetText",
+        "url": "automator.html#automator_auto_stablesettext_target_text_options",
+        "summary": "稳定等待输入控件后设置文本并返回诊断"
+      },
+      {
+        "key": "findWithScroll",
+        "url": "automator.html#automator_auto_findwithscroll_target_scrollcontainer_options",
+        "summary": "查找目标并按需滚动容器直到命中或输出失败诊断"
       }
     ]
   },
@@ -248,68 +298,68 @@
     "properties": [
       {
         "key": "show",
-        "url": "console.html#console_console_show",
+        "url": "console.html#console_show",
         "summary": "显示"
       },
       {
         "key": "hide",
-        "url": "console.html#console_console_hide",
+        "url": "console.html#console_hide",
         "summary": "隐藏"
       },
       {
         "key": "clear",
-        "url": "console.html#console_console_clear",
+        "url": "console.html#console_clear",
         "summary": "清空"
       },
       {
         "key": "verbose",
-        "url": "console.html#console_console_verbose_data_args",
+        "url": "console.html#console_verbose_data_args",
         "summary": "不重要日志"
       },
       {
         "key": "info",
-        "url": "console.html#console_console_info_data_args",
+        "url": "console.html#console_info_data_args",
         "summary": "打印信息"
       },
       {
         "key": "log",
-        "url": "console.html#console_console_log_data_args",
+        "url": "console.html#console_log_data_args",
         "summary": "打印日志",
         "global": true
       },
       {
         "key": "warn",
-        "url": "console.html#console_console_warn_data_args",
+        "url": "console.html#console_warn_data_args",
         "summary": "打印警告"
       },
       {
         "key": "error",
-        "url": "console.html#console_console_error_data_args",
+        "url": "console.html#console_error_data_args",
         "summary": "打印错误"
       },
       {
         "key": "assert",
-        "url": "console.html#console_console_assert_value_message",
+        "url": "console.html#console_assert_bool_message",
         "summary": "断言"
       },
       {
         "key": "input",
-        "url": "console.html#console_console_input_data_args",
+        "url": "console.html#console_input_data_args",
         "summary": "输入"
       },
       {
         "key": "rawInput",
-        "url": "console.html#console_console_rawinput_data_args",
+        "url": "console.html#console_rawinput_data_args",
         "summary": "输入字符串"
       },
       {
         "key": "setSize",
-        "url": "console.html#console_console_setsize_w_h",
+        "url": "console.html#console_setsize_width_height",
         "summary": "输入字符串"
       },
       {
         "key": "setPosition",
-        "url": "console.html#console_console_setposition_x_y",
+        "url": "console.html#console_setposition_x_y",
         "summary": "设置位置"
       }
     ]
@@ -363,89 +413,94 @@
   },
   {
     "name": "images",
-    "url": "images.html",
+    "url": "image.html",
     "summary": "图色",
     "properties": [
       {
         "key": "save",
-        "url": "images.html#images_images_save_image_path",
+        "url": "image.html#image_images_save_image_path_format_png_quality_100",
         "summary": "保存图片"
       },
       {
         "key": "pixel",
-        "url": "images.html#images_images_pixel_image_x_y",
+        "url": "image.html#image_images_pixel_image_x_y",
         "summary": "取色"
       },
       {
         "key": "read",
-        "url": "images.html#images_images_read_path",
+        "url": "image.html#image_images_read_path",
         "summary": "读取图片"
       },
       {
         "key": "load",
-        "url": "images.html#images_images_load_url",
+        "url": "image.html#image_images_load_url",
         "summary": "加载图片"
       },
       {
         "key": "clip",
-        "url": "images.html#images_images_clip_img_x_y_w_h",
+        "url": "image.html#image_images_clip_img_x_y_w_h",
         "summary": "剪切图片"
       },
       {
         "key": "requestScreenCapture",
-        "url": "images.html#images_images_requestscreencapture_landscape",
+        "url": "image.html#image_images_requestscreencapture_landscape",
         "summary": "请求截屏",
         "global": true
       },
       {
         "key": "captureScreen",
-        "url": "images.html#images_capturescreen",
+        "url": "image.html#image_images_capturescreen",
         "summary": "截屏",
         "global": true
       },
       {
+        "key": "openCaptureSession",
+        "url": "image.html#image_images_opencapturesession_options",
+        "summary": "截图会话"
+      },
+      {
         "key": "findColor",
-        "url": "images.html#images_images_findcolor_image_color_options",
+        "url": "image.html#image_images_findcolor_image_color_options",
         "summary": "找色",
         "global": true
       },
       {
         "key": "findColorInRegion",
-        "url": "images.html#images_images_findcolorinregion_img_color_x_y_width_height_threads_algorithm_threshold",
+        "url": "image.html#image_images_findcolorinregion_img_color_x_y_width_height_threshold",
         "summary": "区域找色",
         "global": true
       },
       {
         "key": "findColorEquals",
-        "url": "images.html#images_images_findcolorequals_img_color_x_y_width_height_threads",
+        "url": "image.html#image_images_findcolorequals_img_color_x_y_width_height",
         "summary": "精确找色",
         "global": true
       },
       {
         "key": "findMultiColors",
-        "url": "images.html#images_images_clip_img_x_y_w_h",
+        "url": "image.html#image_images_findmulticolors_img_firstcolor_colors_options",
         "summary": "多点找色",
         "global": true
       },
       {
         "key": "detectsColor",
-        "url": "images.html#images_images_detectscolor_image_color_x_y_threshold_16_algorithm_diff",
+        "url": "image.html#image_images_detectscolor_image_color_x_y_threshold_16_algorithm_diff",
         "summary": "颜色检测"
       },
       {
         "key": "detectColor",
-        "url": "images.html#images_images_detectcolor_image_color_x_y_threshold_16_algorithm_diff",
+        "url": "image.html#image_images_detectscolor_image_color_x_y_threshold_16_algorithm_diff",
         "summary": "颜色检测"
       },
       {
         "key": "findImage",
-        "url":"images.html#images_images_findimage_img_template_options",
+        "url": "image.html#image_images_findimage_img_template_options",
         "summary": "找图",
         "global": true
       },
       {
         "key": "findImageInRegion",
-        "url":"images.html#images_images_findimageinregion_img_template_x_y_width_height_threshold",
+        "url": "image.html#image_images_findimageinregion_img_template_x_y_width_height_threshold",
         "summary": "区域找图",
         "global": true
       }
@@ -453,57 +508,57 @@
   },
   {
     "name": "colors",
-    "url": "colors.html",
+    "url": "color.html",
     "summary": "颜色",
     "properties": [
       {
         "key": "red",
-        "url": "images.html#images_colors_red_color",
+        "url": "color.html#color_m_red",
         "summary": "R值"
       },
       {
         "key": "green",
-        "url": "images.html#images_colors_green_color",
+        "url": "color.html#color_m_green",
         "summary": "G值"
       },
       {
         "key": "blue",
-        "url": "images.html#images_colors_blue_color",
+        "url": "color.html#color_m_blue",
         "summary": "B值"
       },
       {
         "key": "alpha",
-        "url": "images.html#images_colors_alpha_color",
+        "url": "color.html#color_m_alpha",
         "summary": "透明度"
       },
       {
         "key": "toString",
-        "url": "images.html#images_colors_tostring_color",
+        "url": "color.html#color_m_tostring",
         "summary": "颜色转字符串"
       },
       {
         "key": "rgb",
-        "url": "images.html#images_colors_rgb_red_green_blue",
+        "url": "color.html#color_m_rgb",
         "summary": "RGB"
       },
       {
         "key": "argb",
-        "url": "images.html#images_colors_argb_alpha_red_green_blue",
+        "url": "color.html#color_m_argb",
         "summary": "ARGB"
       },
       {
         "key": "parseColor",
-        "url": "images.html#images_colors_parsecolor_colorstr",
+        "url": "color.html#color_m_parsecolor",
         "summary": "字符串转颜色"
       },
       {
         "key": "isSimilar",
-        "url": "images.html#images_colors_issimilar_color2_color2_threshold_algorithm",
+        "url": "color.html#color_m_issimilar",
         "summary": "颜色相似"
       },
       {
         "key": "equals",
-        "url": "images.html#images_colors_equals_color1_color2",
+        "url": "color.html#color_m_equals",
         "summary": "颜色相等"
       }
     ]
@@ -535,7 +590,7 @@
       },
       {
         "key": "observeNotification",
-        "url": "events.html#events_obversenotification",
+        "url": "events.html#events_events_observenotification",
         "summary": "监听通知"
       },
       {
@@ -615,7 +670,7 @@
       },
       {
         "key": "getListeners",
-        "url": "",
+        "url": "events.html#events_eventemitter_listeners_eventname",
         "summary": ""
       },
       {
@@ -868,385 +923,283 @@
   },
   {
     "name": "selector",
-    "url": "widgets-based-automation.html",
+    "url": "uiSelectorType.html",
     "summary": "选择器",
     "properties": [
       {
         "key": "id",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_id_str",
+        "summary": "按资源 ID 匹配",
         "global": true
       },
       {
         "key": "idContains",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_idcontains_str",
+        "summary": "按资源 ID 包含文本匹配",
         "global": true
       },
       {
         "key": "idStartsWith",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_idstartswith_str",
+        "summary": "按资源 ID 前缀匹配",
         "global": true
       },
       {
         "key": "idEndsWith",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_idendswith_str",
+        "summary": "按资源 ID 后缀匹配",
         "global": true
       },
       {
         "key": "idMatches",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_idmatches_regex",
+        "summary": "按资源 ID 正则匹配",
         "global": true
       },
       {
         "key": "text",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_text_str",
+        "summary": "按文本匹配",
         "global": true
       },
       {
         "key": "textContains",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_textcontains_str",
+        "summary": "按文本包含匹配",
         "global": true
       },
       {
         "key": "textStartsWith",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_textstartswith_str",
+        "summary": "按文本前缀匹配",
         "global": true
       },
       {
         "key": "textEndsWith",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_textendswith_str",
+        "summary": "按文本后缀匹配",
         "global": true
       },
       {
         "key": "textMatches",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_textmatches_regex",
+        "summary": "按文本正则匹配",
         "global": true
       },
       {
         "key": "desc",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_desc_str",
+        "summary": "按描述匹配",
         "global": true
       },
       {
         "key": "descContains",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_desccontains_str",
+        "summary": "按描述包含匹配",
         "global": true
       },
       {
         "key": "descStartsWith",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_descstartswith_str",
+        "summary": "按描述前缀匹配",
         "global": true
       },
       {
         "key": "descEndsWith",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_descendswith_str",
+        "summary": "按描述后缀匹配",
         "global": true
       },
       {
         "key": "descMatches",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_descmatches_regex",
+        "summary": "按描述正则匹配",
         "global": true
       },
       {
         "key": "className",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_classname_str",
+        "summary": "按类名匹配",
         "global": true
       },
       {
         "key": "classNameContains",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_classnamecontains_str",
+        "summary": "按类名包含匹配",
         "global": true
       },
       {
         "key": "classNameStartsWith",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_classnamestartswith_str",
+        "summary": "按类名前缀匹配",
         "global": true
       },
       {
         "key": "classNameEndsWith",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_classnameendswith_str",
+        "summary": "按类名后缀匹配",
         "global": true
       },
       {
         "key": "classNameMatches",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_classnamematches_regex",
+        "summary": "按类名正则匹配",
         "global": true
       },
       {
         "key": "packageName",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_packagename_str",
+        "summary": "按包名匹配",
         "global": true
       },
       {
         "key": "packageNameContains",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_packagenamecontains_str",
+        "summary": "按包名包含匹配",
         "global": true
       },
       {
         "key": "packageNameStartsWith",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_packagenamestartswith_str",
+        "summary": "按包名前缀匹配",
         "global": true
       },
       {
         "key": "packageNameEndsWith",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_packagenameendswith_str",
+        "summary": "按包名后缀匹配",
         "global": true
       },
       {
         "key": "packageNameMatches",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_packagenamematches_regex",
+        "summary": "按包名正则匹配",
         "global": true
       },
       {
         "key": "bounds",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_bounds_left_top_right_bottom",
+        "summary": "按控件边界匹配",
         "global": true
       },
       {
         "key": "boundsInside",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_boundsinside_left_top_right_bottom",
+        "summary": "按控件边界位于范围内匹配",
         "global": true
       },
       {
         "key": "boundsContains",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_boundscontains_left_top_right_bottom",
+        "summary": "按控件边界包含范围匹配",
         "global": true
       },
       {
         "key": "drawingOrder",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_drawingorder_order",
+        "summary": "按绘制顺序匹配",
         "global": true
       },
       {
         "key": "checkable",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_checkable_b",
+        "summary": "按可勾选状态匹配",
         "global": true
       },
       {
         "key": "checked",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_checked_b",
+        "summary": "按已勾选状态匹配",
         "global": true
       },
       {
         "key": "focusable",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_focusable_b",
+        "summary": "按可聚焦状态匹配",
         "global": true
       },
       {
         "key": "focused",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_focused_b",
+        "summary": "按已聚焦状态匹配",
         "global": true
       },
       {
         "key": "visibleToUser",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_visibletouser_b",
+        "summary": "按用户可见状态匹配",
         "global": true
       },
       {
         "key": "accessibilityFocused",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_accessibilityfocused_b",
+        "summary": "按无障碍聚焦状态匹配",
         "global": true
       },
       {
         "key": "selected",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_selected_b",
+        "summary": "按选中状态匹配",
         "global": true
       },
       {
         "key": "clickable",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_clickable_b",
+        "summary": "按可点击状态匹配",
         "global": true
       },
       {
         "key": "longClickable",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_longclickable_b",
+        "summary": "按可长按状态匹配",
         "global": true
       },
       {
         "key": "enabled",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_enabled_b",
+        "summary": "按启用状态匹配",
         "global": true
       },
       {
         "key": "password",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_password_b",
+        "summary": "按密码输入状态匹配",
         "global": true
       },
       {
         "key": "scrollable",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_scrollable_b",
+        "summary": "按可滚动状态匹配",
         "global": true
       },
       {
         "key": "editable",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_editable_b",
+        "summary": "按可编辑状态匹配",
         "global": true
       },
       {
         "key": "contentInvalid",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype",
+        "summary": "按内容有效性匹配",
         "global": true
       },
       {
         "key": "contextClickable",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_contextclickable_b",
+        "summary": "按上下文点击状态匹配",
         "global": true
       },
       {
         "key": "multiLine",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_multiline_b",
+        "summary": "按多行状态匹配",
         "global": true
       },
       {
         "key": "dismissable",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "checkable",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "checked",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "focusable",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "focused",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "visibleToUser",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "accessibilityFocused",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "selected",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "clickable",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "longClickable",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "enabled",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "password",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "scrollable",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "editable",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "contentInvalid",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "contextClickable",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "multiLine",
-        "url": "",
-        "summary": "",
-        "global": true
-      },
-      {
-        "key": "dismissable",
-        "url": "",
-        "summary": "",
+        "url": "uiSelectorType.html#uiselectortype_dismissable_b",
+        "summary": "按可关闭状态匹配",
         "global": true
       }
     ]
@@ -1310,7 +1263,7 @@
       {
         "key": "model",
         "summary": "设备型号",
-        "url": "device.html#device_deivce_model",
+        "url": "device.html#device_device_model",
         "variable": true
       },
       {
@@ -1529,31 +1482,113 @@
       {
         "key": "get",
         "summary": "GET请求",
-        "url": "http.html#http_http_get_url_options_callback"
+        "url": "http.html#http_get_url_options_callback"
       },
       {
         "key": "post",
         "summary": "POST请求",
-        "url": "http.html#http_http_post_url_data_options_callback"
+        "url": "http.html#http_post_url_data_options_callback"
       },
       {
         "key": "postJson",
         "summary": "",
-        "url": "http.html#http_http_postjson_url_data_options_callback"
+        "url": "http.html#http_postjson_url_data_options_callback"
       },
       {
         "key": "postMultipart",
         "summary": "",
-        "url": "http.html#http_http_postmultipart_url_files_options_callback"
+        "url": "http.html#http_postmultipart_url_files_options_callback"
       },
       {
         "key": "request",
         "summary": "",
-        "url": "http.html#http_http_request_url_options_callback"
+        "url": "http.html#http_request_url_options_callback"
+      },
+      {
+        "key": "client",
+        "summary": "命名 HTTP client",
+        "url": "http.html#http_client_name_options"
+      },
+      {
+        "key": "clients",
+        "summary": "列出命名 HTTP client",
+        "url": "http.html#http_m_client"
+      },
+      {
+        "key": "removeClient",
+        "summary": "移除命名 HTTP client",
+        "url": "http.html#http_m_client"
+      },
+      {
+        "key": "download",
+        "summary": "可暂停恢复下载",
+        "url": "http.html#http_download_url_path_options"
+      },
+      {
+        "key": "downloadStatus",
+        "summary": "查询下载状态",
+        "url": "http.html#http_m_download"
+      },
+      {
+        "key": "pauseDownload",
+        "summary": "暂停下载",
+        "url": "http.html#http_m_download"
+      },
+      {
+        "key": "resumeDownload",
+        "summary": "恢复下载",
+        "url": "http.html#http_m_download"
+      },
+      {
+        "key": "cancelDownload",
+        "summary": "取消下载",
+        "url": "http.html#http_m_download"
       }
     ],
     "url": "http.html",
     "summary": "HTTP"
+  },
+  {
+    "name": "ipc",
+    "properties": [
+      {
+        "key": "publish",
+        "summary": "发布脚本间消息",
+        "url": "ipc.html#ipc_publish_topic_payload_options"
+      },
+      {
+        "key": "subscribe",
+        "summary": "订阅脚本间消息",
+        "url": "ipc.html#ipc_subscribe_topic_callback"
+      },
+      {
+        "key": "unsubscribe",
+        "summary": "取消消息订阅",
+        "url": "ipc.html#ipc_m_subscribe"
+      },
+      {
+        "key": "messages",
+        "summary": "查询消息收件箱",
+        "url": "ipc.html#ipc_messages_topic_options"
+      },
+      {
+        "key": "clear",
+        "summary": "清空消息收件箱",
+        "url": "ipc.html#ipc_m_messages"
+      },
+      {
+        "key": "request",
+        "summary": "发送请求消息",
+        "url": "ipc.html#ipc_request_topic_payload_options"
+      },
+      {
+        "key": "reply",
+        "summary": "回复请求消息",
+        "url": "ipc.html#ipc_reply_message_payload"
+      }
+    ],
+    "url": "ipc.html",
+    "summary": "脚本间通信"
   },
   {
     "name": "keys",
@@ -1694,12 +1729,32 @@
       {
         "key": "create",
         "summary": "创建",
-        "url": "storages.html#storages_storages_create_name"
+        "url": "storages.html#storages_create_name"
+      },
+      {
+        "key": "namespace",
+        "summary": "创建命名空间存储",
+        "url": "storages.html#storages_namespace_name_namespace"
+      },
+      {
+        "key": "namespaceNames",
+        "summary": "列出命名空间",
+        "url": "storages.html#storages_m_namespace"
+      },
+      {
+        "key": "removeNamespace",
+        "summary": "移除命名空间存储",
+        "url": "storages.html#storages_m_namespace"
+      },
+      {
+        "key": "removeNamespaceSync",
+        "summary": "同步移除命名空间存储",
+        "url": "storages.html#storages_m_namespace"
       },
       {
         "key": "remove",
         "summary": "移除",
-        "url": "storages.html#storages_storages_remove_name"
+        "url": "storages.html#storages_remove_name"
       }
     ],
     "url": "storages.html",
@@ -1859,9 +1914,536 @@
         "key": "all",
         "summary": "所有引擎",
         "url": "engines.html#engines_engines_all"
+      },
+      {
+        "key": "runtimeObservability",
+        "summary": "运行观测、远程调试桥、诊断导出",
+        "url": "engines.html#engines_runtime_observability"
       }
     ],
     "url": "engines.html",
     "summary": "脚本引擎"
+  },
+  {
+    "name": "ocr",
+    "url": "ocr.html",
+    "summary": "光学字符识别",
+    "properties": [
+      {
+        "key": "mode",
+        "summary": "当前 OCR 模式",
+        "url": "ocr.html#ocr_p_mode",
+        "variable": true
+      },
+      {
+        "key": "recognizeText",
+        "summary": "识别文字",
+        "url": "ocr.html#ocr_recognizetext_options"
+      },
+      {
+        "key": "detect",
+        "summary": "检测 OCR 结果",
+        "url": "ocr.html#ocr_detect_options"
+      },
+      {
+        "key": "tap",
+        "summary": "切换 OCR 模式",
+        "url": "ocr.html#ocr_tap_mode"
+      },
+      {
+        "key": "summary",
+        "summary": "OCR 模式摘要",
+        "url": "ocr.html#ocr_summary"
+      }
+    ]
+  },
+  {
+    "name": "tasks",
+    "url": "tasks.html",
+    "summary": "定时与广播任务",
+    "properties": [
+      {
+        "key": "addTask",
+        "summary": "添加任务",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "addDailyTask",
+        "summary": "添加每日任务",
+        "url": "tasks.html#tasks_reliability_options"
+      },
+      {
+        "key": "addWeeklyTask",
+        "summary": "添加每周任务",
+        "url": "tasks.html#tasks_reliability_options"
+      },
+      {
+        "key": "addDisposableTask",
+        "summary": "添加一次性任务",
+        "url": "tasks.html#tasks_reliability_options"
+      },
+      {
+        "key": "addIntentTask",
+        "summary": "添加广播任务",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "getTimedTask",
+        "summary": "获取定时任务",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "getIntentTask",
+        "summary": "获取广播任务",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "removeTask",
+        "summary": "移除任务",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "removeTimedTask",
+        "summary": "移除定时任务",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "removeIntentTask",
+        "summary": "移除广播任务",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "updateTask",
+        "summary": "更新任务",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "queryTimedTasks",
+        "summary": "查询定时任务",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "queryIntentTasks",
+        "summary": "查询广播任务",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "queryTimedTaskRuns",
+        "summary": "查询定时任务运行历史",
+        "url": "tasks.html#tasks_querytimedtaskruns_options"
+      },
+      {
+        "key": "queryTimedTaskQueue",
+        "summary": "查询当前定时任务队列",
+        "url": "tasks.html#tasks_querytimedtaskqueue"
+      },
+      {
+        "key": "timeFlagToDays",
+        "summary": "时间标记转换为星期",
+        "url": "tasks.html#tasks_tasks"
+      },
+      {
+        "key": "daysToTimeFlag",
+        "summary": "星期转换为时间标记",
+        "url": "tasks.html#tasks_tasks"
+      }
+    ]
+  },
+  {
+    "name": "shizuku",
+    "url": "shizuku.html",
+    "summary": "Shizuku 特权能力",
+    "properties": [
+      {
+        "key": "execCommand",
+        "summary": "执行 Shizuku 命令",
+        "url": "shizuku.html#shizuku_shizuku_cmd"
+      },
+      {
+        "key": "getCommand",
+        "summary": "生成 Shizuku 命令",
+        "url": "shizuku.html#shizuku_shizuku_cmd"
+      },
+      {
+        "key": "kill",
+        "summary": "强制停止应用",
+        "url": "shizuku.html#shizuku_shizuku_1"
+      },
+      {
+        "key": "currentPackage",
+        "summary": "当前前台包名",
+        "url": "shizuku.html#shizuku_shizuku_1"
+      },
+      {
+        "key": "currentActivity",
+        "summary": "当前前台 Activity",
+        "url": "shizuku.html#shizuku_shizuku_1"
+      },
+      {
+        "key": "currentComponent",
+        "summary": "当前前台组件",
+        "url": "shizuku.html#shizuku_shizuku_1"
+      },
+      {
+        "key": "app",
+        "summary": "结构化应用管理特权 API",
+        "url": "shizuku.html#shizuku_structured_app",
+        "variable": true
+      },
+      {
+        "key": "app.forceStop",
+        "summary": "强制停止应用, 带风险级别和审计记录",
+        "url": "shizuku.html#shizuku_app_forcestop"
+      },
+      {
+        "key": "app.clearData",
+        "summary": "清除应用数据",
+        "url": "shizuku.html#shizuku_app_cleardata"
+      },
+      {
+        "key": "app.grantPermission",
+        "summary": "授予应用权限",
+        "url": "shizuku.html#shizuku_app_grantpermission"
+      },
+      {
+        "key": "app.revokePermission",
+        "summary": "撤销应用权限",
+        "url": "shizuku.html#shizuku_app_revokepermission"
+      },
+      {
+        "key": "app.install",
+        "summary": "安装 APK",
+        "url": "shizuku.html#shizuku_app_install"
+      },
+      {
+        "key": "app.uninstall",
+        "summary": "卸载应用",
+        "url": "shizuku.html#shizuku_app_uninstall"
+      },
+      {
+        "key": "settings",
+        "summary": "结构化系统设置 API",
+        "url": "shizuku.html#shizuku_structured_settings",
+        "variable": true
+      },
+      {
+        "key": "settings.get",
+        "summary": "读取 system/secure/global 设置",
+        "url": "shizuku.html#shizuku_settings_get"
+      },
+      {
+        "key": "settings.put",
+        "summary": "写入 system/secure/global 设置",
+        "url": "shizuku.html#shizuku_settings_put"
+      },
+      {
+        "key": "settings.delete",
+        "summary": "删除 system/secure/global 设置",
+        "url": "shizuku.html#shizuku_settings_delete"
+      },
+      {
+        "key": "settings.secure.get",
+        "summary": "读取 secure 设置",
+        "url": "shizuku.html#shizuku_settings_get"
+      },
+      {
+        "key": "settings.secure.put",
+        "summary": "写入 secure 设置",
+        "url": "shizuku.html#shizuku_settings_put"
+      },
+      {
+        "key": "settings.secure.delete",
+        "summary": "删除 secure 设置",
+        "url": "shizuku.html#shizuku_settings_delete"
+      },
+      {
+        "key": "settings.global.get",
+        "summary": "读取 global 设置",
+        "url": "shizuku.html#shizuku_settings_get"
+      },
+      {
+        "key": "settings.global.put",
+        "summary": "写入 global 设置",
+        "url": "shizuku.html#shizuku_settings_put"
+      },
+      {
+        "key": "settings.global.delete",
+        "summary": "删除 global 设置",
+        "url": "shizuku.html#shizuku_settings_delete"
+      },
+      {
+        "key": "settings.system.get",
+        "summary": "读取 system 设置",
+        "url": "shizuku.html#shizuku_settings_get"
+      },
+      {
+        "key": "settings.system.put",
+        "summary": "写入 system 设置",
+        "url": "shizuku.html#shizuku_settings_put"
+      },
+      {
+        "key": "settings.system.delete",
+        "summary": "删除 system 设置",
+        "url": "shizuku.html#shizuku_settings_delete"
+      },
+      {
+        "key": "package",
+        "summary": "结构化包管理查询 API",
+        "url": "shizuku.html#shizuku_structured_package",
+        "variable": true
+      },
+      {
+        "key": "package.info",
+        "summary": "查询包信息",
+        "url": "shizuku.html#shizuku_package_info"
+      },
+      {
+        "key": "package.apkPath",
+        "summary": "查询 APK 路径",
+        "url": "shizuku.html#shizuku_package_apkpath"
+      },
+      {
+        "key": "package.permissionState",
+        "summary": "查询权限授权状态",
+        "url": "shizuku.html#shizuku_package_permissionstate"
+      },
+      {
+        "key": "input",
+        "summary": "结构化输入注入 API, 与无障碍手势区分",
+        "url": "shizuku.html#shizuku_structured_input",
+        "variable": true
+      },
+      {
+        "key": "input.injectTap",
+        "summary": "通过 input 后端注入点击",
+        "url": "shizuku.html#shizuku_input_injecttap"
+      },
+      {
+        "key": "input.injectSwipe",
+        "summary": "通过 input 后端注入滑动",
+        "url": "shizuku.html#shizuku_input_injectswipe"
+      },
+      {
+        "key": "input.keyEvent",
+        "summary": "通过 input 后端注入按键",
+        "url": "shizuku.html#shizuku_input_keyevent"
+      },
+      {
+        "key": "process",
+        "summary": "结构化进程 API",
+        "url": "shizuku.html#shizuku_structured_process",
+        "variable": true
+      },
+      {
+        "key": "process.list",
+        "summary": "列出进程",
+        "url": "shizuku.html#shizuku_process_list"
+      },
+      {
+        "key": "process.kill",
+        "summary": "结束进程或强停包",
+        "url": "shizuku.html#shizuku_process_kill"
+      },
+      {
+        "key": "process.foreground",
+        "summary": "查询前台组件",
+        "url": "shizuku.html#shizuku_process_foreground"
+      },
+      {
+        "key": "users",
+        "summary": "结构化用户/多开 API",
+        "url": "shizuku.html#shizuku_structured_users",
+        "variable": true
+      },
+      {
+        "key": "users.listUsers",
+        "summary": "列出 Android 用户",
+        "url": "shizuku.html#shizuku_users_listusers"
+      },
+      {
+        "key": "users.currentUser",
+        "summary": "查询当前 Android 用户",
+        "url": "shizuku.html#shizuku_users_currentuser"
+      },
+      {
+        "key": "users.runAsUser",
+        "summary": "按用户执行受支持的结构化操作",
+        "url": "shizuku.html#shizuku_users_runasuser"
+      },
+      {
+        "key": "users.dualApps",
+        "summary": "查询多用户/多开包安装状态",
+        "url": "shizuku.html#shizuku_users_dualapps"
+      },
+      {
+        "key": "audit",
+        "summary": "结构化特权调用审计记录",
+        "url": "shizuku.html#shizuku_structured_audit",
+        "variable": true
+      },
+      {
+        "key": "audit.list",
+        "summary": "读取结构化特权调用审计记录",
+        "url": "shizuku.html#shizuku_audit_list"
+      },
+      {
+        "key": "audit.exportJson",
+        "summary": "导出结构化特权调用审计 JSON",
+        "url": "shizuku.html#shizuku_audit_exportjson"
+      },
+      {
+        "key": "operations",
+        "summary": "结构化 API 权限声明和风险元数据",
+        "url": "shizuku.html#shizuku_structured_operations",
+        "variable": true
+      },
+      {
+        "key": "state",
+        "summary": "Shizuku 状态",
+        "url": "shizuku.html#shizuku_shizuku_1",
+        "variable": true
+      }
+    ]
+  },
+  {
+    "name": "vision",
+    "url": "vision.html",
+    "summary": "屏幕感知融合",
+    "properties": [
+      {
+        "key": "targets",
+        "summary": "采样并输出融合目标列表",
+        "url": "vision.html#vision_targets_options"
+      },
+      {
+        "key": "findText",
+        "summary": "按文本查找融合目标",
+        "url": "vision.html#vision_findtext_text_options"
+      },
+      {
+        "key": "findButton",
+        "summary": "按按钮文本查找可点击目标",
+        "url": "vision.html#vision_findbutton_text_options"
+      },
+      {
+        "key": "observe",
+        "summary": "创建带采样间隔和来源开关的屏幕观察句柄",
+        "url": "vision.html#vision_observe_options"
+      },
+      {
+        "key": "waitForScene",
+        "summary": "等待 JSON 场景规则匹配当前屏幕",
+        "url": "vision.html#vision_waitforscene_scene_options"
+      },
+      {
+        "key": "summary",
+        "summary": "输出 vision 模块摘要",
+        "url": "vision.html#vision_summary"
+      }
+    ]
+  },
+  {
+    "name": "capabilities",
+    "url": "capabilities.html",
+    "summary": "能力状态中心",
+    "properties": [
+      {
+        "key": "check",
+        "summary": "检查能力状态",
+        "url": "capabilities.html#capabilities_check_ids"
+      },
+      {
+        "key": "ensure",
+        "summary": "检查并按需请求能力",
+        "url": "capabilities.html#capabilities_ensure_ids_options"
+      },
+      {
+        "key": "explain",
+        "summary": "解释能力或 API 需求",
+        "url": "capabilities.html#capabilities_explain_id_or_api"
+      },
+      {
+        "key": "scan",
+        "summary": "静态扫描脚本能力",
+        "url": "capabilities.html#capabilities_scan_script"
+      },
+      {
+        "key": "list",
+        "summary": "列出能力定义",
+        "url": "capabilities.html#capabilities_list"
+      },
+      {
+        "key": "manifest",
+        "summary": "查看项目能力清单",
+        "url": "capabilities.html#capabilities_manifest"
+      },
+      {
+        "key": "projectPackagingPreflight",
+        "summary": "项目打包预检与 inrt 诊断",
+        "url": "capabilities.html#capabilities_project_packaging_preflight"
+      },
+      {
+        "key": "remember",
+        "summary": "记住项目能力授权选择",
+        "url": "capabilities.html#capabilities_remember_ids_action"
+      },
+      {
+        "key": "audit",
+        "summary": "查看高风险能力调用审计",
+        "url": "capabilities.html#capabilities_audit"
+      },
+      {
+        "key": "clearAudit",
+        "summary": "清空能力审计记录",
+        "url": "capabilities.html#capabilities_clear_audit"
+      }
+    ]
+  },
+  {
+    "name": "automationSolutions",
+    "url": "automation-solutions.html",
+    "summary": "按场景组织的自动化方案库, 供新手复制模板并供 AI 优先检索方案模式",
+    "properties": [
+      {
+        "key": "appLaunchWait",
+        "summary": "App 启动与等待",
+        "url": "automation-solutions.html#app_launch_wait"
+      },
+      {
+        "key": "listScrollFind",
+        "summary": "列表滚动查找",
+        "url": "automation-solutions.html#list_scroll_find"
+      },
+      {
+        "key": "formFillSubmit",
+        "summary": "表单填写",
+        "url": "automation-solutions.html#form_fill_submit"
+      },
+      {
+        "key": "ocrTextClick",
+        "summary": "OCR 文字点击",
+        "url": "automation-solutions.html#ocr_text_click"
+      },
+      {
+        "key": "screenshotImageMatch",
+        "summary": "截图找图",
+        "url": "automation-solutions.html#screenshot_image_match"
+      },
+      {
+        "key": "timedTaskReliable",
+        "summary": "定时任务",
+        "url": "automation-solutions.html#timed_task_reliable"
+      },
+      {
+        "key": "shizukuAppManagement",
+        "summary": "Shizuku 应用管理",
+        "url": "automation-solutions.html#shizuku_app_management"
+      },
+      {
+        "key": "pluginOcr",
+        "summary": "插件 OCR",
+        "url": "automation-solutions.html#plugin_ocr"
+      }
+    ]
   }
 ]

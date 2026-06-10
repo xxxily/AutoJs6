@@ -17,6 +17,7 @@ import org.autojs.autojs.execution.ScriptExecutionGlobalListener
 import org.autojs.autojs.external.fileprovider.AppFileProvider
 import org.autojs.autojs.ipc.LayoutInspectEvent
 import org.autojs.autojs.ipc.LayoutInspectEventBus
+import org.autojs.autojs.observability.ScriptObservability
 import org.autojs.autojs.pluginclient.DevPluginService
 import org.autojs.autojs.runtime.ScriptRuntime
 import org.autojs.autojs.runtime.api.AppUtils
@@ -63,6 +64,7 @@ open class AutoJs(appContext: Application) : AbstractAutoJs(appContext) {
 
     init {
         scriptEngineService.registerGlobalScriptExecutionListener(ScriptExecutionGlobalListener())
+        scriptEngineService.registerGlobalScriptExecutionListener(ScriptObservability.executionListener)
 
         // @Archived by SuperMonster003 on Sep 27, 2025.
         //  ! LocalBroadcastManager is deprecated.
@@ -130,6 +132,7 @@ open class AutoJs(appContext: Application) : AbstractAutoJs(appContext) {
         return object : GlobalConsole(uiHandler) {
             override fun println(level: Int, charSequence: CharSequence): String? {
                 return super.println(level, charSequence).also {
+                    ScriptObservability.recordLog(level, charSequence.toString())
                     // FIXME by SuperMonster003 as of Feb 2, 2022.
                     //  ! When running in "ui" thread (ui.run() or ui.post()),
                     //  ! android.os.NetworkOnMainThreadException may happen.

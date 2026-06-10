@@ -10,7 +10,7 @@ import org.autojs.autojs.timing.TimedTask;
 
 public class TimedTaskDatabase extends Database<TimedTask> {
 
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
     private static final String NAME = "TimedTaskDatabase";
 
     public TimedTaskDatabase(Context context) {
@@ -27,6 +27,11 @@ public class TimedTaskDatabase extends Database<TimedTask> {
         values.put("loop_times", model.getLoopTimes());
         values.put("millis", model.getMillis());
         values.put("script_path", model.getScriptPath());
+        values.put("max_retries", model.getMaxRetries());
+        values.put("retry_backoff_millis", model.getRetryBackoffMillis());
+        values.put("mutex", model.isMutex());
+        values.put("mutex_key", model.getMutexKey());
+        values.put("timeout_millis", model.getTimeoutMillis());
         return values;
     }
 
@@ -41,6 +46,11 @@ public class TimedTaskDatabase extends Database<TimedTask> {
         task.setLoopTimes(cursor.getInt(5));
         task.setMillis(cursor.getLong(6));
         task.setScriptPath(cursor.getString(7));
+        task.setMaxRetries(cursor.getInt(8));
+        task.setRetryBackoffMillis(cursor.getLong(9));
+        task.setMutex(cursor.getInt(10) != 0);
+        task.setMutexKey(cursor.getString(11));
+        task.setTimeoutMillis(cursor.getLong(12));
         return task;
     }
 
@@ -60,12 +70,23 @@ public class TimedTaskDatabase extends Database<TimedTask> {
                     "`interval` INTEGER, " +
                     "`loop_times` INTEGER, " +
                     "`millis` INTEGER, " +
-                    "`script_path` TEXT);");
+                    "`script_path` TEXT, " +
+                    "`max_retries` INTEGER DEFAULT 0, " +
+                    "`retry_backoff_millis` INTEGER DEFAULT 0, " +
+                    "`mutex` INTEGER DEFAULT 0, " +
+                    "`mutex_key` TEXT DEFAULT '', " +
+                    "`timeout_millis` INTEGER DEFAULT 0);");
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            /* Empty body. */
+            if (oldVersion < 4) {
+                db.execSQL("ALTER TABLE `" + TimedTask.TABLE + "` ADD COLUMN `max_retries` INTEGER DEFAULT 0;");
+                db.execSQL("ALTER TABLE `" + TimedTask.TABLE + "` ADD COLUMN `retry_backoff_millis` INTEGER DEFAULT 0;");
+                db.execSQL("ALTER TABLE `" + TimedTask.TABLE + "` ADD COLUMN `mutex` INTEGER DEFAULT 0;");
+                db.execSQL("ALTER TABLE `" + TimedTask.TABLE + "` ADD COLUMN `mutex_key` TEXT DEFAULT '';");
+                db.execSQL("ALTER TABLE `" + TimedTask.TABLE + "` ADD COLUMN `timeout_millis` INTEGER DEFAULT 0;");
+            }
         }
     }
 

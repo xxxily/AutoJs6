@@ -1,5 +1,7 @@
 package org.autojs.autojs.runtime.api.augment.automator
 
+import org.autojs.autojs.capability.CapabilityRegistry
+import org.autojs.autojs.capability.ProjectCapabilitySecurity
 import org.autojs.autojs.runtime.ScriptRuntime
 import org.autojs.autojs.runtime.api.WrappedShizuku
 import org.autojs.autojs.runtime.api.augment.Augmentable
@@ -19,6 +21,13 @@ class RootAutomator(private val scriptRuntime: ScriptRuntime) : Augmentable(scri
         if (!RootUtils.isRootAvailable() && !WrappedShizuku.isOperational()) {
             throw RuntimeException("$key must be instantiated with root access or shizuku access")
         }
+        ProjectCapabilitySecurity.guard(
+            scriptRuntime = scriptRuntime,
+            api = "RootAutomator",
+            capabilities = if (WrappedShizuku.isOperational()) listOf(CapabilityRegistry.SHIZUKU) else listOf(CapabilityRegistry.ROOT),
+            riskLevel = "high",
+            target = "RootAutomator",
+        )
         when (it.size) {
             0 -> RootAutomatorNativeObject(scriptRuntime)
             1 -> RootAutomatorNativeObject(scriptRuntime, it[0])

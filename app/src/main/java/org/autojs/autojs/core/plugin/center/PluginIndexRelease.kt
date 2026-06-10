@@ -8,6 +8,7 @@ data class PluginIndexRelease(
     val apkUrl: String? = null,
     val apkSha256: String? = null,
     val apkSizeBytes: Long? = null,
+    val certificateSha256: List<String> = emptyList(),
 
     val changelogUrl: String? = null,
     val changelogText: String? = null,

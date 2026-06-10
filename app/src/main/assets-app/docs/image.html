@@ -204,6 +204,7 @@
 <li><span class="stability_undefined"><a href="#image_images_requestscreencapture_landscape">images.requestScreenCapture([landscape])</a></span></li>
 <li><span class="stability_undefined"><a href="#image_images_capturescreen">images.captureScreen()</a></span></li>
 <li><span class="stability_undefined"><a href="#image_images_capturescreen_path">images.captureScreen(path)</a></span></li>
+<li><span class="stability_undefined"><a href="#image_images_opencapturesession_options">images.openCaptureSession(options)</a></span></li>
 <li><span class="stability_undefined"><a href="#image_images_pixel_image_x_y">images.pixel(image, x, y)</a></span></li>
 <li><span class="stability_undefined"><a href="#image_images_findcolor_image_color_options">images.findColor(image, color, options)</a></span></li>
 <li><span class="stability_undefined"><a href="#image_images_findcolorinregion_img_color_x_y_width_height_threshold">images.findColorInRegion(img, color, x, y[, width, height, threshold])</a></span></li>
@@ -596,6 +597,42 @@ toast(colors.toString(color));
 </ul>
 </div><p>截取当前屏幕并以PNG格式保存到path中. 如果文件不存在会被创建；文件存在会被覆盖.</p>
 <p>该函数不会返回任何值. 该函数也可以作为全局函数使用.</p>
+<h2>images.openCaptureSession(options)<span><a class="mark" href="#image_images_opencapturesession_options" id="image_images_opencapturesession_options">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>options</code> { <span class="type">Object</span> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">string</a> } 截图会话选项或预设名称</li>
+<li>返回 { <span class="type">ScreenCaptureSession</span> }</li>
+</ul>
+</div><p>打开一个长期截图会话, 用于连续 OCR、高频找色、低功耗后台监测等需要稳定取帧的场景.</p>
+<p>会话内部维护帧缓存并在 <code>close()</code>、脚本退出或停止截图时回收缓存图片. <code>latest()</code> 与 <code>nextFrame()</code> 返回的是缓存帧副本, 脚本回收返回图片不会破坏会话缓存.</p>
+<p>可用预设包括 <code>single</code>、<code>ocr</code>、<code>color</code>、<code>low_power</code>. 常用选项包括 <code>cacheSize</code>、<code>timeout</code>、<code>interval</code>、<code>logErrors</code>、<code>autoRequest</code>.</p>
+<p><code>session.nextFrame(timeout)</code> 返回下一帧 Image; 失败时返回 <code>null</code>, 同时在控制台输出分类原因和建议修复动作. 可通过 <code>session.lastError()</code> 获取最近错误, 错误分类包括 <code>unauthorized</code>、<code>service_not_started</code>、<code>no_frame</code>、<code>orientation_mismatch</code>、<code>image_reader_exception</code>、<code>media_projection_invalid</code>.</p>
+<p><code>session.metrics()</code> 返回首帧耗时、平均帧耗时、超时率、方向恢复耗时、缓存帧数和内存估算等指标. 方向切换恢复后会输出 <code>recovered</code> 日志并更新 <code>lastRecovery</code>.</p>
+<pre><code>if (!requestScreenCapture()) {
+    toast(&quot;请求截图失败&quot;);
+    exit();
+}
+
+var session = images.openCaptureSession({
+    preset: &quot;color&quot;,
+    cacheSize: 2,
+    timeout: 1200,
+    interval: 16
+});
+
+try {
+    var img = session.nextFrame(1500);
+    if (img) {
+        var p = images.findColor(img, &quot;#ffffff&quot;);
+        log(&quot;findColor=&quot; + p);
+        img.recycle();
+    } else {
+        log(session.lastError());
+    }
+    log(session.metrics());
+} finally {
+    session.close();
+}
+</code></pre>
 <h2>images.pixel(image, x, y)<span><a class="mark" href="#image_images_pixel_image_x_y" id="image_images_pixel_image_x_y">#</a></span></h2>
 <div class="signature"><ul>
 <li><code>image</code> { <span class="type">Image</span> } 图片</li>

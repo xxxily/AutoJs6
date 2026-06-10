@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Automation Solutions | AutoJs6 文档</title>
+</head>
+<body class="alt apidoc" id="api-section-automation-solutions">
+<div id="content" class="clearfix">
+    <div id="column1" data-id="automation-solutions" class="interior">
+        <header>
+            <h1 id="automation_solutions">Automation Solutions - 自动化方案库</h1>
+            <p>方案库按常见自动化场景组织可复制模板。每个方案包含适用场景、依赖能力、风险等级、完整脚本、常见失败原因和 project.json 提示。</p>
+            <p>AI 脚本助手会优先检索 <code>solutions/automation-solutions.json</code> 中的方案模式, 再补充 API 文档片段。复杂任务应先选择最接近的方案, 再按目标 App 和页面文案替换变量。</p>
+        </header>
+
+        <section>
+            <h2 id="app_launch_wait">App 启动与等待</h2>
+            <p><strong>适用场景:</strong> 打开目标 App, 等待首页或关键控件稳定后继续执行。</p>
+            <p><strong>依赖能力:</strong> accessibility. <strong>风险等级:</strong> medium.</p>
+            <p><strong>常见失败原因:</strong> 应用名称不匹配或未安装; 首页文案随语言、版本、登录状态变化; 无障碍服务未启用。</p>
+<pre><code class="language-js">"auto";
+
+var APP_NAME = "目标应用";
+var READY_TEXT = "首页";
+
+if (!app.launchApp(APP_NAME)) {
+    throw new Error("无法启动应用: " + APP_NAME);
+}
+
+var ready = auto.waitUntil(text(READY_TEXT), {
+    timeout: 12000,
+    interval: 500,
+    stableCount: 2,
+    captureOnFailure: true
+});
+
+if (!ready.ok) {
+    throw new Error("首页未就绪: " + ready.reason);
+}
+
+toastLog("已进入首页: " + APP_NAME);</code></pre>
+            <p><strong>可复制模板:</strong> 替换 <code>APP_NAME</code> 和 <code>READY_TEXT</code>, 保留 <code>auto.waitUntil()</code> 的稳定等待和失败诊断。</p>
+        </section>
+
+        <section>
+            <h2 id="list_scroll_find">列表滚动查找</h2>
+            <p><strong>适用场景:</strong> 在长列表中滚动查找目标文本或控件, 找到后稳定点击。</p>
+            <p><strong>依赖能力:</strong> accessibility. <strong>风险等级:</strong> medium.</p>
+            <p><strong>常见失败原因:</strong> 列表容器不可滚动; 目标文本被截断或动态加载; 滚动次数过少。</p>
+<pre><code class="language-js">"auto";
+
+var KEYWORD = "目标文本";
+var result = auto.findWithScroll(textContains(KEYWORD), null, {
+    timeout: 15000,
+    maxScrolls: 12,
+    direction: "down",
+    captureOnFailure: true
+});
+
+if (!result.ok) {
+    throw new Error("未找到列表项: " + result.reason);
+}
+
+var clicked = auto.stableClick(result.uiObject, { timeout: 3000 });
+if (!clicked.ok) {
+    throw new Error("列表项点击失败: " + clicked.reason);
+}</code></pre>
+            <p><strong>可复制模板:</strong> 替换 <code>KEYWORD</code>, 必要时把第二个参数换成可滚动容器选择器。</p>
+        </section>
+
+        <section>
+            <h2 id="form_fill_submit">表单填写</h2>
+            <p><strong>适用场景:</strong> 等待输入框和按钮稳定, 依次填写字段并提交。</p>
+            <p><strong>依赖能力:</strong> accessibility. <strong>风险等级:</strong> medium.</p>
+            <p><strong>常见失败原因:</strong> 输入框 id 变化; 键盘遮挡提交按钮; 提交前需要额外勾选协议或处理验证码。</p>
+<pre><code class="language-js">"auto";
+
+var account = auto.stableSetText(id("account"), "demo@example.com", { timeout: 8000 });
+if (!account.ok) throw new Error("账号输入失败: " + account.reason);
+
+var password = auto.stableSetText(id("password"), "change-me", { timeout: 8000 });
+if (!password.ok) throw new Error("密码输入失败: " + password.reason);
+
+var submit = auto.stableClick(text("登录"), { timeout: 8000, stableCount: 2 });
+if (!submit.ok) throw new Error("提交失败: " + submit.reason);</code></pre>
+            <p><strong>可复制模板:</strong> 将 <code>id("account")</code>、<code>id("password")</code> 和提交按钮文案替换为目标页面的稳定选择器。</p>
+        </section>
+
+        <section>
+            <h2 id="ocr_text_click">OCR 文字点击</h2>
+            <p><strong>适用场景:</strong> 无障碍节点没有文本时, 使用屏幕感知/OCR 查找文字并点击。</p>
+            <p><strong>依赖能力:</strong> accessibility, screen_capture, ocr. <strong>风险等级:</strong> medium.</p>
+            <p><strong>常见失败原因:</strong> 截图权限未授权; OCR 引擎不可用; 文字被遮挡、置信度过低或命中区域不可点击。</p>
+<pre><code class="language-js">"auto";
+
+var target = vision.findText("确定", {
+    sources: "a11y+ocr",
+    timeout: 6000,
+    minConfidence: 0.35
+});
+
+if (!target) {
+    throw new Error("未通过 OCR/无障碍找到目标文字");
+}
+
+if (target.selector) {
+    var clicked = auto.stableClick(target.selector, { timeout: 3000 });
+    if (!clicked.ok) throw new Error("selector 点击失败: " + clicked.reason);
+} else {
+    var action = target.suggestedAction;
+    click(action.x, action.y);
+}</code></pre>
+            <p><strong>可复制模板:</strong> 优先使用 <code>target.selector</code> 做稳定点击, 仅在没有选择器时使用 OCR 坐标兜底。</p>
+        </section>
+
+        <section>
+            <h2 id="screenshot_image_match">截图找图</h2>
+            <p><strong>适用场景:</strong> 请求截图权限后, 用模板图在当前屏幕中查找并点击。</p>
+            <p><strong>依赖能力:</strong> screen_capture, storage. <strong>风险等级:</strong> medium.</p>
+            <p><strong>常见失败原因:</strong> 模板图片路径不存在; 目标缩放、主题或分辨率变化; 截图权限未授权或会话失效。</p>
+<pre><code class="language-js">if (!requestScreenCapture()) {
+    throw new Error("截图权限请求失败");
+}
+
+var template = images.read("./assets/button.png");
+if (!template) throw new Error("模板图片不存在");
+
+try {
+    var screen = captureScreen();
+    var point = images.findImage(screen, template, { threshold: 0.82 });
+    if (!point) throw new Error("未找到模板图");
+    click(point.x, point.y);
+} finally {
+    template.recycle();
+}</code></pre>
+            <p><strong>project.json 提示:</strong> 声明 <code>capabilities: ["screen_capture", "storage"]</code> 和 <code>assets: ["assets/button.png"]</code>。</p>
+        </section>
+
+        <section>
+            <h2 id="timed_task_reliable">定时任务</h2>
+            <p><strong>适用场景:</strong> 创建带重试、互斥和超时策略的定时任务, 并查询最近运行记录。</p>
+            <p><strong>依赖能力:</strong> background_run, exact_alarm. <strong>风险等级:</strong> medium.</p>
+            <p><strong>常见失败原因:</strong> 系统限制精确闹钟或后台启动; 脚本路径不存在; 任务因互斥跳过; 重启后未允许开机启动。</p>
+<pre><code class="language-js">var task = tasks.addDailyTask({
+    path: files.join(files.cwd(), "daily-sync.js"),
+    time: "08:30",
+    maxRetries: 2,
+    retryBackoffMillis: 60 * 1000,
+    mutex: "daily-sync",
+    timeoutMillis: 5 * 60 * 1000
+});
+
+log("task id: " + task.id);
+log("queue: " + JSON.stringify(tasks.queryTimedTaskQueue()));
+log("runs: " + JSON.stringify(tasks.queryTimedTaskRuns({ taskId: task.id, limit: 5 })));</code></pre>
+            <p><strong>project.json 提示:</strong> 声明 <code>capabilities: ["background_run", "exact_alarm"]</code>。</p>
+        </section>
+
+        <section>
+            <h2 id="shizuku_app_management">Shizuku 应用管理</h2>
+            <p><strong>适用场景:</strong> 使用结构化 Shizuku API 查询、强停、授权或清理应用, 避免手写 pm/am 命令。</p>
+            <p><strong>依赖能力:</strong> shizuku. <strong>风险等级:</strong> high.</p>
+            <p><strong>常见失败原因:</strong> Shizuku 服务未运行或未授权 AutoJs6; 目标包名错误; 授权权限不属于目标应用 manifest。</p>
+<pre><code class="language-js">"auto";
+
+var PACKAGE = "com.example.target";
+var state = shizuku.state();
+if (!state.available) {
+    throw new Error("Shizuku 不可用: " + state.reason);
+}
+
+var info = shizuku.package.info(PACKAGE);
+log("target: " + JSON.stringify(info));
+
+var stopped = shizuku.app.forceStop(PACKAGE);
+log("forceStop: " + JSON.stringify(stopped));</code></pre>
+            <p><strong>project.json 提示:</strong> 声明 <code>capabilities: ["shizuku"]</code>, <code>privilegedPolicy.shizuku = true</code>, 并将高风险策略设为提示或拒绝。</p>
+        </section>
+
+        <section>
+            <h2 id="plugin_ocr">插件 OCR</h2>
+            <p><strong>适用场景:</strong> 通过 Paddle OCR 插件能力识别图片文字, 并在打包项目中声明插件依赖。</p>
+            <p><strong>依赖能力:</strong> ocr, screen_capture. <strong>风险等级:</strong> medium.</p>
+            <p><strong>常见失败原因:</strong> Paddle OCR 插件未安装、未启用或版本不兼容; 打包项目未声明 <code>pluginDependencies</code>; 图片路径不存在。</p>
+<pre><code class="language-js">console.show();
+
+var img = images.read("./test.png");
+if (!img) throw new Error("图片不存在: ./test.png");
+
+try {
+    var results = ocr.paddle.detect(img, { useSlim: true, cpuThreadNum: 4 });
+    Array.from(results).forEach(function (item) {
+        log(item.label + " " + item.confidence + " " + JSON.stringify(item.bounds));
+    });
+} finally {
+    img.recycle();
+}</code></pre>
+            <p><strong>project.json 提示:</strong> 声明 <code>capabilities: ["ocr", "screen_capture"]</code> 和 <code>pluginDependencies: ["org.autojs.autojs.plugin.paddle.ocr"]</code>。</p>
+        </section>
+    </div>
+</div>
+</body>
+</html>

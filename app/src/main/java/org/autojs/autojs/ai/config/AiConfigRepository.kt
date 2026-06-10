@@ -21,6 +21,10 @@ class AiConfigRepository(context: Context) {
         allowFullFileContext = prefs.getBoolean(KEY_ALLOW_FULL_FILE, true),
         allowProjectStructure = prefs.getBoolean(KEY_ALLOW_PROJECT_STRUCTURE, true),
         allowRecentLogs = prefs.getBoolean(KEY_ALLOW_RECENT_LOGS, true),
+        allowClipboardContext = prefs.getBoolean(KEY_ALLOW_CLIPBOARD, false),
+        allowUiSnapshotContext = prefs.getBoolean(KEY_ALLOW_UI_SNAPSHOT, false),
+        allowScreenCaptureContext = prefs.getBoolean(KEY_ALLOW_SCREEN_CAPTURE, false),
+        allowOcrContext = prefs.getBoolean(KEY_ALLOW_OCR, false),
         highRiskConfirmation = prefs.getBoolean(KEY_HIGH_RISK_CONFIRMATION, true),
     )
 
@@ -32,6 +36,10 @@ class AiConfigRepository(context: Context) {
             putBoolean(KEY_ALLOW_FULL_FILE, settings.allowFullFileContext)
             putBoolean(KEY_ALLOW_PROJECT_STRUCTURE, settings.allowProjectStructure)
             putBoolean(KEY_ALLOW_RECENT_LOGS, settings.allowRecentLogs)
+            putBoolean(KEY_ALLOW_CLIPBOARD, settings.allowClipboardContext)
+            putBoolean(KEY_ALLOW_UI_SNAPSHOT, settings.allowUiSnapshotContext)
+            putBoolean(KEY_ALLOW_SCREEN_CAPTURE, settings.allowScreenCaptureContext)
+            putBoolean(KEY_ALLOW_OCR, settings.allowOcrContext)
             putBoolean(KEY_HIGH_RISK_CONFIRMATION, settings.highRiskConfirmation)
         }
     }
@@ -160,6 +168,10 @@ class AiConfigRepository(context: Context) {
         private const val KEY_ALLOW_FULL_FILE = "allow_full_file"
         private const val KEY_ALLOW_PROJECT_STRUCTURE = "allow_project_structure"
         private const val KEY_ALLOW_RECENT_LOGS = "allow_recent_logs"
+        private const val KEY_ALLOW_CLIPBOARD = "allow_clipboard"
+        private const val KEY_ALLOW_UI_SNAPSHOT = "allow_ui_snapshot"
+        private const val KEY_ALLOW_SCREEN_CAPTURE = "allow_screen_capture"
+        private const val KEY_ALLOW_OCR = "allow_ocr"
         private const val KEY_HIGH_RISK_CONFIRMATION = "high_risk_confirmation"
         private const val KEY_LAST_ERROR_MESSAGE = "last_error_message"
         private const val KEY_LAST_ERROR_LINE = "last_error_line"

@@ -87,6 +87,30 @@
                 android:text="@string/text_ai_allow_recent_logs" />
 
             <org.autojs.autojs.theme.widget.ThemeColorCheckBox
+                android:id="@+id/check_clipboard_context"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_ai_allow_clipboard_context" />
+
+            <org.autojs.autojs.theme.widget.ThemeColorCheckBox
+                android:id="@+id/check_ui_snapshot_context"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_ai_allow_ui_snapshot_context" />
+
+            <org.autojs.autojs.theme.widget.ThemeColorCheckBox
+                android:id="@+id/check_screen_capture_context"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_ai_allow_screen_capture_context" />
+
+            <org.autojs.autojs.theme.widget.ThemeColorCheckBox
+                android:id="@+id/check_ocr_context"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_ai_allow_ocr_context" />
+
+            <org.autojs.autojs.theme.widget.ThemeColorCheckBox
                 android:id="@+id/check_high_risk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

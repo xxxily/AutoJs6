@@ -402,11 +402,15 @@
     <string name="dialog_button_connect">Connect</string>
     <string name="dialog_button_continue">@string/text_continue</string>
     <string name="dialog_button_copy">@string/text_copy</string>
+    <string name="dialog_button_copy_diagnostics">Copy diagnostics</string>
+    <string name="dialog_button_copy_token">Copy token</string>
     <string name="dialog_button_copy_path">Copy path</string>
     <string name="dialog_button_default_prefix">Def prefix</string>
     <string name="dialog_button_details">Details</string>
+    <string name="dialog_button_disable">Disable</string>
     <string name="dialog_button_discard_changes">Discard changes</string>
     <string name="dialog_button_dismiss">Dismiss</string>
+    <string name="dialog_button_enable">Enable</string>
     <string name="dialog_button_download_with_browser">Browser</string>
     <string name="dialog_button_exception_details">Details</string>
     <string name="dialog_button_file_information">File info</string>
@@ -426,6 +430,7 @@
     <string name="dialog_button_restore">@string/text_restore</string>
     <string name="dialog_button_retrieve">Retrieve</string>
     <string name="dialog_button_retry">Retry</string>
+    <string name="dialog_button_rotate_token">Rotate token</string>
     <string name="dialog_button_save">Save</string>
     <string name="dialog_button_save_and_continue">Save and continue</string>
     <string name="dialog_button_save_as">Save as</string>
@@ -607,6 +612,8 @@
     <string name="error_pattern_syntax">Invalid pattern syntax</string>
     <string name="error_plugin_apk_does_not_contain_required_assets_for_variant">Plugin APK does not contain required assets for variant=\"%1$s\": %2$s.</string>
     <string name="error_plugin_apk_does_not_contain_required_native_libraries">Plugin APK does not contain required native libraries: %1$s.</string>
+    <string name="error_plugin_apk_certificate_mismatch">APK signing certificate mismatch.\n\nExpected: %1$s\nActual: %2$s</string>
+    <string name="error_plugin_index_missing_apk_sha256">The plugin index does not provide apkSha256 for this release. Installation is blocked to avoid unverified APKs.</string>
     <string name="error_plugin_is_not_authorized_in_plugin_center">Plugin \"%1$s\" is not authorized in Plugin Center</string>
     <string name="error_plugin_is_not_enabled_in_plugin_center">Plugin \"%1$s\" is not enabled in Plugin Center</string>
     <string name="error_plugin_not_found_in_installed_apps">Plugin \"%1$s\" not found in installed apps</string>
@@ -845,6 +852,8 @@
     <string name="text_build">Build</string>
     <string name="text_build_apk">Build APK</string>
     <string name="text_build_completed">Build completed</string>
+    <string name="text_build_id">Build ID</string>
+    <string name="text_build_number">Build number</string>
     <string name="text_build_profile">Build profile</string>
     <string name="text_build_profile_cannot_delete_default">Default profile cannot be deleted</string>
     <string name="text_build_profile_cannot_delete_project_json">project.json profile cannot be deleted</string>
@@ -860,6 +869,8 @@
     <string name="text_build_profile_unsaved_changes_project_json">Current build configuration has unsaved changes and will be written to project.json.</string>
     <string name="text_build_profile_unsaved_switch_confirm">Save changes before continuing?</string>
     <string name="text_build_succeeded">Build succeeded</string>
+    <string name="text_build_preflight_failed">Build preflight failed</string>
+    <string name="text_build_preflight_warnings">Build preflight warnings</string>
     <string name="text_building_apk">Building APK</string>
     <string name="text_building_resources">Building resources</string>
     <string name="text_built_apk_file_path">Built APK file path</string>
@@ -1160,6 +1171,11 @@
     <string name="text_import_strategy_overwrite">Overwrite existing profile</string>
     <string name="text_import_succeed">Import succeeded</string>
     <string name="text_import_to_my_scripts">Import to \"my scripts\"</string>
+    <string name="text_inrt_build_diagnostics">Build diagnostics</string>
+    <string name="text_inrt_build_diagnostics_unavailable">Build diagnostics unavailable</string>
+    <string name="text_inrt_capability_preflight_missing">Missing or unavailable capabilities: %1$s. Check inrt settings.</string>
+    <string name="text_inrt_missing_capabilities">Missing capabilities</string>
+    <string name="text_inrt_required_settings">Required inrt settings</string>
     <string name="text_in_progress">In progress</string>
     <string name="text_info">Information</string>
     <string name="text_insist_on_record">Record</string>
@@ -1217,6 +1233,24 @@
     <string name="text_locate_current_theme_color">Locate current theme color</string>
     <string name="text_log">Log</string>
     <string name="text_show_log">Show log</string>
+    <string name="text_run_details">Run details</string>
+    <string name="text_run_details_empty">No script run details are available yet.</string>
+    <string name="text_execution_id">Execution ID</string>
+    <string name="text_status">Status</string>
+    <string name="text_script_path">Script path</string>
+    <string name="text_start_time">Start time</string>
+    <string name="text_end_time">End time</string>
+    <string name="text_duration">Duration</string>
+    <string name="text_thread">Thread</string>
+    <string name="text_resource_usage">Resource usage</string>
+    <string name="text_logs">Logs</string>
+    <string name="text_capabilities">Capabilities</string>
+    <string name="text_capability_calls">Capability calls</string>
+    <string name="text_debug_stack">Debug stack</string>
+    <string name="text_debug_variables">Debug variables</string>
+    <string name="text_exception_stack">Exception stack</string>
+    <string name="text_recent_logs">Recent logs</string>
+    <string name="text_recent_runs">Recent runs</string>
     <string name="text_logging_in">Logging in</string>
     <string name="text_login">Login</string>
     <string name="text_login_succeed">Login succeeded</string>
@@ -1467,6 +1501,15 @@
     <string name="text_release_history">Release history</string>
     <string name="text_release_notes">Release notes</string>
     <string name="text_remote">remote</string>
+    <string name="text_remote_debug_bridge">Remote debug bridge</string>
+    <string name="text_remote_debug_disabled_hint">Remote debug commands are disabled by default. Enable locally to generate a one-time visible access token for desktop tools.</string>
+    <string name="text_remote_debug_token_saved_hint">Remote debug bridge is enabled. The token is stored as a hash and is only shown when created or rotated.</string>
+    <string name="text_remote_debug_token_only_shown_when_created">Token is only shown when created or rotated.</string>
+    <string name="text_remote_debug_enabled">Remote debug enabled</string>
+    <string name="text_remote_debug_disabled">Remote debug disabled</string>
+    <string name="text_remote_debug_token_rotated">Remote debug token rotated</string>
+    <string name="text_remote_debug_token_created_message">Access token copied to clipboard. Use this token in debug.* commands:\n%1$s</string>
+    <string name="text_remote_debug_stop_requested">Stop requested for execution #%1$d</string>
     <string name="text_remote_file_saved_to_local_storage_successfully">Remote file saved to local storage successfully</string>
     <string name="text_remote_project_saved_to_local_storage_successfully">Remote project saved to local storage successfully</string>
     <string name="text_remove_all_breakpoints">Remove all breakpoints</string>
@@ -1591,6 +1634,11 @@
     <string name="text_star">Star</string>
     <string name="text_start_record">Start recording</string>
     <string name="text_start_running">Running</string>
+    <string name="text_run_capability_preflight">Run capability preflight</string>
+    <string name="text_run_capability_preflight_details" formatted="true">  %1$s</string>
+    <string name="text_run_capability_preflight_hint" formatted="true">  %1$s</string>
+    <string name="text_run_capability_preflight_item" formatted="true">- %1$s: %2$s</string>
+    <string name="text_run_capability_preflight_message">The current script may require these capabilities. Confirm them before running:</string>
     <string name="text_state_or_province">State or Province</string>
     <string name="text_stop">Stop</string>
     <string name="text_street">Street</string>
@@ -1701,6 +1749,7 @@
     <string name="text_write_system_settings">Write system settings</string>
     <string name="text_writing_app_icon">Writing app icon</string>
     <string name="text_writing_manifest">Writing manifest</string>
+    <string name="text_writing_build_diagnostics">Writing build diagnostics</string>
     <string name="text_writing_project_config">Writing project config</string>
     <string name="text_writing_resources_arsc">Writing resources.arsc</string>
     <string name="text_writing_signed_apk">Writing signed APK</string>
@@ -1715,6 +1764,10 @@
     <string name="text_ai_allow_full_file_context">Allow sending current file context</string>
     <string name="text_ai_allow_project_structure">Allow sending project structure</string>
     <string name="text_ai_allow_recent_logs">Allow sending recent run errors and logs</string>
+    <string name="text_ai_allow_clipboard_context">Allow sending clipboard text after confirmation</string>
+    <string name="text_ai_allow_ui_snapshot_context">Allow sending UI snapshot summaries after confirmation</string>
+    <string name="text_ai_allow_screen_capture_context">Allow sending screenshot summaries after confirmation</string>
+    <string name="text_ai_allow_ocr_context">Allow sending OCR result summaries after confirmation</string>
     <string name="text_ai_high_risk_confirmation">Require second confirmation for risky code</string>
     <string name="text_ai_max_context_chars">Max context characters</string>
     <string name="text_ai_max_log_chars">Max log characters</string>
