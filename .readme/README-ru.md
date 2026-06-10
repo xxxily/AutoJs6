@@ -59,17 +59,17 @@ AutoJs6 разработан на основе финальной версии �
 | <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/hyb1996/Auto.js)</span> | <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/TonyJiangWJ/Auto.js/commit/268ec8895bbfa28fc7715154eb15b1c1eaaefd14#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2017/01/27`</span> | <span style="word-break:keep-all;white-space:nowrap">`2020/03/13`</span> | <span style="word-break:keep-all;white-space:nowrap">3.13</span> |
 | <span style="word-break:keep-all;white-space:nowrap">Auto.js Pro 7</span> | <span style="word-break:keep-all;white-space:nowrap">Auto.js</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/03/13`</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/07/08`</span> | <span style="word-break:keep-all;white-space:nowrap">0.32</span> |
 | <span style="word-break:keep-all;white-space:nowrap">Auto.js Pro 8</span> | <span style="word-break:keep-all;white-space:nowrap">AutoJsPro</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/10/13`</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/07/24`</span> | <span style="word-break:keep-all;white-space:nowrap">1.78</span> |
-| <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/TonyJiangWJ/Auto.js)</span> | <span style="word-break:keep-all;white-space:nowrap">[Auto.js&#160;M](https://github.com/TonyJiangWJ/Auto.js/commit/268ec8895bbfa28fc7715154eb15b1c1eaaefd14#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[TonyJiangWJ](https://github.com/TonyJiangWJ)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/11/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 6.55 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/TonyJiangWJ/Auto.js)</span> | <span style="word-break:keep-all;white-space:nowrap">[Auto.js&#160;M](https://github.com/TonyJiangWJ/Auto.js/commit/268ec8895bbfa28fc7715154eb15b1c1eaaefd14#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[TonyJiangWJ](https://github.com/TonyJiangWJ)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/11/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 6.56 ></span> |
 | <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/kkevsekk1/AutoX)</span> | <span style="white-space:pre">[Autox.js](https://github.com/kkevsekk1/AutoX/commit/8143e4ed893d4af05d22aa791b83a962f9959873#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[kkevsekk1](https://github.com/kkevsekk1)</span> | <span style="word-break:keep-all;white-space:nowrap">`2020/07/24`</span> | <span style="word-break:keep-all;white-space:nowrap">[ `2025/01/07` ]</span> | <span style="word-break:keep-all;white-space:nowrap">4.46</span> |
 | <span style="word-break:keep-all;white-space:nowrap">[Auto.js Pro 9](https://pro.autojs.org/)</span> | <span style="word-break:keep-all;white-space:nowrap">AutoJsPro</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/03/28`</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/02/09`</span> | <span style="word-break:keep-all;white-space:nowrap">1.87</span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6/commit/a8ce1b9acb541e9736c33134be3194c3148a15a3#diff-833a46a97033e77558372a2dce103fd6fee29aaaa899f610022a7aece592ee7bR27)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/12/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 4.52 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6/commit/a8ce1b9acb541e9736c33134be3194c3148a15a3#diff-833a46a97033e77558372a2dce103fd6fee29aaaa899f610022a7aece592ee7bR27)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/12/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 4.53 ></span> |
 | <span style="word-break:keep-all;white-space:nowrap">[autojs4](https://github.com/blackcd318/autojs4)</span> | <span style="word-break:keep-all;white-space:nowrap">Auto.js</span> | <span style="word-break:keep-all;white-space:nowrap">[blackcd318](https://github.com/blackcd318)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/12/15`</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/07/31`</span> | <span style="word-break:keep-all;white-space:nowrap">1.62</span> |
 | <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/kkevsekk1/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v6](https://github.com/kkevsekk1/AutoX/commit/8b6776cff8b0fca4be4a52719b7d7d07c0a058f3#diff-51a0b488f963eb0be6c6599bf5df497313877cf5bdff3950807373912ac1cdc9R130)</span> | <span style="word-break:keep-all;white-space:nowrap">[wilinz](https://github.com/wilinz) / [aiselp](https://github.com/aiselp)</span> | <span style="word-break:keep-all;white-space:nowrap">`2022/05/26`</span> | <span style="word-break:keep-all;white-space:nowrap">[ `2025/01/07` ]</span> | <span style="word-break:keep-all;white-space:nowrap">2.62</span> |
 | <span style="word-break:keep-all;white-space:nowrap">[openautojs](https://github.com/openautojs/openautojs)</span> | <span style="white-space:pre">[OpenAuto.js](https://github.com/openautojs/openautojs/commit/a11feaad025154de9b453ba70b49e94a6ca8b48a#diff-7d757295fcec3b37c258337e048644c258233d79259152e77baa6d36bb0ec418R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[openautojs](https://github.com/openautojs)</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/02/17`</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/04/16`</span> | <span style="word-break:keep-all;white-space:nowrap">0.16</span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4/commit/8de11699b608be1c1f49f0f10e2e2826f8c77978)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/04/11`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 3.16 ></span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/aiselp/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v7](https://github.com/aiselp/AutoX/commit/484491fd5fe12b8203d0b09c181eb0f471c0ea9f#diff-8cff73265af19c059547b76aca8882cbaa3209291406f52df1dafbbc78e80c46R120)</span> | <span style="word-break:keep-all;white-space:nowrap">[aiselp](https://github.com/aiselp)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/04/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 2.13 ></span> |
-| <span style="word-break:keep-all;white-space:nowrap">[Autoxjs_v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi)</span> | <span style="white-space:pre">[Autox.js&#160;v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi/blob/a651d02246e09cfbbfa87e6eaccf900fab/app/build.gradle.kts#L143)</span> | <span style="word-break:keep-all;white-space:nowrap">[ozobiozobi](https://github.com/ozobiozobi)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/10/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.68 ></span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/autox-community/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v6](https://github.com/autox-community/AutoX/commit/8b6776cff8b0fca4be4a52719b7d7d07c0a058f3#diff-51a0b488f963eb0be6c6599bf5df497313877cf5bdff3950807373912ac1cdc9R130)</span> | <span style="word-break:keep-all;white-space:nowrap">[autox-community](https://github.com/autox-community)</span> | <span style="word-break:keep-all;white-space:nowrap">`2025/03/30`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.19 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4/commit/8de11699b608be1c1f49f0f10e2e2826f8c77978)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/04/11`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 3.17 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/aiselp/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v7](https://github.com/aiselp/AutoX/commit/484491fd5fe12b8203d0b09c181eb0f471c0ea9f#diff-8cff73265af19c059547b76aca8882cbaa3209291406f52df1dafbbc78e80c46R120)</span> | <span style="word-break:keep-all;white-space:nowrap">[aiselp](https://github.com/aiselp)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/04/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 2.14 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[Autoxjs_v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi)</span> | <span style="white-space:pre">[Autox.js&#160;v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi/blob/a651d02246e09cfbbfa87e6eaccf900fab/app/build.gradle.kts#L143)</span> | <span style="word-break:keep-all;white-space:nowrap">[ozobiozobi](https://github.com/ozobiozobi)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/10/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.69 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/autox-community/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v6](https://github.com/autox-community/AutoX/commit/8b6776cff8b0fca4be4a52719b7d7d07c0a058f3#diff-51a0b488f963eb0be6c6599bf5df497313877cf5bdff3950807373912ac1cdc9R130)</span> | <span style="word-break:keep-all;white-space:nowrap">[autox-community](https://github.com/autox-community)</span> | <span style="word-break:keep-all;white-space:nowrap">`2025/03/30`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.20 ></span> |
 
 Даты в таблице являются оценочными и могут отличаться от фактических.
 
@@ -77,7 +77,7 @@ AutoJs6 разработан на основе финальной версии �
 
 В таблице данные в столбце `Дата окончания разработки`, содержащие квадратные скобки (`[]`), означают, что открытый проект временно недоступен.
 
-В таблице данные в столбце `Период активного обслуживания`, содержащие угловые скобки (`<>`), учитываются по состоянию на 7 June 2026 года.
+В таблице данные в столбце `Период активного обслуживания`, содержащие угловые скобки (`<>`), учитываются по состоянию на 10 June 2026 года.
 
 ******
 
@@ -164,6 +164,18 @@ AutoJs6 разработан на основе финальной версии �
 
 ******
 
+# v6.8.0
+
+###### 2026/06/10
+
+* `Новое` Добавлен единый центр состояния возможностей и предварительные проверки запуска с проверкой возможностей, входами разрешений, описанием рисков и манифестами возможностей проекта
+* `Новое` Добавлены надежный DSL автоматизации, диагностика снимков UI, сессии скриншотов и объединенный конвейер экранного восприятия
+* `Новое` Добавлены структурированные привилегированные API Shizuku/Root, чтобы сократить рукописные shell-строки и вести аудит рисков
+* `Новое` Добавлены записи запусков задач, политики надежности планировщика, sandbox возможностей скриптов и аудит вызовов высокого риска
+* `Новое` Добавлены объявления разрешений SDK плагинов, проверки цепочки поставки, наблюдаемость удаленной отладки, именованные HTTP client, докачка файлов, локальный IPC и typed Broadcast
+* `Новое` Добавлены предварительные проверки упаковки, диагностические пакеты inrt, AI Copilot phase 2 и библиотека решений автоматизации
+* `Улучшение` Улучшена согласованность индексов API, встроенной документации, AI-индексов и внешней документации, добавлены примеры возможностей, матрицы сопровождения и чек-листы приемки регрессии
+
 # v6.7.2
 
 ###### 2026/06/07
@@ -192,198 +204,6 @@ AutoJs6 разработан на основе финальной версии �
 * `Исправление` ConcatReader.close теперь продолжает закрывать оставшиеся reader при ошибке закрытия одного из них
 * `Улучшение` Обновлены данные совместимости версий AGP в Gradle Settings
 * `Улучшение` Обновлены комментарий и дата версии Temurin
-
-# v6.7.0
-
-###### 2026/03/14
-
-* `Новое` Функция Центр плагинов, поддерживающая установку/удаление/обновление плагинов и другие операции (вход: кнопка боковой панели главной страницы/вкладка главной страницы)
-* `Новое` Функция История версий, поддерживающая просмотр/восстановление исторических версий редактируемых файлов (вход: кнопка боковой панели главной страницы/меню файлового менеджера/меню редактора кода)
-* `Новое` Функция Корзина, поддерживающая просмотр/восстановление удаленных файлов/папок (вход: кнопка боковой панели главной страницы)
-* `Новое` Плагин Paddle OCR (PP-OCRv5), для оптического распознавания символов
-* `Новое` Модуль cvt, для преобразования единиц данных (см. Документация проекта > [Преобразование единиц](https://docs.autojs6.com/#/cvt))
-* `Новое` Модуль fmt, для форматирования данных (см. Документация проекта > [Форматирование](https://docs.autojs6.com/#/fmt))
-* `Новое` Модуль zip, для операций сжатия и распаковки файлов (Ref to [Auto.js Pro](https://g.pro.autojs.org/)) (см. Документация проекта > [Zip](https://docs.autojs6.com/#/zip))
-* `Новое` Модуль mediainfo, для просмотра подробной информации о медиафайлах (см. Документация проекта > [Информация о медиа](https://docs.autojs6.com/#/mediainfo))
-* `Новое` Метод cvt.bytes, для преобразования единиц байтовых данных (см. Документация проекта > [Преобразование единиц](https://docs.autojs6.com/#/cvt))
-* `Новое` Метод fmt.bytes, для форматирования байтовых данных (см. Документация проекта > [Форматирование](https://docs.autojs6.com/#/fmt))
-* `Новое` Метод s13n.bytes, для стандартизации байтовых данных (см. Документация проекта > [Стандартизация](https://docs.autojs6.com/#/s13n))
-* `Новое` Метод app.isDualInstalled, для определения, установлено ли двойное приложение (требуются права Shizuku или Root) _[`issue #450`](http://issues.autojs6.com/450)_
-* `Новое` Метод device.getSharedDeviceId, для получения единого общего ID устройства между приложениями _[`issue #455`](http://issues.autojs6.com/455)_
-* `Новое` Метод device.setPointerLocation и другие методы серии Toggleable, для установки или получения системной настройки положения указателя _[`issue #381`](http://issues.autojs6.com/381)_
-* `Новое` Метод dialogs.build поддерживает параметры textAllCaps/(positive/negative/neutral)TextAllCaps, для управления тем, должен ли текст кнопок отображаться полностью заглавными буквами
-* `Новое` Метод images.loadAsync, для асинхронного получения сетевых графических ресурсов _[`issue #327`](http://issues.autojs6.com/327)_
-* `Новое` Метод ui.getNavigationBarHeight/свойство navigationBarHeight (getter), для получения высоты панели навигации _[`issue #456`](http://issues.autojs6.com/456)_
-* `Новое` Метод ui.getVisible(Status/Navigation)BarHeight/свойство visible(Status/Navigation)BarHeight (getter), для быстрого получения видимой высоты строки состояния или панели навигации _[`issue #456`](http://issues.autojs6.com/456)_
-* `Новое` Методы http.put/del(ete)/head, для отправки сетевых запросов с использованием разных HTTP-методов
-* `Новое` Методы http.getAsync/postAsync/requestAsync и другие, для асинхронной отправки сетевых запросов _[`issue #423`](http://issues.autojs6.com/423)_
-* `Новое` Объект body, получаемый методами запросов модуля http, дополнен методами stream/saveToFile/close и др. _[`issue #452`](http://issues.autojs6.com/452)_
-* `Новое` Методы запросов модуля http поддерживают параметры управления кешем (cacheBody/bodyCacheThresholdBytes)
-* `Новое` Методы запросов модуля http поддерживают небезопасные параметры (isInsecure/insecure), для игнорирования исключений, связанных с сертификатами _[`issue #417`](http://issues.autojs6.com/417)_
-* `Новое` Методы запросов модуля http поддерживают опцию options.client, для настройки OkHttpClient.Builder (например, followRedirects и т. п.) _[`issue #454`](http://issues.autojs6.com/454)_
-* `Новое` Свойство auto.state (getter) и свойство shizuku.state (getter), для получения состояния службы специальных возможностей и службы Shizuku
-* `Новое` Методы runtime.(set/is)JavaPrimitiveWrap, для установки или получения стратегии обертки примитивных типов Java _[`issue #435`](http://issues.autojs6.com/435)_
-* `Новое` Методы autojs.(restart/exit), для перезапуска или выхода из приложения AutoJs6, а также с поддержкой автоматического запуска указанного скрипта при перезапуске приложения _[`issue #460`](http://issues.autojs6.com/460)_
-* `Новое` Метод UiObject#isShifted, для определения изменения положения элемента _[`issue #469`](http://issues.autojs6.com/469)_
-* `Новое` Метод UiObject#snapshot, для захвата текущего состояния элемента _[`issue #469`](http://issues.autojs6.com/469)_
-* `Новое` Метод engines.myEngine().getStartTime(), для получения временной метки запуска движка скриптов _[`issue #449`](http://issues.autojs6.com/449)_
-* `Новое` Глобальный метод crash, для тестирования страницы отчета о сбое
-* `Новое` Глобальный метод structuredClone, для глубокого копирования объектов JavaScript (см. [MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/structuredClone))
-* `Новое` Селекторы серии эквивалентности (UiSelector#id/text/...) и серии содержит (UiSelector#xxxContains) поддерживают параметры регулярных выражений
-* `Новое` Параметры регулярных выражений селекторов поддерживают флаги (i, m, s, u)
-* `Новое` Регулярные выражения поддерживают синтаксис lookbehind _[`issue #464`](http://issues.autojs6.com/464)_
-* `Новое` В файловом менеджере добавлены пункты меню "Переместить в" и "Копировать в" с поддержкой прерывания операции и отображения состояния прогресса
-* `Новое` В редакторе кода добавлен пункт меню "Многофункциональная клавиатура" - "Настройки символов", с поддержкой редактирования символов и создания/импорта/экспорта символов по уровням профилей
-* `Новое` В боковую панель главной страницы добавлен инструмент "Положение указателя"
-* `Новое` В боковую панель главной страницы добавлен переключатель "Доступ ко всем файлам"
-* `Новое` В боковую панель главной страницы добавлен переключатель "Показывать интерфейс из фона" (для устройств [Xiaomi/Vivo])
-* `Новое` На странице настроек добавлена опция "Обертка примитивных типов Java" _[`issue #435`](http://issues.autojs6.com/435)_
-* `Новое` На странице настроек добавлена опция "Движок планировщика задач" с поддержкой AlarmManager/WorkManager/JobScheduler _[`issue #457`](http://issues.autojs6.com/457)_ _[`issue #434`](http://issues.autojs6.com/434)_ _[`issue #449`](http://issues.autojs6.com/449)_ _[`issue #388`](http://issues.autojs6.com/388)_ _[`issue #378`](http://issues.autojs6.com/378)_ _[`issue #163`](http://issues.autojs6.com/163)_ _[`issue #53`](http://issues.autojs6.com/53)_ _[`issue #21`](http://issues.autojs6.com/21)_
-* `Новое` На странице настроек добавлена опция "Значок лаунчера приложения" с поддержкой адаптивных значков/значков с прозрачным фоном _[`issue #405`](http://issues.autojs6.com/405)_
-* `Новое` На странице настроек добавлена опция "Стратегия перезапуска", для настройки использования стратегии быстрого перезапуска кнопкой перезапуска на боковой панели главной страницы
-* `Новое` На странице настроек добавлена опция "Задержка запроса разрешения на захват экрана", для предотвращения перекрытия экрана окном запроса разрешения
-* `Новое` В ярлыки лаунчера на странице настроек добавлена опция "Плагины", для перехода на страницу Центра плагинов через ярлык
-* `Новое` Упакованные приложения поддерживают автозапуск при загрузке системы, а на странице конфигурации добавлен соответствующий переключатель
-* `Новое` Упакованные приложения поддерживают ярлыки приложения (страница журналов/страница настроек)
-* `Новое` На странице конфигурации упаковки приложения добавлены кнопки отмены/повтора/сохранения
-* `Новое` На странице конфигурации упаковки приложения добавлен механизм профилей с поддержкой создания/изменения/удаления/импорта/экспорта профилей _[`issue #483`](http://issues.autojs6.com/483)_
-* `Новое` Инструмент Scrapers (run-scrapers.mjs), для автоматического обновления структурированных данных в скриптах сборки Gradle/общих данных README/данных шаблона README и др.
-* `Новое` Инструмент Gradle Wrapper switcher (gradle-wrapper-switcher), для переключения локальной основной версии Gradle (например, Gradle 8.x и Gradle 9.x)
-* `Исправление` Ошибка ограничений по количеству и типам параметров метода notice _[`issue #462`](http://issues.autojs6.com/462)_
-* `Исправление` Проблема, из-за которой свойство ui.R (getter) не могло использоваться корректно
-* `Исправление` Проблема, из-за которой исключения в callback-параметрах метода ui.post могли тихо игнорироваться
-* `Исправление` Проблема, из-за которой глобальные методы вроде isJavaClass/isJavaPackage были неработоспособны
-* `Исправление` Проблема, из-за которой параметр timeout метода timers.keepAlive не работал
-* `Исправление` Проблема, из-за которой методы floaty.window/rawWindow не принимали строковые параметры _[`issue #467`](http://issues.autojs6.com/467)_
-* `Исправление` Проблема, из-за которой floaty.rawWindow отображал некоторые элементы некорректно из-за передачи неправильного контекста
-* `Исправление` Проблема, из-за которой метод util.isString был неработоспособен
-* `Исправление` Проблема, из-за которой util.class[Name]/getClass[Name] могли возвращать неверные результаты
-* `Исправление` Проблема, из-за которой util.java.array не мог корректно использовать параметры типов вроде Boolean
-* `Исправление` Проблема, из-за которой объект, возвращаемый threads.disposable(), мог неожиданно упаковываться при доступе к данным _[`issue #435`](http://issues.autojs6.com/435)_
-* `Исправление` Проблема, из-за которой при многократном вызове метода console.build параметры стиля плавающего окна журналов не сбрасывались корректно
-* `Исправление` Проблема, из-за которой параметры (title/content)BackgroundColor метода console.build могли перезаписывать прозрачность или параметры тонирования _[`issue #458`](http://issues.autojs6.com/458)_
-* `Исправление` Проблема, из-за которой методы console/toast и подобные могли терять конечные нули при отображении Java Double
-* `Исправление` Проблема, из-за которой было невозможно отображать тип данных BigInt через методы console/toast и подобные
-* `Исправление` Проблема, из-за которой метод toast мог вызывать утечку памяти из-за удержания сильной ссылки на экземпляр Toast
-* `Исправление` Проблема, из-за которой некоторые глобальные объекты могли терять свойства и методы прототипа JavaScript
-* `Исправление` Проблема, из-за которой объект this мог указывать неверно при использовании JavaScript-выражений как значений атрибутов в XML-синтаксисе
-* `Исправление` Проблема, из-за которой параметр linkify метода dialogs.build не работал
-* `Исправление` Проблема, из-за которой метод dialogs.build мог повреждать исходные данные объектного параметра
-* `Исправление` Неверный внутренний расчет частоты кадров в методе setMaxFps элемента canvas
-* `Исправление` Неверный расчет ширины при вертикальном объединении в методе images.concat
-* `Исправление` Проблема, из-за которой отмена авторизации в методе images.requestScreenCapture могла приводить к сбою приложения
-* `Исправление` Проблема, из-за которой скриншоты, полученные методом images.captureScreen, могли иметь неправильную ориентацию или черные поля _[`issue #337`](http://issues.autojs6.com/337)_
-* `Исправление` Проблема, из-за которой значение 1 ошибочно интерпретировалось как процент при использовании параметров области в некоторых методах images
-* `Исправление` Проблема, из-за которой флаг oneShot переставал работать при возникновении исключений в некоторых методах images _[`issue #372`](http://issues.autojs6.com/372)_
-* `Исправление` Проблема, из-за которой некоторые методы images могли вызывать утечки памяти _[`issue #372`](http://issues.autojs6.com/372)_
-* `Исправление` Проблема, из-за которой images.save и метод ImageWrapper#saveTo не могли корректно записывать файл, если переданный путь не существовал
-* `Исправление` Проблема, из-за которой метод ImageWrapper#recycle не выполнял корректное освобождение ресурсов изображения
-* `Исправление` Проблема, из-за которой некоторые перегруженные методы ocr могли работать некорректно
-* `Исправление` Проблема, из-за которой результаты метода ocr.detect могли не соответствовать ocr.mode _[`issue #468`](http://issues.autojs6.com/468)_
-* `Исправление` Проблема, из-за которой события службы специальных возможностей, зарегистрированные через auto.registerEvent, могли ошибочно очищаться другими скриптами _[`issue #466`](http://issues.autojs6.com/466)_ _[`issue #343`](http://issues.autojs6.com/343#issuecomment-3263953918)_
-* `Исправление` Проблема, из-за которой метод UiObject#child мог вызывать ArrayIndexOutOfBoundsException на Android 10 _[`issue #416`](http://issues.autojs6.com/416)_
-* `Исправление` Проблема, из-за которой при вызове методов встроенных модулей мог возникать несогласованный контекст Rhino
-* `Исправление` Проблема, из-за которой после создания большого количества плавающих окон в скрипте после его завершения могли оставаться остаточные окна
-* `Исправление` Проблема, из-за которой параметры конфигурации project.json могли некорректно разбираться при запуске проекта
-* `Исправление` Проблема, из-за которой параметр excludedDirs в project.json мог вызывать сбой разбора конфигурации при упаковке проекта _[`issue #428`](http://issues.autojs6.com/428)_
-* `Исправление` Проблема, из-за которой функция упаковки могла некорректно работать на Android 7.x
-* `Исправление` Проблема, из-за которой исходные имена ключей могли изменяться при сохранении файла конфигурации проекта скрипта
-* `Исправление` Проблема, из-за которой большие значения номера сборки или времени сборки в файле конфигурации проекта скрипта могли вызывать сбой приложения
-* `Исправление` Проблема, из-за которой частое получение или пересоздание ImageReader могло приводить к сбою приложения из-за временного отсутствия доступных кадров в буфере
-* `Исправление` Проблема, из-за которой наблюдатель событий ввода InputEventObserver мог вызывать заметные подвисания при запуске приложения
-* `Исправление` Проблема, из-за которой пользовательский сервисный процесс Shizuku не завершался корректно, что приводило к накоплению процессов _[`issue #474`](http://issues.autojs6.com/474)_
-* `Исправление` Проблема, из-за которой упакованные приложения не могли корректно использовать функции Paddle OCR и Rapid OCR
-* `Исправление` Проблема, из-за которой значение ключа key в файле конфигурации project.json упакованного приложения могло неожиданно изменяться
-* `Исправление` Проблема, из-за которой при прокрутке списка "Требуемые разрешения" на странице конфигурации упаковки приложения могли мерцать значки флажков
-* `Исправление` Проблема, из-за которой на странице История версий статистические данные на некоторых системах отображались неполно из-за различий в шрифтах
-* `Исправление` Проблема, из-за которой MLKit Google OCR не мог корректно инициализироваться на некоторых устройствах (пробное исправление) _[`issue #8`](http://issues.autojs6.com/8#issuecomment-3117061768)_
-* `Исправление` Проблема, из-за которой на некоторых устройствах кнопки функций файлового менеджера не срабатывали корректно при нажатии (пробное исправление) _[`issue #465`](http://issues.autojs6.com/465)_
-* `Исправление` Проблема, из-за которой пустые строки в редакторе кода отображались квадратными символами на некоторых устройствах (пробное исправление)
-* `Исправление` Проблема, из-за которой экранная клавиатура могла перекрывать текст в редакторе кода
-* `Исправление` Проблема, из-за которой редактор кода позволял редактировать содержимое даже в режиме только чтения
-* `Исправление` Проблема, из-за которой нажатие на область заголовка и некоторые пункты меню в режиме только чтения вызывало сбой приложения в редакторе кода
-* `Исправление` Проблема, из-за которой загрузка больших файлов в редакторе кода могла вызывать сбой приложения (пробное исправление)
-* `Исправление` Аномальная инициализация состояния функциональных кнопок при автоматическом открытии нового файла редактором кода
-* `Исправление` Проблема, из-за которой перевод приложения в фон во время редактирования файла в редакторе кода мог вызывать сбой
-* `Исправление` Проблема, из-за которой на Android 15+ нажатие кнопки fx в редакторе кода не показывало быстрый модульный панель функций (пробное исправление)
-* `Исправление` Проблема, из-за которой ErrorDialogActivity мог не запускаться корректно или автоматически исчезать через короткое время _[`issue #479`](http://issues.autojs6.com/479)_ _[`issue #471`](http://issues.autojs6.com/471)_ _[`issue #414`](http://issues.autojs6.com/414)_ _[`issue #340`](http://issues.autojs6.com/340#issuecomment-2973485826)_
-* `Исправление` Неверные типы параметров, принимаемые конструктором Canvas _[`issue #402`](http://issues.autojs6.com/402)_
-* `Исправление` Проблема, из-за которой функция копирования подробной информации не работала на странице отчета о сбое
-* `Исправление` Проблема, из-за которой пользовательская логика кнопки Назад переставала работать на Android 16+, вызывая некорректное поведение возврата
-* `Исправление` Проблема, из-за которой приложение могло падать при нажатии кнопки Назад или переключении вкладок после отображения результатов поиска файлового менеджера
-* `Исправление` Проблема, из-за которой интерфейс не обновлялся автоматически после удаления папок проекта в файловом менеджере
-* `Исправление` Проблема, из-за которой приложение могло падать при частом изменении элементов списка панели задач
-* `Исправление` Проблема, из-за которой цвет переднего плана панели навигации мог работать аномально с ночным режимом при использовании жестовой навигации "три кнопки"
-* `Исправление` Проблема, из-за которой диалог информации о типе APK-файла мог не получать имя приложения и сведения об SDK
-* `Исправление` Проблема, из-за которой в режиме клиента при быстром отключении и повторном подключении после соединения возникал таймаут рукопожатия, и повторно установить соединение было трудно
-* `Исправление` Проблема, из-за которой в режиме клиента действия вроде поворота экрана или смены языка, приводящие к пересозданию Activity, заставляли AutoJs6 каждый раз пересоздавать соединение
-* `Исправление` Проблема, из-за которой в режиме сервера действия вроде поворота экрана или смены языка, приводящие к пересозданию Activity, мешали консоли VSCode выводить журналы _[`issue #385`](http://issues.autojs6.com/385)_
-* `Исправление` Проблема, из-за которой при подключении к плагину VSCode несколькими способами одновременно количество выводимых журналов могло многократно увеличиваться
-* `Исправление` Проблема, из-за которой генерация кода на странице анализа макета могла завершаться неудачей для коллекционных элементов (пробное исправление) _[`issue #328`](http://issues.autojs6.com/328)_
-* `Исправление` Проблема, из-за которой переключатель "Использовать кнопку 'Уменьшение громкости' для управления записью" на странице настроек не работал _[`issue #480`](http://issues.autojs6.com/480)_
-* `Исправление` Проблема, из-за которой координаты в сгенерированном файле кода записи скрипта могли не совпадать с фактическими пикселями экрана _[`issue #480`](http://issues.autojs6.com/480)_
-* `Исправление` Проблема, из-за которой первое действие в сгенерированном коде записи скрипта (например, нажатие или свайп) всегда игнорировалось
-* `Исправление` Проблема, из-за которой выполнение фоновых операций с файлами из плавающего диалога "Запустить скрипт" могло вызывать сбой приложения
-* `Исправление` Проблема, из-за которой состояние плавающей кнопки могло сбрасываться при повторном входе на главную страницу после завершения жизненного цикла главной Activity
-* `Исправление` Проблема, из-за которой переключатель "Показывать поверх других приложений" на устройствах Xiaomi мог открывать неправильную страницу настроек
-* `Исправление` Проблема, из-за которой после прерывания загрузки обновления сетевые пакеты продолжали загружаться в фоне (пробное исправление)
-* `Исправление` Проблема, из-за которой задача Rebuild Project не могла корректно завершиться при включенной опции isCleanup[Paddle/Rapid]Ocr в инструментах сборки
-* `Улучшение` Плагинизация функций, связанных с Paddle OCR (PP-OCRv3) _[`issue #334`](http://issues.autojs6.com/334)_ _[`issue #331`](http://issues.autojs6.com/331)_ _[`issue #325`](http://issues.autojs6.com/325)_
-* `Улучшение` Повышена совместимость метода runtime.loadJar (by [LYS86](https://github.com/LYS86)) _[`pr #475`](http://pr.autojs6.com/475)_
-* `Улучшение` Улучшена совместимость метода ui.getStatusBarHeight/свойства statusBarHeight (getter) в определенной степени
-* `Улучшение` Методы вроде console.log теперь поддерживают вывод подробной информации при печати глобальных объектов (images, app, ocr и т. д.)
-* `Улучшение` Метод dialogs.build поддерживает нативные параметры MaterialDialog.Builder
-* `Улучшение` Метод dialogs.build поддерживает гибкое строковое сопоставление для параметров animation/linkify
-* `Улучшение` Улучшены стабильность и согласованность получения ориентации экрана и данных ширины/высоты методами device.rotation/rotation/width/height
-* `Улучшение` Повышены эффективность выполнения и совместимость методов вроде app.launchDual/startDualActivity
-* `Улучшение` android.graphics.Paint#setColor теперь корректно разбирает цветовые параметры вроде ColorInt/ColorHex/ColorName
-* `Улучшение` Сообщения об исключениях типов аргументов встроенных модулей теперь содержат краткую сводку типов
-* `Улучшение` Встроенные модули (dayjs/cheerio/dayjs/i18n) больше не используют режим выполнения скрипта и переходят на глобальную ленивую загрузку
-* `Улучшение` При выводе огромных данных методами консоли часть содержимого теперь разумно опускается в пределах лимитов, чтобы сократить время печати
-* `Улучшение` Начальное значение обратного отсчета плавающего окна консоли увеличено с 6 до 9 секунд
-* `Улучшение` Внутренняя реализация плавающего окна консоли переведена на безблокировочную и очередную обработку для повышения эффективности и успешности применения параметров
-* `Улучшение` API, связанные с поведением фонового цвета плавающего окна консоли (прозрачность/тонирование/базовый цвет), теперь лучше соответствуют рекомендациям Android _[`issue #458`](http://issues.autojs6.com/458)_
-* `Улучшение` Оптимизирован момент сворачивания меню при нажатии на пункты после раскрытия плавающей кнопки в файловом менеджере
-* `Улучшение` Файловый менеджер/панель задач поддерживают отображение статистики количества файлов/задач
-* `Улучшение` При сбое сохранения в редакторе кода файл автоматически сохраняется как черновик и поддерживает сохранение как нового файла
-* `Улучшение` В определенной степени повышена плавность загрузки больших файлов в редакторе кода
-* `Улучшение` Функция "Найти/Заменить" в редакторе кода поддерживает сохранение состояния и отображение количества совпадений в реальном времени
-* `Улучшение` При предложении сохранить редактор кода теперь убеждается в успешном сохранении перед выходом, чтобы снизить вероятность сбоев сохранения
-* `Улучшение` Состояние кнопки сохранения в редакторе кода теперь лучше соответствует пользовательской логике
-* `Улучшение` Редактор кода поддерживает длительное нажатие для клавиш вроде "-", "=", "(", "[", "{", "<"
-* `Улучшение` В диалог процесса упаковки приложения добавлена кнопка "Прервать"
-* `Улучшение` Улучшен способ отображения диалога процесса упаковки приложения и добавлена статистика затраченного времени
-* `Улучшение` При установке упакованного приложения с новой конфигурацией связанные настройки старого приложения будут перезаписаны
-* `Улучшение` На странице конфигурации упаковки приложения по умолчанию отмечаются необходимые разрешения (WAKE_LOCK/INTERNET/WRITE_EXTERNAL_STORAGE/...) _[`issue #397`](http://issues.autojs6.com/397)_
-* `Улучшение` Страница конфигурации упаковки приложения поддерживает чтение и настройку большего числа опций (показывать журналы при запуске/показывать экран запуска при запуске/текст слогана экрана запуска/...)
-* `Улучшение` На странице настроек упакованного приложения добавлен переключатель foreground service _[`issue #406`](http://issues.autojs6.com/406)_
-* `Улучшение` При сохранении файла конфигурации проекта скрипта добавлен механизм обнаружения конфликтов имен ключей для предотвращения неоднозначности
-* `Улучшение` Страница отчета о сбое поддерживает масштабирование двумя пальцами для изменения размера шрифта и добавляет кнопки часто используемых функций
-* `Улучшение` Значки лаунчера приложения теперь поддерживают возможности адаптивных иконок _[`issue #405`](http://issues.autojs6.com/405)_
-* `Улучшение` Если движок Rhino не может разобрать сигнатуры дженериков, он теперь откатывается к исходным типам reflection, улучшая доступность reflection-методов на старых версиях Android
-* `Улучшение` Элементы-переключатели на боковой панели главной страницы получили разделители, поддержку нажатия по области заголовка для показа диалога деталей и, при необходимости, быстрый переход в системные настройки
-* `Улучшение` При запуске или перезапуске AutoJs6 теперь можно нажать на область заголовка "Режим клиента" на боковой панели главной страницы, чтобы прервать попытку подключения
-* `Улучшение` Режим клиента поддерживает подключение по адресам IPv6 и доменным именам
-* `Улучшение` Режим клиента поддерживает подсказки для специальных IPv4-адресов (loopback/broadcast/multicast/reserved/...)
-* `Улучшение` Режим клиента поддерживает отображение и управление состоянием подключения (исправить адрес/прервать подключение)
-* `Улучшение` Режим сервера поддерживает отображение количества подключенных клиентов
-* `Улучшение` Чтение разрешения на уведомления поддерживает механизм автоматического переподключения ([requestRebind](https://developer.android.com/reference/android/service/notification/NotificationListenerService#requestRebind(android.content.ComponentName))) для повышения стабильности функций прослушивания уведомлений
-* `Улучшение` Плавающая кнопка повышает безопасность запуска Activity из фона, чтобы избежать сбоев приложения
-* `Улучшение` Диалог "Еще" плавающей кнопки использует асинхронную загрузку данных для более плавного отображения
-* `Улучшение` В диалог "Запустить скрипт" плавающей кнопки добавлен пункт меню "Главная"
-* `Улучшение` Диалог "Запустить скрипт" плавающей кнопки поддерживает сворачивание и восстановление состояния и по возможности сохраняет окно постоянно активным или автоматически восстанавливает его
-* `Улучшение` Поддерживается использование разрешения Shizuku для записи и воспроизведения скриптов (плавность воспроизведения может быть частично снижена) _[`issue #320`](http://issues.autojs6.com/320)_
-* `Улучшение` На странице настройки цвета темы используется быстрый способ позиционирования для повышения эффективности поиска нужного цвета темы
-* `Улучшение` Вместо устаревшего [LocalBroadcastManager](https://developer.android.com/jetpack/androidx/releases/localbroadcastmanager) используются [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) и [SharedFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow)
-* `Улучшение` Скрипты сборки Gradle улучшают эффективность распаковки файлов формата 7z
-* `Улучшение` Скрипты сборки Gradle поддерживают получение подробной версии Android Studio IDE (например, "2025.1.4.7")
-* `Улучшение` Скрипты сборки Gradle поддерживают автоматическую генерацию данных, необходимых классу VersionCodesList, чтобы сократить задержку запуска скриптов
-* `Улучшение` Использование [Version Catalogs](https://developer.android.com/build/migrate-to-catalogs) для централизованного управления версиями зависимостей и плагинов Gradle
-* `Улучшение` Модульные скрипты сборки Gradle, с переносом общей логики сборки в build-logic и абстрагированием ее в convention plugins
-* `Улучшение` Использование convention plugins Gradle для упрощения логики загрузки локальных AAR-библиотек
-* `Улучшение` Удалена опция Gradle "android.enableJetifier=true" для адаптации к Gradle 9
-* `Улучшение` Использование [Toolchain](https://docs.gradle.org/current/userguide/toolchains.html) вместо sourceCompatibility/targetCompatibility для уменьшения различий среды сборки
-* `Улучшение` Изменения версий некоторых зависимостей или локальных библиотек _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v670)_
 
 ##### Для просмотра полной истории релизов обратитесь к
 
@@ -458,7 +278,7 @@ File (Файл) | Settings (Настройки) | Appearance & Behavior (Вне�
 
 Для проекта AutoJs6 требуется версия `JDK (Java Development Kit)` не ниже `17`, но рекомендуется не ниже `21`.
 
-По состоянию на 7 June 2026 года AutoJs6 поддерживает JDK максимальной версии `25`.
+По состоянию на 10 June 2026 года AutoJs6 поддерживает JDK максимальной версии `25`.
 
 > Примечание: Если на компьютере уже установлен JDK и версия соответствует указанным требованиям, этот раздел можно пропустить.
 
@@ -584,6 +404,8 @@ autojs6-v6.6.2-arm64-v8a-0f2a9d74.apk
 Для написания и отладки скриптов на ПК, плагин VSCode может обеспечить связь между ПК и телефоном:
 
 - [AutoJs6-VSCode-Extension](http://vscext-project.autojs6.com) - Отладчик AutoJs6 (плагин для платформы VSCode)
+
+
 
 При написании кода в среде разработки функция автодополнения кода может значительно облегчить процесс разработки:
 

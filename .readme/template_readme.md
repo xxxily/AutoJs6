@@ -357,6 +357,8 @@ autojs6-v6.6.2-arm64-v8a-0f2a9d74.apk
 
 - {{ li_development_assistance_project_autojs6_vscode_extension }}
 
+{{ section_development_assistance_ai_script_assistant | default('') }}
+
 {{ li_development_assistance_code_completion_assist_development }}:
 
 - {{ li_development_assistance_project_autojs6_typescript_declarations }}

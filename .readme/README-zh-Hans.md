@@ -59,17 +59,17 @@ AutoJs6 在 Auto.js 最终项目的基础上, 于 `2021/12/01` 进行二次开�
 | <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/hyb1996/Auto.js)</span> | <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/TonyJiangWJ/Auto.js/commit/268ec8895bbfa28fc7715154eb15b1c1eaaefd14#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2017/01/27`</span> | <span style="word-break:keep-all;white-space:nowrap">`2020/03/13`</span> | <span style="word-break:keep-all;white-space:nowrap">3.13</span> |
 | <span style="word-break:keep-all;white-space:nowrap">Auto.js Pro 7</span> | <span style="word-break:keep-all;white-space:nowrap">Auto.js</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/03/13`</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/07/08`</span> | <span style="word-break:keep-all;white-space:nowrap">0.32</span> |
 | <span style="word-break:keep-all;white-space:nowrap">Auto.js Pro 8</span> | <span style="word-break:keep-all;white-space:nowrap">AutoJsPro</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/10/13`</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/07/24`</span> | <span style="word-break:keep-all;white-space:nowrap">1.78</span> |
-| <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/TonyJiangWJ/Auto.js)</span> | <span style="word-break:keep-all;white-space:nowrap">[Auto.js&#160;M](https://github.com/TonyJiangWJ/Auto.js/commit/268ec8895bbfa28fc7715154eb15b1c1eaaefd14#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[TonyJiangWJ](https://github.com/TonyJiangWJ)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/11/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 6.55 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/TonyJiangWJ/Auto.js)</span> | <span style="word-break:keep-all;white-space:nowrap">[Auto.js&#160;M](https://github.com/TonyJiangWJ/Auto.js/commit/268ec8895bbfa28fc7715154eb15b1c1eaaefd14#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[TonyJiangWJ](https://github.com/TonyJiangWJ)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/11/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 6.56 ></span> |
 | <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/kkevsekk1/AutoX)</span> | <span style="white-space:pre">[Autox.js](https://github.com/kkevsekk1/AutoX/commit/8143e4ed893d4af05d22aa791b83a962f9959873#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[kkevsekk1](https://github.com/kkevsekk1)</span> | <span style="word-break:keep-all;white-space:nowrap">`2020/07/24`</span> | <span style="word-break:keep-all;white-space:nowrap">[ `2025/01/07` ]</span> | <span style="word-break:keep-all;white-space:nowrap">4.46</span> |
 | <span style="word-break:keep-all;white-space:nowrap">[Auto.js Pro 9](https://pro.autojs.org/)</span> | <span style="word-break:keep-all;white-space:nowrap">AutoJsPro</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/03/28`</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/02/09`</span> | <span style="word-break:keep-all;white-space:nowrap">1.87</span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6/commit/a8ce1b9acb541e9736c33134be3194c3148a15a3#diff-833a46a97033e77558372a2dce103fd6fee29aaaa899f610022a7aece592ee7bR27)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/12/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 4.52 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6/commit/a8ce1b9acb541e9736c33134be3194c3148a15a3#diff-833a46a97033e77558372a2dce103fd6fee29aaaa899f610022a7aece592ee7bR27)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/12/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 4.53 ></span> |
 | <span style="word-break:keep-all;white-space:nowrap">[autojs4](https://github.com/blackcd318/autojs4)</span> | <span style="word-break:keep-all;white-space:nowrap">Auto.js</span> | <span style="word-break:keep-all;white-space:nowrap">[blackcd318](https://github.com/blackcd318)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/12/15`</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/07/31`</span> | <span style="word-break:keep-all;white-space:nowrap">1.62</span> |
 | <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/kkevsekk1/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v6](https://github.com/kkevsekk1/AutoX/commit/8b6776cff8b0fca4be4a52719b7d7d07c0a058f3#diff-51a0b488f963eb0be6c6599bf5df497313877cf5bdff3950807373912ac1cdc9R130)</span> | <span style="word-break:keep-all;white-space:nowrap">[wilinz](https://github.com/wilinz) / [aiselp](https://github.com/aiselp)</span> | <span style="word-break:keep-all;white-space:nowrap">`2022/05/26`</span> | <span style="word-break:keep-all;white-space:nowrap">[ `2025/01/07` ]</span> | <span style="word-break:keep-all;white-space:nowrap">2.62</span> |
 | <span style="word-break:keep-all;white-space:nowrap">[openautojs](https://github.com/openautojs/openautojs)</span> | <span style="white-space:pre">[OpenAuto.js](https://github.com/openautojs/openautojs/commit/a11feaad025154de9b453ba70b49e94a6ca8b48a#diff-7d757295fcec3b37c258337e048644c258233d79259152e77baa6d36bb0ec418R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[openautojs](https://github.com/openautojs)</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/02/17`</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/04/16`</span> | <span style="word-break:keep-all;white-space:nowrap">0.16</span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4/commit/8de11699b608be1c1f49f0f10e2e2826f8c77978)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/04/11`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 3.16 ></span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/aiselp/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v7](https://github.com/aiselp/AutoX/commit/484491fd5fe12b8203d0b09c181eb0f471c0ea9f#diff-8cff73265af19c059547b76aca8882cbaa3209291406f52df1dafbbc78e80c46R120)</span> | <span style="word-break:keep-all;white-space:nowrap">[aiselp](https://github.com/aiselp)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/04/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 2.13 ></span> |
-| <span style="word-break:keep-all;white-space:nowrap">[Autoxjs_v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi)</span> | <span style="white-space:pre">[Autox.js&#160;v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi/blob/a651d02246e09cfbbfa87e6eaccf900fab/app/build.gradle.kts#L143)</span> | <span style="word-break:keep-all;white-space:nowrap">[ozobiozobi](https://github.com/ozobiozobi)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/10/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.68 ></span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/autox-community/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v6](https://github.com/autox-community/AutoX/commit/8b6776cff8b0fca4be4a52719b7d7d07c0a058f3#diff-51a0b488f963eb0be6c6599bf5df497313877cf5bdff3950807373912ac1cdc9R130)</span> | <span style="word-break:keep-all;white-space:nowrap">[autox-community](https://github.com/autox-community)</span> | <span style="word-break:keep-all;white-space:nowrap">`2025/03/30`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.19 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4/commit/8de11699b608be1c1f49f0f10e2e2826f8c77978)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/04/11`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 3.17 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/aiselp/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v7](https://github.com/aiselp/AutoX/commit/484491fd5fe12b8203d0b09c181eb0f471c0ea9f#diff-8cff73265af19c059547b76aca8882cbaa3209291406f52df1dafbbc78e80c46R120)</span> | <span style="word-break:keep-all;white-space:nowrap">[aiselp](https://github.com/aiselp)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/04/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 2.14 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[Autoxjs_v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi)</span> | <span style="white-space:pre">[Autox.js&#160;v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi/blob/a651d02246e09cfbbfa87e6eaccf900fab/app/build.gradle.kts#L143)</span> | <span style="word-break:keep-all;white-space:nowrap">[ozobiozobi](https://github.com/ozobiozobi)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/10/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.69 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/autox-community/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v6](https://github.com/autox-community/AutoX/commit/8b6776cff8b0fca4be4a52719b7d7d07c0a058f3#diff-51a0b488f963eb0be6c6599bf5df497313877cf5bdff3950807373912ac1cdc9R130)</span> | <span style="word-break:keep-all;white-space:nowrap">[autox-community](https://github.com/autox-community)</span> | <span style="word-break:keep-all;white-space:nowrap">`2025/03/30`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.20 ></span> |
 
 表格中的日期为预估值, 实际可能存在出入.
 
@@ -77,7 +77,7 @@ AutoJs6 在 Auto.js 最终项目的基础上, 于 `2021/12/01` 进行二次开�
 
 表格中 `终止开发日期` 列包含方括号 (`[]`) 的数据, 表示开源项目暂时无法访问.
 
-表格中 `活跃维护期` 列包含尖括号 (`<>`) 的数据, 其统计截止日期为 2026 年 6 月 7 日.
+表格中 `活跃维护期` 列包含尖括号 (`<>`) 的数据, 其统计截止日期为 2026 年 6 月 10 日.
 
 ******
 
@@ -127,9 +127,9 @@ AutoJs6 在 Auto.js 最终项目的基础上, 于 `2021/12/01` 进行二次开�
 
 相较于 Auto.js 最终开源版本 `4.1.1 Alpha2`, AutoJs6 主要进行了以下升级或变更:
 
-* 支持通过 [Shizuku](https://shizuku.rikka.app/introduction/) 获得 ADB 特权并使用系统 API
+* 支持通过 [Shizuku](https://shizuku.rikka.app/introduction/) 获得 ADB 特权并使用系统 API, 并提供应用管理、系统设置、包管理、输入、进程、用户等结构化特权 API 及审计记录
 * 支持构建 [WebSocket](https://docs.autojs6.com/#/webSocketType) 实例以完成基于 [WebSocket 协议](https://zh.wikipedia.org/wiki/WebSocket) 的网络请求
-* 新增模块 [ [base64](https://docs.autojs6.com/#/base64) / [crypto](https://docs.autojs6.com/#/crypto) / [sqlite](https://docs.autojs6.com/#/sqlite) / [i18n](https://docs.autojs6.com/#/i18n) / [notice](https://docs.autojs6.com/#/notice) / [ocr](https://docs.autojs6.com/#/ocr) / [opencc](https://docs.autojs6.com/#/opencc) / [qrcode](https://docs.autojs6.com/#/qrcode) / [shizuku](https://docs.autojs6.com/#/shizuku) / ... ]
+* 新增模块 [ [base64](https://docs.autojs6.com/#/base64) / [crypto](https://docs.autojs6.com/#/crypto) / [sqlite](https://docs.autojs6.com/#/sqlite) / [i18n](https://docs.autojs6.com/#/i18n) / [notice](https://docs.autojs6.com/#/notice) / [ocr](https://docs.autojs6.com/#/ocr) / [vision](https://docs.autojs6.com/#/vision) / [opencc](https://docs.autojs6.com/#/opencc) / [qrcode](https://docs.autojs6.com/#/qrcode) / [shizuku](https://docs.autojs6.com/#/shizuku) / ... ]
 * 多语言适配 [ 西 / 法 / 俄 / 阿 / 日 / 韩 / 英 / 简中 / 繁中 / ... ]
 * 主题色适配 [ 分组 / 定位 / 搜索 / 历史记录 / 亮度及对比度自动适配 / ... ]
 * 夜间模式适配 [ 设置页面 / 文档页面 / 布局分析页面 / 浮动窗口 / ... ]
@@ -164,6 +164,18 @@ AutoJs6 在 Auto.js 最终项目的基础上, 于 `2021/12/01` 进行二次开�
 
 ******
 
+# v6.8.0
+
+###### 2026/06/10
+
+* `新增` 新增统一能力状态中心与运行前预检, 支持能力检查、授权入口、风险说明和项目能力清单
+* `新增` 新增可靠自动化 DSL、UI 快照诊断、截图 Session 和屏幕感知融合管线
+* `新增` 新增 Shizuku/Root 结构化特权 API, 减少手写 shell 字符串并记录风险审计
+* `新增` 新增任务运行记录、调度可靠性策略、脚本能力沙箱和高风险调用审计
+* `新增` 新增插件 SDK/权限声明/供应链校验、远程调试观测、命名 HTTP client、断点下载、本地 IPC 与 typed Broadcast
+* `新增` 新增打包预检、inrt 诊断包、AI Copilot 二期和自动化方案库
+* `优化` 优化 API 索引、内置文档、AI 索引与外部文档一致性, 补充底层能力示例、维护矩阵和回归验收清单
+
 # v6.7.2
 
 ###### 2026/06/07
@@ -192,198 +204,6 @@ AutoJs6 在 Auto.js 最终项目的基础上, 于 `2021/12/01` 进行二次开�
 * `修复` ConcatReader.close 在关闭失败时仍会继续关闭其余 reader
 * `优化` 更新 Gradle Settings 中的 AGP 版本兼容映射数据
 * `优化` 更新 Temurin 版本注释与日期信息
-
-# v6.7.0
-
-###### 2026/03/14
-
-* `新增` 插件中心功能, 支持插件的安装/卸载/更新等操作 (入口: 主页抽屉按钮/主页标签页)
-* `新增` 版本历史功能, 支持查看/恢复可编辑文件的历史版本 (入口: 主页抽屉按钮/文件管理器菜单/代码编辑器菜单)
-* `新增` 回收站功能, 支持查看/恢复已删除的文件/文件夹 (入口: 主页抽屉按钮)
-* `新增` Paddle OCR (PP-OCRv5) 插件, 用于光学字符识别
-* `新增` cvt 模块, 用于数据单位转换 (参阅 项目文档 > [单位转换](https://docs.autojs6.com/#/cvt))
-* `新增` fmt 模块, 用于数据格式化 (参阅 项目文档 > [格式化](https://docs.autojs6.com/#/fmt))
-* `新增` zip 模块, 用于文件压缩与解压缩操作 (Ref to [Auto.js Pro](https://g.pro.autojs.org/)) (参阅 项目文档 > [Zip](https://docs.autojs6.com/#/zip))
-* `新增` mediainfo 模块, 用于查看媒体文件的详细信息 (参阅 项目文档 > [媒体信息](https://docs.autojs6.com/#/mediainfo))
-* `新增` cvt.bytes 方法, 用于字节数据单位转换 (参阅 项目文档 > [单位转换](https://docs.autojs6.com/#/cvt))
-* `新增` fmt.bytes 方法, 用于字节数据格式化 (参阅 项目文档 > [格式化](https://docs.autojs6.com/#/fmt))
-* `新增` s13n.bytes 方法, 用于标准化字节数据 (参阅 项目文档 > [标准化](https://docs.autojs6.com/#/s13n))
-* `新增` app.isDualInstalled 方法, 用于检测双开应用是否已安装 (需要 Shizuku 或 Root 权限) _[`issue #450`](http://issues.autojs6.com/450)_
-* `新增` device.getSharedDeviceId 方法, 用于跨应用获取统一共享设备 ID _[`issue #455`](http://issues.autojs6.com/455)_
-* `新增` device.setPointerLocation 等 Toggleable 系列方法, 用于设置或获取指针位置系统设置项 _[`issue #381`](http://issues.autojs6.com/381)_
-* `新增` dialogs.build 方法支持 textAllCaps/(positive/negative/neutral)TextAllCaps 选项参数, 用于控制按钮文本是否全部大写
-* `新增` images.loadAsync 方法, 用于异步获取网络图像资源 _[`issue #327`](http://issues.autojs6.com/327)_
-* `新增` ui.getNavigationBarHeight 方法/navigationBarHeight 属性 (getter), 用于获取导航栏高度 _[`issue #456`](http://issues.autojs6.com/456)_
-* `新增` ui.getVisible(Status/Navigation)BarHeight 方法/visible(Status/Navigation)BarHeight 属性 (getter), 用于快捷获取状态栏或导航栏可见高度 _[`issue #456`](http://issues.autojs6.com/456)_
-* `新增` http.put/del(ete)/head 方法, 用于使用不同的 HTTP 请求方法发送网络请求
-* `新增` http.getAsync/postAsync/requestAsync 等方法, 用于异步发送网络请求 _[`issue #423`](http://issues.autojs6.com/423)_
-* `新增` http 模块请求相关方法获取的 body 对象增加 stream/saveToFile/close 等方法 _[`issue #452`](http://issues.autojs6.com/452)_
-* `新增` http 模块请求相关方法支持缓存控制选项参数 (cacheBody/bodyCacheThresholdBytes)
-* `新增` http 模块请求相关方法支持不安全选项参数 (isInsecure/insecure), 用于忽略证书相关异常 _[`issue #417`](http://issues.autojs6.com/417)_
-* `新增` http 模块请求相关方法支持 options.client 选项, 用于配置 OkHttpClient.Builder (如 followRedirects 等) _[`issue #454`](http://issues.autojs6.com/454)_
-* `新增` auto.state 属性 (getter) 及 shizuku.state 属性 (getter), 用于获取无障碍服务状态及 Shizuku 服务状态
-* `新增` runtime.(set/is)JavaPrimitiveWrap 方法, 用于设置或获取 Java 原始类型包装策略 _[`issue #435`](http://issues.autojs6.com/435)_
-* `新增` autojs.(restart/exit) 方法, 用于重启或退出 AutoJs6 应用, 并支持应用重启时自动运行其参数指定的脚本 _[`issue #460`](http://issues.autojs6.com/460)_
-* `新增` UiObject#isShifted 方法, 用于检测控件位置变化 _[`issue #469`](http://issues.autojs6.com/469)_
-* `新增` UiObject#snapshot 方法, 用于捕获控件当前状态 _[`issue #469`](http://issues.autojs6.com/469)_
-* `新增` engines.myEngine().getStartTime() 方法, 用于获取脚本引擎启动时间戳 _[`issue #449`](http://issues.autojs6.com/449)_
-* `新增` crash 全局方法, 用于测试崩溃报告页面
-* `新增` structuredClone 全局方法, 用于深拷贝 JavaScript 对象 (参阅 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/structuredClone))
-* `新增` 等价系列选择器 (UiSelector#id/text/...) 及包含系列选择器 (UiSelector#xxxContains) 支持正则表达式参数
-* `新增` 选择器的正则表达式参数支持使用标志 (i, m, s, u)
-* `新增` 正则表达式支持后瞻断言语法 _[`issue #464`](http://issues.autojs6.com/464)_
-* `新增` 文件管理器增加 "移动到" 及 "复制到" 菜单项, 支持操作中止及进度状态显示
-* `新增` 代码编辑器增加 "多功能键盘" - "符号设置" 菜单项, 支持符号编辑及按配置级别进行符号的创建/导入/导出等
-* `新增` 主页抽屉增加 "指针位置" 工具
-* `新增` 主页抽屉增加 "所有文件管理权限" 开关
-* `新增` 主页抽屉增加 "后台弹出界面" 开关 (针对 [小米/Vivo] 设备)
-* `新增` 设置页面增加 "Java 原始类型包装" 设置选项 _[`issue #435`](http://issues.autojs6.com/435)_
-* `新增` 设置页面增加 "定时任务调度引擎" 设置选项, 支持 AlarmManager/WorkManager/JobScheduler _[`issue #457`](http://issues.autojs6.com/457)_ _[`issue #434`](http://issues.autojs6.com/434)_ _[`issue #449`](http://issues.autojs6.com/449)_ _[`issue #388`](http://issues.autojs6.com/388)_ _[`issue #378`](http://issues.autojs6.com/378)_ _[`issue #163`](http://issues.autojs6.com/163)_ _[`issue #53`](http://issues.autojs6.com/53)_ _[`issue #21`](http://issues.autojs6.com/21)_
-* `新增` 设置页面增加 "应用启动器图标" 设置选项, 支持自适应图标/透明背景图标 _[`issue #405`](http://issues.autojs6.com/405)_
-* `新增` 设置页面增加 "重启策略" 设置选项, 用于设置主页抽屉栏重启按钮是否使用快速重启策略
-* `新增` 设置页面增加 "屏幕捕获权限申请延迟" 设置选项, 用于避免权限申请窗口遮挡屏幕
-* `新增` 设置页面启动器快捷方式增加 "插件" 选项, 用于通过快捷方式跳转到插件中心页面
-* `新增` 打包应用支持开机自启动并在配置页面增加开关配置
-* `新增` 打包应用支持应用快捷方式 (日志页面/设置页面)
-* `新增` 打包应用配置页面增加撤销/重做/保存按钮
-* `新增` 打包应用配置页面增加配置机制, 支持配置的建立/修改/删除/导入/导出 _[`issue #483`](http://issues.autojs6.com/483)_
-* `新增` Scrapers 工具 (run-scrapers.mjs) 用于自动更新 Gradle 构建脚本结构化数据/README 通用数据/README 模板数据等
-* `新增` Gradle Wrapper 切换工具 (gradle-wrapper-switcher), 用于切换本地 Gradle 主版本 (如 Gradle 8.x 与 Gradle 9.x)
-* `修复` notice 方法参数数量及类型限制错误 _[`issue #462`](http://issues.autojs6.com/462)_
-* `修复` ui.R 属性 (getter) 无法正常使用的问题
-* `修复` ui.post 方法回调参数中产生异常时可能静默失败的问题
-* `修复` isJavaClass/isJavaPackage 等全局方法无效的问题
-* `修复` timers.keepAlive 方法 timeout 参数功能无效的问题
-* `修复` floaty.window/rawWindow 方法无法接受字符串参数的问题 _[`issue #467`](http://issues.autojs6.com/467)_
-* `修复` floaty.rawWindow 因传入错误的上下文导致部分控件显示异常的问题
-* `修复` util.isString 方法无效的问题
-* `修复` util.class[Name]/getClass[Name] 可能返回错误结果的问题
-* `修复` util.java.array 无法正常使用 Boolean 等类型参数的问题
-* `修复` threads.disposable() 返回的对象在存取数据时可能被意外装箱的问题 _[`issue #435`](http://issues.autojs6.com/435)_
-* `修复` console.build 方法多次调用时, 日志浮动窗口样式选项未能正常重置的问题
-* `修复` console.build 方法的 (title/content)BackgroundColor 选项导致透明度或着色选项被覆盖的问题 _[`issue #458`](http://issues.autojs6.com/458)_
-* `修复` console/toast 等方法显示 Java Double 时可能丢失末尾零的问题
-* `修复` 无法使用 console/toast 等方法显示 BigInt 数据类型的问题
-* `修复` toast 方法因持有 Toast 实例强引用而导致可能得内存泄露问题
-* `修复` 部分全局对象可能丢失 JavaScript 原型属性及方法的问题
-* `修复` 使用 XML 语法将 JavaScript 表达式作为属性值时, this 对象可能出现指向错误的问题
-* `修复` dialogs.build 方法 linkify 选项参数功能失效的问题
-* `修复` dialogs.build 方法可能破坏对象参数原有数据的问题
-* `修复` canvas 元素控件 setMaxFps 方法内部帧率计算错误
-* `修复` images.concat 方法纵向拼接时宽度值计算错误
-* `修复` images.requestScreenCapture 方法调用时用户取消授权可能导致应用崩溃的问题
-* `修复` images.captureScreen 方法获取的截图可能存在方向错误或黑边填充的问题 _[`issue #337`](http://issues.autojs6.com/337)_
-* `修复` images 部分方法使用区域参数时 1 被误解析为百分比的问题
-* `修复` images 部分相关方法出现异常时 oneShot 标记功能失效的问题 _[`issue #372`](http://issues.autojs6.com/372)_
-* `修复` images 部分相关方法可能引发内存泄露的问题 _[`issue #372`](http://issues.autojs6.com/372)_
-* `修复` images.save 及 ImageWrapper#saveTo 方法传入路径不存在时无法正常写入文件的问题
-* `修复` ImageWrapper#recycle 方法回收图像资源功能失效的问题
-* `修复` ocr 部分重载方法可能无法正常使用的问题
-* `修复` ocr.detect 方法获得的结果可能与 ocr.mode 不匹配的问题 _[`issue #468`](http://issues.autojs6.com/468)_
-* `修复` auto.registerEvent 注册的无障碍服务事件会被其他脚本误清理的问题 _[`issue #466`](http://issues.autojs6.com/466)_ _[`issue #343`](http://issues.autojs6.com/343#issuecomment-3263953918)_
-* `修复` Android 10 UiObject#child 方法可能出现 ArrayIndexOutOfBoundsException 异常的问题 _[`issue #416`](http://issues.autojs6.com/416)_
-* `修复` 内置模块方法调用可能出现 Rhino 上下文可能不一致的问题
-* `修复` 脚本创建大量浮动窗口后, 脚本退出时可能出现窗口残留的问题
-* `修复` 运行项目时 project.json 配置参数可能无法正常解析的问题
-* `修复` 项目打包时 project.json 的 excludedDirs 配置参数将导致配置文件解析失败的问题 _[`issue #428`](http://issues.autojs6.com/428)_
-* `修复` Android 7.x 可能无法正常使用打包功能的问题
-* `修复` 脚本项目配置文件保存时原始键名可能会被修改的问题
-* `修复` 脚本项目配置文件中构建版本号或构建时间出现较大数字时可能导致应用崩溃的问题
-* `修复` 频繁获取或重建 ImageReader 时可能因缓冲区暂无可用帧导致应用崩溃的问题
-* `修复` 输入事件观察器 InputEventObserver 可能导致应用启动时明显卡顿的问题
-* `修复` Shizuku 用户服务进程未能正常结束导致进程堆积的问题 _[`issue #474`](http://issues.autojs6.com/474)_
-* `修复` 打包应用无法正常使用 Paddle OCR 与 Rapid OCR 功能的问题
-* `修复` 打包应用配置文件 project.json 中的 key 值可能被意外修改的问题
-* `修复` 打包应用配置页面滑动 "需要的权限" 列表时可能出现复选框图标闪烁的问题
-* `修复` 发行历史页面部分系统因字体差别导致统计数据显示不完整的问题
-* `修复` 部分设备无法正常初始化 MLKit Google OCR 的问题 (试修) _[`issue #8`](http://issues.autojs6.com/8#issuecomment-3117061768)_
-* `修复` 部分设备无法正常触发文件管理器功能按钮点击事件的问题 (试修) _[`issue #465`](http://issues.autojs6.com/465)_
-* `修复` 部分设备代码编辑器空行显示方框字符的问题 (试修)
-* `修复` 代码编辑器软键盘可能遮挡文本内容的问题
-* `修复` 代码编辑器在只读模式下依然可以编辑代码内容的问题
-* `修复` 代码编辑器在只读模式下点击标题区域及部分菜单项导致应用崩溃的问题
-* `修复` 代码编辑器加载大文件可能导致应用崩溃的问题 (试修)
-* `修复` 代码编辑器自动打开新建文件时功能按钮状态初始化异常
-* `修复` 代码编辑器编辑文件时置于后台可能导致应用崩溃的问题
-* `修复` Android 15+ 代码编辑器点击 fx 按钮无法显示模块函数快捷面板的问题 (试修)
-* `修复` ErrorDialogActivity 可能无法正常启动或短时间自动消失的问题 _[`issue #479`](http://issues.autojs6.com/479)_ _[`issue #471`](http://issues.autojs6.com/471)_ _[`issue #414`](http://issues.autojs6.com/414)_ _[`issue #340`](http://issues.autojs6.com/340#issuecomment-2973485826)_
-* `修复` Canvas 构造函数可接受的参数类型错误 _[`issue #402`](http://issues.autojs6.com/402)_
-* `修复` 崩溃报告页面复制详细信息功能失效的问题
-* `修复` Android 16+ 自定义返回逻辑失效导致返回功能异常的问题
-* `修复` 文件管理器搜索结果展示后点击返回按钮或切换标签页面时可能导致应用崩溃的问题
-* `修复` 文件管理器删除项目文件夹后 UI 未能自动刷新的问题
-* `修复` 任务面板列表项频繁变动时可能导致应用崩溃的问题
-* `修复` 使用 "三按钮" 手势导航时导航栏前景色可能与夜间模式关联异常的问题
-* `修复` APK 文件类型信息对话框可能无法获取应用名称及 SDK 信息的问题
-* `修复` 客户端模式连接后, 短时间断开连接并再次连接时, 出现握手超时且难以再次建立连接的问题
-* `修复` 客户端模式连接时, 旋转屏幕及切换语言等触发 Activity 重建的操作导致 AutoJs6 总是重建连接的问题
-* `修复` 服务端模式连接时, 旋转屏幕及切换语言等触发 Activity 重建的操作导致 VSCode 控制台无法输出日志的问题 _[`issue #385`](http://issues.autojs6.com/385)_
-* `修复` 连接 VSCode 插件时, 多种方式同时连接可能导致日志打印数量成倍增加的问题
-* `修复` 布局分析页面生成代码时对于集合控件可能生成失败的问题 (试修) _[`issue #328`](http://issues.autojs6.com/328)_
-* `修复` 设置页面 "使用 '音量减' 键控制录制" 开关功能失效的问题 _[`issue #480`](http://issues.autojs6.com/480)_
-* `修复` 录制脚本生成的代码文件可能出现坐标数值与屏幕实际像素值不匹配的问题 _[`issue #480`](http://issues.autojs6.com/480)_
-* `修复` 录制脚本生成的代码文件首个行为 (如点击或滑动等) 总是被忽略的问题
-* `修复` 浮动按钮 "运行脚本" 对话框后台操作文件时可能导致应用崩溃的问题
-* `修复` 主页活动页面生命周期结束后重新进入主页时, 浮动按钮状态可能被重置的问题
-* `修复` 小米设备 "显示在其他应用上层" 开关可能跳转到错误设置页面的问题
-* `修复` 检查更新中止下载过程后, 网络数据包依然持续后台获取的问题 (试修)
-* `修复` 构建工具启用 isCleanup[Paddle/Rapid]Ocr 配置选项时无法正常完成 Rebuild Project 任务的问题
-* `优化` 插件化 Paddle OCR (PP-OCRv3) 相关功能 _[`issue #334`](http://issues.autojs6.com/334)_ _[`issue #331`](http://issues.autojs6.com/331)_ _[`issue #325`](http://issues.autojs6.com/325)_
-* `优化` runtime.loadJar 方法增强兼容性 (by [LYS86](https://github.com/LYS86)) _[`pr #475`](http://pr.autojs6.com/475)_
-* `优化` ui.getStatusBarHeight 方法/statusBarHeight 属性 (getter) 增强一定程度的兼容性
-* `优化` console.log 等方法打印全局对象 (images, app, ocr 等) 时支持显示详细信息
-* `优化` dialogs.build 方法支持使用 MaterialDialog.Builder 原生选项参数
-* `优化` dialogs.build 方法 animation/linkify 选项参数支持字符串宽松匹配
-* `优化` device.rotation/rotation/width/height 方法获取屏幕方向及宽高数据的稳定性与一致性
-* `优化` app.launchDual/startDualActivity 等方法提升执行效率并增强兼容性
-* `优化` android.graphics.Paint#setColor 支持正常解析 ColorInt/ColorHex/ColorName 等颜色参数
-* `优化` 内置模块相关方法实参类型的异常消息增加类型摘要信息
-* `优化` 内置模块 (dayjs/cheerio/dayjs/i18n) 脱离脚本执行模式, 使用全局懒加载方式替代
-* `优化` 控制台相关方法打印巨型数据时根据上限适当省略部分内容以降低打印耗时
-* `优化` 控制台浮动窗口倒计时起始值由 6 秒增加到 9 秒
-* `优化` 控制台浮动窗口内部实现进行无锁化及队列化处理以提升其参数设置效率与成功率
-* `优化` 控制台浮动窗口背景色彩行为相关 API (透明度/着色/基色) 更符合安卓设计规范 _[`issue #458`](http://issues.autojs6.com/458)_
-* `优化` 文件管理器浮动按钮展开后点击菜单项时优化菜单收起时机
-* `优化` 文件管理器/任务面板支持显示文件/任务数量统计信息
-* `优化` 代码编辑器保存文件失败时自动存为草稿并支持另存为新文件
-* `优化` 代码编辑器加载大文件时提升一定程度的流畅度
-* `优化` 代码编辑器 "查找/替换" 支持状态持久化及实时显示搜索计数信息
-* `优化` 代码编辑器提示保存时确保保存成功后再退出编辑器以降低保存失败率
-* `优化` 代码编辑器保存按钮的状态更符合用户主观逻辑
-* `优化` 代码编辑器支持 "-", "=", "(", "[", "{", "<" 等按键长按功能
-* `优化` 打包应用打包过程对话框增加 "中止" 按钮
-* `优化` 打包应用打包过程对话框的显示方式并增加耗时统计
-* `优化` 打包应用使用新配置安装时将覆盖旧应用的相关配置
-* `优化` 打包应用配置页面默认勾选必要权限 (WAKE_LOCK/INTERNET/WRITE_EXTERNAL_STORAGE/...) _[`issue #397`](http://issues.autojs6.com/397)_
-* `优化` 打包应用配置页面支持更多选项的读取及配置 (启动时显示日志/启动时显示启动页/启动页标语文本/...)
-* `优化` 打包应用设置页面增加前台服务开关 _[`issue #406`](http://issues.autojs6.com/406)_
-* `优化` 脚本项目配置文件保存时增加键名冲突检测机制防止键名歧义
-* `优化` 崩溃报告页面支持双指缩放调整字体大小并添加常用功能按钮
-* `优化` 应用启动器图标支持自适应图标特性 _[`issue #405`](http://issues.autojs6.com/405)_
-* `优化` Rhino 引擎在泛型签名解析失败时回退为原始反射类型以增强低版本安卓系统的反射方法可用性
-* `优化` 主页抽屉开关类条目添加分隔线, 支持点击标题文字区域显示详情对话框并按需支持快捷跳转系统设置
-* `优化` 启动或重启 AutoJs6 时支持点击主页抽屉 "客户端模式" 标题文字区域中止正在尝试建立的连接
-* `优化` 客户端模式连接时支持使用 IPv6 地址及域名地址建立连接
-* `优化` 客户端模式连接时支持特殊用途 IPv4 地址 (回环/广播/多播/保留/...) 检测提示
-* `优化` 客户端模式连接时支持连接状态显示及管理 (修正地址/中止连接)
-* `优化` 服务端模式连接时支持显示已建立连接的客户端数量
-* `优化` 读取通知权限支持自动重连机制 ([requestRebind](https://developer.android.com/reference/android/service/notification/NotificationListenerService#requestRebind(android.content.ComponentName))) 以增强通知监听相关功能的稳定性
-* `优化` 浮动按钮增强后台启动 Activity 的安全性以避免应用崩溃
-* `优化` 浮动按钮 "更多" 对话框使用异步加载数据方式提升显示流畅度
-* `优化` 浮动按钮 "运行脚本" 对话框增加 "主页" 菜单项
-* `优化` 浮动按钮 "运行脚本" 对话框支持最小化及状态恢复并尽最大努力保持窗口常驻或自动恢复
-* `优化` 支持使用 Shizuku 权限录制脚本及录制回放 (回放流畅度受一定影响) _[`issue #320`](http://issues.autojs6.com/320)_
-* `优化` 主题色设置页面定位主题色时使用快速定位方式以提升定位效率
-* `优化` 使用 [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) 及 [SharedFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow) 替代已弃用的 [LocalBroadcastManager](https://developer.android.com/jetpack/androidx/releases/localbroadcastmanager)
-* `优化` Gradle 构建脚本提升 7z 格式文件的解压效率
-* `优化` Gradle 构建脚本支持获取详细的 Android Studio IDE 版本 (如 "2025.1.4.7")
-* `优化` Gradle 构建脚本支持自动生成 VersionCodesList 类所需数据以降低脚本启动延迟
-* `优化` 使用 [版本目录 (Version Catalogs)](https://developer.android.com/build/migrate-to-catalogs) 集中管理 Gradle 依赖和插件版本
-* `优化` 模块化 Gradle 构建脚本, 将共享构建逻辑迁移至 build-logic 并抽象为约定插件
-* `优化` 使用 Gradle 约定插件简化本地 AAR 库加载逻辑
-* `优化` 移除 "android.enableJetifier=true" Gradle 配置选项以适配 Gradle 9
-* `优化` 使用 [Toolchain](https://docs.gradle.org/current/userguide/toolchains.html) 替代 sourceCompatibility/targetCompatibility 以降低构建环境差异
-* `优化` 部分依赖或本地库版本调整 _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v670)_
 
 ##### 更多发行历史可参阅
 
@@ -458,7 +278,7 @@ File (文件) | Settings (设置) | Appearance & Behavior (外观与行为) | Sy
 
 AutoJs6 项目依赖的 `JDK (Java 开发工具包)` 发行版本不低于 `17`, 但建议不低于 `21`.
 
-截至 2026 年 6 月 7 日, AutoJs6 可支持 JDK 最高版本为 `25`.
+截至 2026 年 6 月 10 日, AutoJs6 可支持 JDK 最高版本为 `25`.
 
 > 注: 如果计算机系统已安装 JDK 且版本满足上述要求, 则可跳过此小节内容.
 
@@ -584,6 +404,21 @@ autojs6-v6.6.2-arm64-v8a-0f2a9d74.apk
 如需在 PC 上进行脚本编写与调试, VSCode 插件可以实现 PC 与手机的互联:
 
 - [AutoJs6-VSCode-Extension](http://vscext-project.autojs6.com) - AutoJs6 调试器 (VSCode 平台插件)
+
+如需在应用内通过 AI 辅助编写、修改或解释脚本, 可在设置页配置 OpenAI 兼容服务商后, 从代码编辑器菜单或文件管理器浮动按钮进入 AI 脚本助手:
+
+- [AI 脚本助手 MVP 验收矩阵](docs/需求/AI脚本助手MVP验收矩阵.md) - 入口、供应商配置、上下文发送、预览应用与高风险二次确认说明
+- 脚本可通过 `capabilities.check()`, `capabilities.ensure()`, `capabilities.explain()` 和 `capabilities.manifest()` 检查无障碍、截图、Shizuku 等运行前能力状态; 项目可在 `project.json` 声明 `capabilities` / `pluginDependencies` / `riskPolicy` / `filePolicy` / `privilegedPolicy`, 高风险调用会写入 `capabilities.audit()`, 编辑器运行前预检、AI 风险校验、插件调用和打包权限映射共用同一份能力图谱; 打包 APK 会在构建前检查主脚本、资源、能力和插件依赖, 并内置 `project/build-diagnostics.json` 供 inrt 设置页和日志诊断导出使用
+- 自动化方案库覆盖 App 启动与等待、列表滚动查找、表单填写、OCR 文字点击、截图找图、定时任务、Shizuku 应用管理和插件 OCR; 内置文档 `automation-solutions.html`、示例 `方案库/自动化方案库模板入口 [v6.7.3+].js` 和 AI 检索索引会优先复用这些方案模板, 再补充底层 API 文档
+- 插件中心支持插件能力 manifest、OCR 引擎/权限/风险展示、官方索引 APK SHA-256 校验和证书指纹 pinning; SDK 模板与测试宿主清单见 [插件 SDK 模板与供应链审计](docs/实现审计/17-插件SDK模板与供应链审计.md)
+- 脚本运行会写入统一观测时间线, 编辑器菜单可查看“运行详情”并复制诊断 JSON; 服务端模式的管理入口可本地启用远程调试桥并生成 token, 桌面端通过 `debug.*` 命令查看运行中脚本、日志、异常、能力调用、资源快照和脱敏 UI 快照
+- 网络和数据脚本可通过 `http.client()` 声明命名 HTTP client, 使用请求拦截器、域名约束和可选证书 pinning, 并通过 `http.download()` / `http.pauseDownload()` / `http.resumeDownload()` 管理断点续传下载; `storages.namespace()` 提供 KV 命名空间, `ipc.publish()` / `ipc.subscribe()` / `ipc.request()` / `ipc.reply()` 提供本地脚本消息总线, `app.sendTypedBroadcast()` 提供结构化 Intent/Broadcast 入口
+- AI Copilot 二期会在应用前拦截未知 API 和未声明高风险能力, 修改当前文件时优先使用 `replace_selection` 或 unified diff 最小补丁, 并在补丁应用前校验编辑器上下文未漂移
+- AI 上下文发送前会展示摘要并按设置排除文件、日志、剪贴板、UI 快照、截图和 OCR 摘要; 剪贴板、UI 快照、截图和 OCR 默认关闭, 开启后仍需在发送前确认, API Key 与请求错误会脱敏
+- 定时任务支持运行历史和当前队列查询: `tasks.queryTimedTaskRuns()` / `tasks.queryTimedTaskQueue()`, 并可在创建任务时声明 `maxRetries`, `retryBackoffMillis`, `mutex`, `timeoutMillis` 等可靠性策略
+- 截图脚本可使用 `images.openCaptureSession()` 管理长期取帧, 查看首帧/平均帧耗时、超时率、方向恢复耗时、内存估算和最近错误分类
+- UI 自动化脚本优先使用 `auto.waitUntil()`, `auto.retry()`, `auto.stableClick()`, `auto.stableSetText()` 和 `auto.findWithScroll()` 获取结构化结果、失败原因和 UI 快照诊断
+- 屏幕理解脚本可使用 `vision.targets()`, `vision.findText()`, `vision.findButton()`, `vision.observe()` 和 `vision.waitForScene()` 融合无障碍、OCR、图像模板与颜色区域信号, 并按 `sources` 与 `interval` 控制性能
 
 使用开发工具编写代码时, 代码智能补全功能可以更好地辅助开发者完成代码编写:
 

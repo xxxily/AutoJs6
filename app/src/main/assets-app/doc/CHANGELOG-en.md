@@ -4,6 +4,18 @@
 
 ******
 
+# v6.8.0
+
+###### 2026/06/10
+
+* `Feature` Add a unified capability status center and pre-run checks with capability validation, permission entry points, risk notes, and project capability manifests
+* `Feature` Add reliable automation DSL, UI snapshot diagnostics, screenshot sessions, and a screen perception fusion pipeline
+* `Feature` Add structured Shizuku/Root privileged APIs to reduce handwritten shell strings and record risk audits
+* `Feature` Add task run records, scheduler reliability policies, script capability sandboxing, and high-risk call auditing
+* `Feature` Add plugin SDK permission declarations, supply-chain checks, remote debugging observability, named HTTP clients, resumable downloads, local IPC, and typed Broadcast support
+* `Feature` Add packaging preflight checks, inrt diagnostic bundles, AI Copilot phase 2, and an automation solution library
+* `Improvement` Improve consistency across API indexes, built-in docs, AI indexes, and external docs, with more capability samples, maintenance matrices, and regression acceptance checklists
+
 # v6.7.2
 
 ###### 2026/06/07

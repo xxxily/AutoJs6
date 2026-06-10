@@ -4,6 +4,18 @@
 
 ******
 
+# v6.8.0
+
+###### 2026/06/10
+
+* `Fonctionnalité` Ajout d’un centre unifié d’état des capacités et de vérifications avant exécution, avec validation des capacités, accès aux autorisations, notes de risque et manifestes de capacités de projet
+* `Fonctionnalité` Ajout d’un DSL d’automatisation fiable, de diagnostics par instantané UI, de sessions de capture d’écran et d’un pipeline de perception d’écran fusionné
+* `Fonctionnalité` Ajout d’API privilégiées structurées Shizuku/Root afin de réduire les chaînes shell écrites à la main et de journaliser les audits de risque
+* `Fonctionnalité` Ajout des historiques d’exécution de tâches, de stratégies de fiabilité du planificateur, du sandbox des capacités de script et de l’audit des appels à haut risque
+* `Fonctionnalité` Ajout des déclarations d’autorisations du SDK de plugin, des contrôles de chaîne d’approvisionnement, de l’observabilité du débogage distant, des clients HTTP nommés, des téléchargements avec reprise, de l’IPC local et des Broadcast typés
+* `Fonctionnalité` Ajout des précontrôles de packaging, des bundles de diagnostic inrt, de la phase 2 d’AI Copilot et d’une bibliothèque de solutions d’automatisation
+* `Amélioration` Amélioration de la cohérence entre les index d’API, la documentation intégrée, les index IA et la documentation externe, avec davantage d’exemples de capacités, de matrices de maintenance et de listes d’acceptation de régression
+
 # v6.7.2
 
 ###### 2026/06/07

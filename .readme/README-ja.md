@@ -59,17 +59,17 @@ AutoJs6 は `2021/12/01` に Auto.js 最終プロジェクトを基に二次開�
 | <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/hyb1996/Auto.js)</span> | <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/TonyJiangWJ/Auto.js/commit/268ec8895bbfa28fc7715154eb15b1c1eaaefd14#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2017/01/27`</span> | <span style="word-break:keep-all;white-space:nowrap">`2020/03/13`</span> | <span style="word-break:keep-all;white-space:nowrap">3.13</span> |
 | <span style="word-break:keep-all;white-space:nowrap">Auto.js Pro 7</span> | <span style="word-break:keep-all;white-space:nowrap">Auto.js</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/03/13`</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/07/08`</span> | <span style="word-break:keep-all;white-space:nowrap">0.32</span> |
 | <span style="word-break:keep-all;white-space:nowrap">Auto.js Pro 8</span> | <span style="word-break:keep-all;white-space:nowrap">AutoJsPro</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/10/13`</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/07/24`</span> | <span style="word-break:keep-all;white-space:nowrap">1.78</span> |
-| <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/TonyJiangWJ/Auto.js)</span> | <span style="word-break:keep-all;white-space:nowrap">[Auto.js&#160;M](https://github.com/TonyJiangWJ/Auto.js/commit/268ec8895bbfa28fc7715154eb15b1c1eaaefd14#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[TonyJiangWJ](https://github.com/TonyJiangWJ)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/11/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 6.55 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[Auto.js](https://github.com/TonyJiangWJ/Auto.js)</span> | <span style="word-break:keep-all;white-space:nowrap">[Auto.js&#160;M](https://github.com/TonyJiangWJ/Auto.js/commit/268ec8895bbfa28fc7715154eb15b1c1eaaefd14#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[TonyJiangWJ](https://github.com/TonyJiangWJ)</span> | <span style="word-break:keep-all;white-space:nowrap">`2019/11/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 6.56 ></span> |
 | <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/kkevsekk1/AutoX)</span> | <span style="white-space:pre">[Autox.js](https://github.com/kkevsekk1/AutoX/commit/8143e4ed893d4af05d22aa791b83a962f9959873#diff-5e01f7d37a66e4ca03deefc205d8e7008661cdd0284a05aaba1858e6b7bf9103R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[kkevsekk1](https://github.com/kkevsekk1)</span> | <span style="word-break:keep-all;white-space:nowrap">`2020/07/24`</span> | <span style="word-break:keep-all;white-space:nowrap">[ `2025/01/07` ]</span> | <span style="word-break:keep-all;white-space:nowrap">4.46</span> |
 | <span style="word-break:keep-all;white-space:nowrap">[Auto.js Pro 9](https://pro.autojs.org/)</span> | <span style="word-break:keep-all;white-space:nowrap">AutoJsPro</span> | <span style="word-break:keep-all;white-space:nowrap">[hyb1996](https://github.com/hyb1996)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/03/28`</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/02/09`</span> | <span style="word-break:keep-all;white-space:nowrap">1.87</span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6/commit/a8ce1b9acb541e9736c33134be3194c3148a15a3#diff-833a46a97033e77558372a2dce103fd6fee29aaaa899f610022a7aece592ee7bR27)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/12/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 4.52 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs6](https://github.com/SuperMonster003/AutoJs6/commit/a8ce1b9acb541e9736c33134be3194c3148a15a3#diff-833a46a97033e77558372a2dce103fd6fee29aaaa899f610022a7aece592ee7bR27)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/12/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 4.53 ></span> |
 | <span style="word-break:keep-all;white-space:nowrap">[autojs4](https://github.com/blackcd318/autojs4)</span> | <span style="word-break:keep-all;white-space:nowrap">Auto.js</span> | <span style="word-break:keep-all;white-space:nowrap">[blackcd318](https://github.com/blackcd318)</span> | <span style="word-break:keep-all;white-space:nowrap">`2021/12/15`</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/07/31`</span> | <span style="word-break:keep-all;white-space:nowrap">1.62</span> |
 | <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/kkevsekk1/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v6](https://github.com/kkevsekk1/AutoX/commit/8b6776cff8b0fca4be4a52719b7d7d07c0a058f3#diff-51a0b488f963eb0be6c6599bf5df497313877cf5bdff3950807373912ac1cdc9R130)</span> | <span style="word-break:keep-all;white-space:nowrap">[wilinz](https://github.com/wilinz) / [aiselp](https://github.com/aiselp)</span> | <span style="word-break:keep-all;white-space:nowrap">`2022/05/26`</span> | <span style="word-break:keep-all;white-space:nowrap">[ `2025/01/07` ]</span> | <span style="word-break:keep-all;white-space:nowrap">2.62</span> |
 | <span style="word-break:keep-all;white-space:nowrap">[openautojs](https://github.com/openautojs/openautojs)</span> | <span style="white-space:pre">[OpenAuto.js](https://github.com/openautojs/openautojs/commit/a11feaad025154de9b453ba70b49e94a6ca8b48a#diff-7d757295fcec3b37c258337e048644c258233d79259152e77baa6d36bb0ec418R2)</span> | <span style="word-break:keep-all;white-space:nowrap">[openautojs](https://github.com/openautojs)</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/02/17`</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/04/16`</span> | <span style="word-break:keep-all;white-space:nowrap">0.16</span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4/commit/8de11699b608be1c1f49f0f10e2e2826f8c77978)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/04/11`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 3.16 ></span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/aiselp/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v7](https://github.com/aiselp/AutoX/commit/484491fd5fe12b8203d0b09c181eb0f471c0ea9f#diff-8cff73265af19c059547b76aca8882cbaa3209291406f52df1dafbbc78e80c46R120)</span> | <span style="word-break:keep-all;white-space:nowrap">[aiselp](https://github.com/aiselp)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/04/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 2.13 ></span> |
-| <span style="word-break:keep-all;white-space:nowrap">[Autoxjs_v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi)</span> | <span style="white-space:pre">[Autox.js&#160;v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi/blob/a651d02246e09cfbbfa87e6eaccf900fab/app/build.gradle.kts#L143)</span> | <span style="word-break:keep-all;white-space:nowrap">[ozobiozobi](https://github.com/ozobiozobi)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/10/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.68 ></span> |
-| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/autox-community/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v6](https://github.com/autox-community/AutoX/commit/8b6776cff8b0fca4be4a52719b7d7d07c0a058f3#diff-51a0b488f963eb0be6c6599bf5df497313877cf5bdff3950807373912ac1cdc9R130)</span> | <span style="word-break:keep-all;white-space:nowrap">[autox-community](https://github.com/autox-community)</span> | <span style="word-break:keep-all;white-space:nowrap">`2025/03/30`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.19 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4)</span> | <span style="word-break:keep-all;white-space:nowrap">[AutoJs4](https://github.com/SuperMonster003/AutoJs4/commit/8de11699b608be1c1f49f0f10e2e2826f8c77978)</span> | <span style="word-break:keep-all;white-space:nowrap">[SuperMonster003](https://github.com/SuperMonster003)</span> | <span style="word-break:keep-all;white-space:nowrap">`2023/04/11`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 3.17 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/aiselp/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v7](https://github.com/aiselp/AutoX/commit/484491fd5fe12b8203d0b09c181eb0f471c0ea9f#diff-8cff73265af19c059547b76aca8882cbaa3209291406f52df1dafbbc78e80c46R120)</span> | <span style="word-break:keep-all;white-space:nowrap">[aiselp](https://github.com/aiselp)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/04/21`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 2.14 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[Autoxjs_v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi)</span> | <span style="white-space:pre">[Autox.js&#160;v6_ozobi](https://github.com/ozobiozobi/Autoxjs_v6_ozobi/blob/a651d02246e09cfbbfa87e6eaccf900fab/app/build.gradle.kts#L143)</span> | <span style="word-break:keep-all;white-space:nowrap">[ozobiozobi](https://github.com/ozobiozobi)</span> | <span style="word-break:keep-all;white-space:nowrap">`2024/10/01`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.69 ></span> |
+| <span style="word-break:keep-all;white-space:nowrap">[AutoX](https://github.com/autox-community/AutoX)</span> | <span style="white-space:pre">[Autox.js&#160;v6](https://github.com/autox-community/AutoX/commit/8b6776cff8b0fca4be4a52719b7d7d07c0a058f3#diff-51a0b488f963eb0be6c6599bf5df497313877cf5bdff3950807373912ac1cdc9R130)</span> | <span style="word-break:keep-all;white-space:nowrap">[autox-community](https://github.com/autox-community)</span> | <span style="word-break:keep-all;white-space:nowrap">`2025/03/30`</span> | <span style="word-break:keep-all;white-space:nowrap">-</span> | <span style="word-break:keep-all;white-space:nowrap">< 1.20 ></span> |
 
 表の日付は推定値であり, 実際とは異なる場合があります.
 
@@ -77,7 +77,7 @@ AutoJs6 は `2021/12/01` に Auto.js 最終プロジェクトを基に二次開�
 
 表では, `開発終了日` 列に角括弧 (`[]`) を含むデータは, オープンソースプロジェクトが一時的にアクセス不能であることを示します.
 
-表では, `アクティブメンテナンス期間` 列に山括弧 (`<>`) を含むデータは, 統計の締め日が 2026 年 6 月 7 日 であることを示します.
+表では, `アクティブメンテナンス期間` 列に山括弧 (`<>`) を含むデータは, 統計の締め日が 2026 年 6 月 10 日 であることを示します.
 
 ******
 
@@ -164,6 +164,18 @@ Auto.js の最終オープンソースバージョン `4.1.1 Alpha2` と比較�
 
 ******
 
+# v6.8.0
+
+###### 2026/06/10
+
+* `新機能` 統合された能力ステータスセンターと実行前チェックを追加し、能力検査、権限入口、リスク説明、プロジェクト能力マニフェストに対応
+* `新機能` 信頼性の高い自動化 DSL、UI スナップショット診断、スクリーンショット Session、画面認識融合パイプラインを追加
+* `新機能` Shizuku/Root の構造化特権 API を追加し、手書き shell 文字列を減らしつつリスク監査を記録
+* `新機能` タスク実行記録、スケジューラ信頼性ポリシー、スクリプト能力サンドボックス、高リスク呼び出し監査を追加
+* `新機能` プラグイン SDK の権限宣言、サプライチェーン検証、リモートデバッグ観測、名前付き HTTP client、レジュームダウンロード、ローカル IPC、typed Broadcast を追加
+* `新機能` パッケージング事前チェック、inrt 診断パック、AI Copilot 第 2 段階、自動化ソリューションライブラリを追加
+* `改善` API インデックス、組み込みドキュメント、AI インデックス、外部ドキュメントの整合性を改善し、能力サンプル、保守マトリクス、回帰受け入れチェックリストを補充
+
 # v6.7.2
 
 ###### 2026/06/07
@@ -192,198 +204,6 @@ Auto.js の最終オープンソースバージョン `4.1.1 Alpha2` と比較�
 * `修正` ConcatReader.close が一部の close 失敗後も残りの reader を閉じ続けるよう修正
 * `改善` Gradle Settings の AGP バージョン互換マッピングデータを更新
 * `改善` Temurin バージョンコメントと日付情報を更新
-
-# v6.7.0
-
-###### 2026/03/14
-
-* `新機能` プラグインセンター機能, プラグインのインストール/アンインストール/更新などの操作に対応 (入口: ホームドロワーボタン/ホームタブ)
-* `新機能` バージョン履歴機能, 編集可能なファイルの履歴バージョンの表示/復元に対応 (入口: ホームドロワーボタン/ファイルマネージャーメニュー/コードエディタメニュー)
-* `新機能` ゴミ箱機能, 削除済みファイル/フォルダーの表示/復元に対応 (入口: ホームドロワーボタン)
-* `新機能` Paddle OCR (PP-OCRv5) プラグイン, 光学文字認識用
-* `新機能` cvt モジュール, データ単位変換用 (プロジェクトドキュメント > [単位変換](https://docs.autojs6.com/#/cvt) を参照)
-* `新機能` fmt モジュール, データ整形用 (プロジェクトドキュメント > [フォーマット](https://docs.autojs6.com/#/fmt) を参照)
-* `新機能` zip モジュール, ファイルの圧縮/展開操作用 (Ref to [Auto.js Pro](https://g.pro.autojs.org/)) (プロジェクトドキュメント > [Zip](https://docs.autojs6.com/#/zip) を参照)
-* `新機能` mediainfo モジュール, メディアファイルの詳細情報表示用 (プロジェクトドキュメント > [メディア情報](https://docs.autojs6.com/#/mediainfo) を参照)
-* `新機能` cvt.bytes メソッド, バイトデータ単位変換用 (プロジェクトドキュメント > [単位変換](https://docs.autojs6.com/#/cvt) を参照)
-* `新機能` fmt.bytes メソッド, バイトデータ整形用 (プロジェクトドキュメント > [フォーマット](https://docs.autojs6.com/#/fmt) を参照)
-* `新機能` s13n.bytes メソッド, バイトデータ標準化用 (プロジェクトドキュメント > [標準化](https://docs.autojs6.com/#/s13n) を参照)
-* `新機能` app.isDualInstalled メソッド, デュアルアプリがインストールされているかの検出用 (Shizuku または Root 権限が必要) _[`issue #450`](http://issues.autojs6.com/450)_
-* `新機能` device.getSharedDeviceId メソッド, アプリ間で共有される統一デバイス ID の取得用 _[`issue #455`](http://issues.autojs6.com/455)_
-* `新機能` device.setPointerLocation などの Toggleable 系メソッド, ポインター位置システム設定項目の設定または取得用 _[`issue #381`](http://issues.autojs6.com/381)_
-* `新機能` dialogs.build メソッドが textAllCaps/(positive/negative/neutral)TextAllCaps オプション引数に対応, ボタンテキストを全て大文字にするかどうかを制御可能
-* `新機能` images.loadAsync メソッド, ネットワーク画像リソースの非同期取得用 _[`issue #327`](http://issues.autojs6.com/327)_
-* `新機能` ui.getNavigationBarHeight メソッド/navigationBarHeight プロパティ (getter), ナビゲーションバーの高さ取得用 _[`issue #456`](http://issues.autojs6.com/456)_
-* `新機能` ui.getVisible(Status/Navigation)BarHeight メソッド/visible(Status/Navigation)BarHeight プロパティ (getter), ステータスバーまたはナビゲーションバーの可視高さを素早く取得するための機能 _[`issue #456`](http://issues.autojs6.com/456)_
-* `新機能` http.put/del(ete)/head メソッド, 異なる HTTP リクエストメソッドでネットワークリクエストを送信するための機能
-* `新機能` http.getAsync/postAsync/requestAsync などのメソッド, ネットワークリクエストの非同期送信用 _[`issue #423`](http://issues.autojs6.com/423)_
-* `新機能` http モジュールのリクエスト関連メソッドで取得される body オブジェクトに stream/saveToFile/close などのメソッドを追加 _[`issue #452`](http://issues.autojs6.com/452)_
-* `新機能` http モジュールのリクエスト関連メソッドがキャッシュ制御オプション引数 (cacheBody/bodyCacheThresholdBytes) に対応
-* `新機能` http モジュールのリクエスト関連メソッドが安全でないオプション引数 (isInsecure/insecure) に対応, 証明書関連例外の無視に利用可能 _[`issue #417`](http://issues.autojs6.com/417)_
-* `新機能` http モジュールのリクエスト関連メソッドが options.client オプションに対応, OkHttpClient.Builder (followRedirects など) の設定に利用可能 _[`issue #454`](http://issues.autojs6.com/454)_
-* `新機能` auto.state プロパティ (getter) および shizuku.state プロパティ (getter), アクセシビリティサービス状態および Shizuku サービス状態取得用
-* `新機能` runtime.(set/is)JavaPrimitiveWrap メソッド, Java プリミティブ型ラップ戦略の設定または取得用 _[`issue #435`](http://issues.autojs6.com/435)_
-* `新機能` autojs.(restart/exit) メソッド, AutoJs6 アプリの再起動または終了用, さらにアプリ再起動時に引数指定されたスクリプトを自動実行する機能に対応 _[`issue #460`](http://issues.autojs6.com/460)_
-* `新機能` UiObject#isShifted メソッド, コントロール位置変化の検出用 _[`issue #469`](http://issues.autojs6.com/469)_
-* `新機能` UiObject#snapshot メソッド, コントロールの現在状態の取得用 _[`issue #469`](http://issues.autojs6.com/469)_
-* `新機能` engines.myEngine().getStartTime() メソッド, スクリプトエンジン起動タイムスタンプ取得用 _[`issue #449`](http://issues.autojs6.com/449)_
-* `新機能` crash グローバルメソッド, クラッシュレポートページのテスト用
-* `新機能` structuredClone グローバルメソッド, JavaScript オブジェクトのディープコピー用 ( [MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/structuredClone) を参照)
-* `新機能` 等価系セレクター (UiSelector#id/text/...) および包含系セレクター (UiSelector#xxxContains) が正規表現引数に対応
-* `新機能` セレクターの正規表現引数がフラグ (i, m, s, u) に対応
-* `新機能` 正規表現が lookbehind 構文に対応 _[`issue #464`](http://issues.autojs6.com/464)_
-* `新機能` ファイルマネージャーに "移動先" および "コピー先" メニュー項目を追加, 操作中止および進捗状態表示に対応
-* `新機能` コードエディタに "多機能キーボード" - "記号設定" メニュー項目を追加, 記号編集およびプロファイル単位での記号作成/インポート/エクスポートなどに対応
-* `新機能` ホームドロワーに "ポインター位置" ツールを追加
-* `新機能` ホームドロワーに "すべてのファイル管理権限" スイッチを追加
-* `新機能` ホームドロワーに "バックグラウンドから UI を表示" スイッチを追加 ( [Xiaomi/Vivo] デバイス向け)
-* `新機能` 設定ページに "Java プリミティブ型ラップ" 設定オプションを追加 _[`issue #435`](http://issues.autojs6.com/435)_
-* `新機能` 設定ページに "定時タスクスケジューリングエンジン" 設定オプションを追加, AlarmManager/WorkManager/JobScheduler に対応 _[`issue #457`](http://issues.autojs6.com/457)_ _[`issue #434`](http://issues.autojs6.com/434)_ _[`issue #449`](http://issues.autojs6.com/449)_ _[`issue #388`](http://issues.autojs6.com/388)_ _[`issue #378`](http://issues.autojs6.com/378)_ _[`issue #163`](http://issues.autojs6.com/163)_ _[`issue #53`](http://issues.autojs6.com/53)_ _[`issue #21`](http://issues.autojs6.com/21)_
-* `新機能` 設定ページに "アプリランチャーアイコン" 設定オプションを追加, 適応アイコン/透明背景アイコンに対応 _[`issue #405`](http://issues.autojs6.com/405)_
-* `新機能` 設定ページに "再起動戦略" 設定オプションを追加, ホームドロワーの再起動ボタンで高速再起動戦略を使用するかどうかを設定可能
-* `新機能` 設定ページに "画面キャプチャ権限申請遅延" 設定オプションを追加, 権限申請ウィンドウによる画面遮蔽を回避
-* `新機能` 設定ページのランチャーショートカットに "プラグイン" オプションを追加, ショートカットからプラグインセンターページへ移動可能
-* `新機能` パッケージ化アプリが起動時自動実行に対応し, 設定ページにスイッチを追加
-* `新機能` パッケージ化アプリがアプリショートカット (ログページ/設定ページ) に対応
-* `新機能` アプリパッケージ設定ページに取り消し/やり直し/保存ボタンを追加
-* `新機能` アプリパッケージ設定ページにプロファイル機構を追加, プロファイルの作成/変更/削除/インポート/エクスポートに対応 _[`issue #483`](http://issues.autojs6.com/483)_
-* `新機能` Scrapers ツール (run-scrapers.mjs), Gradle ビルドスクリプトの構造化データ/README 共通データ/README テンプレートデータなどの自動更新用
-* `新機能` Gradle Wrapper 切り替えツール (gradle-wrapper-switcher), ローカル Gradle メジャーバージョン (Gradle 8.x と Gradle 9.x など) の切り替え用
-* `修正` notice メソッドの引数個数および型制限の誤り _[`issue #462`](http://issues.autojs6.com/462)_
-* `修正` ui.R プロパティ (getter) が正常に使用できない問題
-* `修正` ui.post メソッドのコールバック引数内で例外が発生した際にサイレントに失敗する可能性がある問題
-* `修正` isJavaClass/isJavaPackage などのグローバルメソッドが無効な問題
-* `修正` timers.keepAlive メソッドの timeout 引数機能が無効な問題
-* `修正` floaty.window/rawWindow メソッドが文字列引数を受け取れない問題 _[`issue #467`](http://issues.autojs6.com/467)_
-* `修正` floaty.rawWindow に誤ったコンテキストが渡されることで一部コントロール表示が異常になる問題
-* `修正` util.isString メソッドが無効な問題
-* `修正` util.class[Name]/getClass[Name] が誤った結果を返す可能性がある問題
-* `修正` util.java.array が Boolean などの型引数を正常に使用できない問題
-* `修正` threads.disposable() が返すオブジェクトでデータアクセス時に予期せずボクシングされる可能性がある問題 _[`issue #435`](http://issues.autojs6.com/435)_
-* `修正` console.build メソッドを複数回呼び出した際にログフローティングウィンドウのスタイルオプションが正常にリセットされない問題
-* `修正` console.build メソッドの (title/content)BackgroundColor オプションが透明度または着色オプションを上書きする問題 _[`issue #458`](http://issues.autojs6.com/458)_
-* `修正` console/toast などのメソッドで Java Double を表示した際に末尾の 0 が失われる可能性がある問題
-* `修正` console/toast などのメソッドで BigInt データ型を表示できない問題
-* `修正` toast メソッドが Toast インスタンスへの強参照保持によりメモリリークを引き起こす可能性がある問題
-* `修正` 一部グローバルオブジェクトが JavaScript のプロトタイプ属性およびメソッドを失う可能性がある問題
-* `修正` XML 構文で JavaScript 式を属性値として使用した際に this オブジェクトの参照先が誤る可能性がある問題
-* `修正` dialogs.build メソッドの linkify オプション引数機能が無効な問題
-* `修正` dialogs.build メソッドがオブジェクト引数の元データを破壊する可能性がある問題
-* `修正` canvas 要素コントロールの setMaxFps メソッド内部フレームレート計算の誤り
-* `修正` images.concat メソッドで縦方向連結時に幅の計算値が誤る問題
-* `修正` images.requestScreenCapture メソッド呼び出し時にユーザーが認可をキャンセルするとアプリがクラッシュする可能性がある問題
-* `修正` images.captureScreen メソッドで取得したスクリーンショットに向きの誤りや黒い余白が入る可能性がある問題 _[`issue #337`](http://issues.autojs6.com/337)_
-* `修正` images 関連の一部メソッドで領域引数使用時に 1 が誤ってパーセントとして解釈される問題
-* `修正` images 関連の一部メソッドで例外発生時に oneShot フラグ機能が無効になる問題 _[`issue #372`](http://issues.autojs6.com/372)_
-* `修正` images 関連の一部メソッドがメモリリークを引き起こす可能性がある問題 _[`issue #372`](http://issues.autojs6.com/372)_
-* `修正` images.save および ImageWrapper#saveTo メソッドで指定パスが存在しない場合に正常にファイル書き込みできない問題
-* `修正` ImageWrapper#recycle メソッドの画像リソース回収機能が無効な問題
-* `修正` ocr の一部オーバーロードメソッドが正常に使用できない可能性がある問題
-* `修正` ocr.detect メソッドで得られる結果が ocr.mode と一致しない可能性がある問題 _[`issue #468`](http://issues.autojs6.com/468)_
-* `修正` auto.registerEvent で登録されたアクセシビリティサービスイベントが他のスクリプトに誤ってクリアされる問題 _[`issue #466`](http://issues.autojs6.com/466)_ _[`issue #343`](http://issues.autojs6.com/343#issuecomment-3263953918)_
-* `修正` Android 10 において UiObject#child メソッドが ArrayIndexOutOfBoundsException を発生させる可能性がある問題 _[`issue #416`](http://issues.autojs6.com/416)_
-* `修正` 組み込みモジュールメソッド呼び出し時に Rhino コンテキストが不整合になる可能性がある問題
-* `修正` スクリプトで大量のフローティングウィンドウを作成した後, スクリプト終了時にウィンドウが残留する可能性がある問題
-* `修正` プロジェクト実行時に project.json の設定引数が正常に解析されない可能性がある問題
-* `修正` プロジェクトパッケージ時に project.json の excludedDirs 設定引数が設定ファイル解析失敗を引き起こす問題 _[`issue #428`](http://issues.autojs6.com/428)_
-* `修正` Android 7.x でパッケージ機能が正常に使用できない可能性がある問題
-* `修正` スクリプトプロジェクト設定ファイル保存時に元のキー名が変更される可能性がある問題
-* `修正` スクリプトプロジェクト設定ファイル内のビルドバージョン番号またはビルド時刻に大きな数値が含まれるとアプリがクラッシュする可能性がある問題
-* `修正` ImageReader の頻繁な取得または再構築時に, バッファに使用可能フレームが一時的に存在しないことでアプリがクラッシュする可能性がある問題
-* `修正` 入力イベントオブザーバー InputEventObserver がアプリ起動時に顕著なカクつきを引き起こす可能性がある問題
-* `修正` Shizuku ユーザーサービスプロセスが正常に終了せず, プロセスが蓄積する問題 _[`issue #474`](http://issues.autojs6.com/474)_
-* `修正` パッケージ化アプリで Paddle OCR と Rapid OCR 機能が正常に使用できない問題
-* `修正` パッケージ化アプリ設定ファイル project.json の key 値が予期せず変更される可能性がある問題
-* `修正` アプリパッケージ設定ページで "必要な権限" リストをスクロールした際にチェックボックスアイコンが点滅する可能性がある問題
-* `修正` リリース履歴ページで一部システムにおいてフォント差異により統計データが不完全に表示される問題
-* `修正` 一部デバイスで MLKit Google OCR が正常に初期化できない問題 (試修) _[`issue #8`](http://issues.autojs6.com/8#issuecomment-3117061768)_
-* `修正` 一部デバイスでファイルマネージャーの機能ボタンのクリックイベントが正常に発火しない問題 (試修) _[`issue #465`](http://issues.autojs6.com/465)_
-* `修正` 一部デバイスでコードエディタの空行が四角記号で表示される問題 (試修)
-* `修正` コードエディタでソフトキーボードがテキスト内容を遮る可能性がある問題
-* `修正` コードエディタが読み取り専用モードでも内容を編集できてしまう問題
-* `修正` コードエディタが読み取り専用モードでタイトル領域および一部メニュー項目をクリックするとアプリがクラッシュする問題
-* `修正` コードエディタで大きなファイルを読み込むとアプリがクラッシュする可能性がある問題 (試修)
-* `修正` コードエディタが新規ファイルを自動で開いた際に機能ボタン状態の初期化が異常になる問題
-* `修正` コードエディタでファイル編集中にバックグラウンドへ移行するとアプリがクラッシュする可能性がある問題
-* `修正` Android 15+ においてコードエディタの fx ボタンを押してもモジュール関数ショートカットパネルが表示されない問題 (試修)
-* `修正` ErrorDialogActivity が正常に起動できない, または短時間で自動的に消える可能性がある問題 _[`issue #479`](http://issues.autojs6.com/479)_ _[`issue #471`](http://issues.autojs6.com/471)_ _[`issue #414`](http://issues.autojs6.com/414)_ _[`issue #340`](http://issues.autojs6.com/340#issuecomment-2973485826)_
-* `修正` Canvas コンストラクターが受け入れる引数型の誤り _[`issue #402`](http://issues.autojs6.com/402)_
-* `修正` クラッシュレポートページで詳細情報コピー機能が無効な問題
-* `修正` Android 16+ でカスタム戻るロジックが無効になり戻る動作が異常になる問題
-* `修正` ファイルマネージャーの検索結果表示後に戻るボタンを押す, またはタブ切り替えを行うとアプリがクラッシュする可能性がある問題
-* `修正` ファイルマネージャーでプロジェクトフォルダー削除後に UI が自動更新されない問題
-* `修正` タスクパネルのリスト項目が頻繁に変化するとアプリがクラッシュする可能性がある問題
-* `修正` "3ボタン" ジェスチャーナビゲーション使用時にナビゲーションバー前景色がナイトモードと異常に関連付く問題
-* `修正` APK ファイルタイプ情報ダイアログでアプリ名および SDK 情報を取得できない可能性がある問題
-* `修正` クライアントモード接続時, 短時間で切断後に再接続するとハンドシェイクタイムアウトが発生し再接続しにくくなる問題
-* `修正` クライアントモード接続時, 画面回転や言語切り替えなど Activity 再生成を伴う操作で AutoJs6 が常に接続を再構築してしまう問題
-* `修正` サーバーモード接続時, 画面回転や言語切り替えなど Activity 再生成を伴う操作で VSCode コンソールにログが出力されなくなる問題 _[`issue #385`](http://issues.autojs6.com/385)_
-* `修正` VSCode プラグイン接続時に複数の方法で同時接続するとログ出力量が倍増する問題
-* `修正` レイアウト解析ページのコード生成でコレクション系コントロールに対して生成失敗する可能性がある問題 (試修) _[`issue #328`](http://issues.autojs6.com/328)_
-* `修正` 設定ページの "'音量小' キーで録画を制御" スイッチ機能が無効な問題 _[`issue #480`](http://issues.autojs6.com/480)_
-* `修正` スクリプト録画で生成されたコードファイルの座標値が実際の画面ピクセル値と一致しない可能性がある問題 _[`issue #480`](http://issues.autojs6.com/480)_
-* `修正` スクリプト録画で生成されたコードファイルの最初の動作 (タップやスワイプなど) が常に無視される問題
-* `修正` フローティングボタンの "スクリプト実行" ダイアログでバックグラウンドからファイル操作するとアプリがクラッシュする可能性がある問題
-* `修正` ホーム Activity のライフサイクル終了後にホームへ再入するとフローティングボタン状態がリセットされる可能性がある問題
-* `修正` Xiaomi デバイスで "他のアプリの上に表示" スイッチが誤った設定ページへ遷移する問題
-* `修正` 更新確認でダウンロードを中止した後もネットワークパケット取得がバックグラウンドで継続する問題 (試修)
-* `修正` ビルドツールで isCleanup[Paddle/Rapid]Ocr オプションを有効にした際に Rebuild Project タスクが正常完了できない問題
-* `改善` Paddle OCR (PP-OCRv3) 関連機能のプラグイン化 _[`issue #334`](http://issues.autojs6.com/334)_ _[`issue #331`](http://issues.autojs6.com/331)_ _[`issue #325`](http://issues.autojs6.com/325)_
-* `改善` runtime.loadJar メソッドの互換性向上 (by [LYS86](https://github.com/LYS86)) _[`pr #475`](http://pr.autojs6.com/475)_
-* `改善` ui.getStatusBarHeight メソッド/statusBarHeight プロパティ (getter) の互換性を一定程度向上
-* `改善` console.log などのメソッドでグローバルオブジェクト (images, app, ocr など) を出力する際に詳細情報表示をサポート
-* `改善` dialogs.build メソッドが MaterialDialog.Builder のネイティブオプション引数に対応
-* `改善` dialogs.build メソッドの animation/linkify オプション引数が文字列の緩やかな一致に対応
-* `改善` device.rotation/rotation/width/height メソッドによる画面向きおよび幅/高さデータ取得の安定性と一貫性を向上
-* `改善` app.launchDual/startDualActivity などのメソッドの実行効率向上および互換性強化
-* `改善` android.graphics.Paint#setColor が ColorInt/ColorHex/ColorName などの色引数を正常に解析可能
-* `改善` 組み込みモジュール関連メソッドの実引数型例外メッセージに型要約情報を追加
-* `改善` 組み込みモジュール (dayjs/cheerio/dayjs/i18n) がスクリプト実行モードを離れ, グローバル遅延ロード方式へ移行
-* `改善` コンソール関連メソッドで巨大データを出力する際, 上限に応じて一部内容を適切に省略し出力時間を削減
-* `改善` コンソールフローティングウィンドウのカウントダウン初期値を 6 秒から 9 秒へ延長
-* `改善` コンソールフローティングウィンドウ内部実装をロックレス化およびキュー化し, 引数設定効率と成功率を向上
-* `改善` コンソールフローティングウィンドウ背景色関連 API (透明度/着色/基準色) を Android 設計規範へより適合させる _[`issue #458`](http://issues.autojs6.com/458)_
-* `改善` ファイルマネージャーのフローティングボタン展開後にメニュー項目を押した際のメニュー格納タイミングを最適化
-* `改善` ファイルマネージャー/タスクパネルがファイル/タスク数統計情報の表示に対応
-* `改善` コードエディタでファイル保存失敗時に自動で下書き保存し, 新規ファイルとして別名保存に対応
-* `改善` コードエディタで大容量ファイル読み込み時の滑らかさを一定程度向上
-* `改善` コードエディタの "検索/置換" が状態保持および検索件数のリアルタイム表示に対応
-* `改善` コードエディタで保存を促す際, 退出前に保存成功を保証することで保存失敗率を低減
-* `改善` コードエディタの保存ボタン状態がユーザーの主観ロジックにより一致するよう改善
-* `改善` コードエディタが "-", "=", "(", "[", "{", "<" などのキー長押し機能に対応
-* `改善` アプリパッケージ処理ダイアログに "中止" ボタンを追加
-* `改善` アプリパッケージ処理ダイアログの表示方式を改善し, 所要時間統計を追加
-* `改善` 新しい設定でパッケージ化アプリをインストールする際に旧アプリ関連設定を上書きするよう改善
-* `改善` アプリパッケージ設定ページで必要権限 (WAKE_LOCK/INTERNET/WRITE_EXTERNAL_STORAGE/...) を既定で選択 _[`issue #397`](http://issues.autojs6.com/397)_
-* `改善` アプリパッケージ設定ページでより多くのオプションの読み取りおよび設定に対応 (起動時にログ表示/起動時にスプラッシュ表示/スプラッシュ標語テキスト/...)
-* `改善` アプリパッケージ設定ページにフォアグラウンドサービススイッチを追加 _[`issue #406`](http://issues.autojs6.com/406)_
-* `改善` スクリプトプロジェクト設定ファイル保存時にキー名衝突検出機構を追加し, キー名の曖昧性を防止
-* `改善` クラッシュレポートページが 2 本指ズームによる文字サイズ調整および主要機能ボタン追加に対応
-* `改善` アプリランチャーアイコンが適応アイコン特性に対応 _[`issue #405`](http://issues.autojs6.com/405)_
-* `改善` Rhino エンジンでジェネリックシグネチャ解析失敗時に生のリフレクション型へフォールバックし, 低バージョン Android システムでのリフレクションメソッド利用性を強化
-* `改善` ホームドロワーのスイッチ類項目に区切り線を追加, タイトル文字領域クリックで詳細ダイアログ表示に対応し, 必要に応じてシステム設定へのクイックジャンプをサポート
-* `改善` AutoJs6 起動または再起動時に, ホームドロワーの "クライアントモード" タイトル文字領域を押して接続試行中の処理を中止可能
-* `改善` クライアントモード接続が IPv6 アドレスおよびドメイン名アドレスでの接続に対応
-* `改善` クライアントモード接続が特殊用途 IPv4 アドレス (loopback/broadcast/multicast/reserved/...) の検出案内に対応
-* `改善` クライアントモード接続が接続状態の表示および管理 (アドレス修正/接続中止) に対応
-* `改善` サーバーモード接続が接続済みクライアント数表示に対応
-* `改善` 通知権限読み取りが自動再接続機構 ([requestRebind](https://developer.android.com/reference/android/service/notification/NotificationListenerService#requestRebind(android.content.ComponentName))) に対応し, 通知監視関連機能の安定性を向上
-* `改善` フローティングボタンがバックグラウンドからの Activity 起動安全性を強化し, アプリクラッシュを回避
-* `改善` フローティングボタンの "その他" ダイアログが非同期データ読み込み方式を使用し, 表示の滑らかさを向上
-* `改善` フローティングボタンの "スクリプト実行" ダイアログに "ホーム" メニュー項目を追加
-* `改善` フローティングボタンの "スクリプト実行" ダイアログが最小化および状態復元に対応し, 可能な限りウィンドウ常駐または自動復元を維持
-* `改善` Shizuku 権限を利用したスクリプト録画および録画再生に対応 (再生の滑らかさは一部影響を受ける可能性あり) _[`issue #320`](http://issues.autojs6.com/320)_
-* `改善` テーマカラー設定ページでテーマカラー位置特定に高速位置決め方式を使用し, 効率を向上
-* `改善` 廃止済みの [LocalBroadcastManager](https://developer.android.com/jetpack/androidx/releases/localbroadcastmanager) を [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) および [SharedFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow) へ置き換え
-* `改善` Gradle ビルドスクリプトで 7z 形式ファイルの展開効率を向上
-* `改善` Gradle ビルドスクリプトが詳細な Android Studio IDE バージョン (例: "2025.1.4.7") の取得に対応
-* `改善` Gradle ビルドスクリプトが VersionCodesList クラスに必要なデータの自動生成に対応し, スクリプト起動遅延を低減
-* `改善` [Version Catalogs](https://developer.android.com/build/migrate-to-catalogs) を使用して Gradle 依存関係およびプラグインバージョンを集中管理
-* `改善` Gradle ビルドスクリプトをモジュール化し, 共有ビルドロジックを build-logic へ移行して convention plugin として抽象化
-* `改善` Gradle convention plugin を使用してローカル AAR ライブラリ読み込みロジックを簡素化
-* `改善` Gradle 9 への適応のため "android.enableJetifier=true" Gradle 設定オプションを削除
-* `改善` ビルド環境差異低減のため sourceCompatibility/targetCompatibility の代わりに [Toolchain](https://docs.gradle.org/current/userguide/toolchains.html) を使用
-* `改善` 一部の依存関係またはローカルライブラリのバージョン調整 _[`CHANGELOG.md`](http://project.autojs6.com/blob/master/app/src/main/assets-app/doc/CHANGELOG.md#v670)_
 
 ##### より詳細なリリース履歴については, こちらを参照してください
 
@@ -458,7 +278,7 @@ File (ファイル) | Settings (設定) | Appearance & Behavior (外観と動作
 
 AutoJs6プロジェクトが依存する `JDK (Java開発キット)` のリリースバージョンは少なくとも `17` で, それ以下のバージョンは推奨されませんが, 最低でも `21` の使用を推奨します.
 
-2026 年 6 月 7 日 現在, AutoJs6がサポートする最大のJDKバージョンは `25` です.
+2026 年 6 月 10 日 現在, AutoJs6がサポートする最大のJDKバージョンは `25` です.
 
 > 注: コンピュータシステムに適切なバージョンのJDKがインストールされている場合, この節の内容をスキップできます.
 
@@ -584,6 +404,8 @@ AutoJs6に対応するスクリプトを開発するには, 適切な開発ツ�
 PCでスクリプトを作成してデバッグする場合, VSCodeプラグインを使用してPCと携帯電話を接続できます:
 
 - [AutoJs6-VSCode-Extension](http://vscext-project.autojs6.com) - AutoJs6 デバッガ (VSCode プラットフォーム エクステンション)
+
+
 
 開発ツールを使用してコードを記述する際, コードのインテリセンス機能が開発者のコード記述を支援します:
 
