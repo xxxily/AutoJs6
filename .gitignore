@@ -31,6 +31,7 @@ desktop.ini
 /libs/**/build/
 /modules/**/build/
 /plugin-api/**/build/
+/capability-governance/**/build/
 /captures/
 /release/
 /releases/

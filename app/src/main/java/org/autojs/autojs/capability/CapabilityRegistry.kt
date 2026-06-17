@@ -33,14 +33,6 @@ import org.autojs.autojs.util.RootUtils
 import org.autojs.autojs.util.SettingsUtils
 import java.util.Locale
 
-enum class CapabilityStatus(val wireName: String) {
-    AVAILABLE("available"),
-    REQUESTABLE("requestable"),
-    MISSING("missing"),
-    BLOCKED("blocked"),
-    UNSUPPORTED("unsupported"),
-}
-
 data class CapabilityDefinition(
     val id: String,
     val name: String,
@@ -57,58 +49,32 @@ data class CapabilityDefinition(
     internal val requester: ((Context) -> Boolean)? = null,
 )
 
-data class CapabilityDetection(
-    val status: CapabilityStatus,
-    val missing: List<String> = emptyList(),
-    val blocked: List<String> = emptyList(),
-    val unsupported: List<String> = emptyList(),
-)
-
-data class CapabilityCheck(
-    val id: String,
-    val name: String,
-    val status: CapabilityStatus,
-    val available: Boolean,
-    val requestable: Boolean,
-    val missing: List<String>,
-    val blocked: List<String>,
-    val unsupported: List<String>,
-    val dangerous: Boolean,
-    val permissions: List<String>,
-    val services: List<String>,
-    val relatedApis: List<String>,
-    val description: String,
-    val requestHint: String,
-    val minSdk: Int,
-    val inrtSupported: Boolean,
-)
-
 object CapabilityRegistry {
 
-    const val ACCESSIBILITY = "accessibility"
-    const val SCREEN_CAPTURE = "screen_capture"
-    const val OVERLAY = "overlay"
-    const val NOTIFICATIONS = "notifications"
-    const val STORAGE = "storage"
-    const val NETWORK = "network"
-    const val ROOT = "root"
-    const val SHIZUKU = "shizuku"
-    const val SHELL = "shell"
-    const val USAGE_STATS = "usage_stats"
-    const val WRITE_SETTINGS = "write_settings"
-    const val WRITE_SECURE_SETTINGS = "write_secure_settings"
-    const val EXACT_ALARM = "exact_alarm"
-    const val BACKGROUND_RUN = "background_run"
-    const val BATTERY_OPTIMIZATION = "battery_optimization"
-    const val BOOT_COMPLETED = "boot_completed"
-    const val INSTALL_APK = "install_apk"
-    const val UNINSTALL_APK = "uninstall_apk"
-    const val SMS = "sms"
-    const val CONTACTS = "contacts"
-    const val PHONE = "phone"
-    const val CAMERA = "camera"
-    const val RECORD_AUDIO = "record_audio"
-    const val LOCATION = "location"
+    const val ACCESSIBILITY = CapabilityCore.ACCESSIBILITY
+    const val SCREEN_CAPTURE = CapabilityCore.SCREEN_CAPTURE
+    const val OVERLAY = CapabilityCore.OVERLAY
+    const val NOTIFICATIONS = CapabilityCore.NOTIFICATIONS
+    const val STORAGE = CapabilityCore.STORAGE
+    const val NETWORK = CapabilityCore.NETWORK
+    const val ROOT = CapabilityCore.ROOT
+    const val SHIZUKU = CapabilityCore.SHIZUKU
+    const val SHELL = CapabilityCore.SHELL
+    const val USAGE_STATS = CapabilityCore.USAGE_STATS
+    const val WRITE_SETTINGS = CapabilityCore.WRITE_SETTINGS
+    const val WRITE_SECURE_SETTINGS = CapabilityCore.WRITE_SECURE_SETTINGS
+    const val EXACT_ALARM = CapabilityCore.EXACT_ALARM
+    const val BACKGROUND_RUN = CapabilityCore.BACKGROUND_RUN
+    const val BATTERY_OPTIMIZATION = CapabilityCore.BATTERY_OPTIMIZATION
+    const val BOOT_COMPLETED = CapabilityCore.BOOT_COMPLETED
+    const val INSTALL_APK = CapabilityCore.INSTALL_APK
+    const val UNINSTALL_APK = CapabilityCore.UNINSTALL_APK
+    const val SMS = CapabilityCore.SMS
+    const val CONTACTS = CapabilityCore.CONTACTS
+    const val PHONE = CapabilityCore.PHONE
+    const val CAMERA = CapabilityCore.CAMERA
+    const val RECORD_AUDIO = CapabilityCore.RECORD_AUDIO
+    const val LOCATION = CapabilityCore.LOCATION
 
     val definitions: List<CapabilityDefinition> = listOf(
         CapabilityDefinition(
@@ -464,10 +430,7 @@ object CapabilityRegistry {
     fun allDefinitions(): List<CapabilityDefinition> = definitions
 
     fun manifestPermissionsForCapabilityIds(idsOrApis: Collection<String>): List<String> {
-        return idsOrApis
-            .mapNotNull(::definitionFor)
-            .flatMap { it.permissions }
-            .distinct()
+        return CapabilityCore.manifestPermissionsForCapabilityIds(idsOrApis)
     }
 
     fun check(context: Context, idsOrApis: Collection<String> = emptyList()): List<CapabilityCheck> {
@@ -483,10 +446,7 @@ object CapabilityRegistry {
     fun explain(idOrApi: String): CapabilityDefinition? = definitionFor(idOrApi)
 
     fun inferCapabilitiesFromScript(script: String): List<CapabilityDefinition> {
-        val searchable = stripStringsAndComments(script)
-        return definitions.filter { definition ->
-            definition.patterns.any { it.containsMatchIn(searchable) }
-        }
+        return CapabilityCore.inferCapabilityIdsFromScript(script).mapNotNull(::definitionFor)
     }
 
     fun inferCapabilityIdsFromScript(script: String): List<String> {
@@ -660,15 +620,6 @@ object CapabilityRegistry {
     private fun unsupported(vararg unsupported: String) = CapabilityDetection(CapabilityStatus.UNSUPPORTED, unsupported = unsupported.toList())
 
     private fun normalize(value: String) = value.trim().lowercase(Locale.ROOT)
-
-    private fun stripStringsAndComments(code: String): String {
-        return code
-            .replace(Regex("\"(?:\\\\.|[^\"\\\\])*\""), "\"\"")
-            .replace(Regex("'(?:\\\\.|[^'\\\\])*'"), "''")
-            .replace(Regex("`(?:\\\\.|[^`\\\\])*`"), "``")
-            .replace(Regex("//.*"), "")
-            .replace(Regex("/\\*[\\s\\S]*?\\*/"), "")
-    }
 
     private fun hasManifestPermission(context: Context, permission: String): Boolean {
         return packageInfo(context).requestedPermissions?.contains(permission) == true

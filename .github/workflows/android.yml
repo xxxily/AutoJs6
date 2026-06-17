@@ -44,6 +44,21 @@ jobs:
       - name: Run architecture governance gates
         run: ./gradlew testAppDebugUnitTest --tests org.autojs.autojs.ai.docs.AiCapabilityIndexConsistencyTest --tests org.autojs.autojs.runtime.ResourceScopeTest --tests org.autojs.autojs.compat.ReleaseSmokeGateTest --tests org.autojs.autojs.architecture.ModuleBoundaryContractTest --tests org.autojs.autojs.core.plugin.center.PluginIndexRepositoryTest compileAppDebugAndroidTestKotlin
 
+      - name: Run connected device smoke suite when a device is available
+        run: |
+          adb_bin="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}/platform-tools/adb"
+          if [ ! -x "$adb_bin" ]; then
+            echo "adb not found; connected smoke suite skipped after androidTest compilation gate."
+            exit 0
+          fi
+
+          "$adb_bin" start-server
+          if "$adb_bin" devices | awk 'NR > 1 && $2 == "device" { found = 1 } END { exit found ? 0 : 1 }'; then
+            ./gradlew connectedAppDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=org.autojs.autojs.compat.DeviceCompatibilitySmokeTest
+          else
+            echo "No connected Android device; connected smoke suite skipped after androidTest compilation gate."
+          fi
+
       - name: Run debug build and unit tests
         run: ./gradlew testAppDebugUnitTest assembleAppDebug
 

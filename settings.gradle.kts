@@ -45,8 +45,13 @@ private val pluginApi = listOf(
     "paddle-ocr-engine",
 )
 
+private val architectureModules = listOf(
+    "capability-governance",
+)
+
 include(
     ":app",
+    *architectureModules.map { ":$it" }.toTypedArray(),
     *modules.map { ":modules:$it" }.toTypedArray(),
     *libs.map { ":libs:$it" }.toTypedArray(),
     *pluginApi.map { ":plugin-api:$it" }.toTypedArray(),

@@ -18,6 +18,11 @@ class ReleaseSmokeGateTest {
         }
         assertTrue(smokeTest.contains("instrumentationCanLoadCoreCompatibilitySurfaces"))
         assertTrue(workflow.contains("compileAppDebugAndroidTestKotlin"))
+        assertTrue(workflow.contains("Run connected device smoke suite when a device is available"))
+        assertTrue(workflow.contains("platform-tools/adb"))
+        assertTrue(workflow.contains("\"${'$'}adb_bin\" devices"))
+        assertTrue(workflow.contains("connectedAppDebugAndroidTest"))
+        assertTrue(workflow.contains("DeviceCompatibilitySmokeTest"))
         assertTrue(workflow.contains("AiCapabilityIndexConsistencyTest"))
         assertTrue(workflow.contains("ResourceScopeTest"))
     }

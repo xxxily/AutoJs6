@@ -1,19 +1,33 @@
 package org.autojs.autojs.architecture
 
 import java.io.File
+import org.autojs.autojs.capability.CapabilityCore
+import org.autojs.autojs.capability.CapabilityRegistry
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ModuleBoundaryContractTest {
 
     @Test
+    fun capabilityGovernanceIsExtractedToIndependentJvmModule() {
+        val root = resolveRootDir()
+        val settings = root.resolve("settings.gradle.kts").readText()
+        val moduleBuild = root.resolve("capability-governance/build.gradle.kts").readText()
+        val appBuild = root.resolve("app/build.gradle.kts").readText()
+
+        assertTrue("settings.gradle.kts must include capability-governance module", "\"capability-governance\"" in settings)
+        assertTrue("capability-governance must use Kotlin JVM plugin", "kotlin(\"jvm\")" in moduleBuild)
+        assertTrue("capability-governance must not depend on Android Gradle plugin", "com.android." !in moduleBuild)
+        assertTrue("app module must depend on capability-governance", "project(\":capability-governance\")" in appBuild)
+    }
+
+    @Test
     fun capabilityGovernanceCoreKeepsAndroidDependenciesAtRegistryBoundary() {
         val root = resolveRootDir()
-        val capabilityDir = root.resolve("app/src/main/java/org/autojs/autojs/capability")
-        val allowedAndroidFiles = setOf("CapabilityRegistry.kt", "ProjectCapabilitySecurity.kt")
+        val capabilityDir = root.resolve("capability-governance/src/main/kotlin/org/autojs/autojs/capability")
         val violations = capabilityDir.walkTopDown()
             .filter { it.isFile && it.extension in setOf("kt", "java") }
-            .filter { it.name !in allowedAndroidFiles }
             .mapNotNull { file ->
                 val text = file.readText()
                 val forbiddenImport = FORBIDDEN_ANDROID_IMPORTS.firstOrNull { it in text }
@@ -25,6 +39,14 @@ class ModuleBoundaryContractTest {
             "Capability governance files outside the Android registry boundary must stay pure JVM:\n${violations.joinToString("\n")}",
             violations.isEmpty(),
         )
+    }
+
+    @Test
+    fun androidRegistryDelegatesStableCapabilityModelToGovernanceCore() {
+        val coreIds = CapabilityCore.allDefinitions().map { it.id }.toSet()
+        val androidIds = CapabilityRegistry.allDefinitions().map { it.id }.toSet()
+
+        assertEquals("Android registry must not drift from capability-governance core", coreIds, androidIds)
     }
 
     @Test

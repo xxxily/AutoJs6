@@ -43,6 +43,9 @@ val isInrtTaskRequested = taskNames.any { it.contains(flavorNameInrt, true) }
 utils.registerTemplateApkCopy(project)
 
 dependencies /* Unclassified */ {
+    // Capability governance core
+    implementation(project(":capability-governance"))
+
     // Compose
     // implementation("androidx.compose.ui:ui-android:1.6.7")
 
