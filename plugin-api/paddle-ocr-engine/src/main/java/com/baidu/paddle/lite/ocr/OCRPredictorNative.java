@@ -26,6 +26,7 @@ public class OCRPredictorNative {
                 OpenCVLoader.initDebug();
                 System.loadLibrary("Native");
             } catch (Throwable e) {
+                isSOLoaded.set(false);
                 throw new RuntimeException(
                         "Load libNative.so failed, please check it exists in apk file.", e);
             }
@@ -49,6 +50,9 @@ public class OCRPredictorNative {
     public ArrayList<OcrResultModel> runImage(Bitmap originalImage, int max_size_len, int run_det, int run_cls, int run_rec) {
         lock.lock();
         try {
+            if (nativePointer == 0) {
+                throw new IllegalStateException("OCR predictor has been destroyed or failed to initialize.");
+            }
             Log.i("OCRPredictorNative", "begin to run image");
             float[] rawResults = forward(nativePointer, originalImage, max_size_len, run_det, run_cls, run_rec);
             return postprocess(rawResults);
@@ -68,9 +72,14 @@ public class OCRPredictorNative {
     }
 
     public void destroy() {
-        if (nativePointer != 0) {
-            release(nativePointer);
-            nativePointer = 0;
+        lock.lock();
+        try {
+            if (nativePointer != 0) {
+                release(nativePointer);
+                nativePointer = 0;
+            }
+        } finally {
+            lock.unlock();
         }
     }
 

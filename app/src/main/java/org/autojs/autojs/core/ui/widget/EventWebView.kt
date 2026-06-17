@@ -105,10 +105,10 @@ abstract class EventWebView @JvmOverloads constructor(
         allowFileAccess = true
 
         @Suppress("DEPRECATION")
-        allowFileAccessFromFileURLs = true
+        allowFileAccessFromFileURLs = false
 
         @Suppress("DEPRECATION")
-        allowUniversalAccessFromFileURLs = true
+        allowUniversalAccessFromFileURLs = false
     }
 
     @AnyThread

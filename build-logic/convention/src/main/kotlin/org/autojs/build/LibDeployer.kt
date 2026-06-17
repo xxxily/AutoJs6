@@ -315,6 +315,7 @@ class LibDeployer(
             if (p.startsWith(File.separator)) p.substring(1) else p
         }
         val tempOut = getTempOutFile()
+        val tempOutCanonical = tempOut.canonicalFile
         val zipForTotal = ZipFile(cacheFile)
         val entriesAll = zipForTotal.entries()
         val entries = mutableListOf<ZipEntry>()
@@ -337,7 +338,8 @@ class LibDeployer(
             val entry = zipEntries.nextElement()
             val entryName = File(entry.name).path
             if (!entryName.startsWith(sourceDirPath)) continue
-            val outFile = project.file(File(tempOut, entryName.substring(sourceDirPath.length)))
+            val relativePath = entryName.substring(sourceDirPath.length)
+            val outFile = safeArchiveOutputFile(tempOutCanonical, relativePath)
             if (entry.isDirectory) {
                 outFile.mkdirs()
             } else {
@@ -371,6 +373,19 @@ class LibDeployer(
             into(destFile)
         }
         project.delete(tempOut)
+    }
+
+    private fun safeArchiveOutputFile(root: File, relativePath: String): File {
+        val normalized = relativePath.replace('\\', '/').trimStart('/')
+        if (normalized.isBlank() || normalized.split('/').any { it == ".." }) {
+            throw GradleException("Unsafe archive entry path: $relativePath")
+        }
+        val outFile = File(root, normalized).canonicalFile
+        val rootPath = root.canonicalPath + File.separator
+        if (outFile.path != root.canonicalPath && !outFile.path.startsWith(rootPath)) {
+            throw GradleException("Archive entry escapes extraction directory: $relativePath")
+        }
+        return outFile
     }
 
     private fun handleSevenZip() {

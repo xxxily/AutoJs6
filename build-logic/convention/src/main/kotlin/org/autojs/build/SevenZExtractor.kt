@@ -18,6 +18,7 @@ object SevenZExtractor {
     ): Long {
         require(archive.isFile) { "7z archive not found: ${archive.absolutePath}" }
         if (!outDir.exists()) outDir.mkdirs()
+        val outDirCanonical = outDir.canonicalFile
 
         val sourceDirPath = normalizePrefix(sourceDir)
         var sevenZFile: SevenZFile? = null
@@ -66,7 +67,7 @@ object SevenZExtractor {
                     continue
                 }
 
-                val outFile = File(outDir, relative)
+                val outFile = safeOutputFile(outDirCanonical, relative)
                 if (entry.isDirectory) {
                     outFile.mkdirs()
                 } else {
@@ -118,6 +119,18 @@ object SevenZExtractor {
         if (p.startsWith("/")) p = p.substring(1)
         if (!p.endsWith("/")) p += "/"
         return p
+    }
+
+    private fun safeOutputFile(root: File, relativePath: String): File {
+        val normalized = relativePath.replace('\\', '/').trimStart('/')
+        require(normalized.isNotBlank()) { "Unsafe empty 7z entry path" }
+        require(normalized.split('/').none { it == ".." }) { "Unsafe 7z entry path: $relativePath" }
+        val outFile = File(root, normalized).canonicalFile
+        val rootPath = root.canonicalPath + File.separator
+        require(outFile.path == root.canonicalPath || outFile.path.startsWith(rootPath)) {
+            "7z entry escapes extraction directory: $relativePath"
+        }
+        return outFile
     }
 
     private fun trimLeadingSlash(s: String): String =

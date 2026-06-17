@@ -1070,6 +1070,7 @@
     <string name="text_exception_info">Exception info</string>
     <string name="text_execute">Execute</string>
     <string name="text_execute_code">Execute code</string>
+    <string name="text_external_script_run_confirmation" formatted="true">An external application requested AutoJs6 to run this script. Review the source before continuing.\n\n%1$s</string>
     <string name="text_execution_finished" formatted="false">[%s] finished in %s seconds.\n</string>
     <string name="text_exit">Exit</string>
     <string name="text_exit_directly">Exit</string>

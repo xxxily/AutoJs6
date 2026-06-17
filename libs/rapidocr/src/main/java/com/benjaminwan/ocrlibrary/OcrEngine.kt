@@ -3,22 +3,27 @@ package com.benjaminwan.ocrlibrary
 import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.Bitmap
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 class OcrEngine(context: Context) {
     companion object {
         const val numThread: Int = 4
+        private val nativeLock = ReentrantLock()
     }
 
     init {
         System.loadLibrary("RapidOcr")
-        val ret = init(
-            context.assets, numThread,
-            "models/ch_PP-OCRv3_det_infer.onnx",
-            "models/ch_ppocr_mobile_v2.0_cls_infer.onnx",
-            "models/ch_PP-OCRv3_rec_infer.onnx",
-            "models/ppocr_keys_v1.txt",
-        )
-        if (!ret) throw IllegalArgumentException()
+        val ret = nativeLock.withLock {
+            init(
+                context.assets, numThread,
+                "models/ch_PP-OCRv3_det_infer.onnx",
+                "models/ch_ppocr_mobile_v2.0_cls_infer.onnx",
+                "models/ch_PP-OCRv3_rec_infer.onnx",
+                "models/ppocr_keys_v1.txt",
+            )
+        }
+        if (!ret) throw IllegalStateException("RapidOCR native engine failed to initialize. Check bundled model assets.")
     }
 
     var padding: Int = 50
@@ -29,11 +34,13 @@ class OcrEngine(context: Context) {
     var mostAngle: Boolean = true
 
     fun detect(input: Bitmap, output: Bitmap, maxSideLen: Int) =
-        detect(
-            input, output, padding, maxSideLen,
-            boxScoreThresh, boxThresh,
-            unClipRatio, doAngle, mostAngle
-        )
+        nativeLock.withLock {
+            detect(
+                input, output, padding, maxSideLen,
+                boxScoreThresh, boxThresh,
+                unClipRatio, doAngle, mostAngle
+            )
+        }
 
     external fun init(
         assetManager: AssetManager,
@@ -48,5 +55,7 @@ class OcrEngine(context: Context) {
     ): OcrResult
 
     external fun benchmark(input: Bitmap, loop: Int): Double
+
+    fun benchmarkLocked(input: Bitmap, loop: Int): Double = nativeLock.withLock { benchmark(input, loop) }
 
 }

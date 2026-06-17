@@ -37,6 +37,7 @@ public class InjectableWebClient extends WebViewClient {
     private Context mContext;
     private Scriptable mScriptable;
     private ScriptBridge mScriptBridge = new ScriptBridge();
+    private boolean mBridgeEnabled;
 
     public InjectableWebClient(Context context, Scriptable scriptable) {
         mContext = context;
@@ -56,10 +57,27 @@ public class InjectableWebClient extends WebViewClient {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void setUpWebView(WebView view) {
-        view.addJavascriptInterface(mScriptBridge, "rhino");
         WebSettings webSettings = view.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setAllowUniversalAccessFromFileURLs(true);
+        webSettings.setAllowUniversalAccessFromFileURLs(false);
+        if (mBridgeEnabled) {
+            view.addJavascriptInterface(mScriptBridge, "rhino");
+        }
+    }
+
+    public void setBridgeEnabled(boolean enabled) {
+        if (mBridgeEnabled == enabled) {
+            return;
+        }
+        mBridgeEnabled = enabled;
+        if (mWebView == null) {
+            return;
+        }
+        if (enabled) {
+            mWebView.addJavascriptInterface(mScriptBridge, "rhino");
+        } else {
+            mWebView.removeJavascriptInterface("rhino");
+        }
     }
 
     private void inject(WebView view, String script, ValueCallback<String> callback) {
@@ -91,6 +109,9 @@ public class InjectableWebClient extends WebViewClient {
 
         @JavascriptInterface
         public String eval(final String script) {
+            if (!mBridgeEnabled) {
+                throw new SecurityException("Rhino bridge is disabled for this WebView");
+            }
             result = null;
             mWebView.post(() -> {
                 Log.v(TAG, "ScriptBridge.eval: " + script);

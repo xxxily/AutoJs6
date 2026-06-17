@@ -792,6 +792,7 @@
     <string name="text_exception_info">异常信息</string>
     <string name="text_execute">执行</string>
     <string name="text_execute_code">执行代码</string>
+    <string name="text_external_script_run_confirmation" formatted="true">外部应用请求 AutoJs6 运行此脚本。继续前请确认脚本来源。\n\n%1$s</string>
     <string name="text_execution_finished" formatted="false">[%s] 运行结束 (用时 %s 秒)\n</string>
     <string name="text_exit">退出</string>
     <string name="text_exit_directly">直接退出</string>

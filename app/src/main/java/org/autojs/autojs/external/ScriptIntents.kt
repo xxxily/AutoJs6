@@ -3,6 +3,7 @@ package org.autojs.autojs.external
 import android.content.Context
 import android.content.Intent
 import org.autojs.autojs.AutoJs
+import org.autojs.autojs.core.pref.Pref
 import org.autojs.autojs.execution.ExecutionConfig
 import org.autojs.autojs.execution.ScriptExecution
 import org.autojs.autojs.execution.ScriptExecutionListener
@@ -15,6 +16,7 @@ import org.autojs.autojs.util.WorkingDirectoryUtils
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
+import java.util.UUID
 
 /**
  * Created by Stardust on Apr 1, 2017.
@@ -29,6 +31,10 @@ object ScriptIntents {
     const val EXTRA_KEY_LOOP_INTERVAL = "interval"
     const val EXTRA_KEY_DELAY = "delay"
     const val EXTRA_KEY_JSON = "json"
+
+    const val EXTRA_KEY_TRUSTED_SOURCE = "org.autojs.autojs.extra.TRUSTED_SCRIPT_SOURCE"
+    const val EXTRA_KEY_TRUST_TOKEN = "org.autojs.autojs.extra.SCRIPT_TRUST_TOKEN"
+    private const val PREF_KEY_TRUST_TOKEN = "external_script_execution_trust_token"
 
     @JvmStatic
     fun isTaskerJsonObjectValid(json: JSONObject) = json.has(EXTRA_KEY_PATH) || json.has(EXTRA_KEY_PRE_EXECUTE_SCRIPT)
@@ -76,6 +82,22 @@ object ScriptIntents {
             return source?.let { AutoJs.instance.scriptEngineService.execute(it, listener, config) }
         }
         return null
+    }
+
+    @JvmStatic
+    fun markTrusted(intent: Intent): Intent = intent
+        .putExtra(EXTRA_KEY_TRUSTED_SOURCE, true)
+        .putExtra(EXTRA_KEY_TRUST_TOKEN, trustToken())
+
+    @JvmStatic
+    fun isTrusted(intent: Intent): Boolean {
+        val token = intent.getStringExtra(EXTRA_KEY_TRUST_TOKEN) ?: return false
+        return token == trustToken()
+    }
+
+    private fun trustToken(): String {
+        Pref.getStringOrNull(PREF_KEY_TRUST_TOKEN)?.let { return it }
+        return UUID.randomUUID().toString().also { Pref.putStringSync(PREF_KEY_TRUST_TOKEN, it) }
     }
 
     private fun getPath(intent: Intent) = intent.data?.path ?: intent.getStringExtra(EXTRA_KEY_PATH)

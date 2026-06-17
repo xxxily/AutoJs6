@@ -118,7 +118,7 @@ public class ShortcutCreateActivity extends AppCompatActivity {
         }
         shortcut.name(mName.getText().toString())
                 .targetClass(ShortcutActivity.class)
-                .extras(new Intent().putExtra(ScriptIntents.EXTRA_KEY_PATH, mScriptFile.getPath()))
+                .extras(ScriptIntents.markTrusted(new Intent().putExtra(ScriptIntents.EXTRA_KEY_PATH, mScriptFile.getPath())))
                 .send();
     }
 
@@ -152,6 +152,7 @@ public class ShortcutCreateActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ShortcutActivity.class)
                 .putExtra(ScriptIntents.EXTRA_KEY_PATH, mScriptFile.getPath())
                 .setAction(Intent.ACTION_MAIN);
+        ScriptIntents.markTrusted(intent);
         if (mIsDefaultIcon) {
             ShortcutUtils.requestPinShortcut(this, id, intent, name, name, R.drawable.ic_file_type_js_dark_green);
         } else {

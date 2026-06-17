@@ -28,6 +28,11 @@ public class InjectableWebView extends WebView {
     }
 
     @ScriptInterface
+    public void setRhinoBridgeEnabled(boolean enabled) {
+        mInjectableWebClient.setBridgeEnabled(enabled);
+    }
+
+    @ScriptInterface
     public void inject(String script, ValueCallback<String> callback) {
         mInjectableWebClient.inject(script, callback);
     }

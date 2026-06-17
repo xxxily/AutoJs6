@@ -40,11 +40,14 @@ class InjectableWebView(context: Context, jsCtx: org.mozilla.javascript.Context,
             settings.takeIf { url.startsWith("file:") }?.apply {
                 allowFileAccess = true
                 @Suppress("DEPRECATION")
-                allowUniversalAccessFromFileURLs = true
+                allowUniversalAccessFromFileURLs = false
             }
             loadUrl(url)
         }
     }
+
+    @ScriptInterface
+    fun setRhinoBridgeEnabled(enabled: Boolean) = mInjectableWebClient.setBridgeEnabled(enabled)
 
     @ScriptInterface
     fun inject(script: String?, callback: ValueCallback<String?>?) = mInjectableWebClient.inject(script, callback)

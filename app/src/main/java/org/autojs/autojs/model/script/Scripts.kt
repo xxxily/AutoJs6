@@ -97,7 +97,7 @@ object Scripts {
         Shortcut(context).name(scriptFile.simplifiedName)
             .targetClass(ShortcutActivity::class.java)
             .iconRes(R.drawable.ic_node_js_black)
-            .extras(Intent().putExtra(ScriptIntents.EXTRA_KEY_PATH, scriptFile.path))
+            .extras(ScriptIntents.markTrusted(Intent().putExtra(ScriptIntents.EXTRA_KEY_PATH, scriptFile.path)))
             .send()
     }
 
