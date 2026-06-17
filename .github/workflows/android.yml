@@ -105,10 +105,13 @@ jobs:
       - name: Build with Gradle (assembleAppRelease)
         run: ./gradlew assembleAppRelease
 
+      - name: Append digest to app release APKs
+        run: ./gradlew :app:appendDigestToReleasedFiles
+
       - name: Verify app release APK signatures
         run: |
           shopt -s nullglob
-          apks=(app/build/outputs/apk/app/release/*.apk)
+          apks=(app/releases/*.apk)
           if [ ${#apks[@]} -eq 0 ]; then
             echo "No app release APKs were produced."
             exit 1
@@ -128,5 +131,5 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: release-app-apks
-          path: app/build/outputs/apk/app/release/*.apk
+          path: app/releases/*.apk
           if-no-files-found: error
