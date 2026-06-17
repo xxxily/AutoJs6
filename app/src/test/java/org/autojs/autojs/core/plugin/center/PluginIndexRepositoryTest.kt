@@ -63,6 +63,7 @@ class PluginIndexRepositoryTest {
         assertEquals("1.2.0", entry.releases.single().versionName)
         assertEquals("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", entry.releases.single().apkSha256)
         assertEquals("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", entry.releases.single().certificateSha256.single())
+        assertTrue(PluginIndexSecurity.validateOfficialIndexEntry(entry).isEmpty())
     }
 
     @Test
@@ -92,6 +93,42 @@ class PluginIndexRepositoryTest {
         assertEquals("paddle-ocr-v3", entry.manifest.engines.single().id)
         assertEquals("1.0.0", entry.releases.single().versionName)
         assertEquals("https://example.com/legacy.apk", entry.releases.single().apkUrl)
+    }
+
+    @Test
+    fun officialIndexValidatorReportsMissingGovernanceFields() {
+        val entries = PluginIndexRepository().parseIndexJson(
+            """
+            {
+              "plugins": [
+                {
+                  "packageName": "org.autojs.plugin.incomplete",
+                  "title": "Incomplete",
+                  "description": "Missing governance fields",
+                  "manifest": {
+                    "capabilities": []
+                  },
+                  "releases": [
+                    {
+                      "versionName": "1.0.0",
+                      "versionCode": 1,
+                      "apkUrl": "https://example.com/plugin.apk"
+                    }
+                  ]
+                }
+              ]
+            }
+            """.trimIndent(),
+        )
+
+        val issues = PluginIndexSecurity.validateOfficialIndexEntry(entries.single())
+
+        assertTrue(issues.any { it.contains("manifest.capabilities") })
+        assertTrue(issues.any { it.contains("manifest.riskLevel") })
+        assertTrue(issues.any { it.contains("manifest.minAutoJsVersion") })
+        assertTrue(issues.any { it.contains("manifest.documentationUrl") })
+        assertTrue(issues.any { it.contains("apkSha256") })
+        assertTrue(issues.any { it.contains("certificateSha256") })
     }
 
     @Test

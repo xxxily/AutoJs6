@@ -167,9 +167,45 @@ data class PluginIndexSignature(
 }
 
 object PluginIndexSecurity {
+    private val SHA256_PATTERN = Regex("[0-9a-f]{64}")
+
     fun verifyPayloadDigest(payload: String, signature: PluginIndexSignature?): Boolean {
         val expected = signature?.payloadSha256?.let(::normalizeSha256) ?: return true
         return expected == sha256Hex(payload.toByteArray())
+    }
+
+    fun validateOfficialIndexEntry(entry: PluginIndexEntry): List<String> {
+        val issues = mutableListOf<String>()
+        if (entry.packageName.isBlank()) issues += "packageName is required"
+        if (entry.title.isBlank()) issues += "title is required"
+
+        val manifest = entry.manifest
+        if (manifest.capabilities.isEmpty()) issues += "manifest.capabilities is required"
+        if (manifest.riskLevel.isNullOrBlank()) issues += "manifest.riskLevel is required"
+        if (manifest.minAutoJsVersion.isNullOrBlank()) issues += "manifest.minAutoJsVersion is required"
+        if (manifest.documentationUrl.isNullOrBlank()) issues += "manifest.documentationUrl is required"
+
+        if (entry.releases.isEmpty()) issues += "releases is required"
+        entry.releases.forEachIndexed { index, release ->
+            val prefix = "releases[$index]"
+            if (release.versionName.isBlank()) issues += "$prefix.versionName is required"
+            if (release.versionCode <= 0L) issues += "$prefix.versionCode must be positive"
+            if (release.apkUrl.isNullOrBlank()) issues += "$prefix.apkUrl is required"
+            if (!isValidSha256(release.apkSha256)) issues += "$prefix.apkSha256 must be a 64-character SHA-256 hex digest"
+            if (release.certificateSha256.isEmpty()) {
+                issues += "$prefix.certificateSha256 is required"
+            } else if (release.certificateSha256.any { !isValidSha256(it) }) {
+                issues += "$prefix.certificateSha256 must contain only 64-character SHA-256 hex digests"
+            }
+        }
+        return issues
+    }
+
+    fun requireOfficialIndexEntry(entry: PluginIndexEntry) {
+        val issues = validateOfficialIndexEntry(entry)
+        require(issues.isEmpty()) {
+            "Official plugin index entry ${entry.packageName.ifBlank { "<unknown>" }} is invalid: ${issues.joinToString("; ")}"
+        }
     }
 
     fun normalizeSha256(value: String): String {
@@ -181,13 +217,17 @@ object PluginIndexSecurity {
 
     fun normalizeSha256List(values: Collection<String>): List<String> {
         return values.map(::normalizeSha256)
-            .filter { it.matches(Regex("[0-9a-f]{64}")) }
+            .filter { it.matches(SHA256_PATTERN) }
             .distinct()
     }
 
     fun sha256Hex(bytes: ByteArray): String {
         val digest = MessageDigest.getInstance("SHA-256").digest(bytes)
         return digest.joinToString("") { "%02x".format(it) }
+    }
+
+    private fun isValidSha256(value: String?): Boolean {
+        return !value.isNullOrBlank() && normalizeSha256(value).matches(SHA256_PATTERN)
     }
 }
 

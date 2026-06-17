@@ -1,0 +1,42 @@
+{
+  "packageName": "org.autojs.plugin.example",
+  "title": "Example Plugin",
+  "description": "Short user-facing plugin description.",
+  "author": "AutoJs6",
+  "manifest": {
+    "pluginType": "ocr",
+    "capabilities": [
+      "ocr"
+    ],
+    "permissions": [
+      "android.permission.INTERNET"
+    ],
+    "riskLevel": "medium",
+    "minAutoJsVersion": "6.8.1",
+    "documentationUrl": "https://example.com/autojs6/plugins/example",
+    "examples": [
+      "https://example.com/autojs6/plugins/example/sample.js"
+    ],
+    "engines": [
+      {
+        "id": "example-engine-v1",
+        "engine": "example-engine",
+        "variant": "v1",
+        "label": "Example Engine v1"
+      }
+    ]
+  },
+  "releases": [
+    {
+      "versionName": "1.0.0",
+      "versionCode": 1,
+      "versionDate": "2026-06-17",
+      "apkUrl": "https://example.com/autojs6/plugins/example/example-plugin.apk",
+      "apkSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "certificateSha256": [
+        "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      ],
+      "changelogText": "Initial release."
+    }
+  ]
+}

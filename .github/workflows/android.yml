@@ -42,7 +42,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run architecture governance gates
-        run: ./gradlew testAppDebugUnitTest --tests org.autojs.autojs.ai.docs.AiCapabilityIndexConsistencyTest --tests org.autojs.autojs.runtime.ResourceScopeTest --tests org.autojs.autojs.compat.ReleaseSmokeGateTest compileAppDebugAndroidTestKotlin
+        run: ./gradlew testAppDebugUnitTest --tests org.autojs.autojs.ai.docs.AiCapabilityIndexConsistencyTest --tests org.autojs.autojs.runtime.ResourceScopeTest --tests org.autojs.autojs.compat.ReleaseSmokeGateTest --tests org.autojs.autojs.architecture.ModuleBoundaryContractTest --tests org.autojs.autojs.core.plugin.center.PluginIndexRepositoryTest compileAppDebugAndroidTestKotlin
 
       - name: Run debug build and unit tests
         run: ./gradlew testAppDebugUnitTest assembleAppDebug
