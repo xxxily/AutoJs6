@@ -79,10 +79,17 @@ class PluginIndexRepositoryTest {
                   "engine": "paddle-ocr",
                   "variant": "v3",
                   "engineId": "paddle-ocr-v3",
+                  "manifest": {
+                    "capabilities": ["ocr"],
+                    "riskLevel": "medium",
+                    "minAutoJsVersion": "6.7.3",
+                    "docsUrl": "https://example.com/legacy"
+                  },
                   "versionName": "1.0.0",
                   "versionCode": 1,
                   "apkUrl": "https://example.com/legacy.apk",
-                  "apkSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+                  "apkSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                  "certificateSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
                 }
               ]
             }
@@ -96,39 +103,40 @@ class PluginIndexRepositoryTest {
     }
 
     @Test
-    fun officialIndexValidatorReportsMissingGovernanceFields() {
-        val entries = PluginIndexRepository().parseIndexJson(
-            """
-            {
-              "plugins": [
+    fun rejectsOfficialIndexEntriesMissingGovernanceFields() {
+        val error = assertThrows(IllegalArgumentException::class.java) {
+            PluginIndexRepository().parseIndexJson(
+                """
                 {
-                  "packageName": "org.autojs.plugin.incomplete",
-                  "title": "Incomplete",
-                  "description": "Missing governance fields",
-                  "manifest": {
-                    "capabilities": []
-                  },
-                  "releases": [
+                  "plugins": [
                     {
-                      "versionName": "1.0.0",
-                      "versionCode": 1,
-                      "apkUrl": "https://example.com/plugin.apk"
+                      "packageName": "org.autojs.plugin.incomplete",
+                      "title": "Incomplete",
+                      "description": "Missing governance fields",
+                      "manifest": {
+                        "capabilities": []
+                      },
+                      "releases": [
+                        {
+                          "versionName": "1.0.0",
+                          "versionCode": 1,
+                          "apkUrl": "https://example.com/plugin.apk"
+                        }
+                      ]
                     }
                   ]
                 }
-              ]
-            }
-            """.trimIndent(),
-        )
+                """.trimIndent(),
+            )
+        }
 
-        val issues = PluginIndexSecurity.validateOfficialIndexEntry(entries.single())
-
-        assertTrue(issues.any { it.contains("manifest.capabilities") })
-        assertTrue(issues.any { it.contains("manifest.riskLevel") })
-        assertTrue(issues.any { it.contains("manifest.minAutoJsVersion") })
-        assertTrue(issues.any { it.contains("manifest.documentationUrl") })
-        assertTrue(issues.any { it.contains("apkSha256") })
-        assertTrue(issues.any { it.contains("certificateSha256") })
+        val message = error.message.orEmpty()
+        assertTrue(message.contains("manifest.capabilities"))
+        assertTrue(message.contains("manifest.riskLevel"))
+        assertTrue(message.contains("manifest.minAutoJsVersion"))
+        assertTrue(message.contains("manifest.documentationUrl"))
+        assertTrue(message.contains("apkSha256"))
+        assertTrue(message.contains("certificateSha256"))
     }
 
     @Test

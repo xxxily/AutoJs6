@@ -52,7 +52,7 @@ public class RunIntentActivity extends Activity {
             source.setOverriddenFullPath(uri.toString());
             Scripts.run(this, source);
         } else {
-            ScriptIntents.handleIntent(this, intent);
+            ScriptIntents.handleTrustedIntent(this, intent);
         }
     }
 

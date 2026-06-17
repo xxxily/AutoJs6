@@ -285,7 +285,7 @@ object TimedTaskManager {
         }
 
         return try {
-            val execution = ScriptIntents.handleIntent(context, task.createIntent(), runRecordListener(context, recordId, task, mutexKey, backend, scheduledAt, retryAttempt))
+            val execution = ScriptIntents.handleTrustedIntent(context, task.createIntent(), runRecordListener(context, recordId, task, mutexKey, backend, scheduledAt, retryAttempt))
             val updated = updateRunRecord(recordId) {
                 if (execution == null) {
                     it.markSkipped("No script source resolved", System.currentTimeMillis())

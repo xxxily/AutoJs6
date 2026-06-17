@@ -265,7 +265,7 @@ class PluginIndexRepository {
             )
             val releases = parseReleases(obj, entryCertificatePins)
 
-            list += PluginIndexEntry(
+            val entry = PluginIndexEntry(
                 packageName = pkg,
                 iconUrl = obj.optString("iconUrl").takeIf { it.isNotBlank() }?.let { runCatching { Uri.parse(it) }.getOrNull() },
                 title = title,
@@ -280,6 +280,8 @@ class PluginIndexRepository {
                 tags = obj.optStringList("tags"),
                 indexSignature = signature,
             )
+            PluginIndexSecurity.requireOfficialIndexEntry(entry)
+            list += entry
         }
 
         return list

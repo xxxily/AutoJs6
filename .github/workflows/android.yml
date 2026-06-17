@@ -42,7 +42,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run architecture governance gates
-        run: ./gradlew testAppDebugUnitTest --tests org.autojs.autojs.ai.docs.AiCapabilityIndexConsistencyTest --tests org.autojs.autojs.runtime.ResourceScopeTest --tests org.autojs.autojs.compat.ReleaseSmokeGateTest --tests org.autojs.autojs.architecture.ModuleBoundaryContractTest --tests org.autojs.autojs.core.plugin.center.PluginIndexRepositoryTest compileAppDebugAndroidTestKotlin
+        run: ./gradlew testAppDebugUnitTest --tests org.autojs.autojs.ai.docs.AiCapabilityIndexConsistencyTest --tests org.autojs.autojs.runtime.ResourceScopeTest --tests org.autojs.autojs.compat.ReleaseSmokeGateTest --tests org.autojs.autojs.architecture.ModuleBoundaryContractTest --tests org.autojs.autojs.core.plugin.center.PluginIndexRepositoryTest --tests org.autojs.autojs.external.ScriptIntentsSecurityTest --tests org.autojs.autojs.core.web.WebViewBridgeSecurityTest --tests org.autojs.autojs.core.ocr.OcrNativeLifecycleSecurityTest --tests org.autojs.autojs.build.SupplyChainGuardTest compileAppDebugAndroidTestKotlin
 
       - name: Run connected device smoke suite when a device is available
         run: |

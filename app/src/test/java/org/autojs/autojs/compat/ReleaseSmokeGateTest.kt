@@ -25,6 +25,10 @@ class ReleaseSmokeGateTest {
         assertTrue(workflow.contains("DeviceCompatibilitySmokeTest"))
         assertTrue(workflow.contains("AiCapabilityIndexConsistencyTest"))
         assertTrue(workflow.contains("ResourceScopeTest"))
+        assertTrue(workflow.contains("ScriptIntentsSecurityTest"))
+        assertTrue(workflow.contains("WebViewBridgeSecurityTest"))
+        assertTrue(workflow.contains("OcrNativeLifecycleSecurityTest"))
+        assertTrue(workflow.contains("SupplyChainGuardTest"))
     }
 
     private companion object {

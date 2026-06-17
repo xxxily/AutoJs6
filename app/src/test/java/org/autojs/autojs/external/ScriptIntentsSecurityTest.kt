@@ -13,6 +13,8 @@ class ScriptIntentsSecurityTest {
         assertTrue(source.contains("EXTRA_KEY_TRUST_TOKEN"))
         assertTrue(source.contains("token == trustToken()"))
         assertTrue(source.contains("putExtra(EXTRA_KEY_TRUST_TOKEN, trustToken())"))
+        assertTrue(source.contains("if (!isTrusted(intent))"))
+        assertTrue(source.contains("fun handleTrustedIntent"))
     }
 
     @Test
@@ -35,6 +37,17 @@ class ScriptIntentsSecurityTest {
         assertTrue(runIntentActivity.contains("ScriptIntents.isTrusted(getIntent())"))
         assertTrue(runIntentActivity.contains("confirmExternalRun"))
         assertTrue(runIntentActivity.contains("MaterialDialog.Builder"))
+        assertTrue(runIntentActivity.contains("ScriptIntents.handleTrustedIntent"))
+    }
+
+    @Test
+    fun directServiceAndTimedTasksDoNotBypassTrustBoundary() {
+        val appDir = resolveAppDir()
+        val service = appDir.resolve("src/main/java/org/autojs/autojs/external/ScriptExecutionIntentService.java").readText()
+        val timedTaskManager = appDir.resolve("src/main/java/org/autojs/autojs/timing/TimedTaskManager.kt").readText()
+
+        assertTrue(service.contains("ScriptIntents.handleIntent(this, intent)"))
+        assertTrue(timedTaskManager.contains("ScriptIntents.handleTrustedIntent"))
     }
 
     private companion object {

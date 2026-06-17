@@ -44,6 +44,17 @@ object ScriptIntents {
 
     @JvmStatic
     fun handleIntent(context: Context?, intent: Intent, listener: ScriptExecutionListener?): ScriptExecution? {
+        if (!isTrusted(intent)) {
+            return null
+        }
+        return handleTrustedIntent(context, intent, listener)
+    }
+
+    @JvmStatic
+    fun handleTrustedIntent(context: Context?, intent: Intent): ScriptExecution? = handleTrustedIntent(context, intent, null)
+
+    @JvmStatic
+    fun handleTrustedIntent(context: Context?, intent: Intent, listener: ScriptExecutionListener?): ScriptExecution? {
         var path = getPath(intent)
         var script = intent.getStringExtra(EXTRA_KEY_PRE_EXECUTE_SCRIPT)
 
