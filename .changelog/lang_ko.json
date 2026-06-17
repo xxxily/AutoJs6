@@ -1,5 +1,18 @@
 {
   "$data": {
+    "v6.8.1": {
+      "released_date": "2026/06/17",
+      "feature": [
+        "독립 JVM 모듈 capability-governance 를 추가하여 기능 거버넌스 핵심 모델을 분리하고 Android 런타임 레지스트리와의 정합성을 유지",
+        "연결된 기기가 있을 때 connected smoke suite 를 실행하는 release CI 게이트를 추가하고, 기기가 없을 때는 androidTest 컴파일 게이트와 명시적 건너뜀 사유를 유지"
+      ],
+      "fix": [
+        "release workflow 가 원본 APK 출력 대신 digest 이름이 붙은 app/releases APK 를 생성하고 업로드하도록 수정"
+      ],
+      "improvement": [
+        "외부 스크립트 실행, WebView bridge, OCR/native 생명주기, 리소스 회수 감사, 플러그인 SDK 거버넌스, release 공급망 게이트를 강화하여 아키텍처 평가 P0-P2 항목 완료"
+      ]
+    },
     "v6.8.0": {
       "released_date": "2026/06/10",
       "feature": [

@@ -4,6 +4,15 @@
 
 ******
 
+# v6.8.1
+
+###### 2026/06/17
+
+* `Fonctionnalité` Ajout du module JVM indépendant capability-governance, qui extrait le modèle central des capacités tout en restant aligné avec le registre Android à l’exécution
+* `Fonctionnalité` Ajout d’un garde CI de release exécutant le connected smoke suite quand un appareil est disponible, avec conservation de la compilation androidTest et un motif de saut explicite sans appareil
+* `Correction` Correction du workflow de release afin de générer et téléverser les APK app/releases nommés avec résumé au lieu des sorties APK brutes
+* `Amélioration` Renforcement de l’exécution de scripts externes, du WebView bridge, du cycle de vie OCR/native, de l’audit de libération des ressources, de la gouvernance du SDK de plugins et des garde-fous de chaîne d’approvisionnement afin de finaliser les points P0-P2 de l’évaluation d’architecture
+
 # v6.8.0
 
 ###### 2026/06/10

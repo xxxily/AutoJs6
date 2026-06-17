@@ -4,6 +4,15 @@
 
 ******
 
+# v6.8.1
+
+###### 2026/06/17
+
+* `新機能` 独立 JVM モジュール capability-governance を追加し、能力治理のコアモデルを抽出して Android 実行時レジストリとの整合を維持
+* `新機能` release CI にデバイス接続時の connected smoke suite 実行ゲートを追加し、未接続時は androidTest コンパイルゲートを維持して明示的なスキップ理由を出力
+* `修正` release workflow が生の APK 出力ではなく、摘要付きファイル名の app/releases APK を生成してアップロードするよう修正
+* `改善` 外部スクリプト実行、WebView bridge、OCR/native ライフサイクル、リソース回収監査、プラグイン SDK ガバナンス、release サプライチェーンゲートを強化し、アーキテクチャ評価 P0-P2 項目を完了
+
 # v6.8.0
 
 ###### 2026/06/10

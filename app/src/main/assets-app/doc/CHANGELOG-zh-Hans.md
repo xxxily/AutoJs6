@@ -4,6 +4,15 @@
 
 ******
 
+# v6.8.1
+
+###### 2026/06/17
+
+* `新增` 新增 capability-governance 独立 JVM 模块, 抽离能力治理核心模型并保持与 Android 运行时注册表一致
+* `新增` 新增 release CI 有设备时执行 connected smoke suite 的门禁, 无设备时保留 androidTest 编译门禁并明确跳过原因
+* `修复` 修复 release workflow 上传未带摘要命名的原始 APK 问题, 改为生成并上传 app/releases 摘要产物
+* `优化` 强化外部脚本执行、WebView bridge、OCR/native 生命周期、资源回收审计、插件 SDK 和供应链门禁, 完成架构评估 P0-P2 治理项
+
 # v6.8.0
 
 ###### 2026/06/10

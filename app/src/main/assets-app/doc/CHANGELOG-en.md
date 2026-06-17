@@ -4,6 +4,15 @@
 
 ******
 
+# v6.8.1
+
+###### 2026/06/17
+
+* `Feature` Add the independent JVM capability-governance module, extracting the core capability model while keeping it aligned with the Android runtime registry
+* `Feature` Add a release CI gate that runs the connected smoke suite when a device is available and keeps the androidTest compilation gate with an explicit skip reason when none is connected
+* `Fix` Fix the release workflow to generate and upload digest-named app/releases APKs instead of raw APK outputs
+* `Improvement` Harden external script execution, WebView bridge behavior, OCR/native lifecycle handling, resource release auditing, plugin SDK governance, and release supply-chain gates to complete architecture assessment P0-P2 items
+
 # v6.8.0
 
 ###### 2026/06/10

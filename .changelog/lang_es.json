@@ -1,5 +1,18 @@
 {
   "$data": {
+    "v6.8.1": {
+      "released_date": "2026/06/17",
+      "feature": [
+        "Añade el módulo JVM independiente capability-governance, extrayendo el modelo central de capacidades y manteniéndolo alineado con el registro Android en tiempo de ejecución",
+        "Añade una puerta de CI de release que ejecuta el connected smoke suite cuando hay un dispositivo disponible y conserva la compilación androidTest con un motivo explícito de omisión cuando no hay ninguno conectado"
+      ],
+      "fix": [
+        "Corrige el workflow de release para generar y subir APK de app/releases con nombre de resumen en lugar de las salidas APK sin procesar"
+      ],
+      "improvement": [
+        "Refuerza la ejecución de scripts externos, el WebView bridge, el ciclo de vida OCR/native, la auditoría de liberación de recursos, la gobernanza del SDK de plugins y las puertas de cadena de suministro para completar los puntos P0-P2 de la evaluación de arquitectura"
+      ]
+    },
     "v6.8.0": {
       "released_date": "2026/06/10",
       "feature": [

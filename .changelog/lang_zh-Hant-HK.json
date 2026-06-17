@@ -1,5 +1,18 @@
 {
   "$data": {
+    "v6.8.1": {
+      "released_date": "2026/06/17",
+      "feature": [
+        "新增 capability-governance 獨立 JVM 模組, 抽離能力治理核心模型並保持與 Android 運行時註冊表一致",
+        "新增 release CI 在有裝置時執行 connected smoke suite 的門禁, 無裝置時保留 androidTest 編譯門禁並明確跳過原因"
+      ],
+      "fix": [
+        "修復 release workflow 上傳未帶摘要命名的原始 APK 問題, 改為生成並上傳 app/releases 摘要產物"
+      ],
+      "improvement": [
+        "強化外部腳本執行、WebView bridge、OCR/native 生命週期、資源回收審計、插件 SDK 和供應鏈門禁, 完成架構評估 P0-P2 治理項"
+      ]
+    },
     "v6.8.0": {
       "released_date": "2026/06/10",
       "feature": [
