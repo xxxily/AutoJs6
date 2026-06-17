@@ -10,12 +10,15 @@ class CloseableManager {
         mCloseables.add(closeable)
     }
 
-    fun recycleAll() {
+    fun recycleAll(): Int {
+        var recycled = 0
         val iterator = mCloseables.iterator()
         while (iterator.hasNext()) {
             iterator.next().close()
+            recycled += 1
         }
         mCloseables.clear()
+        return recycled
     }
 
     fun remove(closeable: Closeable) {

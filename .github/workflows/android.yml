@@ -41,6 +41,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Run architecture governance gates
+        run: ./gradlew testAppDebugUnitTest --tests org.autojs.autojs.ai.docs.AiCapabilityIndexConsistencyTest --tests org.autojs.autojs.runtime.ResourceScopeTest --tests org.autojs.autojs.compat.ReleaseSmokeGateTest compileAppDebugAndroidTestKotlin
+
       - name: Run debug build and unit tests
         run: ./gradlew testAppDebugUnitTest assembleAppDebug
 

@@ -191,6 +191,7 @@ class ScriptRuntime private constructor(builder: Builder) {
     val coroutineContext = coroutineScope.coroutineContext
 
     val ownerId = "runtime@${System.identityHashCode(this)}"
+    val resourceScope = ResourceScope(ownerId)
 
     private var mUiHandlerAppContext: Context
     private var mRootShell: AbstractShell? = null
@@ -205,6 +206,9 @@ class ScriptRuntime private constructor(builder: Builder) {
 
     @JvmField
     val closeableManager = CloseableManager()
+
+    var lastResourceReleaseSummary: ResourceReleaseSummary? = null
+        private set
 
     var topLevelScope: TopLevelScope
         get() = mTopLevelScope
@@ -638,6 +642,7 @@ class ScriptRuntime private constructor(builder: Builder) {
     fun onExit() {
         Log.d(TAG, "on exit")
         this.isExiting = true
+        resourceScope.clear()
 
         ignoresException {
             if (console.configurator.isExitOnClose) {
@@ -645,7 +650,7 @@ class ScriptRuntime private constructor(builder: Builder) {
             }
         }
 
-        ignoresException { CoreWebSocket.onExit("Triggered by $TAG") }
+        resourceScope.release("websocket") { CoreWebSocket.onExit("Triggered by $TAG") }
 
         // @Hint by 抠脚本人 (https://github.com/little-alei) on Jul 10, 2023.
         //  ! 清空无障碍事件.
@@ -656,13 +661,13 @@ class ScriptRuntime private constructor(builder: Builder) {
         //  ! by the current script to avoid affecting other still-running scripts.
         //  ! zh-CN: 只清理当前脚本注册的无障碍事件回调，避免影响其他仍在运行的脚本.
         //  # ignoresException({ AccessibilityService.clearAccessibilityEventCallback() })
-        ignoresException { automator.removeAllEventsForThisRuntime() }
+        resourceScope.release("accessibility-events") { automator.removeAllEventsForThisRuntime() }
 
-        ignoresException { RootUtils.resetRuntimeOverriddenRootModeState() }
+        resourceScope.release("root-mode") { RootUtils.resetRuntimeOverriddenRootModeState() }
 
         // Recycle all recorded ImageWrapper instances.
         // zh-CN: 回收全部记录的 ImageWrapper 实例.
-        ignoresException { CoreImageWrapper.recycleAll() }
+        resourceScope.release("image-wrappers") { CoreImageWrapper.recycleAll() }
 
         // Clear interrupt status.
         // zh-CN: 清除 interrupt 状态.
@@ -674,25 +679,27 @@ class ScriptRuntime private constructor(builder: Builder) {
         // zh-CN:
         // 浮动窗口需要第一时间关闭.
         // 以免出现恶意脚本全屏浮动窗口遮蔽屏幕并且在 exit 中写死循环的问题.
-        ignoresException { floaty.closeAll() }
+        resourceScope.release("floaty") { floaty.closeAll() }
 
         ignoresException("Exception on exit: %s") {
             events.emit("exit")
         }
 
-        ignoresException { threads.shutDownAll() }
-        ignoresException { events.recycle() }
-        ignoresException { media.recycle() }
-        ignoresException { loopers.recycle() }
-        ignoresException { ipc.recycle() }
-        ignoresException { recycleShell() }
-        ignoresException { images.releaseScreenCapturer() }
-        ignoresException { images.stopScreenCapturerForegroundService() }
-        ignoresException { ocrMLKit.release() }
-        ignoresException { sensors.unregisterAll() }
-        ignoresException { timers.recycle() }
-        ignoresException { ui.recycle() }
-        ignoresException { closeableManager.recycleAll() }
+        resourceScope.release("threads") { threads.shutDownAll() }
+        resourceScope.release("events") { events.recycle() }
+        resourceScope.release("media") { media.recycle() }
+        resourceScope.release("loopers") { loopers.recycle() }
+        resourceScope.release("ipc") { ipc.recycle() }
+        resourceScope.release("shell") { recycleShell() }
+        resourceScope.release("screen-capturer") { images.releaseScreenCapturer() }
+        resourceScope.release("screen-capturer-service") { images.stopScreenCapturerForegroundService() }
+        resourceScope.release("ocr-mlkit") { ocrMLKit.release() }
+        resourceScope.release("sensors") { sensors.unregisterAll() }
+        resourceScope.release("timers") { timers.recycle() }
+        resourceScope.release("ui") { ui.recycle() }
+        resourceScope.release("closeables") { closeableManager.recycleAll() }
+        lastResourceReleaseSummary = resourceScope.snapshot()
+        Log.i(TAG, "Resource release summary: ${lastResourceReleaseSummary?.toAuditString()}")
     }
 
     fun setScreenMetrics(width: Int, height: Int) {
