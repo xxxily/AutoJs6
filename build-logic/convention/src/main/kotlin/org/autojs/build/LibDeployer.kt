@@ -339,6 +339,10 @@ class LibDeployer(
             val entryName = File(entry.name).path
             if (!entryName.startsWith(sourceDirPath)) continue
             val relativePath = entryName.substring(sourceDirPath.length)
+            if (relativePath.isBlank()) {
+                processed++
+                continue
+            }
             val outFile = safeArchiveOutputFile(tempOutCanonical, relativePath)
             if (entry.isDirectory) {
                 outFile.mkdirs()

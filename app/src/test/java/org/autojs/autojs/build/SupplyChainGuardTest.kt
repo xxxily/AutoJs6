@@ -31,6 +31,8 @@ class SupplyChainGuardTest {
         val sevenZExtractor = root.resolve("build-logic/convention/src/main/kotlin/org/autojs/build/SevenZExtractor.kt").readText()
 
         assertTrue(libDeployer.contains("safeArchiveOutputFile"))
+        assertTrue(libDeployer.contains("if (relativePath.isBlank())"))
+        assertTrue(libDeployer.indexOf("if (relativePath.isBlank())") < libDeployer.indexOf("safeArchiveOutputFile(tempOutCanonical, relativePath)"))
         assertTrue(libDeployer.contains("Archive entry escapes extraction directory"))
         assertTrue(sevenZExtractor.contains("safeOutputFile"))
         assertTrue(sevenZExtractor.contains("7z entry escapes extraction directory"))
