@@ -33,6 +33,7 @@ class LibDeployer(
     private val cacheFileName: String
     private val cacheFileExtensionName: String
     private val cacheFile: File
+    private val trustedSha256: String
 
     private val shouldPrintProgress: Boolean
         get() = project.gradle.extra["platform"]?.let {
@@ -46,6 +47,7 @@ class LibDeployer(
         cacheFileName = "${extracted.fileName}-[${generateShortMd5String(downloadUrl).lowercase()}]"
         cacheFileExtensionName = extracted.extensionName
         cacheFile = project.file(File(cacheRootFile, "$cacheFileName.$cacheFileExtensionName"))
+        trustedSha256 = requireTrustedSha256(downloadUrl)
     }
 
     private fun getSkipFile(): File = project.file(File(destFile, "$cacheFileName.skip"))
@@ -81,6 +83,7 @@ class LibDeployer(
         if (shouldDownload) {
             printDownloadInfo()
             downloadWithRetry()
+            requireTrustedSha256File(cacheFile)
             needExtract = true
         }
 
@@ -126,30 +129,97 @@ class LibDeployer(
         var shouldExtract = true
 
         val skip = getSkipFile()
+        val trustedCacheExists = validateExistingTrustedCache(skip)
         if (skip.exists()) {
-            println("No need to download or extract \"$name\" archive file as the \"skip file\" exists")
-            shouldDownload = false
-            shouldExtract = false
-            println()
+            if (trustedCacheExists) {
+                println("No need to download or extract \"$name\" archive file as the \"skip file\" exists")
+                shouldDownload = false
+                shouldExtract = false
+                println()
+            } else {
+                println("Skip file of \"$name\" was deleted because the trusted cache file is missing or invalid")
+                println("Skip file: $skip")
+                project.delete(skip)
+                println()
+            }
         } else if (cacheFile.exists()) {
-            if (validateMd5File(cacheFile)) {
+            if (trustedCacheExists && validateMd5File(cacheFile)) {
                 println("No need to download \"$name\" archive file as the cache file exists and is valid")
                 shouldDownload = false
                 println("Cache file of \"$name\" needs to be extracted as the \"skip file\" doesn't exist")
             } else {
                 println("Cache file of \"$name\" was deleted as it is invalid")
                 println("Cache file: $cacheFile")
-                project.delete(cacheFile)
-                val md5File = File(cacheFile.parentFile, cacheFile.name + ".md5")
-                if (md5File.exists()) {
-                    println("MD5 file of \"$name\" was deleted as it is unreliable")
-                    println("MD5 file: $md5File")
-                    project.delete(md5File)
-                }
+                deleteCacheAndMd5()
             }
             println()
         }
         return shouldDownload to shouldExtract
+    }
+
+    private fun validateExistingTrustedCache(skip: File): Boolean {
+        if (!cacheFile.exists()) {
+            return false
+        }
+        if (validateTrustedSha256File(cacheFile)) {
+            return true
+        }
+        println("Cache file of \"$name\" was deleted because its SHA-256 checksum is not trusted")
+        println("Cache file: $cacheFile")
+        deleteCacheAndMd5()
+        if (skip.exists()) {
+            project.delete(skip)
+        }
+        return false
+    }
+
+    private fun requireTrustedSha256(url: String): String {
+        val checksumsFile = project.rootProject.file("gradle/third_party_checksums.toml")
+        if (!checksumsFile.isFile) {
+            throw GradleException("Missing third-party checksum file: ${checksumsFile.path}")
+        }
+        val checksums = parseTrustedSha256Checksums(checksumsFile)
+        return checksums[url]?.lowercase(Locale.ROOT)
+            ?: throw GradleException("Missing SHA-256 checksum for remote archive: $url")
+    }
+
+    private fun parseTrustedSha256Checksums(file: File): Map<String, String> {
+        val entry = Regex("^\\s*\"([^\"]+)\"\\s*=\\s*\"([0-9a-fA-F]{64})\"\\s*(?:#.*)?$")
+        return file.readLines()
+            .mapNotNull { line -> entry.matchEntire(line)?.destructured }
+            .associate { (url, sha256) -> url to sha256.lowercase(Locale.ROOT) }
+    }
+
+    private fun validateTrustedSha256File(file: File): Boolean {
+        val actual = generateSha256String(file).lowercase(Locale.ROOT)
+        val expected = trustedSha256.lowercase(Locale.ROOT)
+        val matches = actual == expected
+        if (matches) {
+            println("SHA-256 verified: $actual")
+        } else {
+            println("SHA-256 checksum mismatch for \"$name\" archive file")
+            println("Source: $downloadUrl")
+            println("Expected: $expected")
+            println("Actual: $actual")
+        }
+        return matches
+    }
+
+    private fun requireTrustedSha256File(file: File) {
+        if (!validateTrustedSha256File(file)) {
+            deleteCacheAndMd5()
+            throw GradleException("SHA-256 checksum mismatch for \"$name\" archive file")
+        }
+    }
+
+    private fun deleteCacheAndMd5() {
+        project.delete(cacheFile)
+        val md5File = File(cacheFile.parentFile, cacheFile.name + ".md5")
+        if (md5File.exists()) {
+            println("MD5 file of \"$name\" was deleted as it is unreliable")
+            println("MD5 file: $md5File")
+            project.delete(md5File)
+        }
     }
 
     private fun validateMd5File(file: File): Boolean {
@@ -170,9 +240,17 @@ class LibDeployer(
     }
 
     private fun generateMd5String(file: File): String {
+        return generateDigestString(file, "MD5").padStart(32, '0')
+    }
+
+    private fun generateSha256String(file: File): String {
+        return generateDigestString(file, "SHA-256").padStart(64, '0')
+    }
+
+    private fun generateDigestString(file: File, algorithm: String): String {
         FileInputStream(file).use { fis ->
             val channel: FileChannel = fis.channel
-            val md = MessageDigest.getInstance("MD5")
+            val md = MessageDigest.getInstance(algorithm)
             val buffer = ByteBuffer.allocate(4096)
             while (channel.read(buffer) > 0) {
                 buffer.flip()

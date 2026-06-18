@@ -1,0 +1,9 @@
+# Trusted SHA-256 checksums for remote archives downloaded by Gradle build logic.
+#
+# MD5 sidecar files under module cache directories are cache hints only.
+# Security-sensitive remote archive verification must use this file.
+
+[archives]
+"https://github.com/nihui/opencv-mobile/releases/download/v13/opencv-mobile-4.5.3-android.zip" = "6fcc5223bda9845131c1f9b65501901d3cdf8da5750e2661bbaaa64b265f9fa6"
+"https://github.com/RapidAI/RapidOcrOnnx/releases/download/1.2.2/Project_RapidOcrOnnx-1.2.2.7z" = "5049d4c9caf0143a9f35e618f80f7e5946b8df1e57a90b3ca8e9cc105fc8a6ae"
+"https://github.com/RapidAI/OnnxruntimeBuilder/releases/download/1.14.0/onnxruntime-1.14.0-android-shared.7z" = "62b56c0ffaeb72021482a2be55304e7a642cc5c64c06beac7ba191b670a6592b"
